@@ -1,0 +1,39 @@
+{
+  "template": "https://github.com/cookiecutter/cookiecutter-django",
+  "commit": "6a87da0c7c508b2f4486b07fbceca324a080a8d0",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "project_name": "Data Literacy Alliance",
+      "project_slug": "dalia",
+      "description": "Data literacy from the beginning",
+      "author_name": "DALIA Authors",
+      "domain_name": "search.dalia.education",
+      "email": "contact@dalia.education",
+      "version": "0.1.0",
+      "open_source_license": "MIT",
+      "username_type": "email",
+      "timezone": "UTC",
+      "windows": "n",
+      "editor": "None",
+      "use_docker": "y",
+      "postgresql_version": "18",
+      "cloud_provider": "AWS",
+      "mail_service": "Other SMTP",
+      "use_async": "n",
+      "use_drf": "n",
+      "frontend_pipeline": "None",
+      "use_celery": "y",
+      "use_mailpit": "n",
+      "use_sentry": "n",
+      "use_whitenoise": "y",
+      "use_heroku": "n",
+      "ci_tool": "Github",
+      "keep_local_envs_in_vcs": "y",
+      "debug": "n",
+      "_template": "https://github.com/cookiecutter/cookiecutter-django",
+      "_commit": "6a87da0c7c508b2f4486b07fbceca324a080a8d0"
+    }
+  },
+  "directory": null
+}
