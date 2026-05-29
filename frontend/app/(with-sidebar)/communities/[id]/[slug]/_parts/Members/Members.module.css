@@ -1,0 +1,17 @@
+.body {
+    @apply overflow-hidden;
+  }
+
+.memberGrid {
+  @apply grid lg:grid-cols-2 xl:grid-cols-3;
+}
+
+.memberCollapsible{
+
+  @apply mt-10 mx-5 lg:mx-10;
+
+}
+
+.collapsibleTitle{
+  @apply mb-3
+}

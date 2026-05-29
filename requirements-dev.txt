@@ -1,0 +1,27 @@
+# Development dependencies for Work Track Pro
+# Includes all production dependencies plus dev tools
+
+-r requirements.txt
+
+# Testing
+pytest>=8.0.0,<9.0
+pytest-django>=4.9.0,<5.0
+pytest-cov>=6.0.0,<7.0
+pytest-xdist>=3.6.0,<4.0
+factory-boy>=3.3.0,<4.0
+faker>=32.0.0,<33.0
+
+# Code Quality
+ruff>=0.8.0,<1.0
+mypy>=1.13.0,<2.0
+django-stubs[compatible-mypy]>=5.1.0,<6.0
+djangorestframework-stubs[compatible-mypy]>=3.15.0,<4.0
+
+# Development Tools
+django-debug-toolbar>=4.4.0,<5.0
+django-extensions>=3.2.0,<4.0
+ipython>=8.29.0,<9.0
+
+# Security Auditing
+pip-audit>=2.7.0,<3.0
+safety>=3.2.0,<4.0

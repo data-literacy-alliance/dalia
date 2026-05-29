@@ -1,0 +1,147 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    scroll-behavior: smooth;
+    letter-spacing: -0.05em;
+}
+
+body {
+    line-height: 1.5;
+}
+
+html.font-1 {
+    font-size: 110% !important;
+}
+
+html.font-2 {
+    font-size: 120% !important;
+}
+
+body.spacing-1 {
+    letter-spacing: 0.05em !important;
+}
+
+html.big-cursor,
+html.big-cursor label,
+html.big-cursor div.cursor-default {
+    cursor: url('/cursors/huge.png') 0 0, auto !important;
+}
+
+html.big-cursor a,
+html.big-cursor button,
+html.big-cursor [role='button'],
+html.big-cursor .cursor-pointer {
+    cursor: url('/cursors/hand.png') 10 0, pointer;
+}
+
+html.big-cursor input,
+html.big-cursor textarea {
+    cursor: url("/cursors/caret.png") 0 16, text;
+}
+
+body:not(.leading-relaxed):not(.leading-loose) .text-h1,
+body:not(.leading-relaxed):not(.leading-loose) .text-h2,
+body:not(.leading-relaxed):not(.leading-loose) .text-h3,
+body:not(.leading-relaxed):not(.leading-loose) .text-h4,
+body:not(.leading-relaxed):not(.leading-loose) .text-subheader {
+    line-height: 1;
+}
+
+body {
+    box-sizing: content-box;
+}
+
+a {
+    @apply hover:text-daliaBlue-200;
+}
+
+@layer base {
+    :root {
+        --primaryColor: #000050;
+        --radius: 0.5rem;
+
+        /* SPARQL Explorer - Deep knowledge space - DARK THEME (Default) */
+        --sparql-bg-deep: #050711;
+        --sparql-bg-primary: #0a0f1e;
+        --sparql-bg-secondary: #121827;
+        --sparql-bg-tertiary: #1a2033;
+
+        /* Glassmorphism - DARK */
+        --sparql-glass-bg: rgba(255, 255, 255, 0.04);
+        --sparql-glass-bg-hover: rgba(255, 255, 255, 0.07);
+        --sparql-glass-border: rgba(255, 255, 255, 0.08);
+        --sparql-glass-border-strong: rgba(255, 255, 255, 0.15);
+
+        /* Knowledge luminance - Educational resource types */
+        --sparql-accent-video: #06b6d4;      /* Cyan - Videos */
+        --sparql-accent-text: #8b5cf6;       /* Violet - Text/Articles */
+        --sparql-accent-interactive: #10b981; /* Emerald - Interactive */
+        --sparql-accent-audio: #f59e0b;      /* Amber - Audio */
+        --sparql-accent-dataset: #f43f5e;    /* Rose - Datasets */
+        --sparql-accent-tool: #3b82f6;       /* Blue - Tools */
+
+        /* Text hierarchy - DARK */
+        --sparql-text-primary: #f8fafc;
+        --sparql-text-secondary: rgba(248, 250, 252, 0.75);
+        --sparql-text-muted: rgba(248, 250, 252, 0.45);
+        --sparql-text-ghost: rgba(248, 250, 252, 0.2);
+
+        /* Semantic colors */
+        --sparql-success: #10b981;
+        --sparql-error: #ef4444;
+        --sparql-warning: #f59e0b;
+        --sparql-info: #06b6d4;
+
+        /* Shadows and glows - DARK */
+        --sparql-shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.3);
+        --sparql-shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.4);
+        --sparql-shadow-strong: 0 8px 32px rgba(0, 0, 0, 0.5);
+        --sparql-glow-cyan: 0 0 24px rgba(6, 182, 212, 0.3);
+        --sparql-glow-violet: 0 0 24px rgba(139, 92, 246, 0.3);
+        --sparql-glow-emerald: 0 0 24px rgba(16, 185, 129, 0.3);
+
+        /* Editor specific - DARK */
+        --sparql-editor-bg: rgba(0, 0, 0, 0.3);
+        --sparql-editor-border: rgba(255, 255, 255, 0.08);
+    }
+
+    /* SPARQL Explorer - LIGHT THEME */
+    [data-theme="light"] {
+        /* Bright knowledge space - LIGHT THEME */
+        --sparql-bg-deep: #f0f4f8;
+        --sparql-bg-primary: #ffffff;
+        --sparql-bg-secondary: #f8fafc;
+        --sparql-bg-tertiary: #f1f5f9;
+
+        /* Glassmorphism - LIGHT */
+        --sparql-glass-bg: rgba(255, 255, 255, 0.7);
+        --sparql-glass-bg-hover: rgba(255, 255, 255, 0.9);
+        --sparql-glass-border: rgba(15, 23, 42, 0.08);
+        --sparql-glass-border-strong: rgba(15, 23, 42, 0.15);
+
+        /* Text hierarchy - LIGHT */
+        --sparql-text-primary: #0f172a;
+        --sparql-text-secondary: rgba(15, 23, 42, 0.75);
+        --sparql-text-muted: rgba(15, 23, 42, 0.5);
+        --sparql-text-ghost: rgba(15, 23, 42, 0.15);
+
+        /* Shadows - LIGHT */
+        --sparql-shadow-subtle: 0 2px 8px rgba(15, 23, 42, 0.08);
+        --sparql-shadow-medium: 0 4px 16px rgba(15, 23, 42, 0.12);
+        --sparql-shadow-strong: 0 8px 32px rgba(15, 23, 42, 0.15);
+        --sparql-glow-cyan: 0 0 24px rgba(6, 182, 212, 0.2);
+        --sparql-glow-violet: 0 0 24px rgba(139, 92, 246, 0.2);
+        --sparql-glow-emerald: 0 0 24px rgba(16, 185, 129, 0.2);
+
+        /* Editor specific - LIGHT */
+        --sparql-editor-bg: rgba(15, 23, 42, 0.03);
+        --sparql-editor-border: rgba(15, 23, 42, 0.12);
+    }
+
+    ::-webkit-search-cancel-button {
+        -webkit-appearance: none;
+        appearance: none;
+    }
+}

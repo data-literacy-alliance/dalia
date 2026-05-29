@@ -1,0 +1,184 @@
+version: '3.8'
+
+networks:
+  dalia20-network:
+    driver: bridge
+  daliaproject_proxy-net:
+    external: true
+
+services:
+  db:
+    image: docker.io/library/postgres:16-alpine
+    container_name: dalia20-db
+    networks:
+      - dalia20-network
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-dalia20}
+      POSTGRES_USER: ${POSTGRES_USER:-dalia20}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+    volumes:
+      # Database data: PRIVATE (:Z) -- only db container accesses this
+      # ./ = dalia20/ directory
+      - ./data/postgres:/var/lib/postgresql/data:Z
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-dalia20} -d ${POSTGRES_DB:-dalia20}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: docker.io/library/redis:7-alpine
+    container_name: dalia20-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - ./data/redis:/data:z
+    networks:
+      - dalia20-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  elasticsearch:
+    image: docker.io/library/elasticsearch:8.17.0
+    container_name: dalia20-elasticsearch
+    networks:
+      - dalia20-network
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+    volumes:
+      - ./data/elasticsearch:/usr/share/elasticsearch/data:z
+    restart: unless-stopped
+
+  fuseki:
+    build:
+      context: ./docker/fuseki
+      dockerfile: Dockerfile
+      args:
+        BUILD_ENV: prod
+    container_name: dalia20-fuseki
+    networks:
+      - dalia20-network
+    volumes:
+      - ./data/fuseki/database:/database:z,U
+      - ./data/fuseki/dalia_data:/dalia_data:z,U
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3030/$$/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dalia20-web
+    networks:
+      - dalia20-network
+    entrypoint: entrypoint.sh
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers ${GUNICORN_WORKERS:-3} --timeout ${GUNICORN_TIMEOUT:-60} --reload --access-logfile - --error-logfile -
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.production
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-dalia20}:${POSTGRES_PASSWORD:-changeme}@db:5432/${POSTGRES_DB:-dalia20}
+      - SECRET_KEY=${SECRET_KEY:-change-me-to-a-random-50-char-string}
+      - DEBUG=${DEBUG:-False}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS:-localhost,127.0.0.1,0.0.0.0}
+    volumes:
+      # Source code: SHARED (:z) -- bind-mounted for live editing and makemigrations
+      # ./ = dalia20/ directory
+      # Changes on host reflect instantly; gunicorn --reload restarts on changes
+      # Includes source static files in static/ directory
+      - ./:/app:z
+      # Apps directory: SHARED (:z,U) -- container writes migration files, auto-chown to container user
+      - ./apps:/app/apps:z,U
+      # Collected static files: SHARED (:z,U) -- web writes (collectstatic), nginx reads
+      - ./staticfiles:/app/staticfiles:z,U
+      # Media files: SHARED (:z,U) -- web writes, nginx reads, auto-chown to container user
+      - ./media:/app/media:z,U
+      # Logs: SHARED (:z,U) -- web and worker write, auto-chown to container user
+      - ./logs:/app/logs:z,U
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      fuseki:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_started
+    restart: unless-stopped
+
+  # Phase 3: Worker service (disabled for Phase 1)
+  # Uncomment when implementing django-tasks in Phase 3
+  # worker:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: dalia20-worker
+  #   networks:
+  #     - django-generic-network
+  #   entrypoint: entrypoint.sh
+  #   command: python manage.py db_worker --verbosity 2
+  #   environment:
+  #     - DJANGO_SETTINGS_MODULE=config.settings.production
+  #     - DATABASE_URL=postgresql://${POSTGRES_USER:-dalia20}:${POSTGRES_PASSWORD:-changeme}@db:5432/${POSTGRES_DB:-dalia20}
+  #     - SECRET_KEY=${SECRET_KEY:-change-me-to-a-random-50-char-string}
+  #     - DEBUG=${DEBUG:-False}
+  #   volumes:
+  #     # Source code: SHARED (:z) read-only for worker
+  #     # ./ = dalia20/ directory
+  #     - ./:/app:z,ro
+  #     # Logs: SHARED (:z,U) read-write for worker, auto-chown to container user
+  #     - ./logs:/app/logs:z,U
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #   restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://search.dalia.education/api/dalia/v1}
+    container_name: dalia20-frontend
+    networks:
+      - dalia20-network
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      - BACKEND_URL=http://web:8000/api/dalia/v1
+    depends_on:
+      - web
+    restart: unless-stopped
+
+  nginx:
+    image: docker.io/library/nginx:1.27-alpine
+    container_name: dalia20-nginx
+    networks:
+      - dalia20-network
+      - daliaproject_proxy-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dalia20-nginx.entrypoints=web"
+      - "traefik.http.routers.dalia20-nginx.rule=HostRegexp(`^dalia-.*$`)"
+      - "traefik.http.routers.dalia20-nginx.priority=50"
+      - "traefik.http.services.dalia20-nginx.loadbalancer.server.port=80"
+      - "traefik.docker.network=daliaproject_proxy-net"
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:z,ro
+      - ./staticfiles:/app/staticfiles:z,ro
+      - ./media:/app/media:z,ro
+    ports:
+      - "7087:80"
+    depends_on:
+      - web
+      - frontend
+    restart: unless-stopped

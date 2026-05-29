@@ -1,0 +1,1341 @@
+@prefix bflr: <http://bibfra.me/vocab/relation/> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix citedcat: <https://w3id.org/citedcat-ap/> .
+@prefix dalia-community: <https://id.dalia.education/community/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ec: <https://github.com/tibonto/educor#> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix hcrt: <https://w3id.org/kim/hcrt/> .
+@prefix m4i: <http://w3id.org/nfdi4ing/metadata4ing#> .
+@prefix mo: <https://purl.org/ontology/modalia#> .
+@prefix ns1: <https://dalia.education/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rec: <http://purl.org/ontology/rec/core#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://id.dalia.education/learning-resource/0057f446-b153-432a-b4c4-fa2d33699442> a ec:EducationalResource ;
+    dcterms:description "This webinar provides a basic overview of machine-readable data. We cover what machine-readable data is, why we prefer machine-readable data over other digital formats where possible, the characteristics of machine-readable data and how to convert tabular data to a machine-readable format." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "Making Data Machine-Readable Webinar" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n003> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-0569-0808" ;
+            schema:familyName "Antognoli" ;
+            schema:givenName "Erin" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:VideoObject ;
+    mo:hasTargetGroup mo:Researcher,
+        mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-0569-0808" ;
+                schema:familyName "Antognoli" ;
+                schema:givenName "Erin" ] ) ;
+    schema:datePublished "2019-03-28"^^xsd:date ;
+    schema:keywords "Ag Data Commons",
+        "Data Curation",
+        "Machine-Readability",
+        "Reformatting",
+        "Tabular Data",
+        "USDA",
+        "Webinar" ;
+    schema:url <https://www.youtube.com/watch?v=Pvdv_P162xY> ;
+    citedcat:isSupplementedBy <https://doi.org/10.6084/m9.figshare.6178922.v1> .
+
+<https://id.dalia.education/learning-resource/011d5c41-f7e2-407c-b3c9-867a027cb4e6> a ec:EducationalResource ;
+    dcterms:description "These Guidelines are intended to assist agricultural researchers handle privacy and Personally Identifiable Information in the research project data lifecycle." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-NC-2.0> ;
+    dcterms:title "Guidelines for Managing Personally Identifiable Information in the Research Project Data Lifecycle" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n003> ;
+    ns1:authorUnordered [ a schema:Person ;
+            schema:familyName "Sara" ;
+            schema:givenName "Rodrigo" ] ;
+    mo:hasLearningType bibo:Webpage ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                schema:familyName "Sara" ;
+                schema:givenName "Rodrigo" ] ) ;
+    schema:datePublished "1905-07-11"^^xsd:date ;
+    schema:keywords "Data Security",
+        "Informed Consent",
+        "Personal identifiable Information",
+        "Privacy Protection",
+        "Research Ethics" ;
+    schema:url <https://bigdata.cgiar.org/responsible-data-guidelines/> .
+
+<https://id.dalia.education/learning-resource/06b3deb7-d0d5-46e0-a785-2bdf798bd2c0> a ec:EducationalResource ;
+    dcterms:description "This online Short Course will introduce you to useful tools and best practices that will make your work with research data much easier, more efficient, and enjoyable. It introduces you to Data Management Plans, reproducible data manipulation in R, Version control with git and github, working with clusters and large climate data, and publishing data. This Short Course is relevant to all geoscience fields and the tools presented can be widely applied through all kinds of data sets." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-3.0> ;
+    dcterms:title "#shareEGU20" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n003>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n43> ;
+    fabio:hasSubtitle "Handling your data efficiently from planning to reuse–tips & tools to save time & nerves-  webinar" ;
+    ns1:authorUnordered [ a schema:Person ;
+            schema:familyName "Schmidt" ;
+            schema:givenName "Marcus" ],
+        [ a schema:Person ;
+            schema:familyName "Luo" ;
+            schema:givenName "Fei" ],
+        [ a schema:Person ;
+            schema:familyName "Clayton" ;
+            schema:givenName "Jessica" ],
+        [ a schema:Person ;
+            schema:familyName "Svoboda" ;
+            schema:givenName "Nikolai" ],
+        [ a schema:Person ;
+            schema:familyName "Fremand" ;
+            schema:givenName "Alice" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:VideoObject ;
+    mo:hasTargetGroup mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                schema:familyName "Clayton" ;
+                schema:givenName "Jessica" ] [ a schema:Person ;
+                schema:familyName "Fremand" ;
+                schema:givenName "Alice" ] [ a schema:Person ;
+                schema:familyName "Schmidt" ;
+                schema:givenName "Marcus" ] [ a schema:Person ;
+                schema:familyName "Luo" ;
+                schema:givenName "Fei" ] [ a schema:Person ;
+                schema:familyName "Svoboda" ;
+                schema:givenName "Nikolai" ] ) ;
+    schema:datePublished "2020-05-07"^^xsd:date ;
+    schema:keywords "DMP",
+        "Data Management",
+        "Data Publication",
+        "FAIR",
+        "Git",
+        "R",
+        "Reproducibility" ;
+    schema:url <https://www.youtube.com/watch?v=tWn-0riN3oI> .
+
+<https://id.dalia.education/learning-resource/24413feb-7532-4e5f-a1f5-735eb9f2db73> a ec:EducationalResource ;
+    dcterms:description "This webinar provides a basic overview of data dictionaries and the role they play in making data more easily understandable. We talk about what a data dictionary is, why we recommend data be accompanied by a data dictionary, the different types of data dictionaries and how to create a data dictionary." ;
+    dcterms:format "PPTX" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC0-1.0> ;
+    dcterms:title "Data Dictionaries Webinar" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n003> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-0569-0808" ;
+            schema:familyName "Antognoli" ;
+            schema:givenName "Erin" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:PresentationDigitalDocument ;
+    mo:hasTargetGroup mo:Researcher,
+        mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-0569-0808" ;
+                schema:familyName "Antognoli" ;
+                schema:givenName "Erin" ] ) ;
+    schema:datePublished "2019-03-28"^^xsd:date ;
+    schema:fileSize "1.07 MB" ;
+    schema:keywords "Ag Data Commons",
+        "Codebook",
+        "Data Curation",
+        "Data Dictionary",
+        "Data Management",
+        "Feature Catalog" ;
+    schema:url <https://doi.org/10.6084/m9.figshare.6720038.v1> ;
+    citedcat:isSupplementedBy <https://www.youtube.com/watch?v=cZI6ElaXuyk> .
+
+<https://id.dalia.education/learning-resource/291a5aa2-a6e5-4f66-9ff6-b9f05683c241> a ec:EducationalResource ;
+    dcterms:description "Presentation slides for a Workshop about research data management for students and researchers of agricultural sciences and biology. Workshop held at Humboldt-Universität zu Berlin, 12 May 2016." ;
+    dcterms:format "ODP",
+        "PDF",
+        "PPTX" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Forschungsdatenmanagement für Agrarwissenschaftler und Biologen" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n003>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            schema:familyName "Helbig" ;
+            schema:givenName "Kerstin" ],
+        [ a schema:Person ;
+            schema:familyName "Aust" ;
+            schema:givenName "Pamela" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:PresentationDigitalDocument ;
+    mo:hasTargetGroup mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                schema:familyName "Helbig" ;
+                schema:givenName "Kerstin" ] [ a schema:Person ;
+                schema:familyName "Aust" ;
+                schema:givenName "Pamela" ] ) ;
+    schema:datePublished "2016-05-27"^^xsd:date ;
+    schema:keywords "Data Journals",
+        "Data Paper",
+        "Metadata",
+        "Pangaea",
+        "Repositories",
+        "Research Data",
+        "Research Data Management",
+        "re3data" ;
+    schema:url <https://doi.org/10.5281/zenodo.53196> .
+
+<https://id.dalia.education/learning-resource/397f36d2-1f88-47ec-a8c0-99047880e0d5> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "This Playlist collects recordings of the lectures at the NFDI4Biodiversity Winter School, that aimed on Early-Career-Researcher with a background in biodiversity and environmental science and took place in December 2022. The Winter School was a collaborative event between the Ecological Society (GfÖ) and the consortium NFDI4Biodiversity within the National Research Data Infrastructure Germany (NFDI). Various experts from the partner network (universities, data centers and research institutions) shared their widespread knowledge and trained participants in the fundamentals of Research Data Management (RDM) as well as cutting-edge technologies in handling environmental and biodiversity data across the Data Life Cycle (DLC). Topics were: Data Management and Data Literacy; Taxonomic Harmonization; Data Integration and Annotation; Legal Aspects; Data Search: Publish your Research Data" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-3.0> ;
+    dcterms:title "NFDI4Biodiversity Winter School Lectures" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    ns1:authorUnordered [ a schema:Person ;
+            schema:familyName "Müller" ;
+            schema:givenName "Wolfgang" ],
+        [ a schema:Person ;
+            schema:familyName "Oellermann" ;
+            schema:givenName "Michael" ],
+        [ a schema:Person ;
+            schema:familyName "Limares" ;
+            schema:givenName "Jimena" ],
+        [ a schema:Person ;
+            schema:familyName "Kipker" ;
+            schema:givenName "Dennis-Kenji" ],
+        [ a schema:Person ;
+            schema:familyName "Kostadinov" ;
+            schema:givenName "Ivaylo" ],
+        [ a schema:Person ;
+            schema:familyName "Grenié" ;
+            schema:givenName "Matthias" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:VideoObject ;
+    mo:hasTargetGroup mo:PhDStudent,
+        mo:Researcher,
+        mo:TeacherHighEducation ;
+    mo:isBasedOn <https://doi.org/10.5281/zenodo.8272156> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                schema:familyName "Kostadinov" ;
+                schema:givenName "Ivaylo" ] [ a schema:Person ;
+                schema:familyName "Limares" ;
+                schema:givenName "Jimena" ] [ a schema:Person ;
+                schema:familyName "Grenié" ;
+                schema:givenName "Matthias" ] [ a schema:Person ;
+                schema:familyName "Müller" ;
+                schema:givenName "Wolfgang" ] [ a schema:Person ;
+                schema:familyName "Kipker" ;
+                schema:givenName "Dennis-Kenji" ] [ a schema:Person ;
+                schema:familyName "Oellermann" ;
+                schema:givenName "Michael" ] ) ;
+    schema:datePublished "2023-05-03"^^xsd:date ;
+    schema:keywords "Data Management",
+        "Data Publication",
+        "Data annotation",
+        "Legal Aspects",
+        "NFDI",
+        "Taxonomic Harmonization" ;
+    schema:url <https://www.youtube.com/playlist?list=PL06Unzn1hDrhZ4mfsdfeypJajuGsuzdfm> .
+
+<https://id.dalia.education/learning-resource/3b79ad42-a767-4aec-a03d-20b712228e47> a ec:EducationalResource ;
+    dcterms:description "In the BonaRes repository, which is operated at ZALF (Germany), digital research data from soil and agricultural sciences are published and made available to scientists and interested parties for reuse. This film explains the basic steps necessary to take advantage of the data publication." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "BonaRes Repositorium Intro Video" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n003> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            schema:name "BonaRes" ] ;
+    mo:hasLearningType mo:Tutorial ;
+    mo:hasMediaType schema:VideoObject ;
+    mo:hasTargetGroup mo:Researcher,
+        mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                schema:name "BonaRes" ] ) ;
+    schema:datePublished "2021-04-14"^^xsd:date ;
+    schema:keywords "BonaRes",
+        "Data Publication",
+        "Repository" ;
+    schema:url <https://www.youtube.com/watch?v=wo0Rv4YPjCo> .
+
+<https://id.dalia.education/learning-resource/4ed25f20-c3e7-4956-958e-59e4dc0b4bc8> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "The NFDI4Biodiversity Self-Study Unit (SSU) provides in-depth knowledge for both students and researchers specializing in biodiversity and environmental sciences. This learning is based on the online learning unit \"Forschungsdatenmanagement - eine Online-Einführung (HeFDI Data Learning Materials)\" of the Hessian Research Data Infrastructures. Developed in collaboration between several partners within NFDI4Biodiversity, the SSU offers essential domain-specific knowledge in research data management." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "NFDI4Biodiversity Self-Study Unit - Research Data Management for Biodiversity Data" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+            schema:familyName "Tschink" ;
+            schema:givenName "Daniel" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-2976-2300" ;
+            schema:familyName "Weibulat" ;
+            schema:givenName "Tanja" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+            schema:familyName "Brand" ;
+            schema:givenName "Ortrun" ],
+        [ a schema:Person ;
+            schema:familyName "Fischer" ;
+            schema:givenName "Marlen" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-4692-2700" ;
+            schema:familyName "Röder" ;
+            schema:givenName "Juliane" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-1771-7775" ;
+            schema:familyName "Signer" ;
+            schema:givenName "Johannes" ] ;
+    mo:hasLearningType hcrt:assessment,
+        hcrt:course ;
+    mo:hasMediaType schema:Text,
+        schema:VideoObject ;
+    mo:hasTargetGroup mo:PhDStudent,
+        mo:Researcher,
+        mo:TeacherHighEducation ;
+    mo:isBasedOn <https://doi.org/10.5281/zenodo.10377868> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                schema:familyName "Fischer" ;
+                schema:givenName "Marlen" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-4692-2700" ;
+                schema:familyName "Röder" ;
+                schema:givenName "Juliane" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-1771-7775" ;
+                schema:familyName "Signer" ;
+                schema:givenName "Johannes" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+                schema:familyName "Tschink" ;
+                schema:givenName "Daniel" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-2976-2300" ;
+                schema:familyName "Weibulat" ;
+                schema:givenName "Tanja" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+                schema:familyName "Brand" ;
+                schema:givenName "Ortrun" ] ) ;
+    schema:datePublished "2023-12-23"^^xsd:date ;
+    schema:keywords "Biodiversity",
+        "Data Life Cycle",
+        "Ecologist",
+        "Research Data Management" ;
+    schema:url <https://ilias.uni-marburg.de/goto.php?target=pg_443261_3276691&client_id=UNIMR> .
+
+<https://id.dalia.education/learning-resource/65ae2d0f-7d94-4f0b-9714-470a2c372839> a ec:EducationalResource ;
+    dcterms:description """During this course, you will understand how and why certain principles – such as immutability and pure functions – enable parallel data processing (‘divide and conquer’), which is necessary to manage big data. From this fundamental principle, we move forward. Namely, how to recognize and put into practice the scalable solution that’s right for your situation. The insights and tools of this course are regardless of programming language, but user-friendly examples are provided in Python, Hadoop HDFS, and Apache Spark. Although these principles can also be applied to other sectors, we will use examples from the agri-food sector.
+
+Agri-food deserves special focus when it comes to choosing robust data management technologies due to its inherent variability and uncertainty. Wageningen University & Research’s knowledge domain is healthy food and the living environment. That makes our data experts especially equipped to forge the bridge between the agri-food business on the one hand, and data science, artificial intelligence (AI) on the other. 
+Combining data from the latest sensing technologies with machine learning/deep learning methodologies, allows us to unlock insights we didn't have access to before. In the areas of smart farming and precision agriculture, this allows us to:
+Better manage dairy cattle by combining animal-level data on behaviour, health and feed with milk production and composition from milking machines. Reduce the amount of fertilizers (nitrogen), pesticides (chemicals), and water used on crops by monitoring individual plants with a robot or drone. More accurately predict crop yields on a continental scale by combining current with historic data on soil, weather patterns and crop yields.
+In short, this course’s foundational knowledge and skills for big data prepare you for the next step: to find more effective and scalable solutions for smarter, innovative insights.""" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "WageningenX" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n003>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n371> ;
+    fabio:hasSubtitle "Big Data for Agri-Food: Principles and Tools" ;
+    ns1:authorUnordered [ a schema:Person ;
+            schema:familyName "Asonga" ;
+            schema:givenName "Sjoukje" ],
+        [ a schema:Person ;
+            schema:familyName "Pylianidis" ;
+            schema:givenName "Christos" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-2764-0078" ;
+            schema:familyName "Athanasiadis" ;
+            schema:givenName "Ioannis N." ] ;
+    mo:hasLearningType bibo:Article,
+        mo:Tutorial,
+        hcrt:course,
+        hcrt:drill_and_practice ;
+    mo:hasMediaType schema:Text,
+        schema:VideoObject ;
+    mo:hasTargetGroup mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Competent ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-2764-0078" ;
+                schema:familyName "Athanasiadis" ;
+                schema:givenName "Ioannis N." ] [ a schema:Person ;
+                schema:familyName "Asonga" ;
+                schema:givenName "Sjoukje" ] [ a schema:Person ;
+                schema:familyName "Pylianidis" ;
+                schema:givenName "Christos" ] ) ;
+    schema:keywords "Artificial Intelligence",
+        "Big Data",
+        "Data Science",
+        "Immutability",
+        "Machine Learning",
+        "Scalability" ;
+    schema:url <https://www.edx.org/learn/big-data/wageningen-university-research-big-data-for-agri-food-principles-and-tools?> .
+
+<https://id.dalia.education/learning-resource/6b5fa1e1-be58-4a02-a23e-13438c336efe> a ec:EducationalResource ;
+    dcterms:description "This webinar provides a basic overview of data dictionaries and the role they play in making data more easily understandable. We talk about what a data dictionary is, why we recommend data be accompanied by a data dictionary, the different types of data dictionaries and how to create a data dictionary." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "Data Dictionaries Webinar" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n003> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-0569-0808" ;
+            schema:familyName "Antognoli" ;
+            schema:givenName "Erin" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:PresentationDigitalDocument ;
+    mo:hasTargetGroup mo:Researcher,
+        mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-0569-0808" ;
+                schema:familyName "Antognoli" ;
+                schema:givenName "Erin" ] ) ;
+    schema:datePublished "2019-03-28"^^xsd:date ;
+    schema:keywords "Ag Data Commons",
+        "Codebook",
+        "Data Curation",
+        "Data Dictionary",
+        "Data Management",
+        "Feature Catalog" ;
+    schema:url <https://www.youtube.com/watch?v=cZI6ElaXuyk> ;
+    citedcat:isSupplementedBy <https://doi.org/10.6084/m9.figshare.6720038.v1> .
+
+<https://id.dalia.education/learning-resource/71436941-284d-4071-8004-e87212934dc5> a ec:EducationalResource ;
+    dcterms:description "This webinar provides a basic overview of a data management plan (DMP). It answers the questions of what a data management plan is and why we create DMPs. The webinar gives an overview of the components of a DMP and goes section by section through an actual DMP for an agricultural research project." ;
+    dcterms:format "PPTX" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC0-1.0> ;
+    dcterms:title "Data Management Plan Webinar" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n002> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-0569-0808" ;
+            schema:familyName "Antognoli" ;
+            schema:givenName "Erin" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:PresentationDigitalDocument ;
+    mo:hasTargetGroup mo:Researcher,
+        mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-0569-0808" ;
+                schema:familyName "Antognoli" ;
+                schema:givenName "Erin" ] ) ;
+    schema:datePublished "2021-02-08"^^xsd:date ;
+    schema:fileSize "57.67 MB" ;
+    schema:keywords "Ag Data Commons",
+        "Data Curation",
+        "Data Management Plan",
+        "Scientific Data",
+        "USDA",
+        "Webinar" ;
+    schema:url <https://doi.org/10.6084/m9.figshare.13426358.v2> ;
+    citedcat:isSupplementedBy <https://www.youtube.com/watch?v=qtobwSChX7k&list=PL_8uALA03ZsV5J_m_17qaoIyopsaAS_J6&index=1> .
+
+<https://id.dalia.education/learning-resource/8219bcc9-0cc1-43cb-9dd0-7368a5547444> a ec:EducationalResource ;
+    dcterms:description "Whether principal investigators, researchers or data managers, this pack is designed to help you find the most relevant information for each project phase to produce high quality, reusable and open data from your research activities. It consists of documents, templates and videos covering the different aspects of data management and ranging from the overarching concepts and strategies through to the day-to-day activities. For each of the videos in the pack we have included a transcript of the narrative. The Data Management Support Pack was created to support the implementation of the CCAFS Data Management strategy." ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-NC-SA-3.0> ;
+    dcterms:title "Data Management Support Pack" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n003> ;
+    ns1:authorUnordered [ a schema:Person ;
+            schema:familyName "Barahona" ;
+            schema:givenName "Carlos" ],
+        [ a schema:Person ;
+            schema:familyName "Garlick" ;
+            schema:givenName "Cathy" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-1107-6110" ;
+            schema:familyName "Mwanzia" ;
+            schema:givenName "Leroy" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-5495-6900" ;
+            schema:familyName "Abreu" ;
+            schema:givenName "David" ],
+        [ a schema:Person ;
+            schema:familyName "Mills" ;
+            schema:givenName "Dave" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0217-7323" ;
+            schema:familyName "Tobon" ;
+            schema:givenName "Hector" ] ;
+    mo:hasLearningType bibo:Webpage ;
+    mo:hasMediaType schema:Text,
+        schema:VideoObject ;
+    mo:hasTargetGroup mo:Researcher,
+        mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-5495-6900" ;
+                schema:familyName "Abreu" ;
+                schema:givenName "David" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-1107-6110" ;
+                schema:familyName "Mwanzia" ;
+                schema:givenName "Leroy" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0217-7323" ;
+                schema:familyName "Tobon" ;
+                schema:givenName "Hector" ] [ a schema:Person ;
+                schema:familyName "Barahona" ;
+                schema:givenName "Carlos" ] [ a schema:Person ;
+                schema:familyName "Mills" ;
+                schema:givenName "Dave" ] [ a schema:Person ;
+                schema:familyName "Garlick" ;
+                schema:givenName "Cathy" ] ) ;
+    schema:datePublished "2018-06-21"^^xsd:date ;
+    schema:fileSize "19.35 MB" ;
+    schema:keywords "Agriculture",
+        "CCAFS",
+        "CGIAR",
+        "Data Management Plan",
+        "Data Sharing",
+        "Fieldwork",
+        "Open Data",
+        "Survey Data" ;
+    schema:url <https://ccafs.cgiar.org/data-management-support-pack>,
+        <https://dmsp.ccafs.cgiar.org/>,
+        <https://hdl.handle.net/10568/93411> .
+
+<https://id.dalia.education/learning-resource/840c5a79-e075-4cef-9ec6-d657ddd5e4c2> a ec:EducationalResource ;
+    dcterms:description "Collection of short clips on research data, research data management, data management plans and gfbio's services for biologists and ecologists." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Data Management for Researchers [GFBio]" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    ns1:authorUnordered [ a schema:Organization ;
+            schema:name "GFBio" ] ;
+    mo:hasLearningType mo:Tutorial ;
+    mo:hasMediaType schema:VideoObject ;
+    mo:hasTargetGroup mo:Researcher,
+        mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                schema:name "GFBio" ] ) ;
+    schema:datePublished "2022-01-18"^^xsd:date ;
+    schema:keywords "Data Management Plan",
+        "GFBio",
+        "RDM",
+        "Research Data" ;
+    schema:url <https://www.youtube.com/playlist?list=PL06Unzn1hDrhv8OsT_2djytelwraWnHNk> .
+
+<https://id.dalia.education/learning-resource/90bdb0e7-d753-467a-93f1-ed163ac48a0a> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:c5d22eff-ec20-409d-b8d3-aa4e9cc2d6cb ;
+    dcterms:description """The FAIR Cookbook is an online, open and live resource for the Life Sciences with recipes that help you to make and keep data Findable, Accessible, Interoperable and Reusable; in one word FAIR. 
+This recipe provides guidance for submitting plant genotyping data to public repositories. It explains in a step-wise fashion which work should be done and when. Special attention should be paid to the metadata maintenance of the data that will be deposited in different repositories as part of this recipe. A prerequisite for fully understanding this recipe is a basic knowledge of the MIAPPE standard. The exact listing of the metadata fields required for a FAIRification of the genotyping data set within a VCF file is also part of this recipe with examples and explanations.""" ;
+    dcterms:format "MD" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "FAIR Cookbook - Plant genomic and genetic variation data submission to EMBL-EBI databases" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-4839-5158" ;
+            schema:familyName "Liyanage" ;
+            schema:givenName "Isuru" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-1010-6859" ;
+            schema:familyName "Le Floch" ;
+            schema:givenName "Erwan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-2177-8781" ;
+            schema:familyName "Beier" ;
+            schema:givenName "Sebastian" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-5923-3859" ;
+            schema:familyName "Xu" ;
+            schema:givenName "Fuqi" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-9853-5668" ;
+            schema:familyName "Rocca-Serra" ;
+            schema:givenName "Philippe" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-9040-8733" ;
+            schema:familyName "Pommier" ;
+            schema:givenName "Cyril" ] ;
+    mo:hasLearningType mo:Cookbook ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:DataSteward,
+        mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Competent ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-1010-6859" ;
+                schema:familyName "Le Floch" ;
+                schema:givenName "Erwan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-2177-8781" ;
+                schema:familyName "Beier" ;
+                schema:givenName "Sebastian" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-9040-8733" ;
+                schema:familyName "Pommier" ;
+                schema:givenName "Cyril" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-9853-5668" ;
+                schema:familyName "Rocca-Serra" ;
+                schema:givenName "Philippe" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-4839-5158" ;
+                schema:familyName "Liyanage" ;
+                schema:givenName "Isuru" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-5923-3859" ;
+                schema:familyName "Xu" ;
+                schema:givenName "Fuqi" ] ) ;
+    schema:keywords "BioSamples",
+        "Data Publishing",
+        "FAIR",
+        "Genotyping Data",
+        "MIAPPE",
+        "Plant Phenotyping Data",
+        "Repositories" ;
+    schema:url <https://faircookbook.elixir-europe.org/content/recipes/reusability/miappe.html> .
+
+<https://id.dalia.education/learning-resource/a63decdb-786f-4207-a97f-193775468dac> a ec:EducationalResource ;
+    dcterms:description """An increasing amount of published data with various data types and formats generates challenges for reusability of research data. Since published content is essential for scientific research over long time periods, reusability should not be limited by the life-time of a format. 
+Various other limitations like unclear usage rights may also impact reuse in the scientific context.
+
+This presentation regarding format recommendations, including surveys and an exercise, was held at the international BonaRes Data Workshop "Make the best of your data" (29. 09. 2021) by ZALF and ZB MED. The workshop aimed to introduce scientists to efficient management and proper tools that support scientists in their daily work in general and specifically when using the BonaRes Data Repository.
+
+The presentation introduces the challenge of format diversity, which is explained in relation to digital preservation methods. Recommendations for format types when publishing data are given: open, text-based and popular formats. Further recommendations regarding files are conveyed: files without passwords, sufficient rights information and metadata. Following the recommendations supports data reusability over the long term. An exercise for the participants, ranking formats according to their suitability for digital preservation, is included. Similarly, the participants' answers to surveys regarding used data types and file formats, as well as data reuse issues are added.""" ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Data for Generations - Keeping data reusable for really long periods of time" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n003> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3860-4400" ;
+            schema:familyName "Svoboda" ;
+            schema:givenName "Nikolai" ],
+        [ a schema:Person ;
+            schema:familyName "Meier" ;
+            schema:givenName "Kerstin" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0087-5056" ;
+            schema:familyName "Parmaksiz" ;
+            schema:givenName "Uta" ],
+        [ a schema:Person ;
+            schema:familyName "Schmidt" ;
+            schema:givenName "Marcus" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-9316-8982" ;
+            schema:familyName "Markus" ;
+            schema:givenName "Katharina" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:PresentationDigitalDocument ;
+    mo:hasTargetGroup mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-9316-8982" ;
+                schema:familyName "Markus" ;
+                schema:givenName "Katharina" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0087-5056" ;
+                schema:familyName "Parmaksiz" ;
+                schema:givenName "Uta" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3860-4400" ;
+                schema:familyName "Svoboda" ;
+                schema:givenName "Nikolai" ] [ a schema:Person ;
+                schema:familyName "Schmidt" ;
+                schema:givenName "Marcus" ] [ a schema:Person ;
+                schema:familyName "Meier" ;
+                schema:givenName "Kerstin" ] ) ;
+    schema:datePublished "2021-12-16"^^xsd:date ;
+    schema:fileSize "2.3 MB" ;
+    schema:keywords "BonaRes",
+        "Digital Preservation",
+        "File Formats",
+        "Research Data Management" ;
+    schema:url <https://doi.org/10.5281/zenodo.5786303> .
+
+<https://id.dalia.education/learning-resource/b3c500fb-2f08-43a7-b441-d1020f3e56d5> a ec:EducationalResource ;
+    dcterms:description "This course aims to strengthen the capacity of data producers and data consumers to manage and use open data in agriculture and nutrition. One of the main objectives is for the course to be used widely within agricultural and nutrition knowledge networks, in different institutions. The course also aims to raise awareness of different types of data formats and uses and to highlight how important it is for data to be reliable, accessible, and transparent." ;
+    dcterms:format "MD",
+        "PNG" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng>,
+        <http://lexvo.org/id/iso639-3/fra>,
+        <http://lexvo.org/id/iso639-3/spa> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Open Data Management in Agriculture and Nutrition Course" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n003>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n110>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n320> ;
+    ns1:authorUnordered [ a schema:Person ;
+            schema:familyName "Subirats" ;
+            schema:givenName "Imma" ],
+        [ a schema:Person ;
+            schema:familyName "Mey" ;
+            schema:givenName "Lisette" ],
+        [ a schema:Person ;
+            schema:familyName "Pesce" ;
+            schema:givenName "Valeria" ],
+        [ a schema:Person ;
+            schema:familyName "L'Henaff" ;
+            schema:givenName "Pauline" ],
+        [ a schema:Person ;
+            schema:familyName "Meggiolaro" ;
+            schema:givenName "Laura" ],
+        [ a schema:Person ;
+            schema:familyName "Addison" ;
+            schema:givenName "Chris" ],
+        [ a schema:Person ;
+            schema:familyName "Tarrant" ;
+            schema:givenName "David" ],
+        [ a schema:Person ;
+            schema:familyName "Holt" ;
+            schema:givenName "Ilkay" ],
+        [ a schema:Person ;
+            schema:familyName "Meeker" ;
+            schema:givenName "Jessica" ],
+        [ a schema:Organization ;
+            schema:name "GODAN Action" ],
+        [ a schema:Person ;
+            schema:familyName "Besemer" ;
+            schema:givenName "Hugo" ],
+        [ a schema:Person ;
+            schema:familyName "Stanley" ;
+            schema:givenName "Alan" ],
+        [ a schema:Person ;
+            schema:familyName "Lokers" ;
+            schema:givenName "Rob" ] ;
+    mo:hasLearningType bibo:Article,
+        mo:Tutorial,
+        hcrt:course ;
+    mo:hasMediaType schema:Text,
+        schema:VideoObject ;
+    mo:hasTargetGroup mo:Researcher,
+        mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                schema:name "GODAN Action" ] [ a schema:Person ;
+                schema:familyName "Stanley" ;
+                schema:givenName "Alan" ] [ a schema:Person ;
+                schema:familyName "Besemer" ;
+                schema:givenName "Hugo" ] [ a schema:Person ;
+                schema:familyName "Addison" ;
+                schema:givenName "Chris" ] [ a schema:Person ;
+                schema:familyName "Tarrant" ;
+                schema:givenName "David" ] [ a schema:Person ;
+                schema:familyName "Holt" ;
+                schema:givenName "Ilkay" ] [ a schema:Person ;
+                schema:familyName "Subirats" ;
+                schema:givenName "Imma" ] [ a schema:Person ;
+                schema:familyName "Meeker" ;
+                schema:givenName "Jessica" ] [ a schema:Person ;
+                schema:familyName "Meggiolaro" ;
+                schema:givenName "Laura" ] [ a schema:Person ;
+                schema:familyName "Mey" ;
+                schema:givenName "Lisette" ] [ a schema:Person ;
+                schema:familyName "L'Henaff" ;
+                schema:givenName "Pauline" ] [ a schema:Person ;
+                schema:familyName "Pesce" ;
+                schema:givenName "Valeria" ] [ a schema:Person ;
+                schema:familyName "Lokers" ;
+                schema:givenName "Rob" ] ) ;
+    schema:datePublished "2019-12-20"^^xsd:date ;
+    schema:fileSize "17.2 MB" ;
+    schema:keywords "Data Quality",
+        "Managing Datasets",
+        "Open Data Principles",
+        "Repositories",
+        "Semantics for agronomic Data" ;
+    schema:url <https://aims.gitbook.io/open-data-mooc/>,
+        <https://doi.org/10.5281/zenodo.3588148> .
+
+<https://id.dalia.education/learning-resource/bbbfb912-738d-4d25-8992-b7f9c6ed94c7> a ec:EducationalResource ;
+    dcterms:description """Research can be as exciting and exhausting as climbing a mountain. In both cases, preparation will help you along the way. This highly interactive workshop aims to provide you with the knowledge and basic tools needed to plan & execute your journey in an efficient and useful way.
+Keeping your data organized, understandable, and safe are key components of your daily work. Furthermore, preparing your data according to best practices like the FAIR principles helps in publishing and collaboration.
+After an introduction of the stages research data goes through and the actions required to efficiently manage your results, we will explore best practices relevant to planning, structuring, storing, and publishing of research data. The IPK provides tools to support these efforts, and we will collect hands-on experience working with them.
+This 5-day workshop was developed and held at the Leibniz Institute of Plant Genetics and Crop Plant Research (IPK) Gatersleben (https://www.ipk-gatersleben.de/en/) and thus contains specifics of their research data management environment.""" ;
+    dcterms:format "KEY",
+        "NUMBERS",
+        "PDF",
+        "XLXS",
+        "ZIP" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Travel Preparations for your Research Journey - Best Practices of Research Data Management and the IPK Support Systems" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n353> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0363-3837" ;
+            schema:familyName "Wilbrandt" ;
+            schema:givenName "Jeanne" ] ;
+    mo:hasLearningType mo:Lecture,
+        hcrt:assessment,
+        hcrt:drill_and_practice,
+        hcrt:lesson_plan ;
+    mo:hasMediaType schema:PresentationDigitalDocument,
+        schema:Text ;
+    mo:hasTargetGroup mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0363-3837" ;
+                schema:familyName "Wilbrandt" ;
+                schema:givenName "Jeanne" ] ) ;
+    schema:datePublished "2023-06-29"^^xsd:date ;
+    schema:keywords "Data Management Plans",
+        "Electronic Lab Notebooks",
+        "FAIR Principles",
+        "LIMS",
+        "Research Data Management" ;
+    schema:url <https://doi.org/10.5281/zenodo.8096587> .
+
+<https://id.dalia.education/learning-resource/c06078f6-3c5a-4aef-b37b-c5aae1de61a4> a ec:EducationalResource ;
+    dcterms:description "This webinar provides a basic overview of a data management plan (DMP). It answers the questions of what a data management plan is and why we create DMPs. The webinar gives an overview of the components of a DMP and goes section by section through an actual DMP for an agricultural research project." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-3.0> ;
+    dcterms:title "Data Management Plan Webinar" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n003> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-0569-0808" ;
+            schema:familyName "Antognoli" ;
+            schema:givenName "Erin" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:VideoObject ;
+    mo:hasTargetGroup mo:Researcher,
+        mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-0569-0808" ;
+                schema:familyName "Antognoli" ;
+                schema:givenName "Erin" ] ) ;
+    schema:datePublished "2021-02-08"^^xsd:date ;
+    schema:keywords "Ag Data Commons",
+        "Data Curation",
+        "Data Management Plan",
+        "Scientific Data",
+        "USDA",
+        "Webinar" ;
+    schema:url <https://www.youtube.com/watch?v=qtobwSChX7k&list=PL_8uALA03ZsV5J_m_17qaoIyopsaAS_J6&index=2> ;
+    citedcat:isSupplementedBy <https://doi.org/10.6084/m9.figshare.13426358.v2> .
+
+<https://id.dalia.education/learning-resource/c14e1b4b-a99d-4381-88e8-e9106fad4b2f> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description """This publication showcases the NFDI4Biodiversity & GfÖ Winter School 2022, a transformative one-week course program designed to equip young scientists with essential Research Data Management (RDM) skills tailored for biodiversity and environmental data. Organized by the NFDI4Biodiversity consortium, the Winter School fostered data literacy and promoted sustainable research practices within the ecological and environmental science communities.
+
+The publication offers an overview of the Winter School's structure, curriculum, and highlights. Throughout the course, participants engaged in a series of expert-led lectures and hands-on practical sessions, delivered by renowned academics, data specialists, and research institutions in the biodiversity domain. These sessions covered critical aspects of RDM, encompassing data collection, curation, analysis, visualization, and long-term preservation.
+
+The curriculum extensively explored state-of-the-art software tools for data handling, including Jupyter notebook, R, Python, RightField, and OpenRefine. By providing hands-on training with these tools, the Winter School empowered participants to enhance their data management workflows and produce robust research outcomes.
+
+Targeting PhD students and Early-Career Researchers, the Winter School nurtured the next generation of scientists, equipping them with the necessary skills to navigate the challenges posed by increasingly complex and diverse ecological datasets.
+
+By sharing insights, lessons learned, and practical guidance, this publication serves as an invaluable reference and guide for organizers, educators, and researchers seeking to create impactful and inclusive training programs in research data management for biodiversity and related studies.
+
+The Winter School's legacy lies not only in the skills acquired by participants but also in the collaboration across the biodiversity and environmental science community. It exemplifies the commitment of NFDI4Biodiversity to advance data-driven research and contribute to a more sustainable and biodiverse planet""" ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Template for the NFDI4Biodiversity & GfÖ Winter School" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3491-740X" ;
+            schema:familyName "Fischer" ;
+            schema:givenName "Marlen" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+            schema:familyName "Tschink" ;
+            schema:givenName "Daniel" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+            schema:familyName "Brand" ;
+            schema:givenName "Ortrun" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-4692-2700" ;
+            schema:familyName "Röder" ;
+            schema:givenName "Juliane" ] ;
+    mo:hasLearningType bibo:Report ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:PhDStudent,
+        mo:Researcher,
+        mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-4692-2700" ;
+                schema:familyName "Röder" ;
+                schema:givenName "Juliane" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3491-740X" ;
+                schema:familyName "Fischer" ;
+                schema:givenName "Marlen" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+                schema:familyName "Tschink" ;
+                schema:givenName "Daniel" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+                schema:familyName "Brand" ;
+                schema:givenName "Ortrun" ] ) ;
+    schema:datePublished "2023-08-08"^^xsd:date ;
+    schema:fileSize "2.7 MB" ;
+    schema:keywords "Data Management",
+        "Data Publication",
+        "Data annotation",
+        "Legal Aspects",
+        "NFDI",
+        "Taxonomic Harmonization" ;
+    schema:url <https://doi.org/10.5281/zenodo.8272156> ;
+    schema:version "2" ;
+    citedcat:isSupplementTo <https://www.youtube.com/playlist?list=PL06Unzn1hDrhZ4mfsdfeypJajuGsuzdfm> .
+
+<https://id.dalia.education/learning-resource/d0af7b75-0439-46c8-92fa-1757796b827e> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "The NFDI4Biodiversity Self-Study Unit (SSU) provides in-depth knowledge for both students and researchers specializing in biodiversity and environmental sciences. This learning is based on the online learning unit \"Forschungsdatenmanagement - eine Online-Einführung (HeFDI Data Learning Materials)\" of the Hessian Research Data Infrastructures. Developed in collaboration between several partners within NFDI4Biodiversity, the SSU offers essential domain-specific knowledge in research data management." ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "NFDI4Biodiversity Self-Study Unit - Research Data Management for Biodiversity Data" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-2976-2300" ;
+            schema:familyName "Weibulat" ;
+            schema:givenName "Tanja" ],
+        [ a schema:Person ;
+            schema:familyName "Fischer" ;
+            schema:givenName "Marlen" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+            schema:familyName "Tschink" ;
+            schema:givenName "Daniel" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+            schema:familyName "Brand" ;
+            schema:givenName "Ortrun" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-4692-2700" ;
+            schema:familyName "Röder" ;
+            schema:givenName "Juliane" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-1771-7775" ;
+            schema:familyName "Signer" ;
+            schema:givenName "Johannes" ] ;
+    mo:hasLearningType hcrt:assessment,
+        hcrt:course ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:PhDStudent,
+        mo:Researcher,
+        mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                schema:familyName "Fischer" ;
+                schema:givenName "Marlen" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-4692-2700" ;
+                schema:familyName "Röder" ;
+                schema:givenName "Juliane" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-1771-7775" ;
+                schema:familyName "Signer" ;
+                schema:givenName "Johannes" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+                schema:familyName "Tschink" ;
+                schema:givenName "Daniel" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-2976-2300" ;
+                schema:familyName "Weibulat" ;
+                schema:givenName "Tanja" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+                schema:familyName "Brand" ;
+                schema:givenName "Ortrun" ] ) ;
+    schema:datePublished "2023-12-23"^^xsd:date ;
+    schema:fileSize "2.8 MB" ;
+    schema:keywords "Biodiversity",
+        "Data Life Cycle",
+        "Ecologist",
+        "Research Data Management" ;
+    schema:url <https://doi.org/10.5281/zenodo.10377868> ;
+    citedcat:isSupplementedBy <https://ilias.uni-marburg.de/goto.php?target=pg_443261_3276691&client_id=UNIMR> .
+
+<https://id.dalia.education/learning-resource/d350bbb7-e949-4589-9a5f-a787859963e1> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18,
+        dalia-community:ca42e106-dc0e-44ae-bb87-417195fd7d39 ;
+    dcterms:description """Researchers face the challenge of carrying out their work responsibly and transparently. If social science data is collected or processed for subsequent use, special precautions must be taken, e.g. to protect personal references in data and to embed data in its context of origin, to document it and thus make it comprehensible and interpretable.
+In the workshop, we will provide an overview of the special features associated with the management and data sharing of social science data. We will focus in particular on data protection, the contextualisation/documentation of data sets and the secure storage and publication of data.
+The workshop was offered by KonsortSWD (https://www.konsortswd.de/) for NFDI4Biodiversity (https://www.nfdi4biodiversity.org/de/) and the BMBF Research Initiative on Biodiversity Conservation (https://www.feda.bio/de/) and consists of presentations and exercises. In addition 
+participants were also given further information.""" ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Workshop zu Forschungsdatenmanagement für die BMBF-Forschungsinitiative zum Erhalt der Artenvielfalt (FEdA)" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    ns1:authorUnordered [ a schema:Person ;
+            schema:familyName "Mozygemba" ;
+            schema:givenName "Kati" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-0574-9275" ;
+            schema:familyName "Perry" ;
+            schema:givenName "Anja" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-7087-0958" ;
+            schema:familyName "Taffner" ;
+            schema:givenName "Julian" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3847-2663" ;
+            schema:familyName "Linares" ;
+            schema:givenName "Jimena" ],
+        [ a schema:Person ;
+            schema:familyName "Tschink" ;
+            schema:givenName "Daniel" ],
+        [ a schema:Person ;
+            schema:familyName "Eberhardt" ;
+            schema:givenName "Jan" ],
+        [ a schema:Person ;
+            schema:familyName "Mosbrugger" ;
+            schema:givenName "Volker" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8665-6382" ;
+            schema:familyName "Weber" ;
+            schema:givenName "Judith" ] ;
+    mo:hasLearningType mo:Lecture,
+        hcrt:drill_and_practice,
+        hcrt:lesson_plan,
+        hcrt:worksheet ;
+    mo:hasMediaType schema:PresentationDigitalDocument,
+        schema:Text ;
+    mo:hasTargetGroup mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-0574-9275" ;
+                schema:familyName "Perry" ;
+                schema:givenName "Anja" ] [ a schema:Person ;
+                schema:familyName "Mozygemba" ;
+                schema:givenName "Kati" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8665-6382" ;
+                schema:familyName "Weber" ;
+                schema:givenName "Judith" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3847-2663" ;
+                schema:familyName "Linares" ;
+                schema:givenName "Jimena" ] [ a schema:Person ;
+                schema:familyName "Eberhardt" ;
+                schema:givenName "Jan" ] [ a schema:Person ;
+                schema:familyName "Mosbrugger" ;
+                schema:givenName "Volker" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-7087-0958" ;
+                schema:familyName "Taffner" ;
+                schema:givenName "Julian" ] [ a schema:Person ;
+                schema:familyName "Tschink" ;
+                schema:givenName "Daniel" ] ) ;
+    schema:datePublished "2022-05-25"^^xsd:date ;
+    schema:keywords "Anonymization",
+        "Data Documentation",
+        "Data Protection",
+        "Data Publication",
+        "Data Security",
+        "Research Ethics" ;
+    schema:url <https://doi.org/10.5281/zenodo.6579410> .
+
+<https://id.dalia.education/learning-resource/da6568dd-c31d-4822-8ab0-45c2164c5bd0> a ec:EducationalResource ;
+    dcterms:description "The RDMkit is a guide for life scientists in their efforts to better manage their research data following the FAIR Principles. It is based on the various steps of the data lifecycle, although not all the steps will be relevant to everyone. This section describes domain-specific aspects as well as Tools and Resources for plant science. It focuses on the planning of plant science data management, as well as the collection of phenotyping data and genotyping data." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "RDMkit - Plant Science" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-3412-9086" ;
+            schema:familyName "Adam-Blondon" ;
+            schema:givenName "Anne-Françoise" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-1511-277X" ;
+            schema:familyName "Faria" ;
+            schema:givenName "Daniel" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-1010-6859" ;
+            schema:familyName "Le Floch" ;
+            schema:givenName "Erwan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-2177-8781" ;
+            schema:familyName "Beier" ;
+            schema:givenName "Sebastian" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-9040-8733" ;
+            schema:familyName "Pommier" ;
+            schema:givenName "Cyril" ] ;
+    mo:hasLearningType mo:Cookbook ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:DataSteward,
+        mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Competent ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-1010-6859" ;
+                schema:familyName "Le Floch" ;
+                schema:givenName "Erwan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-2177-8781" ;
+                schema:familyName "Beier" ;
+                schema:givenName "Sebastian" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-1511-277X" ;
+                schema:familyName "Faria" ;
+                schema:givenName "Daniel" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-3412-9086" ;
+                schema:familyName "Adam-Blondon" ;
+                schema:givenName "Anne-Françoise" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-9040-8733" ;
+                schema:familyName "Pommier" ;
+                schema:givenName "Cyril" ] ) ;
+    schema:datePublished "2023-12-20"^^xsd:date ;
+    schema:keywords "Data Collection",
+        "Data Management Planning",
+        "Plant Genotyping Data",
+        "Plant Phenotyping Data" ;
+    schema:url <https://rdmkit.elixir-europe.org/plant_sciences> .
+
+<https://id.dalia.education/learning-resource/deca274c-0b5d-4449-94e8-892d8ff5ac26> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:c5d22eff-ec20-409d-b8d3-aa4e9cc2d6cb ;
+    dcterms:description """The FAIR Cookbook is an online, open and live resource for the Life Sciences with recipes that help you to make and keep data Findable, Accessible, Interoperable and Reusable; in one word FAIR. 
+This recipe describes best practices for submitting plant experimentation data to generic data repositories (e.g. e!DAL-PGP, Dataverses such as recherche.data.gouv, dmportal.biodata.pt and Jülich DATA). This will allow data reuse according to FAIR principles, and especially to ensure visibility and reuse of genetic and phenomic datasets via minimal and sufficient description: data type, organism, list of plant material used, experimental metadata including methods and protocols, etc. Maximizing data visibility by allowing their indexation in international portals, as well as ensuring the interoperability of data sets in relation to a coherent identification of plant material used in experiments of various kinds (phenotyping, genotyping, genomics, etc.).""" ;
+    dcterms:format "MD" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "FAIR Cookbook - Publication of plant experimental data in generic data repositories" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-9853-5668" ;
+            schema:familyName "Rocca-Serra" ;
+            schema:givenName "Philippe" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-1877-1703" ;
+            schema:familyName "Michotey" ;
+            schema:givenName "Célia" ],
+        [ a schema:Person ;
+            schema:familyName "Haurheeram" ;
+            schema:givenName "Vanita" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-2177-8781" ;
+            schema:familyName "Beier" ;
+            schema:givenName "Sebastian" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-1010-6859" ;
+            schema:familyName "Le Floch" ;
+            schema:givenName "Erwan" ],
+        [ a schema:Person ;
+            schema:familyName "Francillonne" ;
+            schema:givenName "Nicolas" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-7569-3495" ;
+            schema:familyName "Chaves" ;
+            schema:givenName "Inês" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-2455-5938" ;
+            schema:familyName "Arend" ;
+            schema:givenName "Daniel" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-1511-277X" ;
+            schema:familyName "Faria" ;
+            schema:givenName "Daniel" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-9040-8733" ;
+            schema:familyName "Pommier" ;
+            schema:givenName "Cyril" ] ;
+    mo:hasLearningType mo:Cookbook ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:DataSteward,
+        mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Competent ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-1010-6859" ;
+                schema:familyName "Le Floch" ;
+                schema:givenName "Erwan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-2177-8781" ;
+                schema:familyName "Beier" ;
+                schema:givenName "Sebastian" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-7569-3495" ;
+                schema:familyName "Chaves" ;
+                schema:givenName "Inês" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-1511-277X" ;
+                schema:familyName "Faria" ;
+                schema:givenName "Daniel" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-1877-1703" ;
+                schema:familyName "Michotey" ;
+                schema:givenName "Célia" ] [ a schema:Person ;
+                schema:familyName "Francillonne" ;
+                schema:givenName "Nicolas" ] [ a schema:Person ;
+                schema:familyName "Haurheeram" ;
+                schema:givenName "Vanita" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-9040-8733" ;
+                schema:familyName "Pommier" ;
+                schema:givenName "Cyril" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-9853-5668" ;
+                schema:familyName "Rocca-Serra" ;
+                schema:givenName "Philippe" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-2455-5938" ;
+                schema:familyName "Arend" ;
+                schema:givenName "Daniel" ] ) ;
+    schema:keywords "Data Publishing",
+        "FAIR Principles",
+        "Genotyping Data",
+        "MIAPPE",
+        "Plant Phenotyping Data",
+        "Repositories" ;
+    schema:url <https://faircookbook.elixir-europe.org/content/recipes/reusability/plant-pheno-data-publication.html> .
+
+<https://id.dalia.education/learning-resource/df2b5fb6-d3f0-4404-a1d4-5e50195a7263> a ec:EducationalResource ;
+    dcterms:description "The Minimal Information About Plant Phenotyping Experiment, MIAPPE (www.miappe.org) has been designed by ELIXIR, EMPHASIS and Bioversity international to guide plant scientists in the management of experimental data and to facilitate integration with genotyping data.The webinar gives an overview of the current practices and methods for plant phenotyping data standardization." ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Webinar on Plant Data Management for Phenotyping Experiments" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n353> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-3412-9086" ;
+            schema:familyName "Adam-Blondon" ;
+            schema:givenName "Anne-Françoise" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-1877-1703" ;
+            schema:familyName "Michotey" ;
+            schema:givenName "Célia" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-9040-8733" ;
+            schema:familyName "Pommier" ;
+            schema:givenName "Cyril" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:PresentationDigitalDocument ;
+    mo:hasTargetGroup mo:Researcher,
+        mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Competent ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-9040-8733" ;
+                schema:familyName "Pommier" ;
+                schema:givenName "Cyril" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-1877-1703" ;
+                schema:familyName "Michotey" ;
+                schema:givenName "Célia" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-3412-9086" ;
+                schema:familyName "Adam-Blondon" ;
+                schema:givenName "Anne-Françoise" ] ) ;
+    schema:datePublished "2021-04-02"^^xsd:date ;
+    schema:fileSize "3.1 MB" ;
+    schema:keywords "BrAPI",
+        "Data Management",
+        "MIAPPE",
+        "Ontologies",
+        "Phenotyping Experiments",
+        "Plant Data" ;
+    schema:url <https://doi.org/10.5281/zenodo.4659859> ;
+    citedcat:isSupplementedBy <https://www.youtube.com/watch?v=Fq2j16jzdBA> .
+
+<https://id.dalia.education/learning-resource/e0cd341c-2cdc-4eea-979d-8be360e50557> a ec:EducationalResource ;
+    dcterms:description "The two-part self-study series \"Data Science for Ecologists in R\" teaches researchers from the fields of biology and ecology how to use the free programming language R. The first part gives an introduction to what tidy data is and why it is a great way of mapping the meaning of a dataset to its structure. The second part focuses on Linear Models in R." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "Data Science for Ecologist in R" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    fabio:hasSubtitle "Tidy Data - Self-Learning Video Series" ;
+    ns1:authorUnordered [ a schema:Organization ;
+            schema:name "GFBio" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:VideoObject ;
+    mo:hasTargetGroup mo:PhDStudent,
+        mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                schema:name "GFBio" ] ) ;
+    schema:datePublished "2023-05-31"^^xsd:date ;
+    schema:keywords "Data Science",
+        "Ecologists",
+        "NFDI4Biodiversity",
+        "R",
+        "Tidy Data",
+        "gfbio" ;
+    schema:url <https://www.youtube.com/playlist?list=PL06Unzn1hDrizkhhD0L9nROFnfqxtBVwY>,
+        <https://www.youtube.com/playlist?list=PL06Unzn1hDrjw4nOQk7ZfZmZ8vJ48aDy_> .
+
+<https://id.dalia.education/learning-resource/f427c656-86d2-494f-823a-94f1cce73aec> a ec:EducationalResource ;
+    dcterms:description "This webinar provides a basic overview of machine-readable data. We cover what machine-readable data is, why we prefer machine-readable data over other digital formats where possible, the characteristics of machine-readable data and how to convert tabular data to a machine-readable format." ;
+    dcterms:format "PPTX" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC0-1.0> ;
+    dcterms:title "Making Data Machine-Readable Webinar" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n003> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-0569-0808" ;
+            schema:familyName "Antognoli" ;
+            schema:givenName "Erin" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:PresentationDigitalDocument ;
+    mo:hasTargetGroup mo:Researcher,
+        mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-0569-0808" ;
+                schema:familyName "Antognoli" ;
+                schema:givenName "Erin" ] ) ;
+    schema:datePublished "2019-03-28"^^xsd:date ;
+    schema:fileSize "1.25 MB" ;
+    schema:keywords "Ag Data Commons",
+        "Data Curation",
+        "Machine-Readability",
+        "Reformatting",
+        "Tabular Data",
+        "USDA",
+        "Webinar" ;
+    schema:url <https://doi.org/10.6084/m9.figshare.6178922.v1> ;
+    citedcat:isSupplementedBy <https://www.youtube.com/watch?v=Pvdv_P162xY> .
+
+<https://id.dalia.education/learning-resource/fc48b244-31e2-4b29-9842-536a1d2e2c7e> a ec:EducationalResource ;
+    dcterms:description "The Minimal Information About Plant Phenotyping Experiment, MIAPPE (www.miappe.org) has been designed by ELIXIR, EMPHASIS and Bioversity international to guide plant scientists in the management of experimental data and to facilitate integration with genotyping data.The webinar gives an overview of the current practices and methods for plant phenotyping data standardization." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-3.0> ;
+    dcterms:title "Webinar on Plant Data Management for Phenotyping Experiments" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n353> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-1877-1703" ;
+            schema:familyName "Michotey" ;
+            schema:givenName "Célia" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-9040-8733" ;
+            schema:familyName "Pommier" ;
+            schema:givenName "Cyril" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-3412-9086" ;
+            schema:familyName "Adam-Blondon" ;
+            schema:givenName "Anne-Françoise" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:VideoObject ;
+    mo:hasTargetGroup mo:Researcher,
+        mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Competent ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-9040-8733" ;
+                schema:familyName "Pommier" ;
+                schema:givenName "Cyril" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-1877-1703" ;
+                schema:familyName "Michotey" ;
+                schema:givenName "Célia" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-3412-9086" ;
+                schema:familyName "Adam-Blondon" ;
+                schema:givenName "Anne-Françoise" ] ) ;
+    schema:datePublished "2021-04-02"^^xsd:date ;
+    schema:keywords "BrAPI",
+        "Data Management",
+        "MIAPPE",
+        "Ontologies",
+        "Phenotyping Experiments",
+        "Plant Data" ;
+    schema:url <https://www.youtube.com/watch?v=Fq2j16jzdBA> ;
+    citedcat:isSupplementedBy <https://doi.org/10.5281/zenodo.4659859> .
+

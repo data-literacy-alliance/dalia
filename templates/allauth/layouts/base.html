@@ -1,0 +1,59 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block head_title %}DALIA{% endblock head_title %}</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+      /* Style Django form widgets rendered via {{ field }} */
+      input[type="text"], input[type="email"], input[type="password"],
+      input[type="number"], input[type="url"], input[type="tel"], textarea, select {
+        display: block;
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        color: #111827;
+        outline: none;
+        margin-top: 0.25rem;
+      }
+      input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus,
+      input[type="number"]:focus, input[type="url"]:focus, textarea:focus, select:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+      }
+      input[type="checkbox"] { width: auto; display: inline-block; }
+    </style>
+    {% block extra_head %}{% endblock extra_head %}
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+<div class="w-full max-w-md mx-auto py-12 px-4">
+
+    {% if messages %}
+    <div class="mb-4 space-y-2">
+        {% for message in messages %}
+        <div class="px-4 py-3 rounded-lg text-sm
+            {% if message.tags == 'error' %}bg-red-50 border border-red-200 text-red-700
+            {% elif message.tags == 'success' %}bg-green-50 border border-green-200 text-green-700
+            {% else %}bg-blue-50 border border-blue-200 text-blue-700{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="bg-white rounded-xl shadow-md border border-gray-200 p-8">
+        {% block content %}{% endblock content %}
+    </div>
+
+    <p class="mt-6 text-center text-sm text-gray-400">
+        <a href="/" class="text-blue-600 hover:underline">{% trans "Back to DALIA" %}</a>
+    </p>
+
+</div>
+{% block extra_body %}{% endblock extra_body %}
+</body>
+</html>

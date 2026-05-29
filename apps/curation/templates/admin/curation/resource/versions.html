@@ -1,0 +1,280 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="mb-6">
+
+  {# ── Page header ──────────────────────────────────────────────────────────── #}
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
+        {{ title }}
+      </h1>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+        {% blocktrans with count=versions|length %}{{ count }} version(s){% endblocktrans %}
+        &mdash; <strong>{{ resource.title }}</strong>
+      </p>
+    </div>
+    <a href="{% url 'admin:curation_resource_change' resource.pk %}"
+       class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md
+              text-gray-700 bg-white border border-gray-300 hover:bg-gray-50
+              dark:text-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700">
+      &larr; {% trans "Back to Resource" %}
+    </a>
+  </div>
+
+  {# ── Empty state ──────────────────────────────────────────────────────────── #}
+  {% if not versions %}
+  <div class="flex flex-col items-center justify-center py-16 text-gray-400 dark:text-gray-500">
+    <p class="text-lg">{% trans "No versions found for this resource." %}</p>
+  </div>
+
+  {% else %}
+
+  {# ── Version cards ────────────────────────────────────────────────────────── #}
+  <div class="flex flex-wrap gap-4 mb-8">
+    {% for v in versions %}
+    {% with obj=v.obj %}
+    <div class="flex-1 min-w-64 max-w-sm border border-gray-200 dark:border-gray-700
+                rounded-lg p-4 bg-white dark:bg-gray-800 shadow-sm flex flex-col">
+
+      {# Version designator + status badges #}
+      <div class="flex items-center gap-2 mb-3">
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold
+                     bg-gray-800 text-white dark:bg-gray-200 dark:text-gray-900">
+          v{{ obj.version }}
+        </span>
+
+        {% if obj.is_active %}
+        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
+                     bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+          {% trans "ACTIVE" %}
+        </span>
+        {% elif obj.submitted_for_review %}
+        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
+                     bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200">
+          {% trans "Under Review" %}
+        </span>
+        {% else %}
+        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
+                     bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+          {% trans "Draft" %}
+        </span>
+        {% endif %}
+      </div>
+
+      {# Metadata #}
+      <dl class="space-y-1 text-sm mb-3">
+        <div class="flex gap-1">
+          <dt class="font-medium text-gray-600 dark:text-gray-400 shrink-0">{% trans "Version" %}:</dt>
+          <dd class="text-gray-900 dark:text-gray-100 font-semibold">v{{ obj.version }}</dd>
+        </div>
+        <div class="flex gap-1">
+          <dt class="font-medium text-gray-600 dark:text-gray-400 shrink-0">{% trans "Created by" %}:</dt>
+          <dd class="text-gray-900 dark:text-gray-100">
+            {{ obj.created_by|default:"—" }}
+          </dd>
+        </div>
+        <div class="flex gap-1">
+          <dt class="font-medium text-gray-600 dark:text-gray-400 shrink-0">{% trans "Created" %}:</dt>
+          <dd class="text-gray-900 dark:text-gray-100">
+            {{ obj.created|date:"Y-m-d H:i" }}
+          </dd>
+        </div>
+        {% if obj.main_url %}
+        <div class="flex gap-1 min-w-0">
+          <dt class="font-medium text-gray-600 dark:text-gray-400 shrink-0 whitespace-nowrap">{% trans "URL" %}:</dt>
+          <dd class="truncate">
+            <a href="{{ obj.main_url }}" target="_blank" rel="noopener noreferrer"
+               class="text-primary-600 hover:underline dark:text-primary-400 block truncate max-w-48"
+               title="{{ obj.main_url }}">{{ obj.main_url }}</a>
+          </dd>
+        </div>
+        {% endif %}
+      </dl>
+
+      {# Compare checkbox — include/exclude this version column from the diff table #}
+      <label class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 mb-3 cursor-pointer select-none">
+        <input type="checkbox" data-col="{{ obj.version }}" checked
+               class="appearance-none bg-white block border border-base-300 h-4 min-w-4 w-4 relative rounded-[4px] shadow-xs dark:bg-base-900 dark:border-base-700 dark:checked:after:text-white after:absolute after:content-['check\_small'] after:flex! after:h-4 after:items-center after:justify-center after:leading-none after:material-symbols-outlined after:-ml-px after:-mt-px after:text-white after:w-4 dark:after:text-transparent checked:bg-primary-600 dark:checked:bg-primary-600 checked:border-primary-600 dark:checked:border-primary-600 cursor-pointer">
+        {% trans "Include in comparison" %}
+      </label>
+
+      {# Action buttons #}
+      <div class="flex gap-2 mt-auto">
+        {% if not obj.is_active %}
+        <form method="post" action="{{ activate_url }}">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="set_active_version">
+          <input type="hidden" name="_selected_action" value="{{ obj.pk }}">
+          <button type="submit"
+                  class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md
+                         text-white bg-primary-600 hover:bg-primary-500
+                         focus:outline-none focus:ring-2 focus:ring-primary-500
+                         dark:bg-primary-700 dark:hover:bg-primary-600">
+            {% trans "Activate" %}
+          </button>
+        </form>
+        {% endif %}
+
+        <a href="{% url 'admin:curation_resourcecontent_change' obj.pk %}"
+           class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md
+                  text-gray-700 bg-white border border-gray-300 hover:bg-gray-50
+                  dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:hover:bg-gray-600">
+          {% trans "Edit" %}
+        </a>
+      </div>
+    </div>
+    {% endwith %}
+    {% endfor %}
+  </div>
+
+  {# ── Diff table ───────────────────────────────────────────────────────────── #}
+  {% with first=versions.0 %}
+  <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+
+    <div class="bg-gray-50 dark:bg-gray-800 px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+      <h2 class="text-base font-semibold text-gray-900 dark:text-white">
+        {% trans "Field comparison" %}
+      </h2>
+    </div>
+
+    {# ── Differing rows (always visible) ──────────────────────────────────── #}
+    <div class="overflow-x-auto">
+      {# table-layout:fixed is required for max-width/wrapping to work on <td> — table-layout:auto ignores them #}
+      <table class="text-sm" style="table-layout:fixed;min-width:100%;">
+        <colgroup>
+          <col style="width:11rem;">
+          {% for v in versions %}<col data-col="{{ v.obj.version }}" style="width:320px;">{% endfor %}
+        </colgroup>
+        <thead class="bg-gray-50 dark:bg-gray-800">
+          <tr>
+            <th scope="col"
+                class="sticky left-0 z-10 bg-gray-50 dark:bg-gray-800
+                       px-4 py-3 text-left text-xs font-semibold
+                       text-gray-500 dark:text-gray-400 uppercase tracking-wider
+                       border-b border-r border-gray-200 dark:border-gray-700">
+              {% trans "Field" %}
+            </th>
+            {% for v in versions %}
+            <th scope="col" data-col="{{ v.obj.version }}"
+                class="px-4 py-3 text-left text-xs font-semibold
+                       text-gray-500 dark:text-gray-400 uppercase tracking-wider
+                       border-b border-gray-200 dark:border-gray-700">
+              v{{ v.obj.version }}
+              <span class="block normal-case font-normal text-gray-400 dark:text-gray-500">
+                {{ v.obj.created|date:"Y-m-d" }}
+              </span>
+            </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-100 dark:divide-gray-800">
+          {% for field in first.fields %}
+          {% if field.differs %}
+          <tr class="border-l-4 border-amber-400">
+            <td class="sticky left-0 z-10 bg-white dark:bg-gray-900
+                       px-4 py-3 font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap
+                       border-r border-gray-200 dark:border-gray-700">
+              {{ field.label }}
+            </td>
+            {% for v in versions %}
+            {% for vfield in v.fields %}{% if vfield.name == field.name %}
+            <td class="px-4 py-3 text-gray-900 dark:text-gray-100 align-top overflow-hidden"
+                data-col="{{ v.obj.version }}"
+                style="border-left:1px solid #e5e7eb;border-right:1px solid #e5e7eb;{% if vfield.differs_from_prev %}outline:2px solid #ef4444;outline-offset:-2px;{% endif %}">
+              {% include "admin/curation/resource/_cell.html" with vfield=vfield field=field v=v %}
+            </td>
+            {% endif %}{% endfor %}
+            {% endfor %}
+          </tr>
+          {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {# ── Agreeing rows — collapsed via <details> ──────────────────────────── #}
+    <details id="all-fields-details" {% if versions|length == 1 %}open{% endif %} class="group border-t border-gray-200 dark:border-gray-700">
+      <summary class="cursor-pointer px-4 py-2 text-sm font-medium
+                      text-primary-600 dark:text-primary-400
+                      hover:bg-gray-50 dark:hover:bg-gray-800 list-none
+                      flex items-center gap-1 select-none">
+        <svg class="w-3 h-3 group-open:rotate-90 transition-transform" fill="currentColor"
+             viewBox="0 0 20 20" aria-hidden="true">
+          <path fill-rule="evenodd"
+                d="M7.293 4.293a1 1 0 011.414 0l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414-1.414L11.586 10 7.293 5.707a1 1 0 010-1.414z"
+                clip-rule="evenodd"/>
+        </svg>
+        <span id="all-fields-label"
+              data-open="{% trans 'Hide all fields' %}"
+              data-closed="{% trans 'Show all fields' %}">
+          {% trans "Show all fields" %}
+        </span>
+      </summary>
+
+      <div class="overflow-x-auto">
+        <table class="text-sm" style="table-layout:fixed;min-width:100%;">
+          <colgroup>
+            <col style="width:11rem;">
+            {% for v in versions %}<col data-col="{{ v.obj.version }}" style="width:320px;">{% endfor %}
+          </colgroup>
+          <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-100 dark:divide-gray-800">
+            {% for field in first.fields %}
+            {% if not field.differs %}
+            <tr class="{% if versions|length > 1 %}opacity-40 hover:opacity-100 transition-opacity duration-150{% endif %}">
+              <td class="sticky left-0 z-10 bg-white dark:bg-gray-900
+                         px-4 py-3 font-medium text-gray-700 dark:text-gray-300
+                         whitespace-nowrap border-r border-gray-200 dark:border-gray-700">
+                {{ field.label }}
+              </td>
+              {% for v in versions %}
+              {% for vfield in v.fields %}{% if vfield.name == field.name %}
+              <td class="px-4 py-3 text-gray-900 dark:text-gray-100 align-top overflow-hidden"
+                  data-col="{{ v.obj.version }}"
+                  style="border-left:1px solid #e5e7eb;border-right:1px solid #e5e7eb;{% if vfield.differs_from_prev %}outline:2px solid #ef4444;outline-offset:-2px;{% endif %}">
+                {% include "admin/curation/resource/_cell.html" with vfield=vfield field=field v=v %}
+              </td>
+              {% endif %}{% endfor %}
+              {% endfor %}
+            </tr>
+            {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+  </div>
+  {% endwith %}
+
+  {% endif %}{# end if versions #}
+
+</div>
+
+<script>
+(function () {
+  // "Show all fields" <-> "Hide all fields" label on details toggle
+  var details = document.getElementById('all-fields-details');
+  var label   = document.getElementById('all-fields-label');
+  if (details && label) {
+    details.addEventListener('toggle', function () {
+      label.textContent = details.open ? label.dataset.open : label.dataset.closed;
+    });
+  }
+
+  // Per-version column visibility driven by card checkboxes
+  document.querySelectorAll('input[data-col]').forEach(function (cb) {
+    cb.addEventListener('change', function () {
+      var col  = cb.getAttribute('data-col');
+      var show = cb.checked;
+      document.querySelectorAll('[data-col="' + col + '"]').forEach(function (el) {
+        el.style.display = show ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
+{% endblock %}

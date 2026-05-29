@@ -1,0 +1,29 @@
+{% extends "admin/change_list.html" %}
+{% load i18n admin_urls static %}
+
+{% block content %}
+    <div class="entity-mapping-help" style="background: #e3f2fd; border: 1px solid #1976d2; border-radius: 4px; padding: 12px; margin-bottom: 15px;">
+        <p><strong>🔗 Entity Mapping System</strong> - Bidirectional synchronization between PostgreSQL and Fuseki databases using UUID4-based identity management.</p>
+        <p>Discover entities in Fuseki that don't exist in PostgreSQL, review and approve import candidates, and monitor synchronization status.</p>
+        {% if total_candidates %}
+            <p><strong>Status:</strong> {{ total_candidates }} import candidates found{% if total_pending %} ({{ total_pending }} pending approval){% endif %}</p>
+        {% endif %}
+
+        <div style="margin-top: 10px;">
+            <a href="{{ discover_candidates_url }}" class="button default" style="margin-right: 10px;">
+                🔍 Discover Import Candidates
+            </a>
+            <a href="{{ import_candidates_url }}" class="addlink" style="margin-right: 10px;">
+                📋 Manage Import Candidates
+            </a>
+            <a href="{{ sync_summary_url }}" class="changelink" style="margin-right: 10px;">
+                📊 Sync Summary Dashboard
+            </a>
+            <a href="{{ sync_logs_url }}" class="viewlink">
+                📜 View Sync Logs
+            </a>
+        </div>
+    </div>
+
+    {{ block.super }}
+{% endblock %}

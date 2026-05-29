@@ -1,0 +1,5 @@
+.root {
+    @apply bg-white px-4 2xl:px-[1.563rem] hover:bg-daliaBlue-100 hover:text-white transition-colors min-w-0;
+    height: 3.125rem; /* = 50px */
+}
+

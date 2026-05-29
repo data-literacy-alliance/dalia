@@ -1,0 +1,1716 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ec: <https://github.com/tibonto/educor#> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix m4i: <http://w3id.org/nfdi4ing/metadata4ing#> .
+@prefix mo: <https://purl.org/ontology/modalia#> .
+@prefix ns1: <https://dalia.education/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://id.dalia.education/learning-resource/092a9d55-9ed4-48cb-bfa9-af83713e18e7> a ec:EducationalResource ;
+    dcterms:description "In der vierten Folge unserer siebten Staffel beschäftigen wir vom Podcast RaDiHum20 uns mit dem Thema der Rezensionen für digitale Editionen. Dazu sprechen wir mit Ulrike Henny-Krahmer, Friederike Neuber und Martina Scholger, den Managing Editors des Review Journal for Digital Editions and Resources – kurz RIDE. Gemeinsam klären wir nicht nur, ob man „Riede [ˈʁiːdə]“ oder „Ride [ˈɹaɪd] “ sagt, sondern erfahren auch, warum es dieses besondere Journal braucht und welche Lücke es in der Wissenschaftskommunikation schließt. Moderation: Jonathan D. Geiger, Mareike Schumacher, Jascha Schmitz. Gäste: Ulrike Henny-Kramer, Friederike Neuber, Martina Scholger." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "RaDiHum20 spricht mit Ulrike, Frederike und Martina vom Review Journal for Digital Editions and Resources (RIDE)" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+            schema:familyName "Schmitz" ;
+            schema:givenName "Jascha" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+                schema:familyName "Schmitz" ;
+                schema:givenName "Jascha" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] ) ;
+    schema:datePublished "2024-12-20"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Digitalisierung",
+        "Edition",
+        "Open Access",
+        "Podcast",
+        "Pubikation" ;
+    schema:url <https://radihum20.de/radihum20-spricht-mit-ride/> .
+
+<https://id.dalia.education/learning-resource/12a7f308-fe74-498c-ab23-20111be3b043> a ec:EducationalResource ;
+    dcterms:description "In dieser neuen Folge von RaDiHum20 greifen wir das Thema Reputation ohne Paywall auf und sprechen sowohl über den Workshop der DHd-AG Digitales Publizieren als auch mit Caroline Jansky und Martin de la Iglesia über die Zeitschrift für digitale Geisteswissenschaften. Moderation: Jonathan D. Geiger, Mareike Schumacher, Jascha Schmitz, Lisa Kolodzie. Gäste: Caroline Jansky, Martin de la Iglesia, Katharina Schulz, Johann Pibert, Jan Horstmann, Jens Bemme." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "RaDiHum20 spricht mit Caroline und Martin von der Zeitschrift für Digitale Geisteswissenschaften (ZfdG)" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+            schema:familyName "Schmitz" ;
+            schema:givenName "Jascha" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+                schema:familyName "Schmitz" ;
+                schema:givenName "Jascha" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] ) ;
+    schema:datePublished "2024-10-20"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Digitalisierung",
+        "Open Access",
+        "Podcast",
+        "Pubikation" ;
+    schema:url <https://radihum20.de/radihum20-spricht-mit-caroline-und-martin-von-der-zeitschrift-fuer-digitale-geisteswissenschaften-zfdg/> .
+
+<https://id.dalia.education/learning-resource/18828b34-0394-4b81-9b2c-0e9fcda5e7cd> a ec:EducationalResource ;
+    dcterms:description "In der dritten Folge unserer siebten Staffel dürfen wir vom Podcast RaDiHum20 Nicola Mößner, Vertretungsprofessorin für theoretische Philosophie an der Leibniz Universität Hannover, bei uns begrüßen. Wir sprechen über die Veränderungen und Herausforderungen des digitalen Publizierens. Nicola bringt spannende Perspektiven aus der sozialen Erkenntnistheorie und Wissenschaftsphilosophie mit und beleuchtet, wie digitale Publikationsprozesse traditionelle wissenschaftliche Praktiken verändern. Dabei diskutieren wir die zentrale Frage: Ist das Internet tatsächlich „für alle frei zugänglich“, oder sind es Verlage, die durch ihre Gatekeeper-Funktion über Auffindbarkeit und Langfristigkeit von Publikationen entscheiden? Nicola erklärt, warum die Digitalisierung zwar den Zugang zu wissenschaftlicher Literatur erleichtert, gleichzeitig aber auch bestehende Machtstrukturen festigt. Moderation: Jonathan D. Geiger, Mareike Schumacher, Jascha Schmitz. Gäste: Nicola Mößner." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "RaDiHum20 spricht mit Nicola Mößner" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+            schema:familyName "Schmitz" ;
+            schema:givenName "Jascha" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+                schema:familyName "Schmitz" ;
+                schema:givenName "Jascha" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] ) ;
+    schema:datePublished "2024-11-20"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Digitalisierung",
+        "Open Access",
+        "Podcast",
+        "Pubikation" ;
+    schema:url <https://radihum20.de/radihum20-spricht-mit-nicola-moessner/> .
+
+<https://id.dalia.education/learning-resource/189b4b24-196b-46bc-bd72-b55eb09071a4> a ec:EducationalResource ;
+    dcterms:description "In dieser Folge spricht Mareike vom Podcast RaDiHum20 mit Anja Gerber und Tessa Gengnagel von der DHd-AG Empowerment. Das Tagungsthema der DHd2023 “Open Humanities, Open Culture” ist der AG sehr wichtig, denn es ist noch viel zu tun, was die Offenlegung und Sichtbarmachung der Digital Humanities-Forschung in anderen Ländern und auch von nicht-weißen, nicht-männlichen, nicht-westlichen Forschenden betrifft. Moderation: Mareike Schumacher. Gäste: Anja Gerber, Tessa Gengnagel." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Mareike von RaDiHum20 spricht mit Anja Gerber und Tessa Gengnagel von der AG Empowerment über die DHd2023" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+            schema:familyName "Schmitz" ;
+            schema:givenName "Jascha" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+                schema:familyName "Schmitz" ;
+                schema:givenName "Jascha" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] ) ;
+    schema:datePublished "2023-03-10"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Diskriminierung",
+        "Empowerment",
+        "Podcast" ;
+    schema:url <https://radihum20.de/mareike-spricht-mit-anja-gerber-und-tessa-gengnagel-von-der-ag-empowerment-ueber-die-dhd2023/> .
+
+<https://id.dalia.education/learning-resource/19d1904f-9479-472e-a56b-023a02adb506> a ec:EducationalResource ;
+    dcterms:description "In der heutigen Folge reden wir vom Podcast RaDiHum20 mit Timo Steyer von der DHd AG Digitales Publizieren über Formen, Möglichkeiten, Herausforderungen und Chancen digitaler Publikationen. Die Gründung und Entwicklung der AG selbst kommen dabei ebenso zur Sprache wie die Entwicklung der wissenschaftlichen Publikationspraxis, zukünftige Herausforderungen sowie Chancen und noch vieles weitere mehr. Moderation: Jonathan D. Geiger, Lisa Kolodzie, Mareike Schumacher. Gäste: Timo Steyer." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "RaDiHum20 spricht mit der AG Digitales Publizieren" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-2470-4590" ;
+            schema:familyName "Toschka" ;
+            schema:givenName "Patrik" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-2470-4590" ;
+                schema:familyName "Toschka" ;
+                schema:givenName "Patrik" ] ) ;
+    schema:datePublished "2020-10-20"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Digitalisierung",
+        "Open Access",
+        "Podcast",
+        "Publikation" ;
+    schema:url <https://radihum20.de/ag-digitales-publizieren/> .
+
+<https://id.dalia.education/learning-resource/1f726a11-eb5d-47f5-b407-5f85e3693c76> a ec:EducationalResource ;
+    dcterms:description "Wir vom Podcast RaDiHum20 haben uns mit Alexander Czmiel und Stephan Druskat von der AG Research Software Engineering des Verbandes für Digital Humanities im deutschsprachigen Raum (DHd) unterhalten, um euch in einer neuen RaDiHum20-Folge Einblicke in ihre Arbeit zu geben. Natürlich ging es um die AG, ihre Gründung, Tätigkeiten und Pläne. Wir haben aber auch ganz allgemein über Research Software Engineering gesprochen und darüber, dass Software in der Forschung allgegenwärtig ist. Moderation: Jonathan D. Geiger, Lisa Kolodzie, Patrick Toschka, Mareike Schumacher. Gäste: Alexander Czmiel, Stephan Druskat." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "RaDiHum20 spricht mit der AG Research Software Engineering" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-2470-4590" ;
+            schema:familyName "Toschka" ;
+            schema:givenName "Patrik" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-2470-4590" ;
+                schema:familyName "Toschka" ;
+                schema:givenName "Patrik" ] ) ;
+    schema:datePublished "2020-11-20"^^xsd:date ;
+    schema:keywords "Code",
+        "Digital Humanities",
+        "Podcast",
+        "Pogrammieren",
+        "Software Engineering" ;
+    schema:url <https://radihum20.de/research-software-engineering/> .
+
+<https://id.dalia.education/learning-resource/36f3e30a-4ecc-4674-a916-015fcf5dd84e> a ec:EducationalResource ;
+    dcterms:description "Unsere Gesprächspartnerin für diese RaDiHum20-Folge ist für uns keine Unbekannte, denn wir durften sie schon einmal hier begrüßen: Jacqueline Klusik-Eckert vom Podcast #arthistoCast – der Podcast zur Digitalen Kunstgeschichte. Ihr Podcast entstand aus der Frage heraus, wie man aktuelle Themen der (digitalen) Kunstgeschichte unter die Leute bringen kann und wie man mehr Communityaktivität fördern kann. Jacqueline bedauert, dass der Nachwuchs an Kunsthistoriker*innen immer mehr schrumpft und sieht einen Grund dafür in der fehlenden Wissenschaftskommunikation und Außenwirkung des Faches. Deshalb spricht sie in ihrem Podcast über aktuelle Themen, wie Wissenschaftsmanagement, Kunstannotation, KI- und Kunstgeschichte und digitale Infrastrukturen. Ihre Zielgruppe sind alle Interessierten und vor allem bisher nicht-digitale Kunsthistoriker*innen. Moderation: Jonathan D. Geiger, Lisa Kolodzie, Jascha Schmitz. Gäste: Jacqueline Klusik-Eckert." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "RaDiHum20 spricht mit Jacqueline Klusik-Eckert vom Podcast #arthistoCast" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+            schema:familyName "Schmitz" ;
+            schema:givenName "Jascha" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+                schema:familyName "Schmitz" ;
+                schema:givenName "Jascha" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] ) ;
+    schema:datePublished "2024-01-20"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Digitalisierung",
+        "Kunstgeschichte",
+        "Podcast",
+        "Wissenschaftskommunikation" ;
+    schema:url <https://radihum20.de/arthistocast/> .
+
+<https://id.dalia.education/learning-resource/3dba13fc-5e3d-4732-a784-6104796398d0> a ec:EducationalResource ;
+    dcterms:description "Wir schreiben das Jahr 2021: Es ist das erste Jahr in der DHd-Zeitgeschichte, in der keine Konferenz in Präsenz stattfinden. Über dieses und viele weitere Themen sprechen wir vom Podcast RaDiHum20 in unserer aktuellen Folge mit einem ganz besonderen Gast: Peter Gietz. Er ist eines der Gründungsmitglieder des DHd-Verbands und hat in den letzten Jahren die deutschsprachige DH-Landschaft maßgeblich mitgestaltet. Neben seiner langjährigen Tätigkeit als Schatzmeister des DHd ist Peter zudem auch Geschäftsführer in seinem Unternehmen DAASI International, das sich seit seiner Gründung immer im forschungsnahen Bereich bewegt hat. Moderation: Jonathan D. Geiger, Lisa Kolodzie, Patrick Toschka, Mareike Schumacher. Gäste: Peter Gietz." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "RaDiHum20 spricht mit Peter Gietz" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-2470-4590" ;
+            schema:familyName "Toschka" ;
+            schema:givenName "Patrik" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-2470-4590" ;
+                schema:familyName "Toschka" ;
+                schema:givenName "Patrik" ] ) ;
+    schema:datePublished "2021-04-20"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Geschichte",
+        "Podcast" ;
+    schema:url <https://radihum20.de/peter-gietz/> .
+
+<https://id.dalia.education/learning-resource/3eceaf43-2009-4b34-919e-11d8a390b3b0> a ec:EducationalResource ;
+    dcterms:description "In der fünften Folge der 4. Staffel des Podcasts RaDiHum20, die wir in Vorbereitung auf die Jahreskonferenz der digitalen Geisteswissenschaften im deutschsprachigen Raum (DHd2023) aufgenommen haben, hat Mareike die beiden Convener der DHd-AG Digitales Publizieren zu Gast, Michael Dahnke und Timo Steyer. Moderation: Mareike Schumacher. Gäste: Michael Dahnke, Timo Steyer." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Mareike von RaDiHum20 spricht mit Michael Dahnke und Timo Steyer von der AG Digitales Publizieren über die DHd2023" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+            schema:familyName "Schmitz" ;
+            schema:givenName "Jascha" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+                schema:familyName "Schmitz" ;
+                schema:givenName "Jascha" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] ) ;
+    schema:datePublished "2023-03-09"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Digitalisierung",
+        "Open Access",
+        "Podcast",
+        "Publikation" ;
+    schema:url <https://radihum20.de/mareike-spricht-mit-michael-dahnke-und-timo-steyer-von-der-ag-digitales-publizieren-ueber-die-dhd2023/> .
+
+<https://id.dalia.education/learning-resource/494849d0-fb04-48a1-a066-c374ad4034ab> a ec:EducationalResource ;
+    dcterms:description "In dieser neuen Folge sprechen wir vom Podcast RaDiHum20 mit Doreen Siegfried vom Podcast „The Future is Open Science“. Doreen ist ursprünglich 2018 zum Podcasten gekommen. Ihr Thema: Open Science in der Praxis. In dieser Folge teilt sie ihre tiefgreifenden Einblicke in das Thema und ihre persönlichen Erfahrungen mit dem Medium Podcast mit uns. Moderation: Jonathan D. Geiger, Lisa Kolodzie, Mareike Schumacher. Gäste: Doreen Siegfried." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "RaDiHum20 spricht mit Doreen Siegfried vom Podcast “The Future is Open Science”" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+            schema:familyName "Schmitz" ;
+            schema:givenName "Jascha" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+                schema:familyName "Schmitz" ;
+                schema:givenName "Jascha" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] ) ;
+    schema:datePublished "2023-12-20"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Open Science",
+        "Podcast",
+        "Wissenschaftskommunikation" ;
+    schema:url <https://radihum20.de/the-future-is-open-science/> .
+
+<https://id.dalia.education/learning-resource/4c16c247-35f8-4873-8341-444c2b2bbe25> a ec:EducationalResource ;
+    dcterms:description "In dieser Folge interviewt Jascha vom Podcast RaDiHum20 Rabea Kleymann und Jonathan als Convenor*innen der DHd-AG Digital Humanities Theorie auf die AG und die DHd2023 hin. 2020 waren beide Convenor*innen bereits schonmal bei RaDiHum20 zu Gast, damals war die AG noch recht frisch gegründet. Die AG widmet sich der Theoriearbeit und -bildung in und für die Digital Humanities Community und versteht sich als Plattform, die sich an den Werten der Transparenz, Offenheit und Zugänglichkeit orientiert. Das Motto der DHd2023 lässt sich also auf mehreren Ebenen in der Arbeit der AG wiederfinden. Auch folgt sie keiner einzelnen Schule, sondern schöpft große Teile ihrer Produktivkraft aus der Pluralität der Perspektiven und Ansätze. Moderation: Jascha Schmitz. Gäste: Jonathan D. Geiger, Rabea Kleymann." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Jascha von RaDiHum20 spricht mit Rabea Kleymann und Jonathan D. Geiger von der AG Digital Humanities Theorie über die DHd2023" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+            schema:familyName "Schmitz" ;
+            schema:givenName "Jascha" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+                schema:familyName "Schmitz" ;
+                schema:givenName "Jascha" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] ) ;
+    schema:datePublished "2023-03-08"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Podcast",
+        "Theorie",
+        "Wissenschaftstheorie" ;
+    schema:url <https://radihum20.de/jascha-spricht-mit-rabea-kleymann-und-jonathan-d-geiger-von-der-ag-digital-humanities-theorie-ueber-die-dhd2023/> .
+
+<https://id.dalia.education/learning-resource/6db06153-63cc-4dc6-8f14-dae98b9a9a2d> a ec:EducationalResource ;
+    dcterms:description "Wir vom Podcast RaDiHum20 eröffnen feierlich die erste Folge unserer neuen, 5. Staffel! In dieser Staffel sprechen wir mit anderen Wissenschafts-Podcastern und für die erste Folge konnten wir ganz besondere Gäste gewinnen: Carolin Hahn und Jens-Martin Loebel vom Podcast Digitale Wissenschaft. Carolin und Jens podcasten – wie wir – viel zum Thema Digital Humanities, aber sie interessiert, wie ihr Podcast-Titel schon nahelegt, alles rund um Digitalität in den Wissenschaften. Sie verraten uns, mit welchen Formaten sie bereits experimentiert haben, wer bei Ihnen schon alles zu Gast war und was sie in Zukunft gerne noch alles probieren möchten. Moderation: Jonathan D. Geiger, Lisa Kolodzie, Mareike Schumacher, Jascha Schmitz. Gäste: Carolin Hahn, Jens-Martin Loebel." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "RaDiHum20 spricht mit Carolin Hahn und Jens-Martin Loebel vom Podcast “Digitale Wissenschaft”" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+            schema:familyName "Schmitz" ;
+            schema:givenName "Jascha" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+                schema:familyName "Schmitz" ;
+                schema:givenName "Jascha" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] ) ;
+    schema:datePublished "2023-10-20"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Digitalisierung",
+        "Podcast",
+        "Wissenschaftskommunikation",
+        "digital turn" ;
+    schema:url <https://radihum20.de/digitale-wissenschaft/> .
+
+<https://id.dalia.education/learning-resource/82c3b889-4ac9-4a0e-98d1-27b221f48bc4> a ec:EducationalResource ;
+    dcterms:description "Für die heutige Folge konnten wir vom Podcast RaDiHum20 die Convenor der DHd AG Datenzentren Katrin Moeller und Ulrike Wuttke gewinnen. Das Interview drehte sich um die Entwicklung und Aufgabenbereiche der AG und um das Thema Forschungsdaten und -management, Langzeitarchivierung, Kompetenzvermittlung und noch vieles mehr. Moderation: Jonathan D. Geiger, Lisa Kolodzie, Patrick Toschka, Mareike Schumacher. Gäste: Katrin Moeller, Ulrike Wuttke." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "RaDiHum20 spricht mit der AG Datenzentren" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-2470-4590" ;
+            schema:familyName "Toschka" ;
+            schema:givenName "Patrik" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-2470-4590" ;
+                schema:familyName "Toschka" ;
+                schema:givenName "Patrik" ] ) ;
+    schema:datePublished "2021-01-20"^^xsd:date ;
+    schema:keywords "Daten",
+        "Datenzentrum",
+        "Digital Humanities",
+        "Forschungsdaten",
+        "Forschungsdatenmanagement",
+        "Podcast" ;
+    schema:url <https://radihum20.de/ag-datenzentren/> .
+
+<https://id.dalia.education/learning-resource/82f4007e-bf66-471d-9a17-11e5664b3775> a ec:EducationalResource ;
+    dcterms:description "Vor unserer Sommerpause haben wir nochmal eine ganz besondere Folge für euch an den Start gebracht, mit der wir vom Podcast RaDiHum20 auch unsere 5. Staffel (vorerst) abschließen werden. Für die Folge haben wir mit drei Kolleg*innen vom Podcast Doctor it! zum Podcasten generell, zu Wissenschaftskommunikation und der Unterstützung von Doktorandinnen und Doktoranden mittels Podcasts gesprochen. Anders als üblich führen wir das Interview auf Englisch. Moderation: Jonathan D. Geiger, Mareike Schumacher, Jascha Schmitz. Gäste: Emily Genatowski, Christian Lendl, Martin Pokorny." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "RaDiHum20 spricht mit Martin, Emily und Christian vom Podcast Doctor it!" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+            schema:familyName "Schmitz" ;
+            schema:givenName "Jascha" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+                schema:familyName "Schmitz" ;
+                schema:givenName "Jascha" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] ) ;
+    schema:datePublished "2024-06-20"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Podcast",
+        "Promotion",
+        "Wissenschaftskommunikation" ;
+    schema:url <https://radihum20.de/doctor-it/> .
+
+<https://id.dalia.education/learning-resource/8bf1e236-e2a5-41ec-8fac-525059e67346> a ec:EducationalResource ;
+    dcterms:description "In der ersten Kurzfolge, die wir vom Podcast RaDiHum20 zum Eingrooven auf die DHd2023 vorbereitet haben, spricht Jonathan mit Gernot Howanitz von der DHd AG Film und Video. Es geht vor allem darum, zu erfahren, inwiefern das Konferenzthema der DHd2023 “Open Humanities und Open Culture” für die Arbeit der AG von Bedeutung ist. Es geht aber auch darum, inwiefern die Öffnung gerade bei der Arbeit mit Filmdaten auch problematisch sein kann und inwiefern man manchmal an Grenzen stößt. Die gibt es allerdings nicht, wenn es um Mitarbeit in der AG geht. Forschende aller Fachbereiche sind willkommen, einzige Voraussetzung ist das Interesse an der Arbeit mit audiovisuellen Daten. So sind beispielsweise auch Forschende, die sich auf Filmmusik spezialisiert haben, sehr willkommen. Moderation: Jonathan D. Geiger. Gäste: Gernot Howanitz." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Jonathan von RaDiHum20 spricht mit Gernot Howanitz von der AG Film und Video über die DHd2023" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+            schema:familyName "Schmitz" ;
+            schema:givenName "Jascha" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+                schema:familyName "Schmitz" ;
+                schema:givenName "Jascha" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] ) ;
+    schema:datePublished "2023-03-06"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Film",
+        "Filmwissenschaft",
+        "Medien",
+        "Podcast",
+        "Video" ;
+    schema:url <https://radihum20.de/jonathan-spricht-mit-gernot-howanitz-von-der-ag-film-und-video-ueber-die-dhd2023/> .
+
+<https://id.dalia.education/learning-resource/8c891fa4-e927-4b9f-98ab-4ee18161598c> a ec:EducationalResource ;
+    dcterms:description "In dieser Folge sprechen wir vom Podcast RaDiHum20 mit Melanie Seltmann und Mareike Schumacher über die DHd-AG digitale Wissenschaftskommunikation und Public Humanities und ihr Verhältnis zum Motto der DHd2023 Jahreskonferenz “Open Humanities, Open Culture”. Die Themen Wissenschaftskommunikation und auch Citizen Science gibt es schon länger, auch in den Geisteswissenschaften, allerdings gab es lange noch Vorbehalte und Umsetzungsschwierigkeiten. Erst in den letzten Jahren hat das Thema einen massiven Aufschwung erfahren (insbesondere an Relevanz und Anerkennung), sodass die Arbeitsgruppe eine Plattform des Austausches schaffen will. Wie kann man gute Wissenschaftskommunikation betreiben? Was sind Mehrwerte, die Öffentlichkeit an der eigenen Forschung zu beteiligen? Was sind hilfreiche Tools und bewährte Vorgehensweisen? Diesen und ähnlichen Fragen widmet sich die AG und das Motto der diesjährigen Jahreskonferenz passt perfekt für ihren Auftakt. Auch aktuelle Herausforderungen bei der Wissenschaftskommunikation und Citizen Science Methoden sollen in der AG diskutiert werden, beispielsweise das Thema der wissenschaftlichen Reputierung und auch, inwiefern Forschungseinrichtungen Unterstützung leisten (können). Moderation: Jonathan D. Geiger. Gäste: Melanie Seltmann, Mareike Schumacher." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Jonathan von RaDiHum20 spricht mit Melanie Seltmann und Mareike Schumacher von der AG digitale Wissenschaftskommunikation und Public Humanities über die DHd2023" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+            schema:familyName "Schmitz" ;
+            schema:givenName "Jascha" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+                schema:familyName "Schmitz" ;
+                schema:givenName "Jascha" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] ) ;
+    schema:datePublished "2023-03-08"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Open Humanities",
+        "Open Science",
+        "Podcast",
+        "Wissenschaftskommunikation" ;
+    schema:url <https://radihum20.de/jonathan-spricht-mit-melanie-seltmann-und-mareike-schumacher-von-der-ag-digitale-wissenschaftskommunikation-und-public-humanities-ueber-die-dhd2023/> .
+
+<https://id.dalia.education/learning-resource/92505c24-b4d1-45b3-9f7e-bae5825242c6> a ec:EducationalResource ;
+    dcterms:description "RaDiHum20 hat mit den beiden Convenorn der DHd AG OCR, also Optical Character Recognition, Elisabeth Engl und Christian Reul gesprochen. Es ging um die AG, ihre Gründung und Entwicklung, die Technologie der optischen Zeichenerkennung und ihrer Relevanz für die Digital Humanities, sowie um die AG Eventserie auf der vDHd2021. Moderation: Jonathan D. Geiger, Lisa Kolodzie, Patrick Toschka, Mareike Schumacher. Gäste: Elisabeth Engl, Christian Reul." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "RaDiHum20 spricht mit der AG OCR" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-2470-4590" ;
+            schema:familyName "Toschka" ;
+            schema:givenName "Patrik" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-2470-4590" ;
+                schema:familyName "Toschka" ;
+                schema:givenName "Patrik" ] ) ;
+    schema:datePublished "2021-09-20"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Digitalisierung",
+        "OCR",
+        "Optical Character Recognition",
+        "Podcast" ;
+    schema:url <https://radihum20.de/ocr/> .
+
+<https://id.dalia.education/learning-resource/93d43f45-0c9f-4a73-bc6d-2b83139afdd5> a ec:EducationalResource ;
+    dcterms:description "In unserer Februar-Folge haben wir vom Podcast RaDiHum20 für euch die beiden Convenor der AG Zeitungen und Zeitschriften im DHd Nanette Rißler-Pipka und Torsten Roeder interviewt. Moderation: Jonathan D. Geiger, Lisa Kolodzie, Patrick Toschka, Mareike Schumacher. Gäste: Nanette Rißler-Pipka, Torsten Roeder." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "RaDiHum20 spricht mit der AG Zeitungen und Zeitschriften" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-2470-4590" ;
+            schema:familyName "Toschka" ;
+            schema:givenName "Patrik" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-2470-4590" ;
+                schema:familyName "Toschka" ;
+                schema:givenName "Patrik" ] ) ;
+    schema:datePublished "2021-02-20"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Edition",
+        "Podcast",
+        "Zeitschrift",
+        "Zeitung" ;
+    schema:url <https://radihum20.de/ag-zeitungen-und-zeitschriften/> .
+
+<https://id.dalia.education/learning-resource/a31d02a0-4c82-4b09-a7f6-d34459981cf1> a ec:EducationalResource ;
+    dcterms:description "In der dritten Folge unserer 4. Staffel, die wir vom Podcast RaDiHum20 zur Einstimmung auf die Jahreskonferenz der digitalen Geisteswissenschaften im deutschsprachigen Raum (DHd2023) aufgenommen haben, spricht Jonathan mit Marina Lemaire und Sibylle Söring, den Convenerinnen der DHd AG Datenzentren. Zunächst erzählen uns beide etwas über die Geschichte und die Ziele der AG und verweisen für einen tieferen Einblick noch einmal auf eine unserer vergangenen Folgen, in der die ehemaligen Convenorinnen der AG, Katrin Moeller und Ulrike Wuttke, bereits zu Gast waren. Schon seit ihrem Entstehen 2014 ist das diesjährige Konferenzthema “Open Humanities, Open Culture” auch in der AG Datenzentren präsent und wird auf technischer Ebene und in eigenen Publikationen bewusst praktiziert. Sie sprechen außerdem über den Stellenwert von Openness in den DH und welche organisatorischen, technischen und strukturellen Herausforderungen auch im Rahmen der AG Datenzentren – grundsätzlich im engen Gespräch mit Forschenden und ihren konkreten Problemen – diskutiert und vorangebracht werden. Moderation: Jonathan D. Geiger. Gäste: Marina Lemaire, Sibylle Söring." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Jonathan von RaDiHum20 spricht mit Marina Lemaire und Sibylle Söring von AG Datenzentren über die DHd2023" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+            schema:familyName "Schmitz" ;
+            schema:givenName "Jascha" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+                schema:familyName "Schmitz" ;
+                schema:givenName "Jascha" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] ) ;
+    schema:datePublished "2023-03-07"^^xsd:date ;
+    schema:keywords "Daten",
+        "Datenzentrum",
+        "Digital Humanities",
+        "Forschungsdaten",
+        "Forschungsdatenmanagement",
+        "Podcast" ;
+    schema:url <https://radihum20.de/jonathan-spricht-mit-marina-lemaire-und-sibylle-soering-von-ag-datenzentren-ueber-die-dhd2023/> .
+
+<https://id.dalia.education/learning-resource/a9af5fce-ab9e-41fa-8d6f-027f4ddd98e5> a ec:EducationalResource ;
+    dcterms:description "Gernot Howanitz ist Convenor der DHd AG Film und Video und berichtet uns im Interview mit dem Podcast RaDiHum20 von der Gründung und Entwicklung der AG, den Methoden und Herausforderungen der digitalen Filmwissenschaft und von der Komplexität des Mediums, die es nicht nur erlaubt, sondern auch notwendig werden lässt, dass sich so viele wie möglich beteiligen. Moderation: Jonathan D. Geiger, Lisa Kolodzie, Patrick Toschka, Mareike Schumacher. Gäste: Gernot Howanitz." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "RaDiHum20 spricht mit der AG Film und Video" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-2470-4590" ;
+            schema:familyName "Toschka" ;
+            schema:givenName "Patrik" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-2470-4590" ;
+                schema:familyName "Toschka" ;
+                schema:givenName "Patrik" ] ) ;
+    schema:datePublished "2021-05-20"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Film",
+        "Filmwissenschaft",
+        "Medien",
+        "Podcast",
+        "Video" ;
+    schema:url <https://radihum20.de/ag-film-und-video/> .
+
+<https://id.dalia.education/learning-resource/af0652ea-6760-420d-9ee4-21ff7d621267> a ec:EducationalResource ;
+    dcterms:description "In dieser Folge unserer Kurzinterviews mit Convenor*Innen der Arbeitsgemeinschaften des DHd-Verbandes, die wir vom Podcast RaDiHum20 in Vorbereitung zur Jahreskonferenz der digitalen Geisteswissenschaften im deutschsprachigen Raum (DHd2023) aufgenommen haben, sind Anne Baillot und Anja Gerber von der AG Greening DH zu Gast. Wir sprechen über die schon seit ihrer Gründung sehr internationale Ausrichtung und Vernetzung der AG, unter anderem ihre Mitwirkung am DHCC Toolkit der Digital Humanities Climate Coalition, das Forscher*innen einen Überblick zur Problematik und vor allem technische Guides für die Umsetzung von klimaschonenden DH-Praktiken bietet. Moderation: Jascha Schmitz. Gäste: Anne Baillot, Anja Gerber." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Jascha von RaDiHum20 spricht mit Anne Baillot und Anja Gerber von der AG Greening DH über die DHd2023" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+            schema:familyName "Schmitz" ;
+            schema:givenName "Jascha" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+                schema:familyName "Schmitz" ;
+                schema:givenName "Jascha" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] ) ;
+    schema:datePublished "2023-03-10"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Greening Digital Humanities",
+        "Nachhaltigkeit",
+        "Podcast",
+        "Ökologie" ;
+    schema:url <https://radihum20.de/jascha-spricht-mit-anne-baillot-und-anja-gerber-von-der-ag-greening-dh-ueber-die-dhd2023/> .
+
+<https://id.dalia.education/learning-resource/b23137a5-553e-4919-84b3-2742b18fcc27> a ec:EducationalResource ;
+    dcterms:description "Für die heutige Folge haben wir uns vom Podcast RaDiHum20 mit Andreas Kuczera und Franziska Diehr von der AG Graphentechnologien des DHd unterhalten. Gesprächsthemen waren die AG selbst, ihre Gründung, Entwicklung und Ziele. Es ging aber auch um verschiedene Arten von Graphentechnologien, ihre Anwendung in den digitalen Geisteswissenschaften und vieles mehr. Moderation: Jonathan D. Geiger, Lisa Kolodzie, Patrick Toschka, Mareike Schumacher. Gäste: Andreas Kuczera, Franziska Diehr." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "RaDiHum20 spricht mit der AG Graphentechnologien" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-2470-4590" ;
+            schema:familyName "Toschka" ;
+            schema:givenName "Patrik" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-2470-4590" ;
+                schema:familyName "Toschka" ;
+                schema:givenName "Patrik" ] ) ;
+    schema:datePublished "2020-09-20"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Graph",
+        "Graphentechnologie",
+        "Podcast" ;
+    schema:url <https://radihum20.de/graphentechnologien/> .
+
+<https://id.dalia.education/learning-resource/bd8d8d51-94da-495a-b63a-c183897265cd> a ec:EducationalResource ;
+    dcterms:description "In dieser Folge spricht Jonathan vom Podcast RaDiHum20 mit Daniel Jettka, einem der Convenor*innen der DHd-AG Research Software Engineering in den Digital Humanities. Auch für diese Arbeitsgruppe spielt das Tagungsthema der DHd2023 “Open Humanities, Open Culture” eine zentrale Rolle: In Bezug auf die Entwicklung von Forschungssoftware lässt sich Offenheit einmal in Bezug auf den Gegenstand, nämlich Software und Code, denken und zum anderen in Bezug auf die Prozesse der Entwicklung. Hieran schließen sich auch Versuche der Offenlegung der Karrierewege von Research Software Engineers in den DH an, die sowohl in Forschungsprojekten, als auch was die Ausbildung und Karrierewege betrifft, einen besonderen Status bei der AG haben. Moderation: Jonathan D. Geiger. Gäste: Daniel Jettka." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Jonathan von RaDiHum20 spricht mit Daniel Jettka von der AG Research Software Engineering in den Digital Humanities über die DHd2023" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+            schema:familyName "Schmitz" ;
+            schema:givenName "Jascha" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+                schema:familyName "Schmitz" ;
+                schema:givenName "Jascha" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] ) ;
+    schema:datePublished "2023-03-09"^^xsd:date ;
+    schema:keywords "Code",
+        "Digital Humanities",
+        "Podcast",
+        "Pogrammieren",
+        "Software Engineering" ;
+    schema:url <https://radihum20.de/jonathan-spricht-mit-daniel-jettka-von-der-ag-research-software-engineering-in-den-digital-humanities-ueber-die-dhd2023/> .
+
+<https://id.dalia.education/learning-resource/ca2db4ba-5da6-4179-b32d-312bd468c87c> a ec:EducationalResource ;
+    dcterms:description "Nach unserer Sonderstaffel (Staffel 6) zur DHd-Konferenz in Passau knüpfen wir vom Podcast RaDiHum20 nochmal an unsere 5. Staffel an. Darum sprechen wir in dieser Folge wieder mit unserer Host-Kollegin Lea Schönberger von einem Wissenschaftskommunikations-Podcast über das Podcasten und weitere spannende Themen. Moderation: Jonathan D. Geiger, Mareike Schumacher, Jascha Schmitz, Lisa Kolodzie. Gäste: Lea Schönberger." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "RaDiHum20 spricht mit Lea Schönberger vom Podcast “Informatik für die moderne Hausfrau”" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+            schema:familyName "Schmitz" ;
+            schema:givenName "Jascha" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+                schema:familyName "Schmitz" ;
+                schema:givenName "Jascha" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] ) ;
+    schema:datePublished "2024-05-20"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Podcast",
+        "Wissenschafskommunikation" ;
+    schema:url <https://radihum20.de/lea-schoenberger/> .
+
+<https://id.dalia.education/learning-resource/e07ec7ad-9433-4084-b593-5053343329a4> a ec:EducationalResource ;
+    dcterms:description "Computerspiele sind für die Digital Humanities ein interessanter und herausfordernder Forschungsgegenstand. Seit Kurzem können sich Forschende darüber auch in einer DHd-AG austauschen. Mit deren Convenor hat Jascha vom Podcast RaDiHum20 im Rahmen unserer DHd2023 Konferenzstaffel gesprochen. Dabei geht es hauptsächlich darum, an welche Grenzen die Forschung zu Computerspielen stoßen kann, denn Offenheit hat hier ganz besondere Dimensionen. Technischer Wandel unterwirft Formate einem raschen Wandel und ältere Spiele sind zum Teil schwer in neue Systeme übertragbar. Der Zugriff auf zeitgenössische Spiele ist hingegen oft durch Urheber- und Nutzungsrechte eingeschränkt. Die DHd AG Spiele ist zwar noch neu und befindet sich in einer Findungsphase, die erste Veröffentlichung steht aber schon bald bevor. Welche Besonderheit diese aufweisen wird und inwiefern diese die (mangelnde) Offenheit symbolisiert, erfahrt ihr in dieser Folge. Moderation: Jascha Schmitz. Gäste: Stefan Höltgen." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Jascha von RaDiHum20 spricht mit Stefan Höltgen von der AG Spiele über die DHd2023" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+            schema:familyName "Schmitz" ;
+            schema:givenName "Jascha" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+                schema:familyName "Schmitz" ;
+                schema:givenName "Jascha" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] ) ;
+    schema:datePublished "2023-03-06"^^xsd:date ;
+    schema:keywords "Computerspiel",
+        "Digital Humanities",
+        "Game",
+        "Podcast",
+        "Spiel" ;
+    schema:url <https://radihum20.de/jascha-spricht-mit-stefan-hoeltgen-von-der-ag-spiele-ueber-die-dhd2023/> .
+
+<https://id.dalia.education/learning-resource/ee36ea71-4652-4b43-9cdc-8a5b44223ffa> a ec:EducationalResource ;
+    dcterms:description "In der jüngsten Folge unseres Podcasts heißen wir vom Podcast RaDiHum20 Matthias Fromm und Konrad Förstner vom Open Science Radio‑Podcast willkommen. Unsere Gäste bringen eine reiche Palette an (Podcast-)Erfahrung mit. Durch einen (mehr oder weniger) Zufall stießen sie vor über 10 Jahren aufeinander. Jetzt, nach über 200 Folgen, gibt es für sie immer noch genug zu erzählen. Auf die Frage, wie die beiden auf die Idee gekommen sind, einen Podcast zu starten, geben beide unterschiedliche Antworten: Konrad betrachtet Podcasts als eine seiner wichtigsten Wissensquellen und möchte daher auch anderen Input bieten. Matthias ist der Ansicht, dass es viele interessante Forschungsergebnisse gäbe, die jedoch nicht an die Öffentlichkeit gelangen. Deshalb möchte er den öffentlichen Diskurs über Open Access und Open Data fördern. Ihr gemeinsames Ziel ist es, Open Science in den Mittelpunkt der Wissenschaft zu rücken, indem sie Paper, Beispielprojekte und Initiativen aufzeigen. Moderation: Jonathan D. Geiger, Lisa Kolodzie, Mareike Schumacher, Jascha Schmitz. Gäste: Matthias Fromm, Konrad Förstner." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "RaDiHum20 spricht mit Matthias Fromm und Konrad Förstner vom Podcast „Open Science Radio“" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+            schema:familyName "Schmitz" ;
+            schema:givenName "Jascha" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+                schema:familyName "Schmitz" ;
+                schema:givenName "Jascha" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] ) ;
+    schema:datePublished "2023-11-20"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Forschungsdaten",
+        "Open Science",
+        "Podcast",
+        "Wissenschaftskommunikation" ;
+    schema:url <https://radihum20.de/open-science-radio/> .
+
+<https://id.dalia.education/learning-resource/f882a967-a46a-4b68-af70-96dbe9c86aa0> a ec:EducationalResource ;
+    dcterms:description "Die 7. Staffel des Podcasts RaDiHum20 widmet sich dem Thema digitales Publizieren und gleich in der ersten Folge begrüßen wir drei Experten, die das Thema seit Jahren in den digitalen Geisteswissenchaften prägen: Timo Steyer, Walter Scholger und Thomas Stäcker. Die Drei waren/sind die Convenor der 10 Jahre alten DHd-AG „Digitales Publizieren“. Moderation: Jonathan D. Geiger, Mareike Schumacher. Gäste: Timo Steyer, Walter Scholger, Thomas Stäcker." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "RaDiHum20 spricht mit Timo, Walter und Thomas von der AG „Digitales Publizieren“" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+            schema:familyName "Schmitz" ;
+            schema:givenName "Jascha" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+                schema:familyName "Schmitz" ;
+                schema:givenName "Jascha" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] ) ;
+    schema:datePublished "2024-09-20"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Digitalisierung",
+        "Open Access",
+        "Podcast",
+        "Pubikation" ;
+    schema:url <https://radihum20.de/radihum20-spricht-mit-timo-walter-und-thomas-von-der-ag-digitales-publizieren/> .
+
+<https://id.dalia.education/learning-resource/fdbe74d8-6be0-4c94-b6d7-3f65ae4fe336> a ec:EducationalResource ;
+    dcterms:description "In dieser Folge unserer Reihe von Kurzinterviews, die wir vom Podcast RaDiHum20 in Vorbereitung und Vorfreude zur Jahreskonferenz der digitalen Geisteswissenschaften im deutschsprachigen Raum (DHd2023) aufgenommen haben, spricht Jonathan mit zwei der Convener*Innen der DHd-AG Multilingual DH, Till Grallert und Cosima Wagner. Moderation: Jonathan D. Geiger. Gäste: Till Grallert, Cosima Wagner." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Jonathan von RaDiHum20 spricht mit Till Grallert und Cosima Wagner von der AG Multilingual DH über die DHd2023" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+            schema:familyName "Schmitz" ;
+            schema:givenName "Jascha" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6971-6758" ;
+                schema:familyName "Schmitz" ;
+                schema:givenName "Jascha" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] ) ;
+    schema:datePublished "2023-03-07"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Mehrsprachigkeit",
+        "Multilingualität",
+        "Podcast",
+        "Sprache" ;
+    schema:url <https://radihum20.de/jonathan-spricht-mit-till-grallert-und-cosima-wagner-von-der-ag-multilingual-dh-ueber-die-dhd2023/> .
+
+<https://id.dalia.education/learning-resource/ff265feb-e514-4494-9ebd-66323f104e20> a ec:EducationalResource ;
+    dcterms:description "Wir vom Podcast RaDiHum20 haben mit Rabea Kleymann und Jonathan Geiger von der DHd AG Digital Humanities Theorie gesprochen. Das war ein Heimspiel, denn Jonathan ist ja nicht nur Convenor der AG, sondern auch Co-Host unserer Show. Unsere Themen heute waren Theorie und Theorielosigkeit in den digitalen Geisteswissenschaften, Begriffe und die Findung einer gemeinsamen Sprache in einem interdisziplinären Feld, Visionen und Aktivitäten der DHd-AG und noch einiges mehr. Moderation: Jonathan D. Geiger, Lisa Kolodzie, Patrick Toschka, Mareike Schumacher. Gäste: Rabea Kleymann, Jonathan D. Geiger." ;
+    dcterms:format "MP3" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "RaDiHum20 spricht mit der AG Digital Humanities Theorie" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+            schema:familyName "Schumacher" ;
+            schema:givenName "Mareike" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-2470-4590" ;
+            schema:familyName "Toschka" ;
+            schema:givenName "Patrik" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+            schema:familyName "Kolodzie" ;
+            schema:givenName "Lisa" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3940-6908" ;
+                schema:familyName "Kolodzie" ;
+                schema:givenName "Lisa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7952-4194" ;
+                schema:familyName "Schumacher" ;
+                schema:givenName "Mareike" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-2470-4590" ;
+                schema:familyName "Toschka" ;
+                schema:givenName "Patrik" ] ) ;
+    schema:datePublished "2020-08-20"^^xsd:date ;
+    schema:keywords "Digital Humanities",
+        "Podcast",
+        "Theorie",
+        "Wissenschaftstheorie" ;
+    schema:url <https://radihum20.de/ag-digital-humanities-theorie/> .
+

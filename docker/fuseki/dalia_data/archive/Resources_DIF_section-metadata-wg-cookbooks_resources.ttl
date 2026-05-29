@@ -1,0 +1,1400 @@
+@prefix bflr: <http://bibfra.me/vocab/relation/> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix citedcat: <https://w3id.org/citedcat-ap/> .
+@prefix dalia-community: <https://id.dalia.education/community/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ec: <https://github.com/tibonto/educor#> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix hcrt: <https://w3id.org/kim/hcrt/> .
+@prefix m4i: <http://w3id.org/nfdi4ing/metadata4ing#> .
+@prefix mo: <https://purl.org/ontology/modalia#> .
+@prefix ns1: <https://dalia.education/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rec: <http://purl.org/ontology/rec/core#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://id.dalia.education/learning-resource/0d9de230-7a7f-497e-ae1a-9cd8efdc2105> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:f010e202-91ed-4e27-9595-355ec352527e ;
+    dcterms:description "Wer nutzt eigentlich die GND? Wie wird sie konkret eingesetzt? Welchen Mehrwert sehen Bibliotheken, Museen, Archive und Forschungsprojekte in der Verknüpfung ihrer Sammlungs- und Forschungsdaten mit der GND?" ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Wer nutzt die GND?  – Portraits der Nutzenden" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/01n7gem85" ;
+            schema:name "DNB" ],
+        [ a schema:Organization ;
+            owl:sameAs <http://www.wikidata.org/entity/Q98271443> ;
+            schema:name "Text+" ] ;
+    mo:hasLearningType bibo:Webpage ;
+    mo:hasMediaType schema:Text ;
+    mo:isNewVersionOf <https://doi.org/10.58079/vjsx> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                owl:sameAs <http://www.wikidata.org/entity/Q98271443> ;
+                schema:name "Text+" ] [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/01n7gem85" ;
+                schema:name "DNB" ] ) ;
+    schema:datePublished "2023"^^xsd:gYear ;
+    schema:keywords "GND",
+        "Gemeinsame Normdatei",
+        "Integrated Authority File",
+        "authority file",
+        "thesaurus" ;
+    schema:url <https://wiki.dnb.de/x/zQ7fEg> .
+
+<https://id.dalia.education/learning-resource/127b3b03-11bf-42ea-97d2-75d22e342c26> a ec:EducationalResource ;
+    dcterms:description "BARTOC unites information about vocabularies and terminology registries to facilitate use of knowledge organization systems." ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/PDDL-1.0> ;
+    dcterms:title "Register of Thesauri, Ontologies and Classification" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n0> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-1562-6922" ;
+            schema:familyName "Atemezing" ;
+            schema:givenName "Ghislain" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-9915-9721" ;
+            schema:familyName "Coen" ;
+            schema:givenName "Gerard" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7613-4123" ;
+            schema:familyName "Voß" ;
+            schema:givenName "Jakob" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6076-9853" ;
+            schema:familyName "Balakrishnan" ;
+            schema:givenName "Uma" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0009-0004-0865-257X" ;
+            schema:familyName "Bitto" ;
+            schema:givenName "Monty" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-2576-1511" ;
+            schema:familyName "Gerber" ;
+            schema:givenName "Anja" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-4560-1478" ;
+            schema:familyName "Kolshus" ;
+            schema:givenName "Kristin" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-5205-6669" ;
+            schema:familyName "Schuchardt" ;
+            schema:givenName "Anne" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8796-3923" ;
+            schema:familyName "Beeken" ;
+            schema:givenName "Jeannine" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3059-8202" ;
+            schema:familyName "Dutta" ;
+            schema:givenName "Biswanath" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-2026-5570" ;
+            schema:familyName "Pons" ;
+            schema:givenName "Amadeu" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-2653-3799" ;
+            schema:familyName "Rüter" ;
+            schema:givenName "Christian" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-5049-0808" ;
+            schema:familyName "Gaab" ;
+            schema:givenName "Sabrina" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0629-0446" ;
+            schema:familyName "Ledl" ;
+            schema:givenName "Andreas" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-4721-7448" ;
+            schema:familyName "Gnoli" ;
+            schema:givenName "Claudio" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6801-6151" ;
+            schema:familyName "Saarikko" ;
+            schema:givenName "Jarmo" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6189-5958" ;
+            schema:familyName "Heggø" ;
+            schema:givenName "Dan Michael O." ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-8985-9991" ;
+            schema:familyName "Park" ;
+            schema:givenName "Ziyoung" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-4093-3393" ;
+            schema:familyName "Paunescu" ;
+            schema:givenName "Mihai" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-5920-8672" ;
+            schema:familyName "Stubkjaer" ;
+            schema:givenName "Erik" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-1019-9151" ;
+            schema:familyName "Arndt" ;
+            schema:givenName "Susanne" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-5737-3906" ;
+            schema:familyName "Hafner" ;
+            schema:givenName "Ralph" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-4087-8227" ;
+            schema:familyName "Peters" ;
+            schema:givenName "Stefan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-9377-6294" ;
+            schema:familyName "Rohrer" ;
+            schema:givenName "David-Benjamin" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-0034-7867" ;
+            schema:familyName "Hedden" ;
+            schema:givenName "Heather" ],
+        [ a schema:Person ;
+            schema:familyName "Blumauer" ;
+            schema:givenName "Andreas" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-5200-0075" ;
+            schema:familyName "Çağdaş" ;
+            schema:givenName "Volkan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-7677-4158" ;
+            schema:familyName "Yoon" ;
+            schema:givenName "So Young" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3935-4642" ;
+            schema:familyName "Papatheodorou" ;
+            schema:givenName "Haralabos" ] ;
+    mo:hasLearningType hcrt:index ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:DataSteward,
+        mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Expert ;
+    schema:author ( [ a schema:Person ;
+                schema:familyName "Blumauer" ;
+                schema:givenName "Andreas" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-1562-6922" ;
+                schema:familyName "Atemezing" ;
+                schema:givenName "Ghislain" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7613-4123" ;
+                schema:familyName "Voß" ;
+                schema:givenName "Jakob" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6076-9853" ;
+                schema:familyName "Balakrishnan" ;
+                schema:givenName "Uma" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-4087-8227" ;
+                schema:familyName "Peters" ;
+                schema:givenName "Stefan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3935-4642" ;
+                schema:familyName "Papatheodorou" ;
+                schema:givenName "Haralabos" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3059-8202" ;
+                schema:familyName "Dutta" ;
+                schema:givenName "Biswanath" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-4721-7448" ;
+                schema:familyName "Gnoli" ;
+                schema:givenName "Claudio" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-4560-1478" ;
+                schema:familyName "Kolshus" ;
+                schema:givenName "Kristin" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-9915-9721" ;
+                schema:familyName "Coen" ;
+                schema:givenName "Gerard" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6189-5958" ;
+                schema:familyName "Heggø" ;
+                schema:givenName "Dan Michael O." ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-8985-9991" ;
+                schema:familyName "Park" ;
+                schema:givenName "Ziyoung" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-7677-4158" ;
+                schema:familyName "Yoon" ;
+                schema:givenName "So Young" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-2026-5570" ;
+                schema:familyName "Pons" ;
+                schema:givenName "Amadeu" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0629-0446" ;
+                schema:familyName "Ledl" ;
+                schema:givenName "Andreas" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-4093-3393" ;
+                schema:familyName "Paunescu" ;
+                schema:givenName "Mihai" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-0034-7867" ;
+                schema:familyName "Hedden" ;
+                schema:givenName "Heather" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8796-3923" ;
+                schema:familyName "Beeken" ;
+                schema:givenName "Jeannine" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-2576-1511" ;
+                schema:familyName "Gerber" ;
+                schema:givenName "Anja" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-5205-6669" ;
+                schema:familyName "Schuchardt" ;
+                schema:givenName "Anne" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-2653-3799" ;
+                schema:familyName "Rüter" ;
+                schema:givenName "Christian" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-9377-6294" ;
+                schema:familyName "Rohrer" ;
+                schema:givenName "David-Benjamin" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-5920-8672" ;
+                schema:familyName "Stubkjaer" ;
+                schema:givenName "Erik" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6801-6151" ;
+                schema:familyName "Saarikko" ;
+                schema:givenName "Jarmo" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0009-0004-0865-257X" ;
+                schema:familyName "Bitto" ;
+                schema:givenName "Monty" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-5737-3906" ;
+                schema:familyName "Hafner" ;
+                schema:givenName "Ralph" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-5049-0808" ;
+                schema:familyName "Gaab" ;
+                schema:givenName "Sabrina" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-1019-9151" ;
+                schema:familyName "Arndt" ;
+                schema:givenName "Susanne" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-5200-0075" ;
+                schema:familyName "Çağdaş" ;
+                schema:givenName "Volkan" ] ) ;
+    schema:keywords "terminology" ;
+    schema:url <https://bartoc.org/> .
+
+<https://id.dalia.education/learning-resource/1fa5e48b-464c-4a33-995d-993ee7c54139> a ec:EducationalResource ;
+    dcterms:description "This primer is the best starting point for understanding the Dublin Core Tabular Application Profiles (DCTAP) model. With just the primer you should be able to create your first DCTAP. DCTAP is the product of the DCMI Application Profiles Interest Group. This and other work products of the group can be found at the DC TAP github repository (https://github.com/dcmi/dctap)." ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "DC Tabular Application Profiles (DC TAP) - Primer" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n06> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            schema:name "DCMI Application Profiles Working Group" ] ;
+    mo:hasLearningType bibo:Webpage ;
+    mo:hasMediaType schema:Text ;
+    mo:requiresProficiencyLevel mo:Expert,
+        mo:Proficient ;
+    schema:author ( [ a schema:Organization ;
+                schema:name "DCMI Application Profiles Working Group" ] ) ;
+    schema:datePublished "2023"^^xsd:gYear ;
+    schema:keywords "application profile" ;
+    schema:url <https://dcmi.github.io/dctap/TAPprimer.html> ;
+    schema:version "January 26, 2023 - First version" .
+
+<https://id.dalia.education/learning-resource/2f12c256-d251-4465-8204-261a104e7c51> a ec:EducationalResource ;
+    dcterms:description "These video tutorials provide an introduction to the field of metadata. Different aspects regarding the different types and schemes are shown. The playlist also illustrates the description of the data using DataCite as an example.  Finally, the group of authority data is discussed." ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-3.0> ;
+    dcterms:title "Metadaten" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n0> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            schema:name "Forschungsdatenmanagement Bayern" ] ;
+    mo:hasMediaType schema:VideoObject ;
+    mo:hasTargetGroup mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                schema:name "Forschungsdatenmanagement Bayern" ] ) ;
+    schema:datePublished "2021"^^xsd:gYear ;
+    schema:keywords "metadata" ;
+    schema:url <https://www.youtube.com/playlist?list=PL9ZaxDtkP6tz9dIpvNyLNj_xsUgdkMdy7> .
+
+<https://id.dalia.education/learning-resource/34375e88-6a6b-4cb8-9929-5c867459dd7d> a ec:EducationalResource ;
+    dcterms:description "Examples of extensions and other complex uses of DCTAP. The Cookbook is and will remain a work in progress." ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "DC Tabular Application Profiles (DCTAP) Cookbook" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n06> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            schema:name "DCMI Application Profiles Working Group" ] ;
+    mo:hasLearningType bibo:Webpage,
+        mo:Cookbook ;
+    mo:hasMediaType schema:Text ;
+    mo:requiresProficiencyLevel mo:Expert,
+        mo:Proficient ;
+    schema:author ( [ a schema:Organization ;
+                schema:name "DCMI Application Profiles Working Group" ] ) ;
+    schema:datePublished "2023"^^xsd:gYear ;
+    schema:keywords "application profile" ;
+    schema:url <https://dcmi.github.io/dctap/DCTAP-Cookbook.html> ;
+    schema:version "July 6, 2023" .
+
+<https://id.dalia.education/learning-resource/405d575f-d510-4f9f-b14c-f10fabb456b4> a ec:EducationalResource ;
+    dcterms:description "Online resource for the Life Sciences with recipes that help you to make and keep data Findable, Accessible, Interoperable and Reusable (FAIR)." ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "FAIR Cookbook (chap. 3, 4, 5)" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n300> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            schema:name "FAIRplus" ] ;
+    mo:hasLearningType bibo:Webpage,
+        mo:Cookbook ;
+    mo:hasMediaType schema:Text ;
+    schema:author ( [ a schema:Organization ;
+                schema:name "FAIRplus" ] ) ;
+    schema:keywords "metadata",
+        "terminology" ;
+    schema:url <https://faircookbook.elixir-europe.org/content/home.html>,
+        <https://w3id.org/faircookbook/FCB019>,
+        <https://w3id.org/faircookbook/FCB020>,
+        <https://w3id.org/faircookbook/FCB021> .
+
+<https://id.dalia.education/learning-resource/4328f51e-adc1-4bd4-8415-cbd327863ea6> a ec:EducationalResource ;
+    dcterms:description "A curated, informative and educational resource on data and metadata standards, inter-related to databases and data policies." ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "FAIRshairing.org" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n0> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            schema:name "FAIRsharing" ] ;
+    mo:hasLearningType bibo:Webpage ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:DataSteward,
+        mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Competent ;
+    schema:author ( [ a schema:Organization ;
+                schema:name "FAIRsharing" ] ) ;
+    schema:keywords "database",
+        "metadata" ;
+    schema:url <https://fairsharing.org/> .
+
+<https://id.dalia.education/learning-resource/4374117c-1a89-424b-ae77-c15076d399f3> a ec:EducationalResource ;
+    dcterms:description "While data curators, and increasingly researchers, know that good metadata is key for research data access and re-use, figuring out precisely what metadata to capture and how to capture it is a complex task. Fortunately, many academic disciplines have supported initiatives to formalise the metadata specifications the community deems to be required for data re-use. This page provides links to information about these disciplinary metadata standards, including profiles, tools to implement the standards, and use cases of data repositories currently implementing them." ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "Disciplinary Metadata | DCC" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n0>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n0128>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n26>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n42>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n43>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n44> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            schema:name "DCC Digital Curation Centre" ] ;
+    mo:hasLearningType bibo:Webpage ;
+    mo:hasMediaType schema:Text ;
+    mo:requiresProficiencyLevel mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                schema:name "DCC Digital Curation Centre" ] ) ;
+    schema:keywords "classification scheme",
+        "metadata" ;
+    schema:url <https://www.dcc.ac.uk/guidance/standards/metadata> .
+
+<https://id.dalia.education/learning-resource/4ad26087-389d-42d2-8bb5-4c8d9fb24783> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:c5d22eff-ec20-409d-b8d3-aa4e9cc2d6cb ;
+    dcterms:description "Data management for Plant Sciences." ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "The Research Data Management toolkit for Life Sciences" ;
+    rec:recommender dalia-community:c5d22eff-ec20-409d-b8d3-aa4e9cc2d6cb,
+        dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    fabio:hasSubtitle "Plant Sciences" ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/044rwnt51" ;
+            schema:name "ELIXIR" ] ;
+    mo:hasLearningType bibo:Webpage ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/044rwnt51" ;
+                schema:name "ELIXIR" ] ) ;
+    schema:keywords "botany" ;
+    schema:url <https://rdmkit.elixir-europe.org/plant_sciences> .
+
+<https://id.dalia.education/learning-resource/4c75adad-4e33-4388-9dba-3fe1e3a97659> a ec:EducationalResource ;
+    dcterms:description "As a FAIR-enabling resource, ADVANCE's form is machine-actionable and follows domain-relevant community standards. Its aim is to comprehensively describe data from terrestrial, freshwater and marine ecosystems, and so allow their integration and reuse." ;
+    dcterms:format "HTML",
+        "JSON" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "ADVANCE" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    fabio:hasSubtitle "metadata template for biodiversity monitoring" ;
+    ns1:authorUnordered [ a schema:Organization ;
+            schema:name "Helmholtz Metadata Collaboration (HMC)" ] ;
+    mo:hasLearningType mo:BestPractices ;
+    mo:hasMediaType mo:Code,
+        schema:Text ;
+    mo:hasTargetGroup mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Competent ;
+    schema:author ( [ a schema:Organization ;
+                schema:name "Helmholtz Metadata Collaboration (HMC)" ] ) ;
+    schema:keywords "biodiversity",
+        "metadata" ;
+    schema:url <https://cedar.metadatacenter.org/dashboard?folderId=https:%2F%2Frepo.metadatacenter.org%2Ffolders%2F909ec64b-8a57-401a-a98a-812d7af2494b>,
+        <https://www.ufz.de/index.php?en=48268> .
+
+<https://id.dalia.education/learning-resource/5508bdc3-90a5-4ab6-9c0b-c2528317264e> a ec:EducationalResource ;
+    dcterms:description "A basic list of elements with their definitions. These elements support the specification of Dublin Core Tabular Application Profiles (DC TAP). They may be used to create a table or spreadsheet that defines an application profile." ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "Elements for DC Tabular Application Profiles" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n06> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            schema:name "DCMI Application Profiles Working Group" ] ;
+    mo:hasLearningType bibo:Webpage ;
+    mo:hasMediaType schema:Text ;
+    mo:requiresProficiencyLevel mo:Expert,
+        mo:Proficient ;
+    schema:author ( [ a schema:Organization ;
+                schema:name "DCMI Application Profiles Working Group" ] ) ;
+    schema:datePublished "2022"^^xsd:gYear ;
+    schema:keywords "application profile" ;
+    schema:url <https://dcmi.github.io/dctap/TAPelements.html> ;
+    schema:version "December 16, 2022" .
+
+<https://id.dalia.education/learning-resource/69aebdfe-73f6-4bac-85d7-047dd8cec076> a ec:EducationalResource ;
+    dcterms:description "Metadata for instruments: This white paper provides recommendations for the use of instrument Persistent Identifiers (PIDs) for institutional instrument providers, such as bodies who fund, maintain or provide instruments, or are responsible for maintaining information about or data from instruments. Institutional instrument providers will be responsible for maintaining and publishing instrument PIDs locally, potentially on behalf of other institutional instrument providers. These recommendations are compiled through the activities of the Research Data Alliance (RDA) Persistent Identification of Instruments (PIDINST) Working Group.[1] This document is expected to evolve with new user requirements and working group activities." ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "PIDINST White Paper (chap. 4, 5)" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n0> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/05dc6w374" ;
+            schema:name "Research Data Alliance (RDA)" ] ;
+    mo:hasLearningType bibo:Webpage ;
+    mo:hasMediaType schema:Text ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/05dc6w374" ;
+                schema:name "Research Data Alliance (RDA)" ] ) ;
+    schema:keywords "metadata",
+        "provenance" ;
+    schema:url <https://docs.pidinst.org/en/latest/white-paper/index.html>,
+        <https://docs.pidinst.org/en/latest/white-paper/metadata-schema-recommendations.html>,
+        <https://docs.pidinst.org/en/latest/white-paper/metadata-schema.html> .
+
+<https://id.dalia.education/learning-resource/7563b2d7-5a18-48c6-a8ee-032cb32e6336> a ec:EducationalResource ;
+    dcterms:description "The RDA Metadata Standards Catalog is a collaborative, open directory of metadata standards applicable to research data. It is offered to the international academic community to help address infrastructure challenges." ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC0-1.0> ;
+    dcterms:title "RDA Metadata Standards Directory" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n0>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n06>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n222>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n26>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n3>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n33>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n34>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n4>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n9> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/05dc6w374" ;
+            schema:name "Research Data Alliance (RDA)" ] ;
+    mo:hasLearningType hcrt:index ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Competent ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/05dc6w374" ;
+                schema:name "Research Data Alliance (RDA)" ] ) ;
+    schema:keywords "metadata" ;
+    schema:url <https://rdamsc.bath.ac.uk/> .
+
+<https://id.dalia.education/learning-resource/76261e44-e790-4be0-b1c0-a488e1330b68> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:7783f91b-2496-4c1b-97ef-9db578d237ca ;
+    dcterms:description "A flyer for 56. Jahrestreffen Deutscher Katalytiker (Weimar, 15-17 / 3 / 2023 ) describing main the creation and curation of vocabularies within NFDI4Cat." ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Development of catalysis-related vocabularies" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n0>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n40> ;
+    fabio:hasSubtitle "An overview" ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6242-2167" ;
+            schema:familyName "Moustakas" ;
+            schema:givenName "Nikolaos G." ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-5898-1820" ;
+            schema:familyName "Linke" ;
+            schema:givenName "David" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3270-6895" ;
+            schema:familyName "Dörr" ;
+            schema:givenName "Mark" ] ;
+    mo:hasLearningType hcrt:other ;
+    mo:hasMediaType schema:ImageObject,
+        schema:Text ;
+    mo:hasTargetGroup mo:DataSteward,
+        mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Competent ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6242-2167" ;
+                schema:familyName "Moustakas" ;
+                schema:givenName "Nikolaos G." ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3270-6895" ;
+                schema:familyName "Dörr" ;
+                schema:givenName "Mark" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-5898-1820" ;
+                schema:familyName "Linke" ;
+                schema:givenName "David" ] ) ;
+    schema:datePublished "2023-03-14"^^xsd:date ;
+    schema:fileSize "5.9 MB" ;
+    schema:keywords "NFDI4Cat",
+        "vocabulary" ;
+    schema:url <https://zenodo.org/record/7669133#.ZCP_UfbP3t4> ;
+    schema:version "1" .
+
+<https://id.dalia.education/learning-resource/767c763c-7cd1-4d43-84e0-9c8845a37fe8> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:c5d22eff-ec20-409d-b8d3-aa4e9cc2d6cb ;
+    dcterms:description "The ELIXIR Research Data Management Kit (RDMkit) has been designed to guide life scientists in their efforts to better manage their research data following the FAIR Principles. It is based on the various steps of the data lifecycle, although not all the steps will be relevant to everyone. RDMkit is recommended in the Horizon Europe Program Guide (https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/guidance/programme-guide_horizon_en.pdf) as the \"resource for Data Management guidelines and good practices for the Life Sciences.\"" ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "The Research Data Management toolkit for Life Sciences" ;
+    rec:recommender dalia-community:c5d22eff-ec20-409d-b8d3-aa4e9cc2d6cb ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n42> ;
+    fabio:hasSubtitle "Best practices and guidelines to help you make your data FAIR (Findable, Accessible, Interoperable and Reusable)" ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/044rwnt51" ;
+            schema:name "ELIXIR" ] ;
+    mo:hasLearningType bibo:Webpage ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/044rwnt51" ;
+                schema:name "ELIXIR" ] ) ;
+    schema:keywords "life sciences" ;
+    schema:url <https://rdmkit.elixir-europe.org/> .
+
+<https://id.dalia.education/learning-resource/770591af-a61d-4987-8330-f0bc8bdeeaf4> a ec:EducationalResource ;
+    dcterms:description "The DFG Practical Guidelines on Digitisation provide a fundamental basis for DFG-funded digitisation projects in its “Digitisation and Indexing” programme: They formulate standards and contain information on organisational, methodological and technical issues in the context of digitising and indexing objects relevant for research. They thus make an important contribution towards the sustainability, accessibility and compatibility of funded projects and to the resulting infrastructure. This document is an updated version of the Practical Guidelines last published in 2016 by the DFG. It was developed in consultation with the DFG Head Office by a group of authors initiated by the NFDI consortium NFDI4Culture, the majority of whose members have long played a part in shaping the Practical Guidelines and are actively involved in the NFDI consortia NFDI4Culture, NFDI4Memory, NFDI4Objects and Text+. The now revised Practical Guidelines on Digitisation serve as starting point for a material- and community-related differentiation of the Practical Guidelines by the communities. All communities and institutions concerned with the digitisation of research-relevant objects are encouraged to contribute their expertise to the further process." ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "DFG Practical Guidelines on Digitisation. Updated version 2022." ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n0>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n037>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n14> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3347-5793" ;
+            schema:familyName "Berger" ;
+            schema:givenName "Andreas" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-4867-6926" ;
+            schema:familyName "Neuburger" ;
+            schema:givenName "Andreas" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8274-780X" ;
+            schema:familyName "Altenhöner" ;
+            schema:givenName "Reinhard" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-2627-999X" ;
+            schema:familyName "Meyer" ;
+            schema:givenName "Sebastian" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3406-5104" ;
+            schema:familyName "Stein" ;
+            schema:givenName "Regine" ],
+        [ a schema:Person ;
+            schema:familyName "Klimpel" ;
+            schema:givenName "Paul" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-1509-6960" ;
+            schema:familyName "Stäcker" ;
+            schema:givenName "Thomas" ],
+        [ a schema:Person ;
+            schema:familyName "Bracht" ;
+            schema:givenName "Christian" ] ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:ContentProvider,
+        mo:DataSteward,
+        mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8274-780X" ;
+                schema:familyName "Altenhöner" ;
+                schema:givenName "Reinhard" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3347-5793" ;
+                schema:familyName "Berger" ;
+                schema:givenName "Andreas" ] [ a schema:Person ;
+                schema:familyName "Bracht" ;
+                schema:givenName "Christian" ] [ a schema:Person ;
+                schema:familyName "Klimpel" ;
+                schema:givenName "Paul" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-2627-999X" ;
+                schema:familyName "Meyer" ;
+                schema:givenName "Sebastian" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-4867-6926" ;
+                schema:familyName "Neuburger" ;
+                schema:givenName "Andreas" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-1509-6960" ;
+                schema:familyName "Stäcker" ;
+                schema:givenName "Thomas" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3406-5104" ;
+                schema:familyName "Stein" ;
+                schema:givenName "Regine" ] ) ;
+    schema:datePublished "2023"^^xsd:gYear ;
+    schema:fileSize "0.82 MB" ;
+    schema:keywords "NFDI",
+        "National Research Data Infrastructure",
+        "cataloging",
+        "digitization",
+        "information infrastructure",
+        "metadata",
+        "standardization" ;
+    schema:url <https://doi.org/10.5281/zenodo.7561148> ;
+    schema:version "v1" ;
+    citedcat:isSupplementedBy <https://doi.org/10.5281/zenodo.7435724> .
+
+<https://id.dalia.education/learning-resource/7b89958d-4b1b-48f2-a60a-91f3089041b9> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:bead62a8-c3c2-46d6-9eb1-ffeaba38d5bf ;
+    dcterms:description "Die NFDI4Chem Knowledge Base bietet Informationen und Empfehlungen für die Digitalisierung aller wichtigen Schritte in der chemischen Forschung, um Wissenschaftlerinnen und Wissenschaftler in ihren Bemühungen zu unterstützen, Forschungsdaten zu sammeln, zu speichern, zu verarbeiten, zu analysieren, offenzulegen und wiederzuverwenden. Diese Wissensdatenbank ist von RDMkit (https://rdmkit.elixir-europe.org/index.html) inspiriert, wurde aber speziell auf Chemiker als Endnutzer zugeschnitten. Maßnahmen zur Förderung von Open Science und Forschungsdatenmanagement (siehe auch https://riojournal.com/article/55852/) in Übereinstimmung mit den FAIR-Datenprinzipien werden von alltäglichen Nutzern vorgestellt und reichen von der Planung und Umsetzung bis zur Veröffentlichung und Wiederverwendung." ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu>,
+        <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "NFDI4Chem Knowledge Base" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n032>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n06> ;
+    fabio:hasSubtitle "Ein Platz für alles Wissenswerte zum Forschungsdatenmanagement (FDM) in der Chemie" ;
+    ns1:authorUnordered [ a schema:Organization ;
+            owl:sameAs <http://www.wikidata.org/entity/Q96678459> ;
+            schema:name "NFDI4Chem" ] ;
+    mo:hasLearningType bibo:Webpage ;
+    mo:hasMediaType schema:Text,
+        schema:VideoObject ;
+    mo:hasTargetGroup mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Expert,
+        mo:Novice,
+        mo:Proficient ;
+    schema:author ( [ a schema:Organization ;
+                owl:sameAs <http://www.wikidata.org/entity/Q96678459> ;
+                schema:name "NFDI4Chem" ] ) ;
+    schema:keywords "Forschungsdatenmanagement",
+        "research data management" ;
+    schema:url <https://knowledgebase.nfdi4chem.de/knowledge_base/de/> .
+
+<https://id.dalia.education/learning-resource/7dc4577c-0fe9-4a6d-ac41-f9afadab3d31> a ec:EducationalResource ;
+    dcterms:description "OBO Organized Knowledge: Training materials for becoming an OBO engineer" ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC0-1.0> ;
+    dcterms:title "Open Biological and Biomedical Ontologies (OBO) Organized Knowledge (OBOOK)" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n06>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n079>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n221> ;
+    ns1:authorUnordered [ a schema:Person ;
+            schema:familyName "Varner" ;
+            schema:givenName "Bradley" ],
+        [ a schema:Person ;
+            schema:familyName "Jackson" ;
+            schema:givenName "Rebecca" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-5208-3432" ;
+            schema:familyName "Vasilevsky" ;
+            schema:givenName "Nicole" ],
+        [ a schema:Person ;
+            schema:familyName "Toro" ;
+            schema:givenName "Sabrina" ],
+        [ a schema:Person ;
+            schema:familyName "Osumi-Sutherland" ;
+            schema:givenName "David" ],
+        [ a schema:Person ;
+            schema:familyName "Matentzoglu" ;
+            schema:givenName "Nicolas" ],
+        [ a schema:Person ;
+            schema:familyName "Tan" ;
+            schema:givenName "Shawn" ],
+        [ a schema:Person ;
+            schema:familyName "Overton" ;
+            schema:givenName "James" ] ;
+    mo:hasLearningType bibo:Webpage ;
+    mo:hasMediaType schema:Text ;
+    mo:requiresProficiencyLevel mo:Expert,
+        mo:Proficient ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-5208-3432" ;
+                schema:familyName "Vasilevsky" ;
+                schema:givenName "Nicole" ] [ a schema:Person ;
+                schema:familyName "Overton" ;
+                schema:givenName "James" ] [ a schema:Person ;
+                schema:familyName "Jackson" ;
+                schema:givenName "Rebecca" ] [ a schema:Person ;
+                schema:familyName "Toro" ;
+                schema:givenName "Sabrina" ] [ a schema:Person ;
+                schema:familyName "Tan" ;
+                schema:givenName "Shawn" ] [ a schema:Person ;
+                schema:familyName "Varner" ;
+                schema:givenName "Bradley" ] [ a schema:Person ;
+                schema:familyName "Osumi-Sutherland" ;
+                schema:givenName "David" ] [ a schema:Person ;
+                schema:familyName "Matentzoglu" ;
+                schema:givenName "Nicolas" ] ) ;
+    schema:keywords "ontology engineering" ;
+    schema:url <https://oboacademy.github.io/obook/> ;
+    citedcat:isSupplementedBy <https://doi.org/10.5281/zenodo.6955490> .
+
+<https://id.dalia.education/learning-resource/7f3ed964-824d-4895-a258-5770a9fa9460> a ec:EducationalResource ;
+    dcterms:description "Der folgende Beitrag beschreibt was Metadatenprofile sind und wie sie aufgebaut sein müssen, um den Anforderungen des Singapore Framework zu entsprechen." ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "Kleines Handbuch Metadaten" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n14> ;
+    fabio:hasSubtitle "Metadatenprofile" ;
+    ns1:authorUnordered [ a schema:Person ;
+            schema:familyName "Rühle" ;
+            schema:givenName "Stefanie" ] ;
+    mo:hasMediaType schema:Text ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                schema:familyName "Rühle" ;
+                schema:givenName "Stefanie" ] ) ;
+    schema:datePublished "2012"^^xsd:gYear ;
+    schema:fileSize "0.42 MB" ;
+    schema:keywords "Anwendungsprofil",
+        "Metadaten",
+        "Metadatenprofil" ;
+    schema:url <https://dini.de/ag/standards/dokumente>,
+        <https://wiki.dnb.de/download/attachments/43523047/201209_metadatenprofile.pdf> .
+
+<https://id.dalia.education/learning-resource/8b261dc3-5753-46dd-a837-326c28b3b0d8> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:fa16b39f-4bc1-4f48-beaf-cbd030d5a7b4 ;
+    dcterms:description "The DataPLANT knowledge base offers its users to explore fundamental topics on research data management (RDM) and explains how DataPLANT implements these aspects to support plant researchers with RDM tools and services." ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "DataPLANT knowledge base" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            owl:sameAs <http://www.wikidata.org/entity/Q98380336> ;
+            schema:name "DataPLANT" ] ;
+    mo:hasLearningType bibo:Webpage ;
+    mo:hasMediaType mo:Code,
+        schema:ImageObject,
+        schema:Text ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                owl:sameAs <http://www.wikidata.org/entity/Q98380336> ;
+                schema:name "DataPLANT" ] ) ;
+    schema:datePublished "2022"^^xsd:gYear ;
+    schema:keywords "botany" ;
+    schema:url <https://nfdi4plants.org/nfdi4plants.knowledgebase/index.html> .
+
+<https://id.dalia.education/learning-resource/921276e4-b5be-4524-9e2a-5b26691c7786> a ec:EducationalResource ;
+    dcterms:description "This recipe provides guidance for submitting plant genotyping data to public repositories. It explains in a step-wise fashion which work should be done and when. Special attention should be paid to the metadata maintenance of the data that will be deposited in different repositories as part of this recipe. A prerequisite for fully understanding this recipe is a basic knowledge of the MIAPPE standard (https://fairsharing.org/bsg-s000543/). The exact listing of the metadata fields required for a FAIRification of the genotyping data set within a VCF file is also part of this recipe with examples and explanations (See details in Section 4.2)." ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Plant genomic and genetic variation data submission to EMBL-EBI databases" ;
+    rec:recommender dalia-community:f6e6a7fc-552b-4d75-9fca-8e2b1b8ad624 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-9853-5668" ;
+            schema:familyName "Rocca-Serra" ;
+            schema:givenName "Philippe" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-1010-6859" ;
+            schema:familyName "Le Floch" ;
+            schema:givenName "Erwan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-4839-5158" ;
+            schema:familyName "Liyanage" ;
+            schema:givenName "Isuru" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-2177-8781" ;
+            schema:familyName "Beier" ;
+            schema:givenName "Sebastian" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-9040-8733" ;
+            schema:familyName "Pommier" ;
+            schema:givenName "Cyril" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-5923-3859" ;
+            schema:familyName "Xu" ;
+            schema:givenName "Fuqi" ] ;
+    mo:hasLearningType bibo:Webpage ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-2177-8781" ;
+                schema:familyName "Beier" ;
+                schema:givenName "Sebastian" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-9040-8733" ;
+                schema:familyName "Pommier" ;
+                schema:givenName "Cyril" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-1010-6859" ;
+                schema:familyName "Le Floch" ;
+                schema:givenName "Erwan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-4839-5158" ;
+                schema:familyName "Liyanage" ;
+                schema:givenName "Isuru" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-5923-3859" ;
+                schema:familyName "Xu" ;
+                schema:givenName "Fuqi" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-9853-5668" ;
+                schema:familyName "Rocca-Serra" ;
+                schema:givenName "Philippe" ] ) ;
+    schema:keywords "botany" ;
+    schema:url <https://faircookbook.elixir-europe.org/content/recipes/reusability/miappe.html> .
+
+<https://id.dalia.education/learning-resource/928c6d5f-043a-4cc0-8a08-ca98bf2f8c08> a ec:EducationalResource ;
+    dcterms:description "A style guide presenting the terminology that was used in designing the DC Tabular Application Profiles model (DCTAP, https://www.dublincore.org/groups/application_profiles_ig/dctap_primer/)." ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "Talking about metadata and application profiles" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n06> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            schema:name "DCMI Application Profiles Working Group" ] ;
+    mo:hasLearningType bibo:Webpage ;
+    mo:hasMediaType schema:Text ;
+    mo:requiresProficiencyLevel mo:Expert,
+        mo:Proficient ;
+    schema:author ( [ a schema:Organization ;
+                schema:name "DCMI Application Profiles Working Group" ] ) ;
+    schema:datePublished "2022"^^xsd:gYear ;
+    schema:keywords "application profile" ;
+    schema:url <https://dcmi.github.io/dctap/talking_about_metadata.html> ;
+    schema:version "June 9, 2022" .
+
+<https://id.dalia.education/learning-resource/936decb2-fc31-41cf-846e-734e246d4d45> a ec:EducationalResource ;
+    dcterms:description "This document is a guideline for the use of the official DataCite Metadata Schema documentation (https://schema.datacite.org/), version 4.4 (https://doi.org/10.14454/3w3z-sa82). A support documentation for more convenience and better navigation can be found here as a HTML version DataCite Metadata Schema Documentation (https://datacite-metadata-schema.readthedocs.io/, different versions available). It is meant for researchers, IT and library support staff. Further information on the schema can be found on the DataCite support site (https://support.datacite.org/docs/datacite-metadata-schema-44). The document was created with participation from the following institutions/projects: *IT-Gruppe Geisteswissenschaften (LMU), *Leibniz Supercomputing Centre, *Max Weber Stiftung - Deutsche Geisteswissenschaftliche Institute im Ausland, *Universitätsbibliothek der FAU, *Universitätsbibliothek der LMU München, *VerbaAlpina. This guide is designed to be reused by other institutions as well. To create a DataCite XML file for the project you want to describe, we recommend to you to use the DataCite Metadata Generator [external link]. This tool is kept in sync with this guideline, safe for transmission times inbetween versions. If you want to create metadata for research data on a scale that is too large for manual procedures, please contact one of the institutions named above." ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "DataCite Best Practice Guide" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n0> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-5031-9170" ;
+            schema:familyName "Munke" ;
+            schema:givenName "Johannes" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-2058-5160" ;
+            schema:familyName "Gabriel" ;
+            schema:givenName "Vanessa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-8954-0200" ;
+            schema:familyName "Kümmet" ;
+            schema:givenName "Sonja" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-1815-7041" ;
+            schema:familyName "Weber" ;
+            schema:givenName "Tobias" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6014-9048" ;
+            schema:familyName "Putnings" ;
+            schema:givenName "Markus" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-1167-0339" ;
+            schema:familyName "Rohrwild" ;
+            schema:givenName "Jürgen" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-1458-1163" ;
+            schema:familyName "Frech" ;
+            schema:givenName "Andreas" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-8841-5985" ;
+            schema:familyName "Spenger" ;
+            schema:givenName "Martin" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3074-4222" ;
+            schema:familyName "Bayer" ;
+            schema:givenName "Christiane" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-4374-2680" ;
+            schema:familyName "Schulz" ;
+            schema:givenName "Julian" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-5853-1918" ;
+            schema:familyName "Lücke" ;
+            schema:givenName "Stephan" ] ;
+    mo:hasLearningType mo:BestPractices ;
+    mo:hasMediaType schema:ImageObject,
+        schema:Text ;
+    mo:hasTargetGroup mo:DataSteward,
+        mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Competent ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3074-4222" ;
+                schema:familyName "Bayer" ;
+                schema:givenName "Christiane" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-1458-1163" ;
+                schema:familyName "Frech" ;
+                schema:givenName "Andreas" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-2058-5160" ;
+                schema:familyName "Gabriel" ;
+                schema:givenName "Vanessa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-8954-0200" ;
+                schema:familyName "Kümmet" ;
+                schema:givenName "Sonja" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-5853-1918" ;
+                schema:familyName "Lücke" ;
+                schema:givenName "Stephan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-5031-9170" ;
+                schema:familyName "Munke" ;
+                schema:givenName "Johannes" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6014-9048" ;
+                schema:familyName "Putnings" ;
+                schema:givenName "Markus" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-1167-0339" ;
+                schema:familyName "Rohrwild" ;
+                schema:givenName "Jürgen" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-4374-2680" ;
+                schema:familyName "Schulz" ;
+                schema:givenName "Julian" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-8841-5985" ;
+                schema:familyName "Spenger" ;
+                schema:givenName "Martin" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-1815-7041" ;
+                schema:familyName "Weber" ;
+                schema:givenName "Tobias" ] ) ;
+    schema:datePublished "2022-09-20"^^xsd:date ;
+    schema:fileSize "4.424 MB" ;
+    schema:keywords "DataCite",
+        "digital humanities",
+        "interoperability",
+        "metadata",
+        "research data",
+        "research data management",
+        "standardization" ;
+    schema:url <https://doi.org/10.5281/zenodo.7040047> ;
+    schema:version "2" .
+
+<https://id.dalia.education/learning-resource/93febfcd-33bf-4e38-b769-02874e3f7558> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:7783f91b-2496-4c1b-97ef-9db578d237ca ;
+    dcterms:description "The Voc4Cat guidelines have been developed as a blueprint towards suggesting, adding, and editing content to the vocabularies developed throughout NFDI4Cat. The aim of Voc4Cat is to provide guidelines to guarantee consistency and coherence on selection of concepts and terms between all catalysis-related vocabularies in NFDI4Cat. Voc4Cat, initially inspired by the AGROVOC editorial guidelines of FAO, evolved over the course of Task Area 1 (TA1): Ontology Development and Metadata Standards of NFDI4Cat" ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Voc4cat" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n0>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n40> ;
+    fabio:hasSubtitle "Vocabulary guidelines for NFDI4Cat" ;
+    ns1:authorUnordered [ a schema:Person ;
+            schema:familyName "Talab" ;
+            schema:givenName "Manal" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3270-6895" ;
+            schema:familyName "Dörr" ;
+            schema:givenName "Mark" ],
+        [ a schema:Person ;
+            schema:familyName "Petrenko" ;
+            schema:givenName "Taras" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-4620-8248" ;
+            schema:familyName "Behr" ;
+            schema:givenName "Alexander" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6242-2167" ;
+            schema:familyName "Moustakas" ;
+            schema:givenName "Nikolaos" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-5898-1820" ;
+            schema:familyName "Linke" ;
+            schema:givenName "David" ],
+        [ a schema:Person ;
+            schema:familyName "Köbl" ;
+            schema:givenName "Julia" ],
+        [ a schema:Person ;
+            schema:familyName "Chandrashekhar" ;
+            schema:givenName "Vishwas" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-5901-4189" ;
+            schema:familyName "Huskova" ;
+            schema:givenName "Nadiia" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-5886-7860" ;
+            schema:familyName "Borgelt" ;
+            schema:givenName "Hendrik" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-1519-5184" ;
+            schema:familyName "Khare" ;
+            schema:givenName "Rachit" ] ;
+    mo:hasLearningType mo:BestPractices,
+        mo:Cookbook ;
+    mo:hasMediaType schema:ImageObject,
+        schema:Text ;
+    mo:hasTargetGroup mo:DataSteward,
+        mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Proficient ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6242-2167" ;
+                schema:familyName "Moustakas" ;
+                schema:givenName "Nikolaos" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-4620-8248" ;
+                schema:familyName "Behr" ;
+                schema:givenName "Alexander" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-5886-7860" ;
+                schema:familyName "Borgelt" ;
+                schema:givenName "Hendrik" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-5901-4189" ;
+                schema:familyName "Huskova" ;
+                schema:givenName "Nadiia" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-1519-5184" ;
+                schema:familyName "Khare" ;
+                schema:givenName "Rachit" ] [ a schema:Person ;
+                schema:familyName "Talab" ;
+                schema:givenName "Manal" ] [ a schema:Person ;
+                schema:familyName "Köbl" ;
+                schema:givenName "Julia" ] [ a schema:Person ;
+                schema:familyName "Chandrashekhar" ;
+                schema:givenName "Vishwas" ] [ a schema:Person ;
+                schema:familyName "Petrenko" ;
+                schema:givenName "Taras" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3270-6895" ;
+                schema:familyName "Dörr" ;
+                schema:givenName "Mark" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-5898-1820" ;
+                schema:familyName "Linke" ;
+                schema:givenName "David" ] ) ;
+    schema:datePublished "2023-03-14"^^xsd:date ;
+    schema:fileSize "8.9 MB" ;
+    schema:keywords "NFDI4Cat",
+        "guideline",
+        "vocabulary" ;
+    schema:url <https://doi.org/10.5281/zenodo.7669183> ;
+    schema:version "1.0 beta" ;
+    citedcat:isSupplementedBy <https://github.com/nfdi4cat/voc4cat> .
+
+<https://id.dalia.education/learning-resource/9ddbf1bf-1b0f-42ac-b247-3a062627c28b> a ec:EducationalResource ;
+    dcterms:description "The Metadata Standards Catalog is an information platform for users looking for metadata standards and metadata tools fitting their needs. With more than 100 metadata standards and around 80 tools the catalog offers a perfect start into the field of research data management." ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC0-1.0> ;
+    dcterms:title "Metadata Standards Catalog" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n014>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n06>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n074>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n171>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n268>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n310>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n316>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n39>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n43>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n44>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n457>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n458>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n5>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n57>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n65> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            schema:name "Helmholtz Metadata Collaboration (HMC)" ] ;
+    mo:hasLearningType bibo:Webpage,
+        hcrt:index ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:ContentProvider,
+        mo:DataSteward,
+        mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice,
+        mo:Proficient ;
+    schema:author ( [ a schema:Organization ;
+                schema:name "Helmholtz Metadata Collaboration (HMC)" ] ) ;
+    schema:keywords "application profile",
+        "metadata" ;
+    schema:url <https://msc.datamanager.kit.edu/> .
+
+<https://id.dalia.education/learning-resource/b927e0df-5366-4558-aa4a-76d577f376b8> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:4f646323-756e-41d0-bdb6-0767411a14b5 ;
+    dcterms:description "This guide demonstrates how to model metadata for research processes and resulting datasets in engineering with the ontology Metadata4Ing 1.2.1. The guide will enable you to create machine-understandable metadata for your own research data, following Semantic Web standards like RDF, RDFS, OWL, and JSON-LD." ;
+    dcterms:format "MD" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "How to Use Metadata4Ing - First Steps Tutorial" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n8> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            owl:sameAs <http://www.wikidata.org/entity/Q98380344> ;
+            schema:name "NFDI4Ing" ] ;
+    mo:hasLearningType mo:Cookbook,
+        mo:Tutorial ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:DataSteward ;
+    mo:requiresProficiencyLevel mo:Proficient ;
+    schema:author ( [ a schema:Organization ;
+                owl:sameAs <http://www.wikidata.org/entity/Q98380344> ;
+                schema:name "NFDI4Ing" ] ) ;
+    schema:datePublished "2023"^^xsd:gYear ;
+    schema:keywords "terminology" ;
+    schema:url <https://git.rwth-aachen.de/nfdi4ing/metadata4ing/metadata4ing/-/blob/develop/training/first-steps-guide.md> .
+
+<https://id.dalia.education/learning-resource/bb221201-93a8-4e77-977b-73552fe3b781> a ec:EducationalResource ;
+    dcterms:description "Der vorliegende Beitrag gibt eine Einführung in das Thema Metadaten und beschreibt einige Standards, die vor allem im Bereich des Kulturerbes Verwendung finden. Dabei gehen wir v.a. auf die Bedeutung von Metadatenstandards für die Interoperabilität ein." ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "Kleines Handbuch Metadaten" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n14> ;
+    ns1:authorUnordered [ a schema:Person ;
+            schema:familyName "Rühle" ;
+            schema:givenName "Stefanie" ] ;
+    mo:hasMediaType schema:Text ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                schema:familyName "Rühle" ;
+                schema:givenName "Stefanie" ] ) ;
+    schema:datePublished "2012"^^xsd:gYear ;
+    schema:fileSize "0.32 MB" ;
+    schema:keywords "Metadaten" ;
+    schema:url <https://dini.de/ag/standards/dokumente>,
+        <https://wiki.dnb.de/download/attachments/43523047/201209_metadaten.pdf> .
+
+<https://id.dalia.education/learning-resource/c9e1f1e4-ec3f-4b6d-8b48-d3aecb946c5a> a ec:EducationalResource ;
+    dcterms:description "This cookbook shall guide the reader through the different use cases when adopting, maintaining and using FAIR Digital Objects." ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "FAIR DO Cookbook" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n0> ;
+    ns1:authorUnordered [ a schema:Person ;
+            schema:familyName "Pfeil" ;
+            schema:givenName "Andreas" ],
+        [ a schema:Person ;
+            schema:familyName "Hartmann" ;
+            schema:givenName "Volker" ],
+        [ a schema:Person ;
+            schema:familyName "Jejkal" ;
+            schema:givenName "Thomas" ] ;
+    mo:hasLearningType bibo:Webpage,
+        mo:Cookbook ;
+    mo:hasMediaType schema:ImageObject,
+        schema:Text ;
+    mo:hasTargetGroup mo:ContentProvider,
+        mo:DataSteward ;
+    mo:isBasedOn <https://github.com/kit-data-manager/fairdo-cookbook/> ;
+    mo:requiresProficiencyLevel mo:Expert ;
+    schema:author ( [ a schema:Person ;
+                schema:familyName "Jejkal" ;
+                schema:givenName "Thomas" ] [ a schema:Person ;
+                schema:familyName "Pfeil" ;
+                schema:givenName "Andreas" ] [ a schema:Person ;
+                schema:familyName "Hartmann" ;
+                schema:givenName "Volker" ] ) ;
+    schema:keywords "FAIR digital object",
+        "FDO",
+        "metadata" ;
+    schema:url <https://kit-data-manager.github.io/fairdo-cookbook/> .
+
+<https://id.dalia.education/learning-resource/d3201f8f-ddff-481f-a4c6-7f8c311bec53> a ec:EducationalResource ;
+    dcterms:description "Rechteinformationen zu Objekten sind in vielen Anwendungen Kriterien, die die Weiterbehandlung dieser Objekte und ihrer Metadaten entscheidend filtern.In der DINI-AG KIM Gruppe Lizenzen ist seit Anfang 2018 eine Gruppe von Metadatenexpert*innen aktiv, die der Heterogenität von Lizenzen und Rechteinformationen in Metadaten mit einem Praxisleitfaden entgegen wirken möchte." ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "Empfehlungen für Rechteinformationen in Metadaten (3.0)" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n0>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n14> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            schema:name "DINI-AG KIM" ] ;
+    mo:hasLearningType bibo:Webpage ;
+    mo:hasMediaType schema:Text ;
+    mo:isPartOf <https://wiki.dnb.de/pages/viewpage.action?pageId=43523047> ;
+    schema:author ( [ a schema:Organization ;
+                schema:name "DINI-AG KIM" ] ) ;
+    schema:datePublished "2021"^^xsd:gYear ;
+    schema:keywords "metadata" ;
+    schema:url <https://wiki.dnb.de/pages/viewpage.action?pageId=217533652> ;
+    schema:version "3.0" .
+
+<https://id.dalia.education/learning-resource/e5128165-4c65-4dca-a40f-d4dd73ed4908> a ec:EducationalResource ;
+    dcterms:description "Die DFG-Praxisregeln „Digitalisierung“ stellen eine zentrale Grundlage für DFG-geförderte Projekte im Programm „Digitalisierung und Erschließung“ dar: Sie formulieren Standards und enthalten Informationen zu organisatorischen, methodischen und technischen Fragen im Kontext der Digitalisierung und Erschließung forschungsrelevanter Objekte. Sie leisten damit einen wichtigen Beitrag zur Nachhaltigkeit, Zugänglichkeit und Anschlussfähigkeit geförderter Projekte und der in diesem Zusammenhang entstehenden Infrastruktur. Das vorliegende Dokument stellt eine aktualisierte Fassung der zuletzt 2016 durch die DFG publizierten Praxisregeln dar. Es wurde in Absprache mit der DFG-Geschäftsstelle durch eine vom NFDI-Konsortium NFDI4Culture initiierte Autor*innengruppe erarbeitet, deren Mitglieder mehrheitlich seit langem an der Ausgestaltung der Praxisregeln beteiligt waren sowie aktiv in die NFDI-Konsortien NFDI4Culture, NFDI4Memory, NFDI4Objects und Text+ eingebunden sind. Die jetzt überarbeitet vorliegenden Praxisregeln „Digitalisierung“ dienen als Ausgangspunkt für eine material- und communitybezogene Ausdifferenzierung der Praxisregeln durch die Communitys. Alle mit der Digitalisierung forschungsrelevanter Objekte befassten Communitys und Einrichtungen sind dazu aufgerufen, mit ihrer Expertise am weiteren Prozess mitzuwirken." ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "DFG-Praxisregeln \"Digitalisierung\". Aktualisierte Fassung 2022." ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n0>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n037>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n14> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8274-780X" ;
+            schema:familyName "Altenhöner" ;
+            schema:givenName "Reinhard" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3347-5793" ;
+            schema:familyName "Berger" ;
+            schema:givenName "Andreas" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-2627-999X" ;
+            schema:familyName "Meyer" ;
+            schema:givenName "Sebastian" ],
+        [ a schema:Person ;
+            schema:familyName "Bracht" ;
+            schema:givenName "Christian" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-1509-6960" ;
+            schema:familyName "Stäcker" ;
+            schema:givenName "Thomas" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3406-5104" ;
+            schema:familyName "Stein" ;
+            schema:givenName "Regine" ],
+        [ a schema:Person ;
+            schema:familyName "Klimpel" ;
+            schema:givenName "Paul" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-4867-6926" ;
+            schema:familyName "Neuburger" ;
+            schema:givenName "Andreas" ] ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:ContentProvider,
+        mo:DataSteward,
+        mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8274-780X" ;
+                schema:familyName "Altenhöner" ;
+                schema:givenName "Reinhard" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3347-5793" ;
+                schema:familyName "Berger" ;
+                schema:givenName "Andreas" ] [ a schema:Person ;
+                schema:familyName "Bracht" ;
+                schema:givenName "Christian" ] [ a schema:Person ;
+                schema:familyName "Klimpel" ;
+                schema:givenName "Paul" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-2627-999X" ;
+                schema:familyName "Meyer" ;
+                schema:givenName "Sebastian" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-4867-6926" ;
+                schema:familyName "Neuburger" ;
+                schema:givenName "Andreas" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-1509-6960" ;
+                schema:familyName "Stäcker" ;
+                schema:givenName "Thomas" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3406-5104" ;
+                schema:familyName "Stein" ;
+                schema:givenName "Regine" ] ) ;
+    schema:datePublished "2023"^^xsd:gYear ;
+    schema:fileSize "0.82 MB" ;
+    schema:keywords "Digitalisierung",
+        "Informationsinfrastruktur",
+        "Katalogisierung",
+        "Metadaten",
+        "NFDI",
+        "Nationale Forschungsdateninfrastruktur",
+        "Standardisierung" ;
+    schema:url <https://zenodo.org/records/7435724> ;
+    schema:version "v1" ;
+    citedcat:isSupplementedBy <https://doi.org/10.5281/zenodo.7561148> .
+
+<https://id.dalia.education/learning-resource/e6947cc5-dd70-4467-9577-e70a246c00f8> a ec:EducationalResource ;
+    dcterms:description "DMTC is a registry for excellent online learning resources focusing on data skills and capacity building for research data management, data stewardship and data education." ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "Data Management Training Clearinghouse (DMTC)" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n0>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n26>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n33>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n4>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n42>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n43>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n44>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n5>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n8>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n9> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/03q5xa910" ;
+            schema:name "Earth Science Information Partners (ESIP)" ] ;
+    mo:hasLearningType bibo:Webpage,
+        hcrt:index ;
+    mo:hasMediaType schema:Text ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/03q5xa910" ;
+                schema:name "Earth Science Information Partners (ESIP)" ] ) ;
+    schema:keywords "biology",
+        "catalogue",
+        "engineering",
+        "humanities",
+        "medicine",
+        "open educational resource",
+        "social science" ;
+    schema:url <https://dmtclearinghouse.esipfed.org/home> .
+
+<https://id.dalia.education/learning-resource/fb2c36dc-ce28-4b3e-a02c-fa9b9991365b> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:7783f91b-2496-4c1b-97ef-9db578d237ca ;
+    dcterms:description "Flyer introducing concepts and importance for ontologies in catalysis research as seen at the 56. Jahrestreffen Deutscher Katalytiker in Weimar 2023." ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Flyer Ontologies4Cat" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n0>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n40> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-4620-8248" ;
+            schema:familyName "Behr" ;
+            schema:givenName "Alexander" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-5886-7860" ;
+            schema:familyName "Borgelt" ;
+            schema:givenName "Hendrik" ] ;
+    mo:hasLearningType hcrt:other ;
+    mo:hasMediaType schema:ImageObject,
+        schema:Text ;
+    mo:hasTargetGroup mo:DataSteward,
+        mo:Researcher ;
+    mo:requiresProficiencyLevel mo:Proficient ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-4620-8248" ;
+                schema:familyName "Behr" ;
+                schema:givenName "Alexander" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-5886-7860" ;
+                schema:familyName "Borgelt" ;
+                schema:givenName "Hendrik" ] ) ;
+    schema:datePublished "2023-03-14"^^xsd:date ;
+    schema:fileSize "8.8 MB" ;
+    schema:keywords "Catalysis research",
+        "NFDI4Cat",
+        "flyer",
+        "ontology" ;
+    schema:url <https://zenodo.org/record/7665057#.ZCP_VPbP3t4> ;
+    schema:version "1" .
+
+<https://id.dalia.education/learning-resource/ff90860a-a6a0-4f1c-91d7-ef9277df03fd> a ec:EducationalResource ;
+    dcterms:description "For digital curation and data preservation initiatives to be successful, activities must be based upon sound and tested standards that promote best practice. The DCC is committed to providing a standards watch that will play a vital role in the testing and certification of new tools and trusted digital repositories." ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "Digital curation standards | DCC" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n0>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n0128>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n26>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n42>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n43>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n44> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            schema:name "DCC Digital Curation Centre" ] ;
+    mo:hasLearningType bibo:Webpage ;
+    mo:hasMediaType schema:Text ;
+    mo:requiresProficiencyLevel mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                schema:name "DCC Digital Curation Centre" ] ) ;
+    schema:keywords "metadata" ;
+    schema:url <https://www.dcc.ac.uk/guidance/standards> .
+

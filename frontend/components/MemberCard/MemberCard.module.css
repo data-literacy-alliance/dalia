@@ -1,0 +1,11 @@
+.container{
+  @apply mt-5 flex-1 ;
+}
+
+.thumbnail {
+    @apply relative w-36 h-36 place-self-start;
+  }
+
+.tags{
+  @apply  lg:mt-0 overflow-hidden;
+}

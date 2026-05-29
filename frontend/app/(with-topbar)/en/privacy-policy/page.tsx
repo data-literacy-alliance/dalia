@@ -1,0 +1,43 @@
+import React from 'react';
+import type { Metadata } from 'next';
+import Button from '@/components/Button';
+import ReactMarkdown from 'react-markdown';
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy',
+};
+
+async function fetchPageContent(slug: string, lang: string): Promise<string | null> {
+  const origin = process.env.BACKEND_URL
+    ? new URL(process.env.BACKEND_URL).origin
+    : 'http://web:8000';
+  try {
+    const res = await fetch(`${origin}/api/v1/pages/${slug}/${lang}/`, { cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as { content_md?: string };
+    return data.content_md ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export default async function PrivacyPolicyEnPage() {
+  const content = (await fetchPageContent('privacy-policy', 'en'))
+    ?? '_English version not yet available. Please refer to the [German version](/de/privacy-policy)._';
+
+  return (
+    <div className={'mx-auto w-full max-w-screen-lg text-left'}>
+      <div className={'flex gap-2 mb-5'}>
+        <Button small disabled>
+          English
+        </Button>
+        <Button small link={{ href: '/de/privacy-policy' }}>
+          German
+        </Button>
+      </div>
+      <div className={'prose prose-sm max-w-none'}>
+        <ReactMarkdown>{content}</ReactMarkdown>
+      </div>
+    </div>
+  );
+}

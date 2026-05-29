@@ -1,0 +1,1912 @@
+@prefix : <https://purl.org/ontology/modalia#> .
+@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix ec: <https://github.com/tibonto/educor#> .
+@prefix m4i: <http://w3id.org/nfdi4ing/metadata4ing#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix schema: <https://schema.org/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@base <https://purl.org/ontology/modalia#> .
+
+<https://purl.org/ontology/modalia#> rdf:type owl:Ontology ;
+                                      owl:versionIRI <https://purl.org/ontology/modalia#1.0.0> ;
+                                      dc:contributor "Dr. Abdelmoneim Amer Desouki (https://orcid.org/0000-0003-2083-1277), Technical University of Darmstadt (https://ror.org/05n911h24, https://isni.org/isni/0000000109401669)" ,
+                                                     "Dr. Marc Fuhrmans (https://orcid.org/0000-0002-9826-018X), Technical University of Darmstadt (https://ror.org/05n911h24, https://isni.org/isni/0000000109401669)" ,
+                                                     "Dr. Petra C. Steiner (https://orcid.org/0000-0001-8997-2620), Technical University of Darmstadt (https://ror.org/05n911h24, https://isni.org/isni/0000000109401669)" ,
+                                                     "Frank Lange (https://orcid.org/0000-0002-9346-6031), RWTH Aachen University (https://ror.org/04xfq0f34, https://isni.org/isni/000000010728696X)" ;
+                                      dc:creator "BMBF DALIA project" ;
+                                      dc:description """MoDALIA: An Ontology for Educational Material in Research Data Management (RDM) and Data Science.
+The ontology is used for making a knowledge graph as a backend to platform for teaching, personal learning, and recommendation.
+The ontology is developed in OWL in Protege 5.5.0."""@en ;
+                                      dc:title "MoDALIA Ontology"@en ;
+                                      dcterms:abstract "The aim of DALIA project is to build a platform for learning material for Research Data Management (RDM) and Data Science. The platform is based on a knowledge graph. We introduce MoDalia, the base ontology of DALIA knowledge graph. Modalia inherits some modules from EduCOR. It includes also modelling of micro -credentials and certificates."@en ;
+                                      dcterms:modified "2025-02-11" ;
+                                      dcterms:publisher "ULB TUDa – University and State Library, Technical University, Darmstadt, Germany" ;
+                                      rdfs:comment """MoDALIA reuses elements from the following ontologies:
+- DCTERMS = Dublin Core Terms  
+- OWL = Web Ontology Language  
+- RDF = Resource Description Framework  
+- RDFS = RDF Schema  
+- SCHEMA = schema.org  
+- SKOS = Simple Knowledge Organization System  
+- EC = EduCOR"""@en ;
+                                      rdfs:label "MoDALIA" ;
+                                      owl:versionInfo "v1.0.0"@en .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/elements/1.1/contributor
+dc:contributor rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/creator
+dc:creator rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/description
+dc:description rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/title
+dc:title rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/abstract
+dcterms:abstract rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/modified
+dcterms:modified rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/publisher
+dcterms:publisher rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/2004/02/skos/core#altLabel
+<http://www.w3.org/2004/02/skos/core#altLabel> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/2004/02/skos/core#definition
+<http://www.w3.org/2004/02/skos/core#definition> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/2004/02/skos/core#example
+<http://www.w3.org/2004/02/skos/core#example> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/2004/02/skos/core#prefLabel
+<http://www.w3.org/2004/02/skos/core#prefLabel> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/2004/02/skos/core#scopeNote
+<http://www.w3.org/2004/02/skos/core#scopeNote> rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Datatypes
+#################################################################
+
+###  http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
+rdf:langString rdf:type rdfs:Datatype .
+
+
+###  http://www.w3.org/2001/XMLSchema#duration
+xsd:duration rdf:type rdfs:Datatype .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://bibfra.me/vocab/relation/supportinghost
+<http://bibfra.me/vocab/relation/supportinghost> rdf:type owl:ObjectProperty ;
+                                                 rdfs:domain ec:EducationalResource ;
+                                                 rdfs:range :Community ;
+                                                 rdfs:label "supportinghost"@en ;
+                                                 <http://www.w3.org/2004/02/skos/core#definition> "Associated community(ies) of the resource who are either the supporting organization/institution, or the recommender, or both. Here indicates supporting."@en .
+
+
+###  http://id.loc.gov/ontologies/bibframe/agent
+bf:agent rdf:type owl:ObjectProperty ;
+         rdfs:domain bf:Contribution ;
+         rdfs:range :Contributor ;
+         rdfs:comment "Property that links a contribution to the agent (e.g., the person or organization making the contribution)."@en ,
+                      "agent"@en .
+
+
+###  http://id.loc.gov/ontologies/bibframe/contribution
+bf:contribution rdf:type owl:ObjectProperty ;
+                rdfs:domain ec:EducationalResource ;
+                rdfs:range bf:Contribution ;
+                rdfs:comment "Property linking an OER to its contribution (e.g., editing)."@en ;
+                rdfs:label "contribution"@en .
+
+
+###  http://id.loc.gov/ontologies/bibframe/role
+bf:role rdf:type owl:ObjectProperty ;
+        rdfs:domain bf:Contribution ;
+        rdfs:range :ContributorRole ;
+        rdfs:comment "Property that links a contribution to a role (e.g., contactPerson, editor)."@en ;
+        rdfs:label "role"@en .
+
+
+###  http://purl.org/dc/terms/language
+dcterms:language rdf:type owl:ObjectProperty ;
+                 rdfs:domain ec:EducationalResource ;
+                 rdfs:range <http://lexvo.org/ontology#Language> ;
+                 rdfs:comment "language of resource"@en .
+
+
+###  http://purl.org/dc/terms/license
+dcterms:license rdf:type owl:ObjectProperty ;
+                rdfs:domain ec:EducationalResource ;
+                rdfs:range :License ;
+                rdfs:label "license"@en ;
+                <http://www.w3.org/2004/02/skos/core#definition> "Property identifying the license of an Educational Resource"@en .
+
+
+###  http://purl.org/ontology/rec/core#recommender
+<http://purl.org/ontology/rec/core#recommender> rdf:type owl:ObjectProperty ;
+                                                rdfs:domain ec:EducationalResource ;
+                                                rdfs:range :Community ;
+                                                rdfs:label "recommender"@en ;
+                                                <http://www.w3.org/2004/02/skos/core#definition> "Associated community(ies) of the resource who are either the supporting organization/institution, or the recommender, or both.  Here indicates recommender"@en .
+
+
+###  http://purl.org/spar/fabio/hasDiscipline
+fabio:hasDiscipline rdf:type owl:ObjectProperty ;
+                    rdfs:domain [ rdf:type owl:Class ;
+                                  owl:unionOf ( ec:EducationalResource
+                                                ec:KnowledgeTopic
+                                              )
+                                ] ;
+                    rdfs:range :Discipline ;
+                    rdfs:label "hasDiscipline" .
+
+
+###  https://github.com/tibonto/educor#consistsOfKnowledge
+ec:consistsOfKnowledge rdf:type owl:ObjectProperty ;
+                       rdfs:domain ec:LearningPath ;
+                       rdfs:range ec:KnowledgeTopic ;
+                       rdfs:label "consistsOfKnowledge" .
+
+
+###  https://purl.org/ontology/modalia#belongsToArea
+:belongsToArea rdf:type owl:ObjectProperty ;
+               rdfs:domain :RDMTopic ;
+               rdfs:range :RDMSubjectArea ;
+               rdfs:label "belongsToArea"@en .
+
+
+###  https://purl.org/ontology/modalia#belongsToCluster
+:belongsToCluster rdf:type owl:ObjectProperty ;
+                  rdfs:domain :RDMSubjectArea ;
+                  rdfs:range :SubjectCluster ;
+                  rdfs:label "belongsToCluster"@en .
+
+
+###  https://purl.org/ontology/modalia#belongsToPhase
+:belongsToPhase rdf:type owl:ObjectProperty ;
+                rdfs:domain :RDMResource ;
+                rdfs:range :DataLifeCyclePhase ;
+                rdfs:isDefinedBy "defines the data life cycle phase that the resource covers"@en ;
+                rdfs:label "belongsToPhase" .
+
+
+###  https://purl.org/ontology/modalia#commentUserID
+:commentUserID rdf:type owl:ObjectProperty ;
+               rdfs:domain :UserComment ;
+               rdfs:range :User ;
+               rdfs:isDefinedBy "relates a user to his/her comment"@en ;
+               rdfs:label "commentUserID"@en .
+
+
+###  https://purl.org/ontology/modalia#commentedOER
+:commentedOER rdf:type owl:ObjectProperty ;
+              rdfs:domain :UserComment ;
+              rdfs:range ec:EducationalResource ;
+              rdfs:isDefinedBy "commentedOER"@en ,
+                               "defines the OER that is commented in a user comment"@en ;
+              rdfs:label "commentedOER"@en .
+
+
+###  https://purl.org/ontology/modalia#covers
+:covers rdf:type owl:ObjectProperty ;
+        rdfs:domain ec:EducationalResource ;
+        rdfs:range ec:KnowledgeTopic ;
+        rdfs:isDefinedBy "Defines the topics covered in a learning resource"@en ;
+        rdfs:label "covers"@en .
+
+
+###  https://purl.org/ontology/modalia#coversManagementOfDataDescribing
+:coversManagementOfDataDescribing rdf:type owl:ObjectProperty ;
+                                  rdfs:domain :RDMResource ;
+                                  rdfs:range <http://semanticscience.org/resource/SIO_000776> ;
+                                  rdfs:label "coversManagementOfDataDescribing"@en .
+
+
+###  https://purl.org/ontology/modalia#coversManagementOfDataKind
+:coversManagementOfDataKind rdf:type owl:ObjectProperty ;
+                            rdfs:domain :RDMResource ;
+                            rdfs:range <http://edamontology.org/data_0006> ;
+                            rdfs:comment "A property that relates a RDMResource to data kind being managed"@en ;
+                            rdfs:label "coversManagementOfDataKind"@en .
+
+
+###  https://purl.org/ontology/modalia#coversManagementOfDataObtainedWithMethod
+:coversManagementOfDataObtainedWithMethod rdf:type owl:ObjectProperty ;
+                                          rdfs:domain :RDMResource ;
+                                          rdfs:range m4i:Method ;
+                                          rdfs:label "coversManagementOfDataObtainedWithMethod"@en .
+
+
+###  https://purl.org/ontology/modalia#coversManagementOfDataObtainedWithTool
+:coversManagementOfDataObtainedWithTool rdf:type owl:ObjectProperty ;
+                                        rdfs:domain :RDMResource ;
+                                        rdfs:range m4i:Tool ;
+                                        rdfs:label "coversManagementOfDataObtainedWithTool"@en .
+
+
+###  https://purl.org/ontology/modalia#createdBy
+:createdBy rdf:type owl:ObjectProperty ;
+           rdfs:domain :Community ;
+           rdfs:range :User ;
+           rdfs:label "createdBy"@en .
+
+
+###  https://purl.org/ontology/modalia#definesLearningPath
+:definesLearningPath rdf:type owl:ObjectProperty ;
+                     rdfs:domain :UserProfile ;
+                     rdfs:range ec:LearningPath ;
+                     rdfs:label "definesLearningPath" .
+
+
+###  https://purl.org/ontology/modalia#educationalLevel
+:educationalLevel rdf:type owl:ObjectProperty ;
+                  rdfs:domain :User ;
+                  rdfs:range :EducationalLevel ;
+                  rdfs:label "educationalLevel"@en .
+
+
+###  https://purl.org/ontology/modalia#essentialFor
+:essentialFor rdf:type owl:ObjectProperty ;
+              rdfs:domain :Skill ;
+              rdfs:range :Job ;
+              rdfs:label "essentialFor"@en .
+
+
+###  https://purl.org/ontology/modalia#generateUserLogs
+:generateUserLogs rdf:type owl:ObjectProperty ;
+                  rdfs:domain :User ;
+                  rdfs:range ec:UserLogs ;
+                  rdfs:label "generateUserLogs" .
+
+
+###  https://purl.org/ontology/modalia#givesProficiencyLevel
+:givesProficiencyLevel rdf:type owl:ObjectProperty ;
+                       rdfs:domain ec:EducationalResource ;
+                       rdfs:range :Proficiency ;
+                       rdfs:label "givesProficiencyLevel" .
+
+
+###  https://purl.org/ontology/modalia#hasCertificate
+:hasCertificate rdf:type owl:ObjectProperty ;
+                rdfs:domain :UserEnrollment ;
+                rdfs:range :Certificate ;
+                rdfs:label "hasCertificate"@en .
+
+
+###  https://purl.org/ontology/modalia#hasCompetenceType
+:hasCompetenceType rdf:type owl:ObjectProperty ;
+                   rdfs:domain :LearningGoalMatrixEntry ;
+                   rdfs:range :CompetenceType ;
+                   rdfs:label "hasCompetenceType"@en .
+
+
+###  https://purl.org/ontology/modalia#hasEnrollment
+:hasEnrollment rdf:type owl:ObjectProperty ;
+               rdfs:domain :User ;
+               rdfs:range :UserEnrollment ;
+               rdfs:isDefinedBy "storing data about enrollments in micro-credentials of a user"@en ;
+               rdfs:label "hasEnrollment"@en .
+
+
+###  https://purl.org/ontology/modalia#hasLearningLevel
+:hasLearningLevel rdf:type owl:ObjectProperty ;
+                  rdfs:domain :LearningGoalMatrixEntry ;
+                  rdfs:range :LearningLevel ;
+                  rdfs:label "hasLearningLevel"@en .
+
+
+###  https://purl.org/ontology/modalia#hasLearningObjective
+:hasLearningObjective rdf:type owl:ObjectProperty ;
+                      rdfs:domain [ rdf:type owl:Class ;
+                                    owl:unionOf ( ec:EducationalResource
+                                                  ec:LearningPath
+                                                  :LearningGoalMatrixEntry
+                                                )
+                                  ] ;
+                      rdfs:range :LearningObjective ;
+                      rdfs:label "hasLearningObjective"@en .
+
+
+###  https://purl.org/ontology/modalia#hasLearningResource
+:hasLearningResource rdf:type owl:ObjectProperty ;
+                     rdfs:domain ec:LearningPath ;
+                     rdfs:range ec:EducationalResource ;
+                     rdfs:label "hasLearningResource" .
+
+
+###  https://purl.org/ontology/modalia#hasLearningType
+:hasLearningType rdf:type owl:ObjectProperty ,
+                          owl:FunctionalProperty ;
+                 rdfs:domain ec:EducationalResource ;
+                 rdfs:range :LearningResourceType ;
+                 rdfs:label "hasLearningType" ;
+                 <http://www.w3.org/2004/02/skos/core#definition> "The value is the learning type of content of a learning resource (e.g Lecture)"@en .
+
+
+###  https://purl.org/ontology/modalia#hasMediaType
+:hasMediaType rdf:type owl:ObjectProperty ;
+              rdfs:domain ec:EducationalResource ;
+              rdfs:range :MediaType ;
+              rdfs:label "hasMediaType"@en .
+
+
+###  https://purl.org/ontology/modalia#hasMicroCredential
+:hasMicroCredential rdf:type owl:ObjectProperty ;
+                    rdfs:domain :UserEnrollment ;
+                    rdfs:range :MicroCredential ;
+                    rdfs:label "hasMicroCredential" .
+
+
+###  https://purl.org/ontology/modalia#hasOwner
+:hasOwner rdf:type owl:ObjectProperty ,
+                   owl:FunctionalProperty ;
+          rdfs:domain :Community ;
+          rdfs:range :User ;
+          rdfs:isDefinedBy "defines the user who owns a specific community. There is only one owner to a specific community"@en ;
+          rdfs:label "hasOwner"@en .
+
+
+###  https://purl.org/ontology/modalia#hasProfile
+:hasProfile rdf:type owl:ObjectProperty ;
+            rdfs:domain :User ;
+            rdfs:range :UserProfile ;
+            rdfs:label "hasProfile" .
+
+
+###  https://purl.org/ontology/modalia#hasProvider
+:hasProvider rdf:type owl:ObjectProperty ;
+             rdfs:domain ec:EducationalResource ;
+             rdfs:range :Provider ;
+             rdfs:label "hasProvider" .
+
+
+###  https://purl.org/ontology/modalia#hasProviderType
+:hasProviderType rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Provider ;
+                 rdfs:range :ProviderType ;
+                 rdfs:label "hasProviderType" .
+
+
+###  https://purl.org/ontology/modalia#hasQuality
+:hasQuality rdf:type owl:ObjectProperty ;
+            rdfs:domain ec:EducationalResource ;
+            rdfs:range :ContentQuality ;
+            rdfs:label "hasQuality" .
+
+
+###  https://purl.org/ontology/modalia#hasRating
+:hasRating rdf:type owl:ObjectProperty ;
+           rdfs:domain ec:EducationalResource ;
+           rdfs:range :RatingIndicator ;
+           rdfs:label "hasRating"@en .
+
+
+###  https://purl.org/ontology/modalia#hasRole
+:hasRole rdf:type owl:ObjectProperty ;
+         rdfs:domain :User ;
+         rdfs:range :UserRole ;
+         rdfs:label "hasRole"@en .
+
+
+###  https://purl.org/ontology/modalia#hasTargetGroup
+:hasTargetGroup rdf:type owl:ObjectProperty ;
+                rdfs:domain [ rdf:type owl:Class ;
+                              owl:unionOf ( ec:EducationalResource
+                                            :LearningGoalMatrixEntry
+                                          )
+                            ] ;
+                rdfs:range :TargetGroup ;
+                rdfs:label "hasTargetGroup"@en .
+
+
+###  https://purl.org/ontology/modalia#hasUser
+:hasUser rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf owl:topObjectProperty ;
+         rdfs:domain :RatingIndicator ;
+         rdfs:range :User ;
+         rdfs:label "hasUser"@en .
+
+
+###  https://purl.org/ontology/modalia#isBasedOn
+:isBasedOn rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf :isRelatedTo ;
+           rdfs:domain ec:EducationalResource ;
+           rdfs:range ec:EducationalResource ;
+           rdfs:comment "the object resource is a prerequisite"@en ;
+           rdfs:label "isBasedOn"@en .
+
+
+###  https://purl.org/ontology/modalia#isCoveredIn
+:isCoveredIn rdf:type owl:ObjectProperty ;
+             rdfs:domain :RDMTopic ;
+             rdfs:range :LearningGoalMatrixEntry ;
+             rdfs:label "isCoveredIn"@en .
+
+
+###  https://purl.org/ontology/modalia#isDuplicateOf
+:isDuplicateOf rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf :isRelatedTo ;
+               rdfs:domain ec:EducationalResource ;
+               rdfs:range ec:EducationalResource ;
+               rdfs:label "isDuplicateOf"@en .
+
+
+###  https://purl.org/ontology/modalia#isLessProficientThan
+:isLessProficientThan rdf:type owl:ObjectProperty ;
+                      owl:inverseOf :isMoreProficientThan ;
+                      rdf:type owl:TransitiveProperty ;
+                      rdfs:domain :Proficiency ;
+                      rdfs:range :Proficiency ;
+                      rdfs:label "isLessProficientThan"@en .
+
+
+###  https://purl.org/ontology/modalia#isMemberOf
+:isMemberOf rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf owl:topObjectProperty ;
+            rdfs:domain :User ;
+            rdfs:range :Community ;
+            rdfs:label "isMemberOf"@en .
+
+
+###  https://purl.org/ontology/modalia#isMoreProficientThan
+:isMoreProficientThan rdf:type owl:ObjectProperty ,
+                               owl:TransitiveProperty ;
+                      rdfs:domain :Proficiency ;
+                      rdfs:range :Proficiency ;
+                      rdfs:label "isMoreProficientThan"@en .
+
+
+###  https://purl.org/ontology/modalia#isNewVersionOf
+:isNewVersionOf rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf :isRelatedTo ;
+                rdf:type owl:TransitiveProperty ,
+                         owl:IrreflexiveProperty ;
+                rdfs:domain ec:EducationalResource ;
+                rdfs:range ec:EducationalResource ;
+                rdfs:label "isNewVersionOf"@en .
+
+
+###  https://purl.org/ontology/modalia#isPartOf
+:isPartOf rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf :isRelatedTo ;
+          rdfs:domain ec:EducationalResource ;
+          rdfs:range ec:EducationalResource ;
+          rdfs:label "isPartOf"@en .
+
+
+###  https://purl.org/ontology/modalia#isRelatedTo
+:isRelatedTo rdf:type owl:ObjectProperty ;
+             rdfs:domain ec:EducationalResource ;
+             rdfs:range ec:EducationalResource ;
+             rdfs:label "isRelatedTo"@en .
+
+
+###  https://purl.org/ontology/modalia#isTranslationOf
+:isTranslationOf rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf :isRelatedTo ;
+                 rdfs:domain ec:EducationalResource ;
+                 rdfs:range ec:EducationalResource ;
+                 rdfs:label "isTranslationOf"@en .
+
+
+###  https://purl.org/ontology/modalia#nextPhase
+:nextPhase rdf:type owl:ObjectProperty ;
+           rdfs:domain :DataLifeCyclePhase ;
+           rdfs:range :DataLifeCyclePhase ;
+           rdfs:label "nextPhase"@en .
+
+
+###  https://purl.org/ontology/modalia#optionalFor
+:optionalFor rdf:type owl:ObjectProperty ;
+             rdfs:domain :Skill ;
+             rdfs:range :Job ;
+             rdfs:label "optionalFor"@en .
+
+
+###  https://purl.org/ontology/modalia#prerequisites
+:prerequisites rdf:type owl:ObjectProperty ;
+               rdfs:domain ec:KnowledgeTopic ;
+               rdfs:range ec:KnowledgeTopic ;
+               rdfs:label "prerequisites"@en .
+
+
+###  https://purl.org/ontology/modalia#requiresKnowledge
+:requiresKnowledge rdf:type owl:ObjectProperty ;
+                   rdfs:domain :Skill ;
+                   rdfs:range ec:KnowledgeTopic ;
+                   rdfs:label "requiresKnowledge"@en .
+
+
+###  https://purl.org/ontology/modalia#requiresProficiencyLevel
+:requiresProficiencyLevel rdf:type owl:ObjectProperty ;
+                          rdfs:domain ec:EducationalResource ;
+                          rdfs:range :Proficiency ;
+                          rdfs:label "requiresProficiencyLevel"@en .
+
+
+###  https://purl.org/ontology/modalia#solves
+:solves rdf:type owl:ObjectProperty ;
+        rdfs:domain :User ;
+        rdfs:range [ rdf:type owl:Class ;
+                     owl:unionOf ( :Questionnaire
+                                   <https://w3id.org/kim/hcrt/assessment>
+                                 )
+                   ] ;
+        rdfs:label "solves"@en .
+
+
+###  https://purl.org/ontology/modalia#storedIn
+:storedIn rdf:type owl:ObjectProperty ;
+          rdfs:domain [ rdf:type owl:Class ;
+                        owl:unionOf ( ec:LearningPreference
+                                      :Certificate
+                                      :LearningObjective
+                                    )
+                      ] ;
+          rdfs:range :UserProfile ;
+          rdfs:label "storedIn"@en .
+
+
+###  https://purl.org/ontology/modalia#teachesSkill
+:teachesSkill rdf:type owl:ObjectProperty ;
+              rdfs:domain ec:EducationalResource ;
+              rdfs:range :Skill ;
+              rdfs:label "teaches skill"@en .
+
+
+###  https://purl.org/ontology/modalia#userBookmarks
+:userBookmarks rdf:type owl:ObjectProperty ;
+               rdfs:domain :User ;
+               rdfs:range ec:EducationalResource ;
+               rdfs:label "userBookmarks"@en .
+
+
+###  https://purl.org/ontology/modalia#userLikes
+:userLikes rdf:type owl:ObjectProperty ;
+           rdfs:domain :User ;
+           rdfs:range ec:EducationalResource ;
+           rdfs:label "userLikes"@en ;
+           <http://www.w3.org/2004/02/skos/core#definition> "stores that user liked a given OER"@en .
+
+
+###  https://purl.org/ontology/modalia#userViews
+:userViews rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf owl:topObjectProperty ;
+           rdfs:domain :User ;
+           rdfs:range ec:EducationalResource ;
+           rdfs:label "userViews"@en .
+
+
+###  https://schema.org/author
+schema:author rdf:type owl:ObjectProperty ;
+              rdfs:domain ec:EducationalResource ;
+              rdfs:range rdf:List ;
+              rdfs:comment "Property linking an OER  to a list of authors."@en ;
+              rdfs:label "author"@en .
+
+
+###  https://w3id.org/citedcat-ap/isSupplementedBy
+<https://w3id.org/citedcat-ap/isSupplementedBy> rdf:type owl:ObjectProperty ;
+                                                rdfs:subPropertyOf :isRelatedTo ;
+                                                rdfs:domain ec:EducationalResource ;
+                                                rdfs:range ec:EducationalResource ;
+                                                rdfs:label "isSupplementedBy"@en .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://purl.org/dc/terms/created
+dcterms:created rdf:type owl:DatatypeProperty ;
+                rdfs:subPropertyOf owl:topDataProperty ;
+                rdfs:domain [ rdf:type owl:Class ;
+                              owl:unionOf ( ec:EducationalResource
+                                            :Community
+                                          )
+                            ] ;
+                rdfs:range xsd:dateTime ;
+                rdfs:label "Date Created"@en ;
+                <http://www.w3.org/2004/02/skos/core#definition> "Date of creation of the resource."@en .
+
+
+###  http://purl.org/dc/terms/description
+dcterms:description rdf:type owl:DatatypeProperty ;
+                    rdfs:domain [ rdf:type owl:Class ;
+                                  owl:unionOf ( ec:EducationalResource
+                                                ec:KnowledgeTopic
+                                                :Community
+                                              )
+                                ] ;
+                    rdfs:range xsd:string ;
+                    rdfs:label "description"@en .
+
+
+###  http://purl.org/dc/terms/format
+dcterms:format rdf:type owl:DatatypeProperty ;
+               rdfs:domain ec:EducationalResource ;
+               rdfs:range xsd:string ;
+               rdfs:isDefinedBy "File format of the file representing the resource" ;
+               rdfs:label "file format"@en ;
+               <http://www.w3.org/2004/02/skos/core#example> "PDF, AVI" .
+
+
+###  http://purl.org/dc/terms/issued
+dcterms:issued rdf:type owl:DatatypeProperty ;
+               rdfs:domain ec:EducationalResource ;
+               rdfs:range xsd:dateTime ;
+               rdfs:label "issued"@en ;
+               <http://www.w3.org/2004/02/skos/core#definition> "Date of formal issuance (e.g., publication) of the resource."@en .
+
+
+###  http://purl.org/dc/terms/rights
+dcterms:rights rdf:type owl:DatatypeProperty ;
+               rdfs:domain ec:EducationalResource ;
+               rdfs:range xsd:string ;
+               rdfs:label "rights"@en .
+
+
+###  http://purl.org/dc/terms/title
+dcterms:title rdf:type owl:DatatypeProperty ;
+              rdfs:domain [ rdf:type owl:Class ;
+                            owl:unionOf ( ec:EducationalResource
+                                          ec:KnowledgeTopic
+                                          :Community
+                                        )
+                          ] ;
+              rdfs:range xsd:string ;
+              rdfs:label "title"@en .
+
+
+###  http://purl.org/spar/fabio/hasSubtitle
+fabio:hasSubtitle rdf:type owl:DatatypeProperty ;
+                  rdfs:domain ec:EducationalResource ;
+                  rdfs:range xsd:string ;
+                  rdfs:label "has Subtitle"@en .
+
+
+###  http://w3id.org/nfdi4ing/metadata4ing#hasRorId
+m4i:hasRorId rdf:type owl:DatatypeProperty ;
+             rdfs:domain [ rdf:type owl:Class ;
+                           owl:unionOf ( :Community
+                                         schema:Organization
+                                       )
+                         ] ;
+             rdfs:range [ rdf:type rdfs:Datatype ;
+                          owl:onDatatype xsd:string ;
+                          owl:withRestrictions ( [ xsd:pattern "https://ror.org/[0-9][0-9][a-z0-9][a-z0-9][a-z0-9][a-z0-9][a-z0-9][0-9][0-9]"
+                                                 ]
+                                               )
+                        ] ;
+             <http://www.w3.org/2004/02/skos/core#altLabel> "has research organization registry id"@en ,
+                                                            "hat Forschungsorganisationsid"@de ;
+             <http://www.w3.org/2004/02/skos/core#definition> "A Research Organization Registry identifier that persistently and uniquely identifies a research organization"@en ,
+                                                              "Ein persistenter Identifikator für Organisationen, vergeben durch die Research Organization Registry, der eine Forschungseinrichtung eindeutig identifiziert."@de ;
+             <http://www.w3.org/2004/02/skos/core#prefLabel> "has ROR ID"@en ,
+                                                             "hat ROR ID"@de .
+
+
+###  http://w3id.org/nfdi4ing/metadata4ing#orcidId
+m4i:orcidId rdf:type owl:DatatypeProperty ;
+            rdfs:domain [ rdf:type owl:Class ;
+                          owl:unionOf ( :Contributor
+                                        :User
+                                      )
+                        ] ;
+            rdfs:range [ rdf:type rdfs:Datatype ;
+                         owl:onDatatype xsd:string ;
+                         owl:withRestrictions ( [ xsd:pattern "https://orcid.org/[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9X]"
+                                                ]
+                                              )
+                       ] ;
+            <http://www.w3.org/2004/02/skos/core#definition> "Open Researcher and Contributor ID: an identifier, that allows unique identification of a person, usually active in research."@en ,
+                                                             "Open Researcher and Contributor ID: ein persistenter Identifikator, der eine in der Forschung tätige Person eindeutig identifiziert."@de ;
+            <http://www.w3.org/2004/02/skos/core#prefLabel> "has ORCID ID"@en ,
+                                                            "hat ORCID ID"@de .
+
+
+###  https://purl.org/ontology/modalia#authorUnordered
+:authorUnordered rdf:type owl:DatatypeProperty ;
+                 rdfs:domain ec:EducationalResource ;
+                 rdfs:range xsd:string .
+
+
+###  https://purl.org/ontology/modalia#certificateEndDate
+:certificateEndDate rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :Certificate ;
+                    rdfs:range xsd:dateTime ;
+                    rdfs:label "certificateEndDate"@en .
+
+
+###  https://purl.org/ontology/modalia#certificateName
+:certificateName rdf:type owl:DatatypeProperty ;
+                 rdfs:domain :Certificate ;
+                 rdfs:range xsd:string ;
+                 rdfs:label "certificateName"@en .
+
+
+###  https://purl.org/ontology/modalia#certificateStartDate
+:certificateStartDate rdf:type owl:DatatypeProperty ;
+                      rdfs:domain :Certificate ;
+                      rdfs:range xsd:dateTime ;
+                      rdfs:label "certificateStartDate"@en .
+
+
+###  https://purl.org/ontology/modalia#certificateUrl
+:certificateUrl rdf:type owl:DatatypeProperty ;
+                rdfs:domain :Certificate ;
+                rdfs:range xsd:anyURI ;
+                rdfs:label "certificateUrl"@en .
+
+
+###  https://purl.org/ontology/modalia#commentDate
+:commentDate rdf:type owl:DatatypeProperty ;
+             rdfs:domain :UserComment ;
+             rdfs:range xsd:dateTimeStamp ;
+             rdfs:label "Comment Date"@en ;
+             <http://www.w3.org/2004/02/skos/core#definition> "The date of a user comment"@en .
+
+
+###  https://purl.org/ontology/modalia#commentID
+:commentID rdf:type owl:DatatypeProperty ;
+           rdfs:domain :UserComment ;
+           rdfs:range xsd:string ;
+           rdfs:label "comment ID"@en ;
+           <http://www.w3.org/2004/02/skos/core#definition> "ID of a user comment"@en .
+
+
+###  https://purl.org/ontology/modalia#commentText
+:commentText rdf:type owl:DatatypeProperty ;
+             rdfs:domain :UserComment ;
+             rdfs:range xsd:string ;
+             rdfs:label "comment text"@en ;
+             <http://www.w3.org/2004/02/skos/core#definition> "The OER of a user comment"@en .
+
+
+###  https://purl.org/ontology/modalia#hasDOI
+:hasDOI rdf:type owl:DatatypeProperty ;
+        rdfs:domain ec:EducationalResource ;
+        rdfs:range xsd:string ;
+        rdfs:comment "the DOI of the resource if exists."@en ;
+        rdfs:label "hasDOI"@en ;
+        <http://www.w3.org/2004/02/skos/core#example> "example: 10.18450/dataman/90" .
+
+
+###  https://purl.org/ontology/modalia#hasGrade
+:hasGrade rdf:type owl:DatatypeProperty ;
+          rdfs:domain :UserEnrollment ;
+          rdfs:range xsd:string ;
+          rdfs:label "hasGrade"@en .
+
+
+###  https://purl.org/ontology/modalia#hasGrantDate
+:hasGrantDate rdf:type owl:DatatypeProperty ;
+              rdfs:domain :UserEnrollment ;
+              rdfs:range xsd:dateTime ;
+              rdfs:label "hasGrantDate"@en .
+
+
+###  https://purl.org/ontology/modalia#hasInterval
+:hasInterval rdf:type owl:DatatypeProperty ;
+             rdfs:domain :MicroCredential ;
+             rdfs:range rdfs:Literal ;
+             rdfs:label "hasInterval"@en .
+
+
+###  https://purl.org/ontology/modalia#hasOrder
+:hasOrder rdf:type owl:DatatypeProperty ;
+          rdfs:domain :Proficiency ;
+          rdfs:range xsd:integer ;
+          rdfs:isDefinedBy "Order of proficiency level, starting from 1 for Novice and increasing by proficiency"@en ;
+          rdfs:label "hasOrder"@en .
+
+
+###  https://purl.org/ontology/modalia#hasRowID
+:hasRowID rdf:type owl:DatatypeProperty ;
+          rdfs:domain :LearningGoalMatrixEntry ;
+          rdfs:range xsd:integer ;
+          rdfs:label "has Row ID"@en .
+
+
+###  https://purl.org/ontology/modalia#likesCount
+:likesCount rdf:type owl:DatatypeProperty ;
+            rdfs:domain ec:EducationalResource ;
+            rdfs:range xsd:int ;
+            rdfs:label "likesCount"@en .
+
+
+###  https://purl.org/ontology/modalia#microCredentialUrl
+:microCredentialUrl rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :MicroCredential ;
+                    rdfs:range xsd:anyURI ;
+                    rdfs:label "microCredentialUrl"@en .
+
+
+###  https://purl.org/ontology/modalia#studyPlan
+:studyPlan rdf:type owl:DatatypeProperty ;
+           rdfs:domain ec:LearningPath ;
+           rdfs:range rdf:langString ;
+           rdfs:label "studyPlan"@en .
+
+
+###  https://purl.org/ontology/modalia#viewCount
+:viewCount rdf:type owl:DatatypeProperty ;
+           rdfs:domain ec:EducationalResource ;
+           rdfs:range xsd:int ;
+           rdfs:label "viewCount"@en .
+
+
+###  https://schema.org/abstract
+schema:abstract rdf:type owl:DatatypeProperty ;
+                rdfs:domain ec:EducationalResource ;
+                rdfs:range xsd:string ;
+                rdfs:comment "An abstract is a short description that summarizes an OER."@en ;
+                rdfs:label "abstract"@en .
+
+
+###  https://schema.org/citation
+schema:citation rdf:type owl:DatatypeProperty ;
+                rdfs:domain ec:EducationalResource ;
+                rdfs:range xsd:string ;
+                rdfs:label "Citation"@en .
+
+
+###  https://schema.org/datePublished
+schema:datePublished rdf:type owl:DatatypeProperty ;
+                     rdfs:domain ec:EducationalResource ;
+                     rdfs:range xsd:dateTime ;
+                     rdfs:label "Publication Date"@en .
+
+
+###  https://schema.org/downloadUrl
+schema:downloadUrl rdf:type owl:DatatypeProperty ;
+                   rdfs:domain ec:EducationalResource ;
+                   rdfs:range xsd:anyURI ;
+                   rdfs:comment "If the OER can be downloaded, URL to download it."@en ;
+                   rdfs:label "downloadUrl"@en .
+
+
+###  https://schema.org/email
+schema:email rdf:type owl:DatatypeProperty ,
+                      owl:FunctionalProperty ;
+             rdfs:domain :User ;
+             rdfs:range xsd:string ;
+             rdfs:label "email"@en .
+
+
+###  https://schema.org/familyName
+schema:familyName rdf:type owl:DatatypeProperty ;
+                  rdfs:domain [ rdf:type owl:Class ;
+                                owl:unionOf ( :Contributor
+                                              :User
+                                            )
+                              ] ;
+                  rdfs:range xsd:string ;
+                  rdfs:comment "Family name. In the U.S., the last name of a Person."@en ;
+                  rdfs:label "familyName"@en .
+
+
+###  https://schema.org/fileSize
+schema:fileSize rdf:type owl:DatatypeProperty ;
+                rdfs:domain ec:EducationalResource ;
+                rdfs:range xsd:string ;
+                rdfs:label "fileSize"@en .
+
+
+###  https://schema.org/givenName
+schema:givenName rdf:type owl:DatatypeProperty ;
+                 rdfs:domain [ rdf:type owl:Class ;
+                               owl:unionOf ( :Contributor
+                                             :User
+                                           )
+                             ] ;
+                 rdfs:range xsd:string ;
+                 rdfs:label "givenName"@en .
+
+
+###  https://schema.org/identifier
+schema:identifier rdf:type owl:DatatypeProperty ;
+                  rdfs:domain ec:EducationalResource ;
+                  rdfs:range xsd:string ;
+                  rdfs:label "identifier"@en .
+
+
+###  https://schema.org/image
+schema:image rdf:type owl:DatatypeProperty ;
+             rdfs:domain ec:EducationalResource ;
+             rdfs:range xsd:anyURI ;
+             rdfs:comment "Property linking an OER to an image representing it."@en ;
+             rdfs:label "image"@en .
+
+
+###  https://schema.org/isAccessibleForFree
+schema:isAccessibleForFree rdf:type owl:DatatypeProperty ;
+                           rdfs:domain ec:EducationalResource ;
+                           rdfs:range xsd:boolean ;
+                           rdfs:label "isAccessibleForFree"@en .
+
+
+###  https://schema.org/keywords
+schema:keywords rdf:type owl:DatatypeProperty ;
+                rdfs:domain ec:EducationalResource ;
+                rdfs:range xsd:string ;
+                rdfs:comment "Keywords or tags used to describe some item."@en ;
+                rdfs:label "keywords"@en .
+
+
+###  https://schema.org/teaches
+schema:teaches rdf:type owl:DatatypeProperty ;
+               rdfs:domain ec:EducationalResource ;
+               rdfs:range xsd:string ;
+               rdfs:comment "The item being described is intended to help a person learn the competency or learning outcome defined by the referenced term."@en ;
+               rdfs:label "teaches"@en .
+
+
+###  https://schema.org/timeRequired
+schema:timeRequired rdf:type owl:DatatypeProperty ;
+                    rdfs:domain ec:EducationalResource ;
+                    rdfs:range xsd:duration ;
+                    rdfs:comment "in format xsd:duration"@en ;
+                    rdfs:label "timeRequired"@en ;
+                    <http://www.w3.org/2004/02/skos/core#example> "\"PT7M11S\"^^xsd:duration" .
+
+
+###  https://schema.org/url
+schema:url rdf:type owl:DatatypeProperty ;
+           rdfs:domain ec:EducationalResource ;
+           rdfs:range xsd:anyURI ;
+           rdfs:label "url"@en .
+
+
+###  https://schema.org/version
+schema:version rdf:type owl:DatatypeProperty ;
+               rdfs:domain ec:EducationalResource ;
+               rdfs:range xsd:string ;
+               rdfs:comment "The version of the OER."@en ;
+               rdfs:label "version"@en .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://edamontology.org/data_0006
+<http://edamontology.org/data_0006> rdf:type owl:Class ;
+                                    rdfs:label "Data"@en ;
+                                    <http://www.w3.org/2004/02/skos/core#definition> "Kind of data being managed"@en .
+
+
+###  http://id.loc.gov/ontologies/bibframe/Contribution
+bf:Contribution rdf:type owl:Class ;
+                rdfs:comment "A contribution to an OER, including agent and role information."@en .
+
+
+###  http://lexvo.org/ontology#Language
+<http://lexvo.org/ontology#Language> rdf:type owl:Class ;
+                                     rdfs:label "Language"@en ;
+                                     rdfs:seeAlso "https://www.wikidata.org/wiki/Q315"@en ;
+                                     <http://www.w3.org/2004/02/skos/core#definition> "Natural language"@en .
+
+
+###  http://purl.org/ontology/bibo/Article
+bibo:Article rdf:type owl:Class ;
+             rdfs:subClassOf :LearningResourceType ;
+             rdfs:comment "Class representing OERs that are articles (e.g academic article)"@en ;
+             rdfs:label "Article"@en ;
+             <http://www.w3.org/2004/02/skos/core#prefLabel> "Article"@en .
+
+
+###  http://purl.org/ontology/bibo/Book
+bibo:Book rdf:type owl:Class ;
+          rdfs:subClassOf :LearningResourceType ;
+          rdfs:label "Book"@en ;
+          <http://www.w3.org/2004/02/skos/core#definition> "Class representing OER which is a book."@en ;
+          <http://www.w3.org/2004/02/skos/core#prefLabel> "Book"@en .
+
+
+###  http://purl.org/ontology/bibo/Report
+bibo:Report rdf:type owl:Class ;
+            rdfs:subClassOf :LearningResourceType ;
+            rdfs:label "Report"@en ;
+            <http://www.w3.org/2004/02/skos/core#prefLabel> "Report"@en .
+
+
+###  http://purl.org/ontology/bibo/Thesis
+bibo:Thesis rdf:type owl:Class ;
+            rdfs:subClassOf :LearningResourceType ;
+            rdfs:label "Thesis"@en ;
+            <http://www.w3.org/2004/02/skos/core#prefLabel> "Thesis"@en .
+
+
+###  http://purl.org/ontology/bibo/Webpage
+bibo:Webpage rdf:type owl:Class ;
+             rdfs:subClassOf :LearningResourceType ;
+             rdfs:label "Webpage"@en ;
+             <http://www.w3.org/2004/02/skos/core#prefLabel> "Web page"@en .
+
+
+###  http://semanticscience.org/resource/SIO_000776
+<http://semanticscience.org/resource/SIO_000776> rdf:type owl:Class ;
+                                                 rdfs:label "Object"@en ;
+                                                 <http://www.w3.org/2004/02/skos/core#definition> "an object that is described (chemical substance, living organism, building, ...)"@en ;
+                                                 <http://www.w3.org/2004/02/skos/core#example> "mouse cells"@en .
+
+
+###  http://w3id.org/nfdi4ing/metadata4ing#Method
+m4i:Method rdf:type owl:Class ;
+           rdfs:label "Research Method"@en ;
+           <http://www.w3.org/2004/02/skos/core#definition> "a method with which data was obtained"@en ;
+           <http://www.w3.org/2004/02/skos/core#example> "bioassay, microscopy, measurement"@en .
+
+
+###  http://w3id.org/nfdi4ing/metadata4ing#Tool
+m4i:Tool rdf:type owl:Class ;
+         rdfs:label "Tool"@en ;
+         <http://www.w3.org/2004/02/skos/core#definition> "a tool with which data was obtained (microscope, sensor, ...)"@en .
+
+
+###  http://www.w3.org/1999/02/22-rdf-syntax-ns#List
+rdf:List rdf:type owl:Class .
+
+
+###  https://github.com/tibonto/educor#EducationalResource
+ec:EducationalResource rdf:type owl:Class ;
+                       rdfs:label "EducationalResource"@en ;
+                       <http://www.w3.org/2004/02/skos/core#definition> "Any educational resources online or offline"@en ;
+                       <http://www.w3.org/2004/02/skos/core#example> "A video describing how lists work in Python programming language"@en .
+
+
+###  https://github.com/tibonto/educor#KnowledgeTopic
+ec:KnowledgeTopic rdf:type owl:Class ;
+                  owl:disjointWith :Skill ;
+                  rdfs:label "KnowledgeTopic"@en ;
+                  rdfs:seeAlso "https://w3id.org/ccso/ccso#Topic"@en ;
+                  <http://www.w3.org/2004/02/skos/core#definition> "A single node representing a learning module based on the domain ontology. It contains all the learning material for the specific learning module."@en ;
+                  <http://www.w3.org/2004/02/skos/core#example> "A knowledge topic can be the “Quadratic equations” in the domain of Mathematics Algebra"@en .
+
+
+###  https://github.com/tibonto/educor#LearningPath
+ec:LearningPath rdf:type owl:Class ;
+                rdfs:comment "Often here it is mapped the background knowledge too."@en ;
+                rdfs:label "LearningPath"@en ;
+                <http://www.w3.org/2004/02/skos/core#definition> "The learning path consists of learner's previously followed topics and future ones in order to reach to the learning goal. It is an ordered list of recommendations, which is personalized to the needs of a certain user and target the accomplishment of a complex skill. It has as a final point a learning goal."@en ;
+                <http://www.w3.org/2004/02/skos/core#example> "\"Hello world in python\", \"Comments in python\", \"Strings in python\""@en .
+
+
+###  https://github.com/tibonto/educor#LearningPreference
+ec:LearningPreference rdf:type owl:Class ;
+                      rdfs:comment "It is based on the theory which identifies four learning styles (visual, auditory, reading, and kinesthetic)."@en ;
+                      rdfs:label "LearningPreference"@en ;
+                      <http://www.w3.org/2004/02/skos/core#definition> "The learning preference of the user based on the learning styles theory"@en ;
+                      <http://www.w3.org/2004/02/skos/core#example> "Visual"@en .
+
+
+###  https://github.com/tibonto/educor#Recommendation
+ec:Recommendation rdf:type owl:Class ;
+                  rdfs:comment "The recommendation in advanced systems can also be an action (take a small break), an exercise, a knowledge topic, a skill, or a learning path"@en ;
+                  rdfs:label "Recommendation"@en ;
+                  <http://www.w3.org/2004/02/skos/core#definition> "The output of the recommendation system algorithm. The system that reads user profile, content information, ratings and any available rules, in order to generate a meaningful recommendation."@en ;
+                  <http://www.w3.org/2004/02/skos/core#example> "The recommendation is \"Quadratic Equation\""@en .
+
+
+###  https://github.com/tibonto/educor#UserLogs
+ec:UserLogs rdf:type owl:Class ;
+            rdfs:label "UserLogs"@en ;
+            <http://www.w3.org/2004/02/skos/core#definition> "The user's history activity in the system"@en .
+
+
+###  https://purl.org/ontology/modalia#AnalyzePhase
+:AnalyzePhase rdf:type owl:Class ;
+              rdfs:subClassOf :DataLifeCyclePhase ;
+              owl:disjointWith :AssurePhase ,
+                               :CollectPhase ,
+                               :DescribePhase ,
+                               :DiscoverPhase ,
+                               :IntegratePhase ,
+                               :PlanPhase ,
+                               :PreservePhase ;
+              rdfs:label "AnalyzePhase"@en ;
+              <http://www.w3.org/2004/02/skos/core#definition> "The last phase in data life cycle."@en .
+
+
+###  https://purl.org/ontology/modalia#AssurePhase
+:AssurePhase rdf:type owl:Class ;
+             rdfs:subClassOf :DataLifeCyclePhase ;
+             rdfs:label "AssurePhase"@en .
+
+
+###  https://purl.org/ontology/modalia#BachelorStudent
+:BachelorStudent rdf:type owl:Class ;
+                 rdfs:subClassOf :TargetGroup ;
+                 rdfs:label "Bachelor Student"@en ;
+                 rdfs:seeAlso "http://vivoweb.org/ontology/core#UndergraduateStudent" ;
+                 <http://www.w3.org/2004/02/skos/core#definition> "Student in Bachelor's degree"@en ;
+                 <http://www.w3.org/2004/02/skos/core#prefLabel> "Bachelor Student"@en .
+
+
+###  https://purl.org/ontology/modalia#BestPractices
+:BestPractices rdf:type owl:Class ;
+               rdfs:subClassOf :LearningResourceType ;
+               rdfs:comment "Class representing OERs that are best practices in scientific area."@en ;
+               rdfs:label "BestPractices"@en ;
+               <http://www.w3.org/2004/02/skos/core#prefLabel> "Best Practices"@en .
+
+
+###  https://purl.org/ontology/modalia#CTMethodological
+:CTMethodological rdf:type owl:Class ;
+                  rdfs:subClassOf :CompetenceType ;
+                  rdfs:label "Methodological Competence"@en .
+
+
+###  https://purl.org/ontology/modalia#CTProfessional
+:CTProfessional rdf:type owl:Class ;
+                rdfs:subClassOf :CompetenceType ;
+                rdfs:label "Professional Competence"@en .
+
+
+###  https://purl.org/ontology/modalia#CTSelf
+:CTSelf rdf:type owl:Class ;
+        rdfs:subClassOf :CompetenceType ;
+        rdfs:label "Self Competence"@en .
+
+
+###  https://purl.org/ontology/modalia#CTSocial
+:CTSocial rdf:type owl:Class ;
+          rdfs:subClassOf :CompetenceType ;
+          rdfs:label "Social Competence"@en .
+
+
+###  https://purl.org/ontology/modalia#Certificate
+:Certificate rdf:type owl:Class ;
+             rdfs:label "Certificate" ;
+             <http://www.w3.org/2004/02/skos/core#definition> "A certificate obtained by user."@en ;
+             <http://www.w3.org/2004/02/skos/core#example> "SCRUM Professional I"@en .
+
+
+###  https://purl.org/ontology/modalia#Code
+:Code rdf:type owl:Class ;
+      rdfs:subClassOf :MediaType ;
+      rdfs:comment "Class representing OER which are code like Jupyternotebook."@en ;
+      rdfs:label "Code"@en ;
+      <http://www.w3.org/2004/02/skos/core#prefLabel> "Code"@en .
+
+
+###  https://purl.org/ontology/modalia#CodeNotebook
+:CodeNotebook rdf:type owl:Class ;
+              rdfs:subClassOf :LearningResourceType ;
+              rdfs:label "CodeNotebook"@en ;
+              <http://www.w3.org/2004/02/skos/core#example> "Jupyter Notebook"@en ;
+              <http://www.w3.org/2004/02/skos/core#prefLabel> "Code Notebook"@en .
+
+
+###  https://purl.org/ontology/modalia#CollectPhase
+:CollectPhase rdf:type owl:Class ;
+              rdfs:subClassOf :DataLifeCyclePhase ;
+              rdfs:label "CollectPhase"@en .
+
+
+###  https://purl.org/ontology/modalia#Community
+:Community rdf:type owl:Class ;
+           rdfs:label "Community"@en ;
+           <http://www.w3.org/2004/02/skos/core#definition> "A Community gathers users (members) and educational resources/learning paths similar  to Zenodo communities"@en .
+
+
+###  https://purl.org/ontology/modalia#CompetenceType
+:CompetenceType rdf:type owl:Class ;
+                <http://www.w3.org/2004/02/skos/core#definition> "The different type of competences"@en .
+
+
+###  https://purl.org/ontology/modalia#ContentProvider
+:ContentProvider rdf:type owl:Class ;
+                 rdfs:subClassOf :TargetGroup ;
+                 rdfs:label "Content provider"@en ;
+                 rdfs:seeAlso "https://bibfra.me/view/rare/lite/provider" ;
+                 <http://www.w3.org/2004/02/skos/core#definition> "a person or group who is providing OER"@en ;
+                 <http://www.w3.org/2004/02/skos/core#prefLabel> "Content provider"@en .
+
+
+###  https://purl.org/ontology/modalia#ContentQuality
+:ContentQuality rdf:type owl:Class ;
+                rdfs:label "Content Quality"@en ;
+                <http://www.w3.org/2004/02/skos/core#definition> "Educational quality of an OER"@en ;
+                <http://www.w3.org/2004/02/skos/core#example> "High quality"@en .
+
+
+###  https://purl.org/ontology/modalia#Contributor
+:Contributor rdf:type owl:Class ;
+             rdfs:comment "Contributed to OER with some contribution type"@en ;
+             rdfs:label "Contributor"@en .
+
+
+###  https://purl.org/ontology/modalia#ContributorRole
+:ContributorRole rdf:type owl:Class ;
+                 rdfs:label "Contributor Role" ;
+                 <http://www.w3.org/2004/02/skos/core#definition> "types of contribution to an OER."@en ;
+                 <http://www.w3.org/2004/02/skos/core#example> "Editor"@en .
+
+
+###  https://purl.org/ontology/modalia#Cookbook
+:Cookbook rdf:type owl:Class ;
+          rdfs:subClassOf :LearningResourceType ;
+          rdfs:label "Cookbook"@en ;
+          rdfs:seeAlso "https://www.wikidata.org/wiki/Q3689925"@en ;
+          <http://www.w3.org/2004/02/skos/core#prefLabel> "Cookbook"@en .
+
+
+###  https://purl.org/ontology/modalia#CuratorRole
+:CuratorRole rdf:type owl:Class ;
+             rdfs:subClassOf :UserRole ;
+             rdfs:label "CuratorRole"@en .
+
+
+###  https://purl.org/ontology/modalia#DataLifeCyclePhase
+:DataLifeCyclePhase rdf:type owl:Class ;
+                    rdfs:label "DataLifeCyclePhase"@en ;
+                    rdfs:seeAlso "https://towson.libguides.com/dataresearch/datamangement/dldataone"@en ;
+                    <http://www.w3.org/2004/02/skos/core#definition> "One of the eight known phases of data life cycle."@en .
+
+
+###  https://purl.org/ontology/modalia#DataSteward
+:DataSteward rdf:type owl:Class ;
+             rdfs:subClassOf :TargetGroup ;
+             rdfs:label "Data Steward"@en ;
+             <http://www.w3.org/2004/02/skos/core#prefLabel> "Data Steward"@en .
+
+
+###  https://purl.org/ontology/modalia#DescribePhase
+:DescribePhase rdf:type owl:Class ;
+               rdfs:subClassOf :DataLifeCyclePhase ;
+               rdfs:label "DescribePhase"@en .
+
+
+###  https://purl.org/ontology/modalia#Discipline
+:Discipline rdf:type owl:Class ;
+            rdfs:isDefinedBy "knowledge of a specific, specialized discipline or field"@en ;
+            rdfs:label "Discipline"@en ;
+            rdfs:seeAlso "http://purl.org/spar/fabio/SubjectDiscipline"@en ;
+            <http://www.w3.org/2004/02/skos/core#example> "e.g Engineering"@en .
+
+
+###  https://purl.org/ontology/modalia#DiscoverPhase
+:DiscoverPhase rdf:type owl:Class ;
+               rdfs:subClassOf :DataLifeCyclePhase ;
+               rdfs:label "DiscoverPhase"@en .
+
+
+###  https://purl.org/ontology/modalia#EducationalLevel
+:EducationalLevel rdf:type owl:Class ;
+                  <http://www.w3.org/2004/02/skos/core#definition> "The educational level of a user: Bachlors, Masters or PhD"@en .
+
+
+###  https://purl.org/ontology/modalia#FreeLicense
+:FreeLicense rdf:type owl:Class ;
+             rdfs:subClassOf :License ;
+             rdfs:label "Free License"@en .
+
+
+###  https://purl.org/ontology/modalia#IntegratePhase
+:IntegratePhase rdf:type owl:Class ;
+                rdfs:subClassOf :DataLifeCyclePhase ;
+                rdfs:label "IntegratePhase"@en .
+
+
+###  https://purl.org/ontology/modalia#Job
+:Job rdf:type owl:Class ;
+     rdfs:label "Job"@en ;
+     rdfs:seeAlso "https://schema.org/Occupation"@en ;
+     <http://www.w3.org/2004/02/skos/core#definition> "name of a profession"@en ;
+     <http://www.w3.org/2004/02/skos/core#example> "Software Developer"@en .
+
+
+###  https://purl.org/ontology/modalia#LL1Remember
+:LL1Remember rdf:type owl:Class ;
+             rdfs:subClassOf :LearningLevel ;
+             rdfs:label "Learning Level 1 Remember"@en .
+
+
+###  https://purl.org/ontology/modalia#LL2Understand
+:LL2Understand rdf:type owl:Class ;
+               rdfs:subClassOf :LearningLevel ;
+               rdfs:label "Learning Level 2 Understand"@en .
+
+
+###  https://purl.org/ontology/modalia#LL3Apply
+:LL3Apply rdf:type owl:Class ;
+          rdfs:subClassOf :LearningLevel ;
+          rdfs:label "Learning Level 3 Apply"@en .
+
+
+###  https://purl.org/ontology/modalia#LL4Analyze
+:LL4Analyze rdf:type owl:Class ;
+            rdfs:subClassOf :LearningLevel ;
+            rdfs:label "Learning Level 4 Analyze"@en .
+
+
+###  https://purl.org/ontology/modalia#LL5Evaluate
+:LL5Evaluate rdf:type owl:Class ;
+             rdfs:subClassOf :LearningLevel ;
+             rdfs:label "Learning Level 5 Evaluate"@en .
+
+
+###  https://purl.org/ontology/modalia#LL6Create
+:LL6Create rdf:type owl:Class ;
+           rdfs:subClassOf :LearningLevel ;
+           rdfs:label "Learning Level 6 Create"@en .
+
+
+###  https://purl.org/ontology/modalia#LearningGoalMatrixEntry
+:LearningGoalMatrixEntry rdf:type owl:Class ;
+                         rdfs:label "LearningGoalMatrixEntry"@en .
+
+
+###  https://purl.org/ontology/modalia#LearningLevel
+:LearningLevel rdf:type owl:Class ;
+               <http://www.w3.org/2004/02/skos/core#definition> "The level of learning, is defined as six levels; strting from Knowledge and ending by Synthesis"@en .
+
+
+###  https://purl.org/ontology/modalia#LearningObjective
+:LearningObjective rdf:type owl:Class ;
+                   rdfs:comment "The Learning Goal can vary depending on the personalisation level. For example a user might care to learn some specific topics and not all the skill set."@en ;
+                   rdfs:label "LearningObjective"@en ;
+                   rdfs:seeAlso "https://github.com/tibonto/educor#LearningGoal" ;
+                   <http://www.w3.org/2004/02/skos/core#definition> "Learning Objective as defined in learning objective matrix (LZM)"@en .
+
+
+###  https://purl.org/ontology/modalia#LearningResourceType
+:LearningResourceType rdf:type owl:Class ;
+                      rdfs:label "LearningResourceType"@en ;
+                      <http://www.w3.org/2004/02/skos/core#definition> "The type of the learning resource can be lecture, experiment, Assessment, etc."@en .
+
+
+###  https://purl.org/ontology/modalia#Lecture
+:Lecture rdf:type owl:Class ;
+         rdfs:subClassOf :LearningResourceType ;
+         rdfs:comment "Class representing OERs that are lectures."@en ;
+         rdfs:label "Lecture"@en ;
+         <http://www.w3.org/2004/02/skos/core#prefLabel> "Lecture"@en .
+
+
+###  https://purl.org/ontology/modalia#License
+:License rdf:type owl:Class ;
+         rdfs:label "License"@en .
+
+
+###  https://purl.org/ontology/modalia#MastersStudent
+:MastersStudent rdf:type owl:Class ;
+                rdfs:subClassOf :TargetGroup ;
+                rdfs:label "Masters Student"@en ;
+                rdfs:seeAlso "http://w3id.org/roh#MastersStudent" ;
+                <http://www.w3.org/2004/02/skos/core#definition> "A student in Master's degree"@en ;
+                <http://www.w3.org/2004/02/skos/core#prefLabel> "Master's Student"@en .
+
+
+###  https://purl.org/ontology/modalia#MediaType
+:MediaType rdf:type owl:Class ;
+           rdfs:label "MediaType"@en .
+
+
+###  https://purl.org/ontology/modalia#MicroCredential
+:MicroCredential rdf:type owl:Class ;
+                 rdfs:label "MicroCredential"@en .
+
+
+###  https://purl.org/ontology/modalia#Multipart
+:Multipart rdf:type owl:Class ;
+           rdfs:subClassOf :MediaType ;
+           rdfs:label "Multipart"@en ;
+           <http://www.w3.org/2004/02/skos/core#definition> "If the resource consists of more than one item with different DOIs, the MediaType is \"multipart\" and the relations are provided in the field \"RelatedWork\"."@en ;
+           <http://www.w3.org/2004/02/skos/core#prefLabel> "Multipart"@en .
+
+
+###  https://purl.org/ontology/modalia#OrganisationProviderType
+:OrganisationProviderType rdf:type owl:Class ;
+                          rdfs:subClassOf :ProviderType ;
+                          rdfs:label "OrganisationProviderType"@en .
+
+
+###  https://purl.org/ontology/modalia#PersonProviderType
+:PersonProviderType rdf:type owl:Class ;
+                    rdfs:subClassOf :ProviderType ;
+                    rdfs:label "PersonProviderType"@en .
+
+
+###  https://purl.org/ontology/modalia#PhDStudent
+:PhDStudent rdf:type owl:Class ;
+            rdfs:subClassOf :TargetGroup ;
+            rdfs:label "PhD Student"@en ;
+            rdfs:seeAlso "http://vivoweb.org/ontology/core#GraduateStudent" ;
+            <http://www.w3.org/2004/02/skos/core#definition> "A student in PhD degree"@en ;
+            <http://www.w3.org/2004/02/skos/core#prefLabel> "PhD Student"@en .
+
+
+###  https://purl.org/ontology/modalia#PlanPhase
+:PlanPhase rdf:type owl:Class ;
+           rdfs:subClassOf :DataLifeCyclePhase ;
+           rdfs:label "PlanPhase"@en ;
+           <http://www.w3.org/2004/02/skos/core#definition> "First phase in data life cycle. Description of the data that will be compiled."@en .
+
+
+###  https://purl.org/ontology/modalia#Poster
+:Poster rdf:type owl:Class ;
+        rdfs:subClassOf :LearningResourceType ;
+        rdfs:comment "Class representing OERs that are Posters"@en ;
+        rdfs:label "Poster"@en ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel> "Poster"@en .
+
+
+###  https://purl.org/ontology/modalia#PreservePhase
+:PreservePhase rdf:type owl:Class ;
+               rdfs:subClassOf :DataLifeCyclePhase ;
+               rdfs:label "PreservePhase"@en .
+
+
+###  https://purl.org/ontology/modalia#Proficiency
+:Proficiency rdf:type owl:Class ;
+             owl:equivalentClass [ rdf:type owl:Class ;
+                                   owl:oneOf ( :Beginner
+                                               :Competent
+                                               :Expert
+                                               :Novice
+                                               :Proficient
+                                             )
+                                 ] ;
+             rdfs:label "Proficiency"@en ;
+             <http://www.w3.org/2004/02/skos/core#definition> """Benner’s Novice to Expert
+The five stages of proficiency in the novice to expert model are: novice, advanced beginner, competent, proficient, and expert (Benner, 1982)."""@en .
+
+
+###  https://purl.org/ontology/modalia#ProprietaryLicense
+:ProprietaryLicense rdf:type owl:Class ;
+                    rdfs:subClassOf :License ;
+                    rdfs:label "Proprietary License"@en .
+
+
+###  https://purl.org/ontology/modalia#Provider
+:Provider rdf:type owl:Class ;
+          rdfs:comment "Person, service or organisation that provides the OER"@en ;
+          rdfs:label "Provider"@en .
+
+
+###  https://purl.org/ontology/modalia#ProviderType
+:ProviderType rdf:type owl:Class ;
+              rdfs:label "Provider Type"@en .
+
+
+###  https://purl.org/ontology/modalia#Questionnaire
+:Questionnaire rdf:type owl:Class ;
+               rdfs:subClassOf :LearningResourceType ;
+               rdfs:label "Questionnaire"@en ;
+               <http://www.w3.org/2004/02/skos/core#prefLabel> "Questionnaire"@en .
+
+
+###  https://purl.org/ontology/modalia#RDMResource
+:RDMResource rdf:type owl:Class ;
+             rdfs:subClassOf ec:EducationalResource ;
+             rdfs:comment "OER related to Research Data Management"@en ;
+             rdfs:label "RDMResource"@en .
+
+
+###  https://purl.org/ontology/modalia#RDMSkill
+:RDMSkill rdf:type owl:Class ;
+          rdfs:subClassOf :Skill ;
+          rdfs:comment "Research Data Managment Skill"@en ;
+          rdfs:label "RDMSkill"@en ;
+          <http://www.w3.org/2004/02/skos/core#definition> "The ability to carry out tasks."@en .
+
+
+###  https://purl.org/ontology/modalia#RDMSubjectArea
+:RDMSubjectArea rdf:type owl:Class ;
+                rdfs:isDefinedBy "The subject area of an RDM topic"@en .
+
+
+###  https://purl.org/ontology/modalia#RDMTopic
+:RDMTopic rdf:type owl:Class ;
+          rdfs:subClassOf ec:KnowledgeTopic ;
+          rdfs:label "RDMTopic"@en ;
+          <http://www.w3.org/2004/02/skos/core#definition> "Topic related to research data management"@en .
+
+
+###  https://purl.org/ontology/modalia#RatingIndicator
+:RatingIndicator rdf:type owl:Class ;
+                 rdfs:label "RatingIndicator"@en ;
+                 <http://www.w3.org/2004/02/skos/core#definition> "Is a URI that relates a User and an OER and have predicate schema:rating" .
+
+
+###  https://purl.org/ontology/modalia#Researcher
+:Researcher rdf:type owl:Class ;
+            rdfs:subClassOf :TargetGroup ;
+            rdfs:seeAlso "https://www.wikidata.org/wiki/Q1650915"@en ;
+            <http://www.w3.org/2004/02/skos/core#prefLabel> "Researcher"@en .
+
+
+###  https://purl.org/ontology/modalia#ResearcherRole
+:ResearcherRole rdf:type owl:Class ;
+                rdfs:subClassOf :UserRole ;
+                rdfs:label "ResearcherRole"@en .
+
+
+###  https://purl.org/ontology/modalia#ServiceProviderType
+:ServiceProviderType rdf:type owl:Class ;
+                     rdfs:subClassOf :ProviderType ;
+                     rdfs:label "ServiceProviderType"@en .
+
+
+###  https://purl.org/ontology/modalia#Skill
+:Skill rdf:type owl:Class ;
+       rdfs:comment "Job Skill, ability to perform some tasks."@en ;
+       rdfs:label "Skill"@en .
+
+
+###  https://purl.org/ontology/modalia#StudentRole
+:StudentRole rdf:type owl:Class ;
+             rdfs:subClassOf :UserRole ;
+             rdfs:label "StudentRole"@en .
+
+
+###  https://purl.org/ontology/modalia#StudentSchool
+:StudentSchool rdf:type owl:Class ;
+               rdfs:subClassOf :TargetGroup ;
+               rdfs:label "Student (School)"@en ;
+               <http://www.w3.org/2004/02/skos/core#prefLabel> "Student (School)"@en .
+
+
+###  https://purl.org/ontology/modalia#SubjectCluster
+:SubjectCluster rdf:type owl:Class ;
+                rdfs:isDefinedBy "Clusters of subject areas"@en ;
+                rdfs:label "SubjectCluster"@en .
+
+
+###  https://purl.org/ontology/modalia#TargetGroup
+:TargetGroup rdf:type owl:Class ;
+             rdfs:label "TargetGroup"@en ;
+             rdfs:seeAlso "http://purl.org/dcx/lrmi-terms/EducationalAudience" ;
+             <http://www.w3.org/2004/02/skos/core#definition> "The target group of the learning resource, e.g. students, data stewards, researchers, etc"@en .
+
+
+###  https://purl.org/ontology/modalia#TeacherHighEducation
+:TeacherHighEducation rdf:type owl:Class ;
+                      rdfs:subClassOf :TargetGroup ;
+                      rdfs:label "Teacher(High Education)"@en ;
+                      <http://www.w3.org/2004/02/skos/core#prefLabel> "Teacher (Higher Education)"@en .
+
+
+###  https://purl.org/ontology/modalia#TeacherRole
+:TeacherRole rdf:type owl:Class ;
+             rdfs:subClassOf :UserRole ;
+             rdfs:label "TeacherRole"@en .
+
+
+###  https://purl.org/ontology/modalia#TeacherSchool
+:TeacherSchool rdf:type owl:Class ;
+               rdfs:subClassOf :TargetGroup ;
+               rdfs:label "Teacher (School)"@en ;
+               rdfs:seeAlso "https://www.wikidata.org/wiki/Q37226"@en ;
+               <http://www.w3.org/2004/02/skos/core#prefLabel> "Teacher (School)"@en .
+
+
+###  https://purl.org/ontology/modalia#Tutorial
+:Tutorial rdf:type owl:Class ;
+          rdfs:subClassOf :LearningResourceType ;
+          rdfs:comment "Class representing OERs that are in form of tutorial."@en ;
+          rdfs:label "Tutorial"@en ;
+          <http://www.w3.org/2004/02/skos/core#prefLabel> "Tutorial"@en .
+
+
+###  https://purl.org/ontology/modalia#User
+:User rdf:type owl:Class ;
+      rdfs:label "User"@en ;
+      rdfs:seeAlso <http://xmlns.com/foaf/0.1/Person> ;
+      <http://www.w3.org/2004/02/skos/core#definition> "Registered user in the system, can have different roles i.e learner , teacher , curator, etc"@en .
+
+
+###  https://purl.org/ontology/modalia#UserComment
+:UserComment rdf:type owl:Class ;
+             <http://www.w3.org/2004/02/skos/core#definition> "Comment added by a user on an educational resource"@en .
+
+
+###  https://purl.org/ontology/modalia#UserEnrollment
+:UserEnrollment rdf:type owl:Class ;
+                rdfs:label "UserEnrollment"@en ;
+                <http://www.w3.org/2004/02/skos/core#definition> "User enrollments are micro-credentials that a specific user tries to obtain"@en .
+
+
+###  https://purl.org/ontology/modalia#UserProfile
+:UserProfile rdf:type owl:Class ;
+             rdfs:label "UserProfile"@en .
+
+
+###  https://purl.org/ontology/modalia#UserRole
+:UserRole rdf:type owl:Class ;
+          rdfs:label "UserRole"@en .
+
+
+###  https://purl.org/ontology/modalia#VARKAuditory
+:VARKAuditory rdf:type owl:Class ;
+              rdfs:subClassOf ec:LearningPreference ;
+              rdfs:label "VARKAuditory"@en ;
+              <http://www.w3.org/2004/02/skos/core#definition> "Auditory learning (music, discussion, lectures)"@en .
+
+
+###  https://purl.org/ontology/modalia#VARKKinesthetic
+:VARKKinesthetic rdf:type owl:Class ;
+                 rdfs:subClassOf ec:LearningPreference ;
+                 rdfs:label "VARKKinesthetic"@en ;
+                 <http://www.w3.org/2004/02/skos/core#definition> "Kinesthetic learning (movement, experiments, hands-on activities)"@en .
+
+
+###  https://purl.org/ontology/modalia#VARKReading
+:VARKReading rdf:type owl:Class ;
+             rdfs:subClassOf ec:LearningPreference ;
+             rdfs:label "VARKReading"@en ;
+             <http://www.w3.org/2004/02/skos/core#definition> "Reading and writing (making lists, reading textbooks, taking notes)"@en .
+
+
+###  https://purl.org/ontology/modalia#VARKVisual
+:VARKVisual rdf:type owl:Class ;
+            rdfs:subClassOf ec:LearningPreference ;
+            rdfs:label "VARKVisual"@en ;
+            <http://www.w3.org/2004/02/skos/core#definition> "Visual learning (pictures, movies, diagrams)"@en .
+
+
+###  https://purl.org/ontology/modalia#Workshop
+:Workshop rdf:type owl:Class ;
+          rdfs:subClassOf :LearningResourceType ;
+          rdfs:label "Workshop"@en ;
+          <http://www.w3.org/2004/02/skos/core#prefLabel> "Workshop"@en .
+
+
+###  https://schema.org/AudioObject
+schema:AudioObject rdf:type owl:Class ;
+                   rdfs:subClassOf :MediaType ;
+                   rdfs:comment "A class representing OERs which are audio files."@en ;
+                   rdfs:label "Audio"@en ;
+                   <http://www.w3.org/2004/02/skos/core#prefLabel> "Audio"@en .
+
+
+###  https://schema.org/ImageObject
+schema:ImageObject rdf:type owl:Class ;
+                   rdfs:subClassOf :MediaType ;
+                   rdfs:comment "An image file."@en ;
+                   rdfs:label "Image"@en ;
+                   <http://www.w3.org/2004/02/skos/core#prefLabel> "Image"@en .
+
+
+###  https://schema.org/Organization
+schema:Organization rdf:type owl:Class ;
+                    rdfs:comment "An organization such as a school (including Universities), NGO, corporation, club, etc."@en ;
+                    rdfs:label "Organization" ;
+                    rdfs:seeAlso <http://xmlns.com/foaf/0.1/Organization> .
+
+
+###  https://schema.org/PodcastSeries
+schema:PodcastSeries rdf:type owl:Class ;
+                     rdfs:subClassOf :LearningResourceType ;
+                     rdfs:label "Podcast Series"@en ;
+                     <http://www.w3.org/2004/02/skos/core#definition> "A podcast is an episodic series of digital audio or video files which a user can download and listen to."@en ;
+                     <http://www.w3.org/2004/02/skos/core#prefLabel> "Podcast Series"@en .
+
+
+###  https://schema.org/PresentationDigitalDocument
+schema:PresentationDigitalDocument rdf:type owl:Class ;
+                                   rdfs:subClassOf :MediaType ;
+                                   rdfs:comment "A presentation / slides file."@en ;
+                                   rdfs:label "Presentation"@en ;
+                                   <http://www.w3.org/2004/02/skos/core#prefLabel> "Presentation"@en .
+
+
+###  https://schema.org/SoftwareSourceCode
+schema:SoftwareSourceCode rdf:type owl:Class ;
+                          rdfs:subClassOf :LearningResourceType ;
+                          rdfs:comment "Computer programming source code. Example: Full (compile ready) solutions, code snippet samples, scripts, templates."@en ;
+                          rdfs:label "Software Source Code"@en ;
+                          <http://www.w3.org/2004/02/skos/core#prefLabel> "Software Source Code"@en .
+
+
+###  https://schema.org/Text
+schema:Text rdf:type owl:Class ;
+            rdfs:subClassOf :MediaType ;
+            rdfs:comment "Class representing OER which are text."@en ;
+            rdfs:label "Text"@en ;
+            <http://www.w3.org/2004/02/skos/core#prefLabel> "Text"@en .
+
+
+###  https://schema.org/VideoObject
+schema:VideoObject rdf:type owl:Class ;
+                   rdfs:subClassOf :MediaType ;
+                   rdfs:comment "A video file."@en ;
+                   rdfs:label "Video"@en ;
+                   <http://www.w3.org/2004/02/skos/core#prefLabel> "Video"@en .
+
+
+###  https://w3id.org/kim/hcrt/assessment
+<https://w3id.org/kim/hcrt/assessment> rdf:type owl:Class ;
+                                       rdfs:subClassOf :LearningResourceType ;
+                                       rdfs:comment "Class representing OERs that are in form of assessment of knowledge."@en ;
+                                       rdfs:label "Assessment"@en ;
+                                       <http://www.w3.org/2004/02/skos/core#prefLabel> "Assessment"@en .
+
+
+###  https://w3id.org/kim/hcrt/case_study
+<https://w3id.org/kim/hcrt/case_study> rdf:type owl:Class ;
+                                       rdfs:subClassOf :LearningResourceType ;
+                                       rdfs:comment "Class representing OERs that are in form of case study."@en ;
+                                       rdfs:label "CaseStudy"@en ;
+                                       <http://www.w3.org/2004/02/skos/core#prefLabel> "Case Study"@en .
+
+
+###  https://w3id.org/kim/hcrt/diagram
+<https://w3id.org/kim/hcrt/diagram> rdf:type owl:Class ;
+                                    rdfs:subClassOf :LearningResourceType ;
+                                    rdfs:comment "Class representing an OER that is a diagram"@en ;
+                                    rdfs:label "Diagram"@en ;
+                                    <http://www.w3.org/2004/02/skos/core#prefLabel> "Diagram"@en .
+
+
+###  https://w3id.org/kim/hcrt/educational_game
+<https://w3id.org/kim/hcrt/educational_game> rdf:type owl:Class ;
+                                             rdfs:subClassOf :LearningResourceType ;
+                                             rdfs:comment "Class representing OERs that are in form of educational games."@en ;
+                                             rdfs:label "Educational Game"@en .
+
+
+###  https://w3id.org/kim/hcrt/experiment
+<https://w3id.org/kim/hcrt/experiment> rdf:type owl:Class ;
+                                       rdfs:subClassOf :LearningResourceType ;
+                                       rdfs:comment "Class representing OERs that are describing an experiment"@en ;
+                                       rdfs:label "Experiment"@en .
+
+
+###  https://w3id.org/kim/hcrt/index
+<https://w3id.org/kim/hcrt/index> rdf:type owl:Class ;
+                                  rdfs:subClassOf :LearningResourceType ;
+                                  rdfs:label "Index"@en ,
+                                             "Nachschlagewerk"@de ;
+                                  <http://www.w3.org/2004/02/skos/core#example> "glossary, encyclopedia, dictionary"@en ;
+                                  <http://www.w3.org/2004/02/skos/core#prefLabel> "Reference Work"@en ;
+                                  <http://www.w3.org/2004/02/skos/core#scopeNote> "zum Beispiel Glossar, Enzyklopädie, Lexikonzum Beispiel Glossar, Enzyklopädie, Lexikon"@de .
+
+
+###  https://w3id.org/kim/hcrt/other
+<https://w3id.org/kim/hcrt/other> rdf:type owl:Class ;
+                                  rdfs:subClassOf :LearningResourceType ;
+                                  rdfs:label "Other resource type"@en .
+
+
+###  https://w3id.org/kim/hcrt/simulation
+<https://w3id.org/kim/hcrt/simulation> rdf:type owl:Class ;
+                                       rdfs:subClassOf :LearningResourceType ;
+                                       rdfs:label "Simulation"@en ;
+                                       <http://www.w3.org/2004/02/skos/core#prefLabel> "Simulation"@en .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://w3id.org/nfdi4ing/metadata4ing#ContactPerson
+m4i:ContactPerson rdf:type owl:NamedIndividual ,
+                           :ContributorRole ;
+                  rdfs:label "ContactPerson"@en .
+
+
+###  http://w3id.org/nfdi4ing/metadata4ing#DataCurator
+m4i:DataCurator rdf:type owl:NamedIndividual ,
+                         :ContributorRole ;
+                rdfs:label "DataCurator"@en .
+
+
+###  http://w3id.org/nfdi4ing/metadata4ing#DataManager
+m4i:DataManager rdf:type owl:NamedIndividual ,
+                         :ContributorRole ;
+                rdfs:label "DataManager"@en .
+
+
+###  http://w3id.org/nfdi4ing/metadata4ing#Sponsor
+m4i:Sponsor rdf:type owl:NamedIndividual ,
+                     :ContributorRole ;
+            rdfs:label "Sponsor"@en .
+
+
+###  https://creativecommons.org/licenses/by/4.0/
+<https://creativecommons.org/licenses/by/4.0/> rdf:type owl:NamedIndividual .
+
+
+###  https://purl.org/ontology/modalia#
+<https://purl.org/ontology/modalia#> rdf:type owl:NamedIndividual ;
+                                     dcterms:license <https://creativecommons.org/licenses/by/4.0/> .
+
+
+###  https://purl.org/ontology/modalia#Beginner
+:Beginner rdf:type owl:NamedIndividual ,
+                   :Proficiency ;
+          :isLessProficientThan :Competent ,
+                                :Expert ,
+                                :Proficient ;
+          :isMoreProficientThan :Novice ;
+          :hasOrder 2 ;
+          rdfs:label "Advanced Beginner"@en .
+
+
+###  https://purl.org/ontology/modalia#Competent
+:Competent rdf:type owl:NamedIndividual ,
+                    :Proficiency ;
+           :isLessProficientThan :Expert ,
+                                 :Proficient ;
+           :isMoreProficientThan :Beginner ,
+                                 :Novice ;
+           :hasOrder 3 ;
+           rdfs:label "Competent"@en .
+
+
+###  https://purl.org/ontology/modalia#Expert
+:Expert rdf:type owl:NamedIndividual ,
+                 :Proficiency ;
+        :isMoreProficientThan :Beginner ,
+                              :Competent ,
+                              :Novice ,
+                              :Proficient ;
+        :hasOrder 5 ;
+        rdfs:label "Expert"@en .
+
+
+###  https://purl.org/ontology/modalia#Novice
+:Novice rdf:type owl:NamedIndividual ,
+                 :Proficiency ;
+        :isLessProficientThan :Beginner ,
+                              :Competent ,
+                              :Expert ,
+                              :Proficient ;
+        :hasOrder 1 ;
+        rdfs:label "Novice"@en .
+
+
+###  https://purl.org/ontology/modalia#Proficient
+:Proficient rdf:type owl:NamedIndividual ,
+                     :Proficiency ;
+            :isLessProficientThan :Expert ;
+            :isMoreProficientThan :Beginner ,
+                                  :Competent ,
+                                  :Novice ;
+            :hasOrder 4 ;
+            rdfs:label "Proficient"@en .
+
+
+###  https://purl.org/ontology/modalia#Proprietary
+:Proprietary rdf:type owl:NamedIndividual ,
+                      :ProprietaryLicense ;
+             rdfs:label "Proprietary"@en .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

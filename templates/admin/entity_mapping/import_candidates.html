@@ -1,0 +1,196 @@
+{% extends "admin/base.html" %}
+{% load i18n admin_urls static admin_modify %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block content_title %}{{ title }}{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; <a href="{% url 'admin:app_list' app_label='entity_mapping' %}">Entity Mapping</a>
+&rsaquo; <a href="{% url 'admin:entity_mapping_entitymapping_changelist' %}">Entity mappings</a>
+&rsaquo; {{ title }}
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col-12">
+    <!-- Summary Statistics -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="card-title">Import Candidates Summary</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Entity Type</th>
+                            <th>Total Candidates</th>
+                            <th class="text-warning">Pending Review</th>
+                            <th class="text-success">Approved</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entity_type, stats in summary.items %}
+                        <tr>
+                            <td><strong>{{ entity_type|title }}</strong></td>
+                            <td>{{ stats.total }}</td>
+                            <td class="text-warning">{{ stats.pending }}</td>
+                            <td class="text-success">{{ stats.approved }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Import Candidates -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="card-title">Recent Import Candidates</h3>
+        </div>
+        <div class="card-body">
+            {% if recent_candidates %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Entity Type</th>
+                            <th>Fuseki URI</th>
+                            <th>Label/Name</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for candidate in recent_candidates %}
+                        <tr>
+                            <td><a href="{% url 'admin:entity_mapping_entitymapping_change' candidate.id %}">#{{ candidate.id }}</a></td>
+                            <td>
+                                <span class="badge badge-primary">{{ candidate.get_entity_type_display }}</span>
+                            </td>
+                            <td>
+                                {% if candidate.fuseki_uri %}
+                                    <a href="{{ candidate.fuseki_uri }}" target="_blank" title="{{ candidate.fuseki_uri }}">
+                                        {{ candidate.fuseki_uri|truncatechars:40 }}
+                                    </a>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if candidate.fuseki_metadata.label %}
+                                    <strong>{{ candidate.fuseki_metadata.label|truncatechars:50 }}</strong>
+                                {% else %}
+                                    <em>No label</em>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if candidate.import_approved %}
+                                    <span class="badge badge-success">✓ Approved</span>
+                                {% else %}
+                                    <span class="badge badge-warning">⏳ Pending</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ candidate.created|date:"M d, Y H:i" }}</td>
+                            <td>
+                                {% if not candidate.import_approved %}
+                                    <a href="{% url 'admin:entity_mapping_approve_import' candidate.id %}"
+                                       class="btn btn-sm btn-success"
+                                       title="Approve Import">✓</a>
+                                    <a href="{% url 'admin:entity_mapping_reject_import' candidate.id %}"
+                                       class="btn btn-sm btn-danger"
+                                       title="Reject Import">✗</a>
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if is_paginated %}
+            <!-- Pagination -->
+            <nav aria-label="Import candidates pagination">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1">&laquo; First</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&lsaquo; Previous</a>
+                        </li>
+                    {% endif %}
+
+                    <li class="page-item active">
+                        <span class="page-link">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                            ({{ page_obj.paginator.count }} total candidates)
+                        </span>
+                    </li>
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next &rsaquo;</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+
+            {% else %}
+            <p><em>No import candidates found. <a href="{% url 'admin:entity_mapping_discover_candidates' %}">Discover new candidates</a></em></p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="card-title">Quick Actions</h3>
+        </div>
+        <div class="card-body">
+            <div class="btn-group" role="group">
+                <a href="{% url 'admin:entity_mapping_discover_candidates' %}" class="btn btn-success">
+                    <i class="fas fa-search"></i> Discover New Candidates
+                </a>
+                <a href="{% url 'admin:entity_mapping_entitymapping_changelist' %}?import_candidate__exact=1&import_approved__exact=0" class="btn btn-warning">
+                    <i class="fas fa-clock"></i> View All Pending
+                </a>
+                <a href="{% url 'admin:entity_mapping_sync_summary' %}" class="btn btn-info">
+                    <i class="fas fa-chart-bar"></i> Sync Summary
+                </a>
+                <a href="{% url 'admin:entity_mapping_entitymapping_changelist' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Entity Mappings
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Section -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Import Candidate Workflow</h3>
+        </div>
+        <div class="card-body">
+            <ol>
+                <li><strong>Discovery:</strong> Use "Discover New Candidates" to find entities in Fuseki that don't exist in PostgreSQL</li>
+                <li><strong>Review:</strong> Check the metadata and Fuseki URI to ensure the entity is valid and needed</li>
+                <li><strong>Approve:</strong> Click ✓ to approve candidates for import into PostgreSQL</li>
+                <li><strong>Reject:</strong> Click ✗ to reject candidates that shouldn't be imported</li>
+                <li><strong>Import:</strong> Approved candidates are ready for PostgreSQL entity creation (manual step)</li>
+            </ol>
+        </div>
+    </div>
+</div>
+{% endblock %}

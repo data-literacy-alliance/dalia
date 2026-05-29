@@ -1,0 +1,579 @@
+@prefix dalia-community: <https://id.dalia.education/community/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ec: <https://github.com/tibonto/educor#> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix m4i: <http://w3id.org/nfdi4ing/metadata4ing#> .
+@prefix mo: <https://purl.org/ontology/modalia#> .
+@prefix ns1: <https://dalia.education/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rec: <http://purl.org/ontology/rec/core#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://id.dalia.education/learning-resource/284d20b2-9247-47fa-8231-7f71c0bd9927> a ec:EducationalResource ;
+    dcterms:description "The Research Data Management Librarian Academy (RDMLA) is a free online training program for librarians, information professionals and other professionals working in a data-intensive environment worldwide. Within this framework, a wide range of different topics and content is offered, consisting of eight asynchronous self-paced learning units: introduction to RDM, research data lifecycle and “research culture and ecosystem”, stakeholders, project management, data visualization tools such as R and Tableau, introduction to data analysis, programming skills in Python and Jupyter Notebook, copyright, licensing and privacy issues, and curation and archiving of data. Each unit includes several components of the following three features: On an informational level, learning objectives are taught and provided in the form of video lectures, presentation slides and reading material. Case studies and interactive formats can be used to supplement the content. And after each learning unit, discussion questions and quizzes on the concept can be used as assessment methods." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-NC-SA-4.0> ;
+    dcterms:title "RDMLA – Research Data Management Librarian Academy" ;
+    rec:recommender dalia-community:6a21dd4a-200c-44e3-85b8-68fb31d510af ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n013>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n022>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n054>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n078>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n092>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n155>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n19> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Expert,
+        mo:Novice,
+        mo:Proficient ;
+    schema:datePublished "2019-10-01"^^xsd:date ;
+    schema:keywords "analyzing",
+        "archiving",
+        "copyright",
+        "data curation",
+        "data life cycle",
+        "data management plan",
+        "data visualization",
+        "license",
+        "organizing",
+        "programming",
+        "project management",
+        "python",
+        "r",
+        "repository",
+        "research data management",
+        "visualization" ;
+    schema:url <https://www.canvas.net/browse/simmonsu/courses/research-data-management> .
+
+<https://id.dalia.education/learning-resource/320f52eb-e122-4487-bfeb-05bb41a941cb> a ec:EducationalResource ;
+    dcterms:description "The course provides an introduction to the topic of knowledge graphs. The basics of graph theory and the semantic web are covered. Knowledge representation through ontologies with OWL (Web Ontology Language) and queries with SPARQL are discussed. As the course follows a modular structure, it can be started according to the individual level of knowledge and can also be cancelled at certain points according to individual learning goals." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-NC-SA-4.0> ;
+    dcterms:title "Knowledge Graphs Course" ;
+    rec:recommender dalia-community:6a21dd4a-200c-44e3-85b8-68fb31d510af ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n022>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n079> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/0387prb75" ;
+            schema:name "FIZ Karlsruhe – Leibniz-Institut für Informationsinfrastruktur" ] ;
+    mo:requiresProficiencyLevel mo:Competent,
+        mo:Expert,
+        mo:Proficient ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/0387prb75" ;
+                schema:name "FIZ Karlsruhe – Leibniz-Institut für Informationsinfrastruktur" ] ) ;
+    schema:datePublished "2020-12-15"^^xsd:date ;
+    schema:keywords "artificial intelligence",
+        "conceptualizing",
+        "data ingestion",
+        "data modeling",
+        "dataquality",
+        "integrating",
+        "knowledge extraction",
+        "modeling",
+        "natural language processing",
+        "relational analysis",
+        "semantification" ;
+    schema:url <https://open.hpi.de/courses/knowledgegraphs2020> .
+
+<https://id.dalia.education/learning-resource/33334a3c-3218-432a-861e-e43dae4e7fbc> a ec:EducationalResource ;
+    dcterms:description "The self-study course is characterised by a clear structuring of nine blocks (Introduction to FDM; The Life Cycle of Research Data; DMP; Metadata and Metadata Standards; FAIR and CARE Principles; Data Quality; Data Organisation; Data Storage and Archiving; Law). The individual chapters contain different media (text, image and video files), tasks and are designed to build on each other thematically. The contents are supported by examples from different disciplines with literature references and links to further platforms and sources (e.g. DFG) and the learning objectives are successively recorded." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Research Data Management - an Online Introduction (HeFDI Data Learning Materials)" ;
+    rec:recommender dalia-community:6a21dd4a-200c-44e3-85b8-68fb31d510af ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n013>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n054>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n078>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n092>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n155>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n19> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/01rdrb571" ;
+            schema:name "Philipps-Universität Marburg" ] ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/01rdrb571" ;
+                schema:name "Philipps-Universität Marburg" ] ) ;
+    schema:datePublished "2022-03-01"^^xsd:date ;
+    schema:keywords "authority data",
+        "care principles",
+        "data life cycle",
+        "data management plan",
+        "dataquality",
+        "fair",
+        "longterm preservation",
+        "metadata",
+        "organizing",
+        "preserving",
+        "research data management" ;
+    schema:url <https://ilias.uni-marburg.de/goto.php?target=pg_325545_2457008&client_id=UNIMR> .
+
+<https://id.dalia.education/learning-resource/3fbe0d2a-ec87-49a1-9b22-a0be98eb0201> a ec:EducationalResource ;
+    dcterms:description "The tutorial 'Digital Text Editing with TEI' consists of a series of chapters that build on each other to introduce the coding and editing of texts according to the guidelines of the Text Encoding Initiative (TEI). The tutorial is designed for use in teaching, but can also be used for self-study. It is therefore not tailored to a specific user group, but is suitable for anyone who wants to edit digital text using TEI. TEI itself, i. e. the free accessibility and use of the coding, as well as the recommendation of freely accessible repositories, correspond at least in part to the FAIR principles. The tutorial is a technical training in TEI and does not contain instructions or recommendations concerning RDM." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Digital Text Editing with TEI" ;
+    rec:recommender dalia-community:6a21dd4a-200c-44e3-85b8-68fb31d510af ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n013>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n054>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n078>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n092>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n155>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n19> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/05745n787" ;
+            schema:name "Niedersächsische Staats- und Universitätsbibliothek Göttingen" ] ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/05745n787" ;
+                schema:name "Niedersächsische Staats- und Universitätsbibliothek Göttingen" ] ) ;
+    schema:datePublished "2014-06-01"^^xsd:date ;
+    schema:keywords "editing",
+        "metadata",
+        "teaching",
+        "text" ;
+    schema:url <https://de.dariah.eu/tei-tutorial> .
+
+<https://id.dalia.education/learning-resource/54e213e7-ce51-46f7-b8ad-84c2965e35fb> a ec:EducationalResource ;
+    dcterms:description "The \"Open Science: From Data to Publications\" online self-study course offers a clear overview of selected topics. Since the focus is on \"Open Science\", no claim is made to offer a comprehensive overview of Research Data Management. The videos and specific content from different input providers are presented in a structured and clear way." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "KIM Open Science" ;
+    rec:recommender dalia-community:6a21dd4a-200c-44e3-85b8-68fb31d510af ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n013>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n054>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n078>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n092>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n155>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n19> ;
+    fabio:hasSubtitle "Von Daten zu Publikationen" ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/0546hnb39" ;
+            schema:name "Universität Konstanz" ] ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/0546hnb39" ;
+                schema:name "Universität Konstanz" ] ) ;
+    schema:datePublished "2020-09-08"^^xsd:date ;
+    schema:keywords "academic publishing",
+        "digital publishing",
+        "publishing",
+        "research data management" ;
+    schema:url <https://www.kim.uni-konstanz.de/openscience/onlinekurs-open-science-von-daten-zu-publikationen/> .
+
+<https://id.dalia.education/learning-resource/67cb59e9-cb7c-4ea6-b841-c1deadad8ad2> a ec:EducationalResource ;
+    dcterms:description "This course is based on the \"Basic Course\" offer of the KIM Open Science Center of the University of Konstanz. It offers a collection of seven modules aiming at research and training related aspects around Open Science, like Policies and Strategies, Research Data Management and perspectives across ERUA countries and Planning Data Management, Models and Publishing, Citizen Science, Legal Aspects and Alternative Measures of Research Impact in the context of Open Science and Open Educational Resources." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Open Science Advanced Course" ;
+    rec:recommender dalia-community:6a21dd4a-200c-44e3-85b8-68fb31d510af ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n013>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n054>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n078>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n092>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n155>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n19> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/0546hnb39" ;
+            schema:name "Universität Konstanz" ] ;
+    mo:requiresProficiencyLevel mo:Competent,
+        mo:Expert,
+        mo:Proficient ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/0546hnb39" ;
+                schema:name "Universität Konstanz" ] ) ;
+    schema:datePublished "2023-08-23"^^xsd:date ;
+    schema:keywords "academic publishing",
+        "data management plan",
+        "dataquality",
+        "digital publishing",
+        "organizing",
+        "publishing",
+        "research data management",
+        "storing" ;
+    schema:url <https://www.kim.uni-konstanz.de/en/openscience/open-science-courses/open-science-advanced-course-2023/> .
+
+<https://id.dalia.education/learning-resource/7542aa37-c5cd-4ae1-bdfb-a8c750d906ac> a ec:EducationalResource ;
+    dcterms:description "The OER provides a good overview of the topics mentioned in the title. It works with a combination of reading parts, explanatory videos and a quiz at the end of each section. Additionally, at the end of each section, links to further information are listed, which offer the user the possibility to deepen their knowledge individually." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Search & Reuse Research Data" ;
+    rec:recommender dalia-community:6a21dd4a-200c-44e3-85b8-68fb31d510af ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n013>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n054>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n078>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n092>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n155>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n19> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/00f7hpc57" ;
+            schema:name "Friedrich-Alexander-Universität Erlangen-Nürnberg" ] ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/00f7hpc57" ;
+                schema:name "Friedrich-Alexander-Universität Erlangen-Nürnberg" ] ) ;
+    schema:datePublished "2019-10-23"^^xsd:date ;
+    schema:keywords "authority data",
+        "dataquality",
+        "exploration",
+        "metadata" ;
+    schema:url <https://www.studon.fau.de/studon/goto.php?target=lm_2994018> .
+
+<https://id.dalia.education/learning-resource/7ab8229d-84a5-4d6c-a97c-562dd4649429> a ec:EducationalResource ;
+    dcterms:description "The e-learning portal \"DATA AFFAIRS\" (developed by the DFG-funded Collaborative Research Center 1171 \"Affective Societies\" (FU Berlin)) offers scientists working with empirical and qualitative research data in ethnographic research a wide range of learning and training opportunities based on the current challenges of data management. The open-access platform provides all interested parties with insights into a total of 18 topics, ranging from data protection and data security, artificial intelligence and sustainability to the best methods for anonymizing and pseudonymizing personal data. The content can be explored via different areas: \"Inform\", \"Learn\", \"Guide\" and \"Glossary\", and contains text, image, audio and video material as well as interactive learning units. Practical examples and application-oriented exercises encourage interactive self-study." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "DATA AFFAIRS – Data Management for ethnographic research" ;
+    rec:recommender dalia-community:6a21dd4a-200c-44e3-85b8-68fb31d510af ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n013>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n054>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n078>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n092>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n149>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n155>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n19> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/046ak2485" ;
+            schema:name "Freie Universität Berlin" ] ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/046ak2485" ;
+                schema:name "Freie Universität Berlin" ] ) ;
+    schema:datePublished "2023-11-22"^^xsd:date ;
+    schema:keywords "archiving",
+        "artificial intelligence",
+        "audiovisual",
+        "care principles",
+        "copyright",
+        "data format",
+        "data life cycle",
+        "data management plan",
+        "data protection",
+        "documentation",
+        "fair",
+        "license",
+        "metadata",
+        "research data management",
+        "sharing" ;
+    schema:url <https://data-affairs.affective-societies.de/> .
+
+<https://id.dalia.education/learning-resource/83557ed8-feee-46cd-a1bb-7c83f1b69a3c> a ec:EducationalResource ;
+    dcterms:description "This course is a collection of eight modules aiming at research and training related aspects around Open Science. Furthermore, this course discusses more generic content like Open Access, research data management, FAIR data and other relevant topics like repositories, persistent identifiers, legal questions in the context of Open Science and Open Educational Resources." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Open Science" ;
+    rec:recommender dalia-community:6a21dd4a-200c-44e3-85b8-68fb31d510af ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n013>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n054>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n092>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n155>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n19> ;
+    fabio:hasSubtitle "Basic Course" ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/0546hnb39" ;
+            schema:name "Universität Konstanz" ] ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/0546hnb39" ;
+                schema:name "Universität Konstanz" ] ) ;
+    schema:datePublished "2022-09-30"^^xsd:date ;
+    schema:keywords "academic publishing",
+        "authority data",
+        "data life cycle",
+        "dataquality",
+        "digital publishing",
+        "fair",
+        "metadata",
+        "publishing",
+        "research data management" ;
+    schema:url <https://www.kim.uni-konstanz.de/openscience/open-science-kurse/open-science-basic-course/> .
+
+<https://id.dalia.education/learning-resource/8477f8de-a6c6-416c-bda7-2936dacad5ff> a ec:EducationalResource ;
+    dcterms:description "The self-study course offers an introduction to Jupyter Notebooks. Thematically it starts with the installation of the Software, teaches first operations with the system and eventually shines a light on advanced use cases, like the transformation from Python code into Jupyter Notebooks. Furthermore it offers informations on how to use Jupyter Notebooks in Teaching." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Introduction to Jupyter Notebooks" ;
+    rec:recommender dalia-community:6a21dd4a-200c-44e3-85b8-68fb31d510af ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n013>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n054>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n078>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n092>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n155>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n19> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            schema:name "The Programming Historian" ] ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                schema:name "The Programming Historian" ] ) ;
+    schema:datePublished "2019-12-08"^^xsd:date ;
+    schema:keywords "programming",
+        "teaching" ;
+    schema:url <https://programminghistorian.org/en/lessons/jupyter-notebooks> .
+
+<https://id.dalia.education/learning-resource/84e64329-43d9-4e0b-a1c5-0bd0c92d1133> a ec:EducationalResource ;
+    dcterms:description "The online course offers a good overview of the topics mentioned in the title, especially regarding the programming language R, the IIIF standard and Mirador, Git and GitHub, Regular Expressions (RE) and the graph databases SPARQL. For each topic block, text sections with subject-specific examples, concrete quizzes, explanatory videos and application areas have been compiled. Furthermore, at the end of each section, links to further information and tutorials are listed, which offer the user the opportunity to deepen their knowledge individually." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Research Data Software and Data Formats in Humanities and Social Sciences" ;
+    rec:recommender dalia-community:6a21dd4a-200c-44e3-85b8-68fb31d510af ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n013>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n054>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n078>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n092>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n155>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n19> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/00f7hpc57" ;
+            schema:name "Friedrich-Alexander-Universität Erlangen-Nürnberg" ] ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/00f7hpc57" ;
+                schema:name "Friedrich-Alexander-Universität Erlangen-Nürnberg" ] ) ;
+    schema:datePublished "2019-12-02"^^xsd:date ;
+    schema:keywords "annotating",
+        "data format",
+        "enriching",
+        "preserving" ;
+    schema:url <https://www.studon.fau.de/studon/goto.php?target=lm_2993840> .
+
+<https://id.dalia.education/learning-resource/84f0a93b-b978-4ca5-b823-28fd618f3f17> a ec:EducationalResource ;
+    dcterms:description "The teaching and training manual is intended to support higher education institutions in integrating FAIR-specific content into curricula. It offers a comprehensive presentation of all FDM and FAIR topics, arranged by competence profiles, and includes practical material." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "How to be FAIR with your data" ;
+    rec:recommender dalia-community:6a21dd4a-200c-44e3-85b8-68fb31d510af ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n013>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n054>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n078>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n092>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n155>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n19> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/01y9bpm73" ;
+            schema:name "Georg-August-Universität Göttingen" ] ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/01y9bpm73" ;
+                schema:name "Georg-August-Universität Göttingen" ] ) ;
+    schema:datePublished "2021-12-21"^^xsd:date ;
+    schema:keywords "data management plan",
+        "fair",
+        "publishing",
+        "research data",
+        "research data management",
+        "teaching",
+        "training" ;
+    schema:url <https://zenodo.org/records/6674301> .
+
+<https://id.dalia.education/learning-resource/913b7adf-48de-45da-9f77-ef347b8f3e55> a ec:EducationalResource ;
+    dcterms:description "This book, which is being developed as an open book project on GitHub Pages, provides an introduction to graph technologies for researchers in the humanities. As it provides step-by-step instructions on data import, modelling and analysis of humanities research data in graphs with Neo4j, therefore it has been included as teaching material in the Educational Resource Finder." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Graphentechnologien in den digitalen Geisteswissenschaften" ;
+    rec:recommender dalia-community:6a21dd4a-200c-44e3-85b8-68fb31d510af ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n013>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n054>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n078>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n092>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n155>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n19> ;
+    ns1:authorUnordered [ a schema:Person ;
+            schema:familyName "Kuczera" ;
+            schema:givenName "Andreas" ] ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                schema:familyName "Kuczera" ;
+                schema:givenName "Andreas" ] ) ;
+    schema:datePublished "2017-09-15"^^xsd:date ;
+    schema:keywords "data modeling",
+        "modeling",
+        "network analysis" ;
+    schema:url <https://kuczera.github.io/Graphentechnologien/contents/> .
+
+<https://id.dalia.education/learning-resource/d4b9f978-8302-408f-b215-fe717ce904fa> a ec:EducationalResource ;
+    dcterms:description "The Digital Humanities Virtual Laboratory Lab (\"DHVLab\", Digital Teaching and Research Infrastructure for the Humanities) at Ludwig-Maximilians-Universität München has developed a modular teaching and research infrastructure within the project framework and for students of art, history and linguistics who are particularly concerned with methods of the Digital Humanities. In the process, manuals as well as detailed descriptions of user cases have also been produced, including an introduction to dealing with databases. The manuals offer an insight into information technology fields that have been developed with practical relevance and the demands of students in the humanities in mind." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Einführung in die Arbeit mit Datenbanken" ;
+    rec:recommender dalia-community:6a21dd4a-200c-44e3-85b8-68fb31d510af ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n013>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n054>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n078>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n092>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n155>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n19> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/05591te55" ;
+            schema:name "Ludwig-Maximilians-Universität München" ] ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Expert,
+        mo:Novice,
+        mo:Proficient ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/05591te55" ;
+                schema:name "Ludwig-Maximilians-Universität München" ] ) ;
+    schema:datePublished "2016-01-01"^^xsd:date ;
+    schema:keywords "data modeling",
+        "database-related format",
+        "research data management",
+        "sql",
+        "text",
+        "training" ;
+    schema:url <https://dhvlab.gwi.uni-muenchen.de/manualDatabase.html> .
+
+<https://id.dalia.education/learning-resource/dfbc1bce-b649-4e39-a117-6f60f797ce24> a ec:EducationalResource ;
+    dcterms:description "The MANTRA Research Data Management Training self-study course of the University of Edinburgh offers a good, English-language introduction to the topic of research data and research data management, with minor restrictions. The content of the course is rather generic and is aimed at all those who deal with the topic of research data in the context of a research project. The course is divided into eight content modules, each of which is concluded with exercises, as well as a further module containing tutorials with existing data sets for various software solutions. It should be noted that the statements on funding policy, funding institutions and DMP requirements focus predominantly on the UK." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "MANTRA Research Data Management Training" ;
+    rec:recommender dalia-community:6a21dd4a-200c-44e3-85b8-68fb31d510af ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n013>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n054>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n078>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n092>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n155>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n19> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/01nrxwf90" ;
+            schema:name "Universität Edinburgh" ] ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/01nrxwf90" ;
+                schema:name "Universität Edinburgh" ] ) ;
+    schema:datePublished "2017-10-23"^^xsd:date ;
+    schema:keywords "archiving",
+        "data management plan",
+        "machine learning",
+        "organizing",
+        "research data",
+        "research data management",
+        "sharing",
+        "storing" ;
+    schema:url <https://mantra.ed.ac.uk/> .
+
+<https://id.dalia.education/learning-resource/eb455368-b141-4a00-86fe-b6e910acdcfe> a ec:EducationalResource ;
+    dcterms:description "The course, which is supplemented successively with concrete use cases, provides a good insight into the Python programming language. Code can be written directly within the course and the individual lessons are didactically well designed. Even users with little or no programming knowledge can work through the course, but links to more specific and detailed (external) materials make the course usable for users with previous experience as well." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Python for Historians" ;
+    rec:recommender dalia-community:6a21dd4a-200c-44e3-85b8-68fb31d510af ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n013>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n054>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n078>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n092>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n155>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n19> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/01hcx6992" ;
+            schema:name "Humboldt-Universität zu Berlin" ] ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/01hcx6992" ;
+                schema:name "Humboldt-Universität zu Berlin" ] ) ;
+    schema:datePublished "2022-07-20"^^xsd:date ;
+    schema:keywords "programming" ;
+    schema:url <https://digital-history-berlin.github.io/Python-fuer-Historiker-innen/home.html> .
+
+<https://id.dalia.education/learning-resource/ebcdafea-502f-4210-8f0c-9f1418622d17> a ec:EducationalResource ;
+    dcterms:description "The Digital Humanities Virtual Laboratory Lab (\"DHVLab\", Digital Teaching and Research Infrastructure for the Humanities) at Ludwig-Maximilians-Universität München has developed a modular teaching and research infrastructure within the project framework and for students of art, history and linguistics who are particularly concerned with methods of the Digital Humanities. This has resulted in detailed descriptions of manuals and use cases, including an introduction to the creation of an interactive map, illustrated by the example of a seminar on \"Funerary Culture in the Early Modern Period\". The course has been designed with specialist scientific staff and with the help of basic IT training with the aim of learning the basics of data acquisition and processing together with subsequent visualization and thus basic technical skills for application to issues in the humanities. These training projects are made available by the DHVLab for self-study." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "From printed book to digital map" ;
+    rec:recommender dalia-community:6a21dd4a-200c-44e3-85b8-68fb31d510af ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n013>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n054>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n078>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n092>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n155>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n19> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/05591te55" ;
+            schema:name "Ludwig-Maximilians-Universität München" ] ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/05591te55" ;
+                schema:name "Ludwig-Maximilians-Universität München" ] ) ;
+    schema:datePublished "2016-01-01"^^xsd:date ;
+    schema:keywords "data modeling",
+        "data visualization",
+        "research data",
+        "visualization" ;
+    schema:url <https://dhvlab.gwi.uni-muenchen.de/useCaseBook.html> .
+
+<https://id.dalia.education/learning-resource/ef57cd61-8b88-45d8-942d-a4230fa8c2a9> a ec:EducationalResource ;
+    dcterms:description "The Digital Humanities Virtual Laboratory Lab (\"DHVLab\", Digital Teaching and Research Infrastructure for the Humanities) at Ludwig-Maximilians-Universität München has developed a modular teaching and research infrastructure within the project framework and for students of art, history and linguistics who are particularly concerned with methods of the Digital Humanities. In the process, manuals as well as detailed descriptions of user cases have also been produced, including an introduction to statistics. This manual is intended to provide an overview of the possibilities of the programming language R with concrete application examples relevant for humanities scholars and to enable the execution of first own analyses. The DHVLab manuals offer an insight into information technology fields that have been developed with practical relevance and the demands of students in the humanities in mind." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Introduction to Statistics" ;
+    rec:recommender dalia-community:6a21dd4a-200c-44e3-85b8-68fb31d510af ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n013>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n054>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n078>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n092>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n155>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n19> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/05591te55" ;
+            schema:name "Ludwig-Maximilians-Universität München" ] ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Expert,
+        mo:Novice,
+        mo:Proficient ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/05591te55" ;
+                schema:name "Ludwig-Maximilians-Universität München" ] ) ;
+    schema:datePublished "2016-01-01"^^xsd:date ;
+    schema:keywords "programming" ;
+    schema:url <https://dhvlab.gwi.uni-muenchen.de/manualStatistics.html> .
+
+<https://id.dalia.education/learning-resource/f67d0988-eca7-4607-acd8-48e8414e5018> a ec:EducationalResource ;
+    dcterms:description "The instructional videos from RWTH Aachen offer a good first introduction to the topic of FDM. The offer is generic and covers the basics of good FDM in six videos (<10 minutes). The videos are linked by a narrative thread based on an example, but each video is stand-alone and can be understood without viewing previous videos." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "FDM-Lehrvideos" ;
+    rec:recommender dalia-community:6a21dd4a-200c-44e3-85b8-68fb31d510af ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n013>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n054>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n078>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n092>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n155>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n19> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            m4i:hasRorId "https://ror.org/04xfq0f34" ;
+            schema:name "Rheinisch-Westfälische Technische Hochschule Aachen" ] ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Organization ;
+                m4i:hasRorId "https://ror.org/04xfq0f34" ;
+                schema:name "Rheinisch-Westfälische Technische Hochschule Aachen" ] ) ;
+    schema:datePublished "2022-04-27"^^xsd:date ;
+    schema:keywords "data life cycle",
+        "data management plan",
+        "fair",
+        "longterm preservation",
+        "organizing",
+        "persistent identifier",
+        "preserving",
+        "publishing",
+        "research data management" ;
+    schema:url <https://doi.org/10.18154/RWTH-2018-220883>,
+        <https://www.rwth-aachen.de/go/id/udzt/> .
+

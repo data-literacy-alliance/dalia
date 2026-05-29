@@ -1,17 +1,7 @@
 """
-WSGI config for Data Literacy Alliance project.
+WSGI config for Work Track Pro.
 
-This module contains the WSGI application used by Django's development server
-and any production WSGI deployments. It should expose a module-level variable
-named ``application``. Django's ``runserver`` and ``runfcgi`` commands discover
-this application via the ``WSGI_APPLICATION`` setting.
-
-Usually you will have the standard Django WSGI application here, but it also
-might make sense to replace the whole Django WSGI application with a custom one
-that later delegates to the Django one. For example, you could introduce WSGI
-middleware here, or combine a Django application with an application of another
-framework.
-
+It exposes the WSGI callable as a module-level variable named ``application``.
 """
 
 import os
@@ -20,13 +10,10 @@ from pathlib import Path
 
 from django.core.wsgi import get_wsgi_application
 
-# This allows easy placement of apps within the interior
-# dalia directory.
-BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
-sys.path.append(str(BASE_DIR / "dalia"))
+# Add apps/ directory to sys.path for cleaner imports
+BASE_DIR = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(BASE_DIR / "apps"))
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
 
-# This application object is used by any WSGI server configured to use this
-# file. This includes Django's development server, if the WSGI_APPLICATION
-# setting points here.
 application = get_wsgi_application()

@@ -1,326 +1,371 @@
-# ruff: noqa: ERA001, E501
-"""Base settings to build other settings files upon."""
+"""
+Base settings for ICZ.
+Shared configuration for all environments.
+"""
 
-import ssl
 from pathlib import Path
 
 import environ
+from django.templatetags.static import static
 
-BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
-# dalia/
-APPS_DIR = BASE_DIR / "dalia"
-env = environ.Env()
+# Build paths inside the project
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=False)
-if READ_DOT_ENV_FILE:
-    # OS environment variables take precedence over variables from .env
-    env.read_env(str(BASE_DIR / ".env"))
+# Environment variables
+env = environ.Env(
+    DEBUG=(bool, False),
+    ALLOWED_HOSTS=(list, []),
+    POSTGRES_PORT=(int, 5432),
+    GUNICORN_WORKERS=(int, 3),
+    GUNICORN_TIMEOUT=(int, 60),
+    ELASTICSEARCH_HOST=(str, "elasticsearch:9200"),
+    ELASTICSEARCH_USER=(str, ""),
+    ELASTICSEARCH_PASSWORD=(str, ""),
+    IAM4NFDI_CLIENT_ID=(str, ""),
+    IAM4NFDI_CLIENT_SECRET=(str, ""),
+    CORS_ALLOWED_ORIGINS=(list, []),
+    DALIA_TRIPLESTORE_BASE_URL=(str, "http://daliaproject_prod-fuseki_1:3030/"),
+)
 
-# GENERAL
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#debug
-DEBUG = env.bool("DJANGO_DEBUG", False)
-# Local time zone. Choices are
-# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-# though not all of them may be available with every OS.
-# In Windows, this must be set to your system time zone.
-TIME_ZONE = "UTC"
-# https://docs.djangoproject.com/en/dev/ref/settings/#language-code
-LANGUAGE_CODE = "en-us"
-# https://docs.djangoproject.com/en/dev/ref/settings/#languages
-# from django.utils.translation import gettext_lazy as _
-# LANGUAGES = [
-#     ('en', _('English')),
-#     ('fr-fr', _('French')),
-#     ('pt-br', _('Portuguese')),
-# ]
-# https://docs.djangoproject.com/en/dev/ref/settings/#site-id
-SITE_ID = 1
-# https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
-USE_I18N = True
-# https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
-USE_TZ = True
-# https://docs.djangoproject.com/en/dev/ref/settings/#locale-paths
-LOCALE_PATHS = [str(BASE_DIR / "locale")]
+# Read .env file if it exists
+environ.Env.read_env(BASE_DIR / ".env")
 
-# DATABASES
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#databases
-DATABASES = {"default": env.db("DATABASE_URL")}
-DATABASES["default"]["ATOMIC_REQUESTS"] = True
-# https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-DEFAULT_AUTO_FIELD
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = env("SECRET_KEY", default="change-me-to-a-random-50-char-string")
 
-# URLS
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
-ROOT_URLCONF = "config.urls"
-# https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
-WSGI_APPLICATION = "config.wsgi.application"
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = env("DEBUG")
 
-# APPS
-# ------------------------------------------------------------------------------
-DJANGO_APPS = [
+ALLOWED_HOSTS = env("ALLOWED_HOSTS")
+
+# Reverse proxy: trust X-Forwarded-Proto from nginx / Traefik.
+# This fixes request.scheme so allauth builds https:// redirect_uris correctly.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+# Reverse proxy: use X-Forwarded-Host so request.get_host() returns the public hostname.
+USE_X_FORWARDED_HOST = True
+
+# Custom User Model (must be set before any migration)
+AUTH_USER_MODEL = "users.User"
+
+# Application definition
+INSTALLED_APPS = [
+    # Django Unfold (must be before django.contrib.admin)
+    "unfold",
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
+    "unfold.contrib.import_export",
+
+    # Django core apps
+    "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
-    "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # "django.contrib.humanize", # Handy template tags
-    "django.contrib.admin",
-    "django.forms",
-]
-THIRD_PARTY_APPS = [
-    "crispy_forms",
-    "crispy_bootstrap5",
+    "django.contrib.sites",
+
+    # Third-party apps
+    "rest_framework",
+    "rest_framework.authtoken",
+    "django_filters",
+    "drf_spectacular",
+    "import_export",
+    "django_tasks",
+    "axes",
+    "rest_framework_simplejwt.token_blacklist",
+    "django_otp",
+    "django_otp.plugins.otp_totp",
+    "django_otp.plugins.otp_static",
+    "two_factor",
+    "corsheaders",
     "allauth",
     "allauth.account",
-    "allauth.mfa",
     "allauth.socialaccount",
-    "django_celery_beat",
+    "allauth.socialaccount.providers.openid_connect",
+    "allauth.headless",
+    "django_elasticsearch_dsl",
+    "django_elasticsearch_dsl_drf",
+    "taggit",
+    "sortedm2m",
+
+    # DALIA apps
+    "core",
+    "pages",
+    "users",
+    "curation",
+    "account_deletion",
+    "nfdi_auth",
+    "api",
+
+    # Search + GraphDB apps (Fuseki-backed)
+    "search",
+    "recommendation",
+    "entity_mapping",
 ]
 
-LOCAL_APPS = [
-    "dalia.users",
-    # Your stuff: custom apps go here
-]
-# https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+# Django Sites Framework (required by allauth)
+SITE_ID = 1
 
-# MIGRATIONS
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#migration-modules
-MIGRATION_MODULES = {"sites": "dalia.contrib.sites.migrations"}
-
-# AUTHENTICATION
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
-AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
-]
-# https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
-AUTH_USER_MODEL = "users.User"
-# https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
-LOGIN_REDIRECT_URL = "users:redirect"
-# https://docs.djangoproject.com/en/dev/ref/settings/#login-url
-LOGIN_URL = "account_login"
-
-# PASSWORDS
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#password-hashers
-PASSWORD_HASHERS = [
-    # https://docs.djangoproject.com/en/dev/topics/auth/passwords/#using-argon2-with-django
-    "django.contrib.auth.hashers.Argon2PasswordHasher",
-    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
-    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
-    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
-]
-# https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
-]
-
-# MIDDLEWARE
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#middleware
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "allauth.account.middleware.AccountMiddleware",
+    "axes.middleware.AxesMiddleware",
 ]
 
-# STATIC
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#static-root
-STATIC_ROOT = str(BASE_DIR / "staticfiles")
-# https://docs.djangoproject.com/en/dev/ref/settings/#static-url
-STATIC_URL = "/static/"
-# https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
-STATICFILES_DIRS = [str(APPS_DIR / "static")]
-# https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
-STATICFILES_FINDERS = [
-    "django.contrib.staticfiles.finders.FileSystemFinder",
-    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-]
+ROOT_URLCONF = "config.urls"
 
-# MEDIA
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#media-root
-MEDIA_ROOT = str(APPS_DIR / "media")
-# https://docs.djangoproject.com/en/dev/ref/settings/#media-url
-MEDIA_URL = "/media/"
-
-# TEMPLATES
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#templates
 TEMPLATES = [
     {
-        # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        # https://docs.djangoproject.com/en/dev/ref/settings/#dirs
-        "DIRS": [str(APPS_DIR / "templates")],
-        # https://docs.djangoproject.com/en/dev/ref/settings/#app-dirs
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
-            # https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
-                "django.template.context_processors.i18n",
-                "django.template.context_processors.media",
-                "django.template.context_processors.static",
-                "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
-                "dalia.users.context_processors.allauth_settings",
+                "nfdi_auth.context_processors.nfdi_claims",
             ],
         },
     },
 ]
 
-# https://docs.djangoproject.com/en/dev/ref/settings/#form-renderer
-FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
+WSGI_APPLICATION = "config.wsgi.application"
 
-# http://django-crispy-forms.readthedocs.io/en/latest/install.html#template-packs
-CRISPY_TEMPLATE_PACK = "bootstrap5"
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-
-# FIXTURES
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#fixture-dirs
-FIXTURE_DIRS = (str(APPS_DIR / "fixtures"),)
-
-# SECURITY
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#session-cookie-httponly
-SESSION_COOKIE_HTTPONLY = True
-# https://docs.djangoproject.com/en/dev/ref/settings/#csrf-cookie-httponly
-CSRF_COOKIE_HTTPONLY = True
-# https://docs.djangoproject.com/en/dev/ref/settings/#x-frame-options
-X_FRAME_OPTIONS = "DENY"
-
-# EMAIL
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
-EMAIL_BACKEND = env(
-    "DJANGO_EMAIL_BACKEND",
-    default="django.core.mail.backends.smtp.EmailBackend",
-)
-# https://docs.djangoproject.com/en/dev/ref/settings/#email-timeout
-EMAIL_TIMEOUT = 5
-
-# ADMIN
-# ------------------------------------------------------------------------------
-# Django Admin URL.
-ADMIN_URL = "admin/"
-# https://docs.djangoproject.com/en/dev/ref/settings/#admins
-ADMINS = [("""DALIA Authors""", "contact@dalia.education")]
-# https://docs.djangoproject.com/en/dev/ref/settings/#managers
-MANAGERS = ADMINS
-# https://cookiecutter-django.readthedocs.io/en/latest/settings.html#other-environment-settings
-# Force the `admin` sign in process to go through the `django-allauth` workflow
-DJANGO_ADMIN_FORCE_ALLAUTH = env.bool("DJANGO_ADMIN_FORCE_ALLAUTH", default=False)
-
-# LOGGING
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#logging
-# See https://docs.djangoproject.com/en/dev/topics/logging for
-# more details on how to customize your logging configuration.
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "verbose": {
-            "format": "%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s",
+# Password validation
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {
+            "min_length": 12,
         },
     },
-    "handlers": {
-        "console": {
-            "level": "DEBUG",
-            "class": "logging.StreamHandler",
-            "formatter": "verbose",
-        },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
-    "root": {"level": "INFO", "handlers": ["console"]},
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
+]
+
+# Password hashers (Argon2 recommended)
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+]
+
+# Authentication backends (django-axes)
+AUTHENTICATION_BACKENDS = [
+    "axes.backends.AxesStandaloneBackend",
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
+# Login/Logout redirects
+LOGIN_REDIRECT_URL = "/profile/"  # Redirect to profile after login (same as old production)
+LOGOUT_REDIRECT_URL = "/"  # Redirect to home after logout
+
+# CSRF Settings
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:7080",
+    "http://localhost:7087",
+    "https://search.dalia.education",
+    # Add any additional allowed CORS origins here
+]
+
+# Internationalization
+LANGUAGE_CODE = env("LANGUAGE_CODE", default="en-us")
+TIME_ZONE = env("TIME_ZONE", default="UTC")
+USE_I18N = True
+USE_TZ = True
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = "/static/"
+
+# Where Django LOOKS for static files (source files)
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # Project-wide static folder
+]
+
+# Where Django PUTS collected files (via collectstatic)
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# Media files (user uploads)
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
+# Default primary key field type
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Cache Configuration (Redis)
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": env("REDIS_URL", default="redis://redis:6379/0"),
+        "KEY_PREFIX": "dalia20",
+        "TIMEOUT": 300,  # 5 minutes default
+    }
 }
 
-REDIS_URL = env("REDIS_URL", default="redis://redis:6379/0")
-REDIS_SSL = REDIS_URL.startswith("rediss://")
+# Session Configuration (Redis)
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
 
-# Celery
-# ------------------------------------------------------------------------------
-if USE_TZ:
-    # https://docs.celeryq.dev/en/stable/userguide/configuration.html#std:setting-timezone
-    CELERY_TIMEZONE = TIME_ZONE
-# https://docs.celeryq.dev/en/stable/userguide/configuration.html#std:setting-broker_url
-CELERY_BROKER_URL = REDIS_URL
-# https://docs.celeryq.dev/en/stable/userguide/configuration.html#redis-backend-use-ssl
-CELERY_BROKER_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE} if REDIS_SSL else None
-# https://docs.celeryq.dev/en/stable/userguide/configuration.html#std:setting-result_backend
-CELERY_RESULT_BACKEND = REDIS_URL
-# https://docs.celeryq.dev/en/stable/userguide/configuration.html#redis-backend-use-ssl
-CELERY_REDIS_BACKEND_USE_SSL = CELERY_BROKER_USE_SSL
-# https://docs.celeryq.dev/en/stable/userguide/configuration.html#result-extended
-CELERY_RESULT_EXTENDED = True
-# https://docs.celeryq.dev/en/stable/userguide/configuration.html#result-backend-always-retry
-# https://github.com/celery/celery/pull/6122
-CELERY_RESULT_BACKEND_ALWAYS_RETRY = True
-# https://docs.celeryq.dev/en/stable/userguide/configuration.html#result-backend-max-retries
-CELERY_RESULT_BACKEND_MAX_RETRIES = 10
-# https://docs.celeryq.dev/en/stable/userguide/configuration.html#std:setting-accept_content
-CELERY_ACCEPT_CONTENT = ["json"]
-# https://docs.celeryq.dev/en/stable/userguide/configuration.html#std:setting-task_serializer
-CELERY_TASK_SERIALIZER = "json"
-# https://docs.celeryq.dev/en/stable/userguide/configuration.html#std:setting-result_serializer
-CELERY_RESULT_SERIALIZER = "json"
-# https://docs.celeryq.dev/en/stable/userguide/configuration.html#task-time-limit
-# TODO: set to whatever value is adequate in your circumstances
-CELERY_TASK_TIME_LIMIT = 5 * 60
-# https://docs.celeryq.dev/en/stable/userguide/configuration.html#task-soft-time-limit
-# TODO: set to whatever value is adequate in your circumstances
-CELERY_TASK_SOFT_TIME_LIMIT = 60
-# https://docs.celeryq.dev/en/stable/userguide/configuration.html#beat-scheduler
-CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
-# https://docs.celeryq.dev/en/stable/userguide/configuration.html#worker-send-task-events
-CELERY_WORKER_SEND_TASK_EVENTS = True
-# https://docs.celeryq.dev/en/stable/userguide/configuration.html#std-setting-task_send_sent_event
-CELERY_TASK_SEND_SENT_EVENT = True
-# https://docs.celeryq.dev/en/stable/userguide/configuration.html#worker-hijack-root-logger
-CELERY_WORKER_HIJACK_ROOT_LOGGER = False
-# django-allauth
-# ------------------------------------------------------------------------------
-ACCOUNT_ALLOW_REGISTRATION = env.bool("DJANGO_ACCOUNT_ALLOW_REGISTRATION", True)
-# https://docs.allauth.org/en/latest/account/configuration.html
+# Django REST Framework
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 50,
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.SearchFilter",
+        "rest_framework.filters.OrderingFilter",
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+    ],
+}
+
+# drf-spectacular settings
+SPECTACULAR_SETTINGS = {
+    "TITLE": "DALIA 2.0 API",
+    "DESCRIPTION": "DALIA 2.0 OER Curation Platform API",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "COMPONENT_SPLIT_REQUEST": True,
+    "SCHEMA_PATH_PREFIX": r"/api/v[0-9]",
+}
+
+# Django Axes (brute-force protection)
+from datetime import timedelta  # noqa: E402
+
+AXES_FAILURE_LIMIT = 5
+AXES_COOLOFF_TIME = timedelta(minutes=15)
+AXES_RESET_ON_SUCCESS = True
+AXES_LOCK_OUT_AT_FAILURE = True
+AXES_LOCKOUT_PARAMETERS = [["username", "ip_address"]]
+
+# Django Import/Export
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+IMPORT_EXPORT_SKIP_ADMIN_LOG = False
+IMPORT_EXPORT_TMP_STORAGE_CLASS = 'import_export.tmp_storages.TempFolderStorage'
+IMPORT_EXPORT_ESCAPE_FORMULAE_ON_EXPORT = True  # Security: prevent CSV injection
+
+# Django Unfold
+UNFOLD = {
+    "SITE_TITLE": "DALIA 2.0",
+    "SITE_HEADER": "DALIA 2.0",
+    "SITE_URL": "/",
+    "SITE_ICON": None,
+    "SITE_LOGO": None,
+    "SITE_SYMBOL": "speed",
+    "SHOW_HISTORY": True,
+    "SHOW_VIEW_ON_SITE": True,
+    "SHOW_TIME_ZONE_WARNING": False,  # Disable "You are X hours ahead of server time" warning
+    "SHOW_ALL_APPLICATIONS": True,
+    "ENVIRONMENT": "config.settings.base.environment_callback",
+    "DASHBOARD_CALLBACK": "config.settings.base.dashboard_callback",
+    "THEME": None,  # None = allow user to toggle, "dark" = force dark, "light" = force light
+    "COLORS": {
+        "primary": {
+            "50": "250 245 255",
+            "100": "243 232 255",
+            "200": "233 213 255",
+            "300": "216 180 254",
+            "400": "192 132 252",
+            "500": "168 85 247",
+            "600": "147 51 234",
+            "700": "126 34 206",
+            "800": "107 33 168",
+            "900": "88 28 135",
+            "950": "59 7 100",
+        },
+    },
+    "STYLES": [
+        lambda request: static("css/admin_custom.css"),  # Use Django static() for proper resolution
+    ],
+}
+
+
+def environment_callback(request):
+    """Return environment badge for unfold admin."""
+    if DEBUG:
+        return ["Development", "warning"]
+    return ["Production", "success"]
+
+
+def dashboard_callback(request, context):
+    """Minimal dashboard callback stub."""
+    return context
+
+
+# CORS Configuration
+CORS_ALLOWED_ORIGINS = env.list(
+    "CORS_ALLOWED_ORIGINS",
+    default=[
+        "http://localhost:8080",
+        "http://localhost:8000",
+        "http://localhost:7080",
+        "http://127.0.0.1:8080",
+    ],
+)
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = False
+
+# Elasticsearch Configuration
+ELASTICSEARCH_DSL = {
+    "default": {
+        "hosts": env("ELASTICSEARCH_HOST", default="elasticsearch:9200"),
+        "http_auth": (
+            env("ELASTICSEARCH_USER", default=""),
+            env("ELASTICSEARCH_PASSWORD", default=""),
+        )
+        if env("ELASTICSEARCH_USER", default="")
+        else None,
+    },
+}
+
+# SPARQL / Triplestore Configuration
+DALIA_TRIPLESTORE_BASE_URL = env("DALIA_TRIPLESTORE_BASE_URL")
+
+# Login URL — points to django-two-factor-auth login (accepts username, used by admin).
+# allauth login (email-based) stays at /accounts/login/ and is separate.
+LOGIN_URL = "/account/login/"
+
+# NFDI AAI / django-allauth Configuration
+SOCIALACCOUNT_ADAPTER = "nfdi_auth.adapter.NFDISocialAdapter"
+SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
+ACCOUNT_EMAIL_VERIFICATION = "none"
 ACCOUNT_LOGIN_METHODS = {"email"}
-# https://docs.allauth.org/en/latest/account/configuration.html
-ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
-# https://docs.allauth.org/en/latest/account/configuration.html
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-# https://docs.allauth.org/en/latest/account/configuration.html
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-# https://docs.allauth.org/en/latest/account/configuration.html
-ACCOUNT_ADAPTER = "dalia.users.adapters.AccountAdapter"
-# https://docs.allauth.org/en/latest/account/forms.html
-ACCOUNT_FORMS = {"signup": "dalia.users.forms.UserSignupForm"}
-# https://docs.allauth.org/en/latest/socialaccount/configuration.html
-SOCIALACCOUNT_ADAPTER = "dalia.users.adapters.SocialAccountAdapter"
-# https://docs.allauth.org/en/latest/socialaccount/configuration.html
-SOCIALACCOUNT_FORMS = {"signup": "dalia.users.forms.UserSocialSignupForm"}
+ACCOUNT_SIGNUP_FIELDS = ["email*", "username*", "password1*", "password2*"]
+ACCOUNT_UNIQUE_EMAIL = True
 
+SOCIALACCOUNT_OPENID_CONNECT_CLIENT_ID = env("IAM4NFDI_CLIENT_ID", default="")
+SOCIALACCOUNT_OPENID_CONNECT_CLIENT_SECRET = env("IAM4NFDI_CLIENT_SECRET", default="")
 
-# Your stuff...
-# ------------------------------------------------------------------------------
+# OIDC app is configured via the database (Admin → Social accounts → Social applications).
+# Do NOT define APPS here — that would duplicate the DB entry and cause MultipleObjectsReturned.
+SOCIALACCOUNT_PROVIDERS = {}

@@ -1,0 +1,205 @@
+{% extends "admin/base.html" %}
+{% load i18n admin_urls static admin_modify %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block content_title %}{{ title }}{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; <a href="{% url 'admin:app_list' app_label='entity_mapping' %}">Entity Mapping</a>
+&rsaquo; <a href="{% url 'admin:entity_mapping_entitymapping_changelist' %}">Entity mappings</a>
+&rsaquo; {{ title }}
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col-12">
+    <!-- Summary Statistics by Entity Type -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="card-title">Synchronization Statistics by Entity Type</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Entity Type</th>
+                            <th>Total Mappings</th>
+                            <th class="text-success">Synced</th>
+                            <th class="text-warning">Pending</th>
+                            <th class="text-danger">Failed</th>
+                            <th class="text-info">Import Candidates</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entity_type, data in stats.items %}
+                        <tr>
+                            <td><strong>{{ entity_type|title }}</strong></td>
+                            <td>
+                                <a href="{% url 'admin:entity_mapping_entitymapping_changelist' %}?entity_type={{ entity_type }}">
+                                    <span class="badge badge-secondary">{{ data.total }}</span>
+                                </a>
+                            </td>
+                            <td class="text-success">
+                                {% if data.synced > 0 %}
+                                    <a href="{% url 'admin:entity_mapping_entitymapping_changelist' %}?entity_type={{ entity_type }}&sync_status=synced" class="text-success">
+                                        <span class="badge badge-success">{{ data.synced }}</span>
+                                    </a>
+                                {% else %}
+                                    <span class="badge badge-light">0</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-warning">
+                                {% if data.pending > 0 %}
+                                    <a href="{% url 'admin:entity_mapping_entitymapping_changelist' %}?entity_type={{ entity_type }}&sync_status=pending" class="text-warning">
+                                        <span class="badge badge-warning">{{ data.pending }}</span>
+                                    </a>
+                                {% else %}
+                                    <span class="badge badge-light">0</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-danger">
+                                {% if data.failed > 0 %}
+                                    <a href="{% url 'admin:entity_mapping_entitymapping_changelist' %}?entity_type={{ entity_type }}&sync_status=failed" class="text-danger">
+                                        <span class="badge badge-danger">{{ data.failed }}</span>
+                                    </a>
+                                {% else %}
+                                    <span class="badge badge-light">0</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-info">
+                                {% if data.import_candidates > 0 %}
+                                    <a href="{% url 'admin:entity_mapping_entitymapping_changelist' %}?entity_type={{ entity_type }}&import_candidate=1" class="text-info">
+                                        <span class="badge badge-info">{{ data.import_candidates }}</span>
+                                    </a>
+                                {% else %}
+                                    <span class="badge badge-light">0</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Health -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="card-title">System Health Overview</h3>
+        </div>
+        <div class="card-body">
+            {% if total_mappings == 0 and total_import_candidates == 0 %}
+                <div class="alert alert-warning">
+                    <i class="icon fas fa-exclamation-triangle"></i>
+                    <strong>No mappings or import candidates found.</strong>
+                    <a href="{% url 'admin:entity_mapping_discover_candidates' %}" class="alert-link">Start by discovering import candidates</a>
+                </div>
+            {% else %}
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-primary"><i class="fas fa-database"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Total Mappings</span>
+                                <span class="info-box-number">{{ total_mappings }}</span>
+                                <small class="text-muted">Entities with PostgreSQL UUID</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-success"><i class="fas fa-check"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Synced</span>
+                                <span class="info-box-number">{{ total_synced }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-warning"><i class="fas fa-clock"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Pending</span>
+                                <span class="info-box-number">{{ total_pending }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-danger"><i class="fas fa-times"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Failed</span>
+                                <span class="info-box-number">{{ total_failed }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-info"><i class="fas fa-download"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Import Candidates</span>
+                                <span class="info-box-number">{{ total_import_candidates }}</span>
+                                <small class="text-muted">Awaiting PostgreSQL creation</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="card-title">Quick Actions</h3>
+        </div>
+        <div class="card-body">
+            <div class="btn-group" role="group">
+                <a href="{% url 'admin:entity_mapping_discover_candidates' %}" class="btn btn-success">
+                    <i class="fas fa-search"></i> Discover Import Candidates
+                </a>
+                <a href="{% url 'admin:entity_mapping_import_candidates' %}" class="btn btn-primary">
+                    <i class="fas fa-tasks"></i> Manage Import Candidates
+                </a>
+                <a href="{% url 'admin:entity_mapping_entitymapping_changelist' %}" class="btn btn-info">
+                    <i class="fas fa-list"></i> View All Mappings
+                </a>
+                <a href="{% url 'admin:entity_mapping_synclog_changelist' %}" class="btn btn-warning">
+                    <i class="fas fa-file-alt"></i> View Sync Logs
+                </a>
+                <a href="{% url 'admin:entity_mapping_entitymapping_changelist' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Entity Mappings
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Section -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Understanding Sync Status</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-unstyled">
+                        <li><span class="badge badge-success">Synced</span> Entity is properly mapped and synchronized between PostgreSQL and Fuseki</li>
+                        <li><span class="badge badge-warning">Pending</span> Mapping exists but synchronization hasn't been completed</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-unstyled">
+                        <li><span class="badge badge-danger">Failed</span> Synchronization failed or mapping was rejected</li>
+                        <li><span class="badge badge-info">Import Candidates</span> Entities discovered in Fuseki awaiting approval for PostgreSQL import</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+.jsonViewer {
+  width: 100%;
+  max-height: 600px;
+  overflow-x: auto;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.jsonViewer pre {
+  margin: 0;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #f8fafc;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.jsonViewer pre code {
+  color: #f8fafc;
+}
+
+.emptyMessage {
+  color: rgba(248, 250, 252, 0.45) !important;
+}
+
+.jsonViewer :global(.json-key) {
+  color: #06b6d4;
+}
+
+.jsonViewer :global(.json-string) {
+  color: #10b981;
+}
+
+.jsonViewer :global(.json-number) {
+  color: #f59e0b;
+}
+
+.jsonViewer :global(.json-boolean) {
+  color: #8b5cf6;
+}
+
+.jsonViewer::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.jsonViewer::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.jsonViewer::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+.jsonViewer::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="light"] .jsonViewer {
+  background: rgba(15, 23, 42, 0.03);
+  border-color: rgba(15, 23, 42, 0.12);
+}
+
+[data-theme="light"] .jsonViewer pre,
+[data-theme="light"] .jsonViewer pre code {
+  color: #0f172a;
+}
+
+[data-theme="light"] .emptyMessage {
+  color: rgba(15, 23, 42, 0.5) !important;
+}

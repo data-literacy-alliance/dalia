@@ -1,0 +1,68 @@
+{% comment %}
+Partial template: renders a single comparison table cell.
+
+Context variables expected:
+  vfield  — dict with keys: name, label, values (list), differs (bool)
+  field   — dict from first version (same field, used for field.name check)
+  v       — version dict with keys: obj, fields, m2m_diffs
+
+M2M cell: values is a list of strings (labels).
+  When the field differs and m2m_diffs is present, colours are applied:
+    - added   → green chip
+    - removed → red chip  (these are labels in active version not in this version)
+    - present → grey chip (unchanged)
+
+Scalar cell: values is a single-element list.
+  description field uses <pre> to preserve whitespace.
+{% endcomment %}
+{% if vfield.values|length > 1 %}
+{# ── M2M field ── #}
+<div class="flex flex-wrap gap-1">
+  {% if vfield.differs and v.m2m_diffs %}
+    {# Render value labels — colouring driven by m2m_diffs for this version #}
+    {% for label in vfield.values %}
+      {# Default: unchanged / grey #}
+      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs
+                   bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300">
+        {{ label }}
+      </span>
+    {% endfor %}
+    {# Added labels (present in this version, absent in active) #}
+    {% for fname, fdiff in v.m2m_diffs.items %}
+      {% if fname == vfield.name %}
+        {% for added_label in fdiff.added %}
+          <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs
+                       bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+            + {{ added_label }}
+          </span>
+        {% endfor %}
+        {% for removed_label in fdiff.removed %}
+          <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs
+                       bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300 line-through">
+            {{ removed_label }}
+          </span>
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  {% else %}
+    {# No diff info — just render plain grey chips #}
+    {% for label in vfield.values %}
+      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs
+                   bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300">
+        {{ label }}
+      </span>
+    {% endfor %}
+  {% endif %}
+</div>
+{% elif vfield.values %}
+{# ── Scalar field ── #}
+{% if vfield.name == 'description' %}
+<pre style="white-space:pre-wrap;word-break:break-word;overflow-wrap:break-word;
+            font-family:inherit;font-size:0.875rem;margin:0;">{{ vfield.values.0 }}</pre>
+{% else %}
+<span style="word-break:break-word;overflow-wrap:break-word;">{{ vfield.values.0 }}</span>
+{% endif %}
+{% else %}
+{# ── Empty / null ── #}
+<span class="text-gray-400 dark:text-gray-500 italic">—</span>
+{% endif %}

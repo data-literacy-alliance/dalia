@@ -1,0 +1,93 @@
+{% extends "admin/base.html" %}
+{% load i18n admin_urls static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content_title %}{{ title }}{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">Home</a>
+    &rsaquo; <a href="{% url 'admin:app_list' app_label='entity_mapping' %}">Entity Mapping</a>
+    &rsaquo; <a href="{% url 'admin:entity_mapping_entitymapping_changelist' %}">Entity mappings</a>
+    &rsaquo; {{ title }}
+</div>
+{% endblock %}
+
+{% block extrahead %}
+<style>
+.code-example {
+    background: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 15px 0;
+}
+.section-title {
+    background: #417690;
+    color: white;
+    padding: 10px 15px;
+    margin: 20px 0 10px 0;
+    border-radius: 4px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ title }}</h3>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info">
+                <p><i class="icon fas fa-info"></i> This tool discovers entities that exist in Fuseki but are not yet mapped in PostgreSQL.
+                New import candidates will be created for admin review and approval.</p>
+            </div>
+
+            <form method="post" action="">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="id_entity_type" class="required">Entity Type:</label>
+                    <select name="entity_type" id="id_entity_type" class="form-control" required>
+                        {% for value, label in entity_types %}
+                            <option value="{{ value }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <small class="form-text text-muted">Select specific entity type or "All Entity Types" to discover all.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_limit">Limit:</label>
+                    <input type="number" name="limit" id="id_limit" value="1000" min="1" max="10000" class="form-control" />
+                    <small class="form-text text-muted">Maximum number of entities to check per type (recommended: 1000).</small>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-search"></i> Discover Candidates
+                    </button>
+                    <a href="{% url 'admin:entity_mapping_entitymapping_changelist' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h3 class="card-title">How It Works</h3>
+        </div>
+        <div class="card-body">
+            <ul>
+                <li><strong>Discovery:</strong> Scans Fuseki via existing suggest endpoints</li>
+                <li><strong>Duplicate Check:</strong> Compares with existing PostgreSQL entities and mappings</li>
+                <li><strong>Import Candidates:</strong> Creates EntityMapping records marked as import candidates</li>
+                <li><strong>Review Process:</strong> New candidates appear in the import candidates view for approval</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

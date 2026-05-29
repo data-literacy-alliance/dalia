@@ -1,0 +1,16 @@
+.body {
+    @apply flex-1 lg:px-24 pt-12 lg:pt-32 pb-24 gap-7 overflow-hidden;
+}
+
+.list {
+    @apply border border-primary;
+}
+
+.grid {
+    @apply border border-primary flex-wrap;
+}
+
+.rightBar {
+    @apply flex-auto lg:hidden mx-5 w-full h-full;
+    /* width: calc(16rem + 1px); 1px for borders of neighbor in top bar */
+  }

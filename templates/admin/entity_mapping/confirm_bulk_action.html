@@ -1,0 +1,192 @@
+{% extends "admin/base.html" %}
+{% load i18n admin_urls static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content_title %}{{ title }}{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">Home</a>
+    &rsaquo; <a href="{% url 'admin:app_list' app_label='entity_mapping' %}">Entity Mapping</a>
+    &rsaquo; <a href="{% url 'admin:entity_mapping_entitymapping_changelist' %}">Entity mappings</a>
+    &rsaquo; {{ title }}
+</div>
+{% endblock %}
+
+{% block extrahead %}
+<style>
+.warning-box {
+    background: #fff3cd;
+    border: 2px solid #ffc107;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+}
+.warning-box h3 {
+    color: #856404;
+    margin-top: 0;
+}
+.stats-table {
+    margin: 20px 0;
+    border-collapse: collapse;
+    width: 100%;
+}
+.stats-table th, .stats-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+.stats-table th {
+    background: #f8f9fa;
+    font-weight: bold;
+}
+.confirm-button {
+    background: #dc3545;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.confirm-button:hover {
+    background: #c82333;
+}
+.cancel-button {
+    background: #6c757d;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+.cancel-button:hover {
+    background: #5a6268;
+}
+.total-count {
+    font-size: 48px;
+    font-weight: bold;
+    color: #dc3545;
+    text-align: center;
+    margin: 20px 0;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ title }}</h3>
+        </div>
+        <div class="card-body">
+            <div class="warning-box">
+                <h3>⚠️ Warning: Bulk Operation</h3>
+                <p><strong>You are about to perform a bulk operation that affects:</strong></p>
+
+                <div class="total-count">{{ total_count }}</div>
+                <p style="text-align: center; font-size: 18px; margin-top: 0;">
+                    {% if action == 'approve_all_import_candidates' %}
+                        import candidate(s) will be <strong>APPROVED</strong>
+                    {% elif action == 'cleanup_import_candidates' %}
+                        import candidate(s) will be <strong>DELETED</strong>
+                    {% endif %}
+                </p>
+            </div>
+
+            <h4>Breakdown by Entity Type:</h4>
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th>Entity Type</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entity_type, count in by_type.items %}
+                    <tr>
+                        <td>{{ entity_type }}</td>
+                        <td><strong>{{ count }}</strong></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2">No entities to process</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr style="background: #f8f9fa; font-weight: bold;">
+                        <td>Total</td>
+                        <td>{{ total_count }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            {% if by_status %}
+            <h4 style="margin-top: 30px;">Breakdown by Status:</h4>
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for status, count in by_status.items %}
+                    <tr>
+                        <td>{{ status }}</td>
+                        <td><strong>{{ count }}</strong></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+
+            <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 4px;">
+                <h4>Important Notes:</h4>
+                <ul>
+                    {% if action == 'approve_all_import_candidates' %}
+                        <li>This will approve <strong>ALL {{ total_count }}</strong> pending import candidates</li>
+                        <li>Approved candidates can then be imported to create PostgreSQL entities</li>
+                        <li>This operation <strong>cannot be easily undone</strong></li>
+                        <li>Recommended: Review a few candidates first before bulk approval</li>
+                    {% elif action == 'cleanup_import_candidates' %}
+                        <li>This will <strong>PERMANENTLY DELETE {{ total_count }}</strong> non-approved import candidates</li>
+                        <li>Only candidates that are <strong>NOT approved</strong> will be deleted</li>
+                        <li>Approved candidates and already-imported entities will be safe</li>
+                        <li>This operation <strong>CANNOT be undone</strong></li>
+                        <li>You will need to re-run discovery to get these candidates back</li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <form method="post" action="" style="margin-top: 30px;">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="{{ action }}">
+                {% if action == 'approve_all_import_candidates' %}
+                    <input type="hidden" name="confirm_approve_all" value="yes">
+                {% elif action == 'cleanup_import_candidates' %}
+                    <input type="hidden" name="confirm_cleanup" value="yes">
+                {% endif %}
+
+                <button type="submit" class="confirm-button">
+                    {% if action == 'approve_all_import_candidates' %}
+                        ✅ Yes, Approve All {{ total_count }} Candidates
+                    {% elif action == 'cleanup_import_candidates' %}
+                        🗑️ Yes, Delete All {{ total_count }} Candidates
+                    {% endif %}
+                </button>
+
+                <a href="{% url 'admin:entity_mapping_entitymapping_changelist' %}" class="cancel-button">
+                    ← Cancel
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

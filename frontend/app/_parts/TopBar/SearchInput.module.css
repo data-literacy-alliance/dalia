@@ -1,0 +1,21 @@
+.root {
+    @apply relative flex items-center h-full border-e border-primary;
+}
+
+.input {
+    @apply outline-none ps-2 pe-12 h-full w-72 transition-all;
+}
+
+.inputFocused {
+    @apply w-80;
+}
+
+.icon {
+    @apply absolute end-2;
+    top: calc(50% - 1.25rem);
+}
+
+.iconRemove {
+    @apply absolute end-12;
+    top: calc(50% - 1.25rem);
+}

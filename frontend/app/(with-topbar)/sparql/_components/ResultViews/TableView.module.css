@@ -1,0 +1,123 @@
+.tableContainer {
+  overflow-x: auto;
+  border-radius: 12px;
+}
+
+.resultsTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.resultsTable thead {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.resultsTable th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: rgba(248, 250, 252, 0.75);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.resultsTable td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+  font-size: 0.9rem;
+  max-width: 400px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resultsTable tbody tr {
+  transition: background 0.2s ease;
+}
+
+.resultsTable tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.resultsTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.emptyCell {
+  color: rgba(248, 250, 252, 0.45) !important;
+}
+
+.uriLink {
+  color: #06b6d4;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.uriLink:hover {
+  color: #8b5cf6;
+  text-decoration: underline;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: rgba(248, 250, 252, 0.45);
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.emptyTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: rgba(248, 250, 252, 0.75);
+}
+
+.emptyText {
+  font-size: 1rem;
+}
+
+[data-theme="light"] .resultsTable {
+  background: rgba(15, 23, 42, 0.03);
+}
+
+[data-theme="light"] .resultsTable thead {
+  background: rgba(15, 23, 42, 0.05);
+}
+
+[data-theme="light"] .resultsTable th {
+  color: rgba(15, 23, 42, 0.75);
+  border-bottom-color: rgba(15, 23, 42, 0.12);
+}
+
+[data-theme="light"] .resultsTable td {
+  color: #0f172a;
+  border-bottom-color: rgba(15, 23, 42, 0.12);
+}
+
+[data-theme="light"] .resultsTable tbody tr:hover {
+  background: rgba(15, 23, 42, 0.05);
+}
+
+[data-theme="light"] .emptyCell {
+  color: rgba(15, 23, 42, 0.5) !important;
+}
+
+[data-theme="light"] .emptyState {
+  color: rgba(15, 23, 42, 0.5);
+}
+
+[data-theme="light"] .emptyTitle {
+  color: rgba(15, 23, 42, 0.75);
+}

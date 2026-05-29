@@ -1,0 +1,13 @@
+.root {
+    /*@apply w-full;*/
+    height: calc(100dvh - 5rem); /* 70px bcz of top bar*/
+    /* width: calc(100dvh); */
+}
+
+.withBorder {
+    @apply border border-primary disabled:border-daliaGray-300;
+}
+
+.button {
+    @apply w-full h-full py-6 border-b border-primary disabled:border-daliaGray-300 justify-start;
+}

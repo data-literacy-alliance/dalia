@@ -1,0 +1,5 @@
+@prefix dalia.oer: <https://id.dalia.education/learning-resource/> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> .
+
+dalia.oer:ed89b9d7-776f-466c-8aef-c12ca38b58a1 oboInOwl:hasDbXref obo:CHMO_0000073 .

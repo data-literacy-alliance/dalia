@@ -1,0 +1,90 @@
+.graphContainer {
+  width: 100%;
+  height: 600px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.graphSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.graphNode {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.graphNode circle {
+  transition: all 0.2s ease;
+  stroke: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="light"] .graphNode circle {
+  stroke: rgba(15, 23, 42, 0.2);
+}
+
+.graphNode:hover circle {
+  stroke-width: 4;
+  filter: brightness(1.2);
+}
+
+.graphNode text {
+  fill: #f8fafc;
+  pointer-events: none;
+}
+
+.graphLink {
+  stroke-opacity: 0.6;
+  stroke: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="light"] .graphNode text {
+  fill: #0f172a;
+}
+
+[data-theme="light"] .graphLink {
+  stroke: rgba(15, 23, 42, 0.2);
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 600px;
+  color: rgba(248, 250, 252, 0.45);
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.emptyTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: rgba(248, 250, 252, 0.75);
+}
+
+.emptyText {
+  font-size: 1rem;
+}
+
+[data-theme="light"] .graphContainer {
+  background: rgba(15, 23, 42, 0.03);
+  border-color: rgba(15, 23, 42, 0.12);
+}
+
+[data-theme="light"] .emptyState {
+  color: rgba(15, 23, 42, 0.5);
+}
+
+[data-theme="light"] .emptyTitle {
+  color: rgba(15, 23, 42, 0.75);
+}

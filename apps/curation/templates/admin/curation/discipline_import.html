@@ -1,0 +1,198 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static %}
+
+{% block title %}Import Disciplines from SKOS{% endblock %}
+
+{% block extrahead %}
+<style>
+    .import-container {
+        max-width: 800px;
+        margin: 20px auto;
+    }
+    .import-section {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    .progress-container {
+        display: none;
+        margin-top: 20px;
+    }
+    .progress-bar {
+        width: 100%;
+        height: 20px;
+        background-color: #e9ecef;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .progress-fill {
+        height: 100%;
+        background-color: #28a745;
+        width: 0%;
+        transition: width 0.3s ease;
+    }
+    .log-container {
+        background: #2d3748;
+        color: #e2e8f0;
+        border-radius: 8px;
+        padding: 15px;
+        max-height: 400px;
+        overflow-y: auto;
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        font-size: 13px;
+        line-height: 1.4;
+        margin-top: 15px;
+    }
+    .log-message {
+        margin: 2px 0;
+        padding: 2px 0;
+    }
+    .log-info { color: #63b3ed; }
+    .log-success { color: #68d391; }
+    .log-warning { color: #f6e05e; }
+    .log-error { color: #fc8181; }
+    .import-button {
+        background-color: #007cba;
+        border-color: #007cba;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    .import-button:hover {
+        background-color: #005a87;
+    }
+    .import-button:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="import-container">
+    <h1>Import Disciplines from SKOS</h1>
+
+    <div class="import-section">
+        <h2>Import from Hochschulfächersystematik</h2>
+        <p>
+            This will fetch discipline data from the SKOS scheme at:
+            <br><code>https://skohub.io/dini-ag-kim/hochschulfaechersystematik/heads/master/w3id.org/kim/hochschulfaechersystematik/scheme.json</code>
+        </p>
+        <p>
+            <strong>What this import does:</strong>
+        </p>
+        <ul>
+            <li>Creates new disciplines using URI as unique identifier</li>
+            <li>Updates existing disciplines if URI already exists</li>
+            <li>Sets up parent-child hierarchical relationships</li>
+            <li>Uses English labels (prefLabel.en) as the primary label</li>
+            <li>Auto-generates slugs and UUIDs</li>
+            <li>Marks all imported disciplines as active</li>
+        </ul>
+
+        <button id="startImport" class="import-button" onclick="startImport()">
+            Start Import
+        </button>
+
+        <div class="progress-container" id="progressContainer">
+            <h3>Import Progress</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="log-container" id="logContainer"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+let eventSource = null;
+
+function startImport() {
+    const button = document.getElementById('startImport');
+    const progressContainer = document.getElementById('progressContainer');
+    const logContainer = document.getElementById('logContainer');
+    const progressFill = document.getElementById('progressFill');
+
+    button.disabled = true;
+    button.textContent = 'Importing...';
+    progressContainer.style.display = 'block';
+    logContainer.innerHTML = '';
+
+    // Start the import
+    fetch('{% url "admin:curation_form_discipline_import_skos" %}', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'started') {
+            // Start listening to progress updates
+            eventSource = new EventSource(data.progress_url);
+
+            eventSource.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+
+                // Update progress bar
+                progressFill.style.width = data.progress + '%';
+
+                // Add log message
+                const logMessage = document.createElement('div');
+                logMessage.className = `log-message log-${data.type || 'info'}`;
+                logMessage.textContent = data.message;
+                logContainer.appendChild(logMessage);
+                logContainer.scrollTop = logContainer.scrollHeight;
+
+                // Check if finished
+                if (data.finished) {
+                    eventSource.close();
+                    button.disabled = false;
+                    button.textContent = data.type === 'success' ? 'Import Complete' : 'Import Failed';
+
+                    if (data.type === 'success') {
+                        setTimeout(() => {
+                            window.location.href = '{% url "admin:curation_form_discipline_changelist" %}';
+                        }, 2000);
+                    }
+                }
+            };
+
+            eventSource.onerror = function(event) {
+                console.error('EventSource failed:', event);
+                eventSource.close();
+                button.disabled = false;
+                button.textContent = 'Import Failed';
+
+                const errorMessage = document.createElement('div');
+                errorMessage.className = 'log-message log-error';
+                errorMessage.textContent = 'Connection error. Please try again.';
+                logContainer.appendChild(errorMessage);
+            };
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        button.disabled = false;
+        button.textContent = 'Import Failed';
+
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'log-message log-error';
+        errorMessage.textContent = 'Error starting import: ' + error.message;
+        logContainer.appendChild(errorMessage);
+    });
+}
+
+// Clean up on page unload
+window.addEventListener('beforeunload', function() {
+    if (eventSource) {
+        eventSource.close();
+    }
+});
+</script>
+{% endblock %}

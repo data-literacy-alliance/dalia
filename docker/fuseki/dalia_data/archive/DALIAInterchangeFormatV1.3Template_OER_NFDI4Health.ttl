@@ -1,0 +1,80 @@
+@prefix bflr: <http://bibfra.me/vocab/relation/> .
+@prefix dalia-community: <https://id.dalia.education/community/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ec: <https://github.com/tibonto/educor#> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix m4i: <http://w3id.org/nfdi4ing/metadata4ing#> .
+@prefix mo: <https://purl.org/ontology/modalia#> .
+@prefix ns1: <https://dalia.education/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://id.dalia.education/learning-resource/13d8aa08-439d-4468-8e5c-197267d92d14> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:7c45de27-5996-40b5-8e0e-24afdfe148e5 ;
+    dcterms:description """This slidedeck was used in a two day workshop on research data management (RDM). 
+It covers topics such as research data and their life cycle, metadata, FAIR data principles, as well as guidelines on RDM. Additionally, it introduces NFDI4Health services (Publication Policy, Metadata Schema, Central Health Study Hub) as examples of useful tools for the different stages of the research data lifecycle. The slidedeck was designed so that it can also be used for self-study.""" ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "NFDI4Health Online Training Workshop on Research Data Management in (Bio-)Medicine" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n107> ;
+    ns1:authorUnordered [ a schema:Organization ;
+            owl:sameAs <http://www.wikidata.org/entity/Q98380343> ;
+            schema:name "NFDI4Health" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-8251-1597" ;
+            schema:familyName "Lindstädt" ;
+            schema:givenName "Birte" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-9421-8582" ;
+            schema:familyName "Vandendorpe" ;
+            schema:givenName "Justine" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7091-5084" ;
+            schema:familyName "Shutsko" ;
+            schema:givenName "Aliaksandra" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-2547-933X" ;
+            schema:familyName "Fürst" ;
+            schema:givenName "Julia" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-2830-6322" ;
+            schema:familyName "Perrar" ;
+            schema:givenName "Ines" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:PresentationDigitalDocument,
+        schema:Text ;
+    mo:hasTargetGroup mo:DataSteward,
+        mo:PhDStudent,
+        mo:Researcher ;
+    mo:isPartOf <https://repository.publisso.de/resource/frl%3A6441348> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-2547-933X" ;
+                schema:familyName "Fürst" ;
+                schema:givenName "Julia" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-8251-1597" ;
+                schema:familyName "Lindstädt" ;
+                schema:givenName "Birte" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-2830-6322" ;
+                schema:familyName "Perrar" ;
+                schema:givenName "Ines" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7091-5084" ;
+                schema:familyName "Shutsko" ;
+                schema:givenName "Aliaksandra" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-9421-8582" ;
+                schema:familyName "Vandendorpe" ;
+                schema:givenName "Justine" ] [ a schema:Organization ;
+                owl:sameAs <http://www.wikidata.org/entity/Q98380343> ;
+                schema:name "NFDI4Health" ] ) ;
+    schema:datePublished "2023"^^xsd:gYear ;
+    schema:fileSize "5 MB" ;
+    schema:keywords "biomedicine",
+        "open educational resources",
+        "research data management" ;
+    schema:url <https://repository.publisso.de/resource/frl%3A6452640> ;
+    schema:version "1.0" .
+

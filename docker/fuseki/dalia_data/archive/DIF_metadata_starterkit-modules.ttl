@@ -1,0 +1,208 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ec: <https://github.com/tibonto/educor#> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix m4i: <http://w3id.org/nfdi4ing/metadata4ing#> .
+@prefix mo: <https://purl.org/ontology/modalia#> .
+@prefix ns1: <https://dalia.education/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://id.dalia.education/learning-resource/405aeec1-b809-4879-a8db-d35452a82383> a ec:EducationalResource ;
+    dcterms:description "Die Grundidee des Starterkits ist es, Studierenden und Lehrenden einen Einstieg sowie Orientierung im Feld der theorie-fokussierten Digital Humanities zu bieten. Es ist aufgebaut als modulare Lehr-Lernressource unter einer offenen Lizenz (Open Educational Resource) und kann als Framework für das Selbststudium oder für Seminareinheiten in Studiengängen genutzt werden. Es bietet einen Einstieg in das weite Feld (wissenschafts-)theoretischer Ansätze sowie die Möglichkeit, ein vertieftes Verständnis bzw. Reflexion geisteswissenschaftlichen Arbeitens mit digitalen Werkzeugen und in digitalen Arrangements zu gewinnen. Dieses Modul (Forschungsinfrastrukturen) deckt insbesondere zwei Bereiche ab: Zum einen die kritische Reflexion der Bedingungen der Möglichkeit digitaler Forschungsinfrastrukturen für die geisteswissenschaftliche Forschung, das heißt, inwiefern digitale Infrastrukturen an sich möglich sind. Zum anderen werden digitale Forschungsinfrastrukturen als Bedingung der Möglichkeit für geisteswissenschaftliche Forschung gedacht und demnach ihre Rolle bzw. ihr Einfluss bei der geisteswissenschaftlichen Erkenntnisproduktion reflektiert. Dabei werden die Bereiche “Infrastruktur”, digitale Labore sowie die Verbindung von digitalen Infrastrukturen und Praktiken in den Digital Humanities beleuchtet." ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "DHd AG Digital Humanities Theorie" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    fabio:hasSubtitle "Starterkit DH Theorie – Modul Forschungsinfrastrukturen" ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8820-5112" ;
+            schema:familyName "Gengnagel" ;
+            schema:givenName "Tessa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-1244-7363" ;
+            schema:familyName "Kremer" ;
+            schema:givenName "Dominik" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-6867-1511" ;
+            schema:familyName "Hegel" ;
+            schema:givenName "Philipp" ] ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:StudentSchool,
+        mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-6867-1511" ;
+                schema:familyName "Hegel" ;
+                schema:givenName "Philipp" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8820-5112" ;
+                schema:familyName "Gengnagel" ;
+                schema:givenName "Tessa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-1244-7363" ;
+                schema:familyName "Kremer" ;
+                schema:givenName "Dominik" ] ) ;
+    schema:datePublished "2025-02-19"^^xsd:date ;
+    schema:fileSize "0.1505 MB" ;
+    schema:keywords "Digital Humanities",
+        "Hochschullehre",
+        "Infrastruktur",
+        "Lehre",
+        "OER",
+        "Open Educational Resource",
+        "Studium",
+        "Theorie",
+        "Wissenschaftstheorie" ;
+    schema:url <https://doi.org/10.5281/zenodo.14894024> ;
+    schema:version "1.0.0" .
+
+<https://id.dalia.education/learning-resource/41339421-8af5-4d49-92e2-3122cdc54e47> a ec:EducationalResource ;
+    dcterms:description "Die Grundidee des Starterkits ist es, Studierenden und Lehrenden einen Einstieg sowie Orientierung im Feld der theorie-fokussierten Digital Humanities zu bieten. Es ist aufgebaut als modulare Lehr-Lernressource unter einer offenen Lizenz (Open Educational Resource) und kann als Framework für das Selbststudium oder für Seminareinheiten in Studiengängen genutzt werden. Es bietet einen Einstieg in das weite Feld (wissenschafts-)theoretischer Ansätze sowie die Möglichkeit, ein vertieftes Verständnis bzw. Reflexion geisteswissenschaftlichen Arbeitens mit digitalen Werkzeugen und in digitalen Arrangements zu gewinnen. Dieses Modul (Repräsentation) deckt den Bereich der Repräsentationen, Daten, Modelle und Simulationen in den Digital Humanities ab und thematisiert digitale Repräsentationen von realweltlichen Dingen, kulturellen Objekten, Artefakten und Symbolsystemen sowie Möglichkeiten von deren maschinellen Prozessierung. Die Lerninhalte zielen sowohl auf den allgemeinen Bereich der digitalen Geisteswissenschaften als auch auf die theoretischen Grundlagen von Large Language Models. Zu diesem Zweck werden neben Theorien aus den Digital Humanities und der Philosophie auch Ansätze aus der Daten- und Methodenkritik sowie aus der Praxis performativer Datenzugänge vermittelt." ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "DHd AG Digital Humanities Theorie" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    fabio:hasSubtitle "Starterkit DH Theorie – Modul Repräsentation" ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0009-0006-2738-2864" ;
+            schema:familyName "Lucke" ;
+            schema:givenName "Alexa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-6867-1511" ;
+            schema:familyName "Hegel" ;
+            schema:givenName "Philipp" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-1244-7363" ;
+            schema:familyName "Kremer" ;
+            schema:givenName "Dominik" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8820-5112" ;
+            schema:familyName "Gengnagel" ;
+            schema:givenName "Tessa" ] ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:StudentSchool,
+        mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0009-0006-2738-2864" ;
+                schema:familyName "Lucke" ;
+                schema:givenName "Alexa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8820-5112" ;
+                schema:familyName "Gengnagel" ;
+                schema:givenName "Tessa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-6867-1511" ;
+                schema:familyName "Hegel" ;
+                schema:givenName "Philipp" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-1244-7363" ;
+                schema:familyName "Kremer" ;
+                schema:givenName "Dominik" ] ) ;
+    schema:datePublished "2025-02-19"^^xsd:date ;
+    schema:fileSize "0.1613 MB" ;
+    schema:keywords "Digital Humanities",
+        "Hochschullehre",
+        "Lehre",
+        "Modell",
+        "OER",
+        "Open Educational Resource",
+        "Repräsentation",
+        "Studium",
+        "Theorie",
+        "Wissenschaftstheorie" ;
+    schema:url <https://doi.org/10.5281/zenodo.14894068> ;
+    schema:version "1.0.0" .
+
+<https://id.dalia.education/learning-resource/c2cd353e-c694-427b-abcc-f32688d2dea6> a ec:EducationalResource ;
+    dcterms:description "Die Grundidee des Starterkits ist es, Studierenden und Lehrenden einen Einstieg sowie Orientierung im Feld der theorie-fokussierten Digital Humanities zu bieten. Es ist aufgebaut als modulare Lehr-Lernressource unter einer offenen Lizenz (Open Educational Resource) und kann als Framework für das Selbststudium oder für Seminareinheiten in Studiengängen genutzt werden. Es bietet einen Einstieg in das weite Feld (wissenschafts-)theoretischer Ansätze sowie die Möglichkeit, ein vertieftes Verständnis bzw. Reflexion geisteswissenschaftlichen Arbeitens mit digitalen Werkzeugen und in digitalen Arrangements zu gewinnen. Dieses Modul (Digitaltheorien) deckt den Bereich grundlegender Theorien des Digitalen und der Digitaltechnologie insgesamt ab. Der Schwerpunkt liegt auf den mathematischen und logischen Voraussetzungen der Digitaltechnologie. Durch diese logischen Voraussetzungen werden auch die Grenzen und die damit einhergehenden Ausdrucksmöglichkeiten der Digital Humanities konturiert." ;
+    dcterms:format "PDF",
+        "ZIP" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "DHd AG Digital Humanities Theorie" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n1>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n71> ;
+    fabio:hasSubtitle "Starterkit DH Theorie – Modul Digitaltheorien" ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+            schema:familyName "Geiger" ;
+            schema:givenName "Jonathan" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-1244-7363" ;
+            schema:familyName "Kremer" ;
+            schema:givenName "Dominik" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8820-5112" ;
+            schema:familyName "Gengnagel" ;
+            schema:givenName "Tessa" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-6867-1511" ;
+            schema:familyName "Hegel" ;
+            schema:givenName "Philipp" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0009-0006-2738-2864" ;
+            schema:familyName "Lucke" ;
+            schema:givenName "Alexa" ] ;
+    mo:hasMediaType mo:Multipart ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:StudentSchool,
+        mo:TeacherHighEducation ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-1244-7363" ;
+                schema:familyName "Kremer" ;
+                schema:givenName "Dominik" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0452-7075" ;
+                schema:familyName "Geiger" ;
+                schema:givenName "Jonathan" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8820-5112" ;
+                schema:familyName "Gengnagel" ;
+                schema:givenName "Tessa" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-6867-1511" ;
+                schema:familyName "Hegel" ;
+                schema:givenName "Philipp" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0009-0006-2738-2864" ;
+                schema:familyName "Lucke" ;
+                schema:givenName "Alexa" ] ) ;
+    schema:datePublished "2025-02-19"^^xsd:date ;
+    schema:fileSize "0.1424 MB" ;
+    schema:keywords "Digital Humanities",
+        "Hochschullehre",
+        "Lehre",
+        "OER",
+        "Open Educational Resource",
+        "Studium",
+        "Theorie",
+        "Wissenschaftstheorie" ;
+    schema:url <https://doi.org/10.5281/zenodo.14893884> ;
+    schema:version "1.1.0" .
+

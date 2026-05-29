@@ -1,0 +1,45 @@
+.leftBar {
+    @apply w-full lg:w-[calc(17rem)] flex-shrink-0;
+    width: calc(16rem + 1px); /*!* 1px for borders of neighbor in top bar *!*/
+}
+
+.rightBar {
+    @apply bg-white lg:hidden mx-5 w-full h-full;
+    /* width: calc(16rem + 1px); /* 1px for borders of neighbor in top bar */
+}
+
+.filterButton {
+    @apply absolute top-32 right-0 z-10 lg:hidden;
+}
+
+.onlyLargeScreen {
+    @apply max-lg:hidden;
+}
+
+.onlySmallScreen {
+    @apply lg:hidden;
+}
+
+.titleWrapper {
+    @apply gap-5 px-5 pt-12 pb-7;
+}
+
+.searchInfo {
+    @apply flex flex-col lg:flex-row gap-5;
+}
+
+.searchInfo > span:first-child {
+    @apply flex-1;
+}
+
+.resultsBody {
+    @apply flex w-full lg:w-[calc(100%-17rem)] ml-[-1px];
+}
+
+.gridWrapper {
+    @apply grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 flex-wrap w-full border-primary border-t border-l;
+}
+
+.smallItem {
+    @apply w-full border-r border-b border-primary;
+}

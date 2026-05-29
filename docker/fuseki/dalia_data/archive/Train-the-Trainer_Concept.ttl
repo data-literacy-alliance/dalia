@@ -1,0 +1,349 @@
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix citedcat: <https://w3id.org/citedcat-ap/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ec: <https://github.com/tibonto/educor#> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix hcrt: <https://w3id.org/kim/hcrt/> .
+@prefix m4i: <http://w3id.org/nfdi4ing/metadata4ing#> .
+@prefix mo: <https://purl.org/ontology/modalia#> .
+@prefix ns1: <https://dalia.education/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://id.dalia.education/learning-resource/26230ba7-8eb3-4811-9d4a-ddad8b56071a> a ec:EducationalResource ;
+    dcterms:description """Im Rahmen des BMBF-Projekts FDMentor wurde ein deutschsprachiges Train-the-Trainer-Programm zum Thema Forschungsdatenmanagement (FDM) erstellt, das nach Projektende durch Mitglieder der UAG Schulungen/Fortbildungen der DINI/nestor-AG Forschungsdaten fortlaufend ergänzt und aktualisiert wird. Die behandelten Themen umfassen sowohl die inhaltlichen Aspekte des Forschungsdatenmanagements als auch Einheiten zu didaktischen Grundlagen, zur Entwicklung von Lehr- und Workshopkonzepten. Darüber hinaus enthält das Konzept eine Sammlung didaktischer Methoden.
+
+Für die nun veröffentlichte fünfte Version des Train-the-Trainer-Konzepts wurden die Inhalte im Sinne einer nachhaltigeren Nachnutzbarkeit in Latex überführt und um ein neues Design ergänzt. Zu jeder Einheit sind Vorschläge für Umsetzungsmöglichkeiten und den Einsatz didaktischer Methoden sowohl für Präsenz- als auch für Onlineveranstaltungen integriert. Diese wurden durch Nutzung eines Farbschemas besser erfassbar gemacht. Interaktive Infoboxen fassen die zu den einzelnen Einheiten gehörenden Materialien (Präsentationsfolien, Arbeitsmaterialien) zusammen. Das Train-the-Trainer-Konzept steht als pdf zum Download zur Verfügung. Im Ordner Begleitmaterialien befinden sich sowohl die Präsentationsfolien durchführbar als Tag 1 und Tag 2 sowie separiert in einzelne Einheiten als pptx und pdf, als auch Arbeitsmaterialien wie Arbeitsblätter oder Handouts zum Bearbeiten in docx und zum direkten Ausdrucken als pdf.
+
+Die Lehrdrehbücher der einzelnen Einheiten wurden aktualisiert und um interaktive Elemente ergänzt. Für jede Einheit ist ein Lehrdrehbuch als pdf vorhanden, das alle wesentlichen Informationen enthält. Zusätzlich wird ein Gesamtlehrdrehbuch für alle Einheiten (Präsenz- und Online-Workshop) als bearbeitbare xlsx zur Verfügung gestellt, in dem nach bestimmten Einheiten und Formaten gefiltert werden kann.
+
+Alle Einheiten für die Version 5.0 wurden auf ihre Aktualität hin überprüft sowie einzelne Einheiten inhaltlich auf den neusten Stand gebracht. Die zu Beginn jeder Einheit angegebenen Lernziele wurden in Anlehnung an die Lernzielmatrix zum Themenbereich FDM (DOI: 10.5281/zenodo.8010617) aktualisiert. Zusätzlich zu dieser Version werden Erweiterungsmodule zu den Themen CARE-Prinzipien (DOI: 10.5281/zenodo.10197070), FAIR-Prinzipien (DOI: 10.5281/zenodo.10197079), Elektronisches Laborbuch (DOI: 10.5281/zenodo.10197096), Nachnutzung von Forschungsdaten (DOI: 10.5281/zenodo.10160865) und Softwaremanagementplan (DOI: 10.5281/zenodo.10197107) publiziert. Es ist geplant, weitere thematische Module im Laufe der Zeit zu publizieren.
+
+Erfahrungen aus den bereits durchgeführten Train-the-Trainer-Workshops sowie Rückmeldungen von Teilnehmenden sind in das Konzept eingeflossen. Diese fünfte, überarbeitete Version des Konzepts dient somit auch der weitergehenden Information der bereits geschulten Teilnehmenden. Darüber hinaus kann das Konzept (mit Anpassungen) für andere Zielgruppen wie z. B. Forschende adaptiert werden.""" ;
+    dcterms:format "DOCX",
+        "PDF",
+        "PPTX",
+        "RTB",
+        "TEX",
+        "TXT",
+        "XLSX",
+        "ZIP" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Train-the-Trainer-Konzept zum Thema Forschungsdatenmanagement" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n0> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-0531-0182" ;
+            schema:familyName "Trautwein-Bruns" ;
+            schema:givenName "Ute" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-5343-2788" ;
+            schema:familyName "Slowig" ;
+            schema:givenName "Benjamin" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0562-7393" ;
+            schema:familyName "Karsten" ;
+            schema:givenName "Adienne" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-5268-5430" ;
+            schema:familyName "Dockhorn" ;
+            schema:givenName "Ron" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-3391-7638" ;
+            schema:familyName "Engelhardt" ;
+            schema:givenName "Claudia" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-1764-7228" ;
+            schema:familyName "Kalová" ;
+            schema:givenName "Tereza" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-2775-6751" ;
+            schema:familyName "Helbig" ;
+            schema:givenName "Kerstin" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-2528-5391" ;
+            schema:familyName "Wiljes" ;
+            schema:givenName "Cord" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6363-0064" ;
+            schema:familyName "Biernacka" ;
+            schema:givenName "Katarzyna" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0161-1888" ;
+            schema:familyName "Neumann" ;
+            schema:givenName "Janna" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0363-3837" ;
+            schema:familyName "Wilbrandt" ;
+            schema:givenName "Jeanne" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0443-3570" ;
+            schema:familyName "Jacob" ;
+            schema:givenName "Juliane" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3115-4021" ;
+            schema:familyName "Mühlichen" ;
+            schema:givenName "Andreas" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0355-2594" ;
+            schema:familyName "Petersen" ;
+            schema:givenName "Britta" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0009-0003-1966-9679" ;
+            schema:familyName "Meier" ;
+            schema:givenName "Kristin" ] ;
+    mo:hasLearningType bibo:Book,
+        hcrt:course,
+        hcrt:drill_and_practice,
+        hcrt:lesson_plan,
+        hcrt:worksheet ;
+    mo:hasMediaType schema:PresentationDigitalDocument,
+        schema:Text ;
+    mo:hasTargetGroup mo:DataSteward,
+        mo:TeacherHighEducation ;
+    mo:isNewVersionOf <https://doi.org/10.5281/zenodo.1215377>,
+        <https://doi.org/10.5281/zenodo.2581292>,
+        <https://doi.org/10.5281/zenodo.3938533>,
+        <https://doi.org/10.5281/zenodo.4322849>,
+        <https://doi.org/10.5281/zenodo.5773203> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6363-0064" ;
+                schema:familyName "Biernacka" ;
+                schema:givenName "Katarzyna" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-5268-5430" ;
+                schema:familyName "Dockhorn" ;
+                schema:givenName "Ron" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-3391-7638" ;
+                schema:familyName "Engelhardt" ;
+                schema:givenName "Claudia" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-2775-6751" ;
+                schema:familyName "Helbig" ;
+                schema:givenName "Kerstin" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0443-3570" ;
+                schema:familyName "Jacob" ;
+                schema:givenName "Juliane" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-1764-7228" ;
+                schema:familyName "Kalová" ;
+                schema:givenName "Tereza" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0562-7393" ;
+                schema:familyName "Karsten" ;
+                schema:givenName "Adienne" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0009-0003-1966-9679" ;
+                schema:familyName "Meier" ;
+                schema:givenName "Kristin" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3115-4021" ;
+                schema:familyName "Mühlichen" ;
+                schema:givenName "Andreas" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0161-1888" ;
+                schema:familyName "Neumann" ;
+                schema:givenName "Janna" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0355-2594" ;
+                schema:familyName "Petersen" ;
+                schema:givenName "Britta" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-5343-2788" ;
+                schema:familyName "Slowig" ;
+                schema:givenName "Benjamin" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-0531-0182" ;
+                schema:familyName "Trautwein-Bruns" ;
+                schema:givenName "Ute" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0363-3837" ;
+                schema:familyName "Wilbrandt" ;
+                schema:givenName "Jeanne" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-2528-5391" ;
+                schema:familyName "Wiljes" ;
+                schema:givenName "Cord" ] ) ;
+    schema:datePublished "2023-12-14"^^xsd:date ;
+    schema:fileSize "100.0 MB" ;
+    schema:keywords "Didaktik",
+        "Forschungsdaten",
+        "Forschungsdatenmanagement",
+        "OER",
+        "Research data",
+        "Research data management",
+        "Schulung",
+        "Train-the-Trainer" ;
+    schema:url <https://doi.org/10.5281/zenodo.10122153> ;
+    schema:version "5" ;
+    citedcat:isSupplementedBy <https://doi.org/10.5281/zenodo.10160865>,
+        <https://doi.org/10.5281/zenodo.10197070>,
+        <https://doi.org/10.5281/zenodo.10197079>,
+        <https://doi.org/10.5281/zenodo.10197096>,
+        <https://doi.org/10.5281/zenodo.10197107> .
+
+<https://id.dalia.education/learning-resource/a878c2d1-bf03-4045-81b4-baf2078be592> a ec:EducationalResource ;
+    dcterms:description """This version of the 'Train-the-Trainer Concept on Research Data Management' is the English translation of the fifth updated version of the German 'Train-the-Trainer-Konzept zum Forschungsdatenmanagement'. The translation of the concept resulted from the need to address the ongoing internationalisation of science in Germany and the fact that researchers are increasingly communicating in English. Building individual skills in research data management and training multipliers in English is therefore becoming even more important. Due to the existence of the National Research Data Infrastructure (NFDI) with its subject-specific consortia, the newly approved Clusters of Excellence and Collaborative Research Centres, the need for qualified staff is growing immensely. This also applies to universities and research institutions in general. For this version, the content of all units has been revised and experiences acquired from previous online Train-the-Trainer Workshops have been integrated into the concept. This concept thus provides new, more detailed information for already experienced Research Data Management (RDM) professionals. This train-the-trainer concept addresses RDM topics in an inspirational way and delivers teaching methods at the same time. Furthermore, topics such as diversity and barrier-reduced teaching materials are addressed to create an engaging learning environment. Please note that some of the content and included materials cover specific issues that only apply to the German science community. We hope that readers of this translated version of the concept will receive useful and informative insights in the field of research data management.
+
+Acknowledgements:
+This project has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No 101035821 (EUniWell #Research).
+Kindly take note that this document was translated with the technical services of ChatGPT and was adapted in terms of language based on native speaker proofreading by Andrew Rennison.""" ;
+    dcterms:format "DOCX",
+        "PDF",
+        "PPTX",
+        "RTB",
+        "TXT",
+        "XLSX",
+        "ZIP" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Train-the-Trainer Concept on Research Data Management" ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n0> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0562-7393" ;
+            schema:familyName "Karsten" ;
+            schema:givenName "Adienne" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-1764-7228" ;
+            schema:familyName "Kalová" ;
+            schema:givenName "Tereza" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-4864-8036" ;
+            schema:familyName "Biernacka" ;
+            schema:givenName "Katarzyna" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-3391-7638" ;
+            schema:familyName "Engelhardt" ;
+            schema:givenName "Claudia" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0443-3570" ;
+            schema:familyName "Jacob" ;
+            schema:givenName "Juliane" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0363-3837" ;
+            schema:familyName "Wilbrandt" ;
+            schema:givenName "Jeanne" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0161-1888" ;
+            schema:familyName "Neumann" ;
+            schema:givenName "Janna" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-2775-6751" ;
+            schema:familyName "Helbig" ;
+            schema:givenName "Kerstin" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0009-0009-2186-3212" ;
+            schema:familyName "Castillo Upiachihua" ;
+            schema:givenName "Claudia Beatriz" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-5237-0669" ;
+            schema:familyName "Scherreiks" ;
+            schema:givenName "Pascal" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-2528-5391" ;
+            schema:familyName "Wiljes" ;
+            schema:givenName "Cord" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-0531-0182" ;
+            schema:familyName "Trautwein-Bruns" ;
+            schema:givenName "Ute" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0009-0003-1966-9679" ;
+            schema:familyName "Meier" ;
+            schema:givenName "Kristin" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-5343-2788" ;
+            schema:familyName "Slowig" ;
+            schema:givenName "Benjamin" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-5268-5430" ;
+            schema:familyName "Dockhorn" ;
+            schema:givenName "Ron" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3115-4021" ;
+            schema:familyName "Mühlichen" ;
+            schema:givenName "Andreas" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-8409-4520" ;
+            schema:familyName "Grunwald-Eckhardt" ;
+            schema:givenName "Laura" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-0355-2594" ;
+            schema:familyName "Petersen" ;
+            schema:givenName "Britta" ] ;
+    mo:hasLearningType bibo:Book,
+        hcrt:course,
+        hcrt:drill_and_practice,
+        hcrt:lesson_plan,
+        hcrt:worksheet ;
+    mo:hasMediaType schema:PresentationDigitalDocument,
+        schema:Text ;
+    mo:hasTargetGroup mo:DataSteward,
+        mo:TeacherHighEducation ;
+    mo:isNewVersionOf <https://doi.org/10.5281/zenodo.10122153>,
+        <https://doi.org/10.5281/zenodo.4071471> ;
+    mo:isTranslationOf <https://doi.org/10.5281/zenodo.10122153> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Competent,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-4864-8036" ;
+                schema:familyName "Biernacka" ;
+                schema:givenName "Katarzyna" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0009-0009-2186-3212" ;
+                schema:familyName "Castillo Upiachihua" ;
+                schema:givenName "Claudia Beatriz" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-5268-5430" ;
+                schema:familyName "Dockhorn" ;
+                schema:givenName "Ron" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-3391-7638" ;
+                schema:familyName "Engelhardt" ;
+                schema:givenName "Claudia" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-8409-4520" ;
+                schema:familyName "Grunwald-Eckhardt" ;
+                schema:givenName "Laura" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-2775-6751" ;
+                schema:familyName "Helbig" ;
+                schema:givenName "Kerstin" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0443-3570" ;
+                schema:familyName "Jacob" ;
+                schema:givenName "Juliane" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-1764-7228" ;
+                schema:familyName "Kalová" ;
+                schema:givenName "Tereza" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0562-7393" ;
+                schema:familyName "Karsten" ;
+                schema:givenName "Adienne" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0009-0003-1966-9679" ;
+                schema:familyName "Meier" ;
+                schema:givenName "Kristin" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3115-4021" ;
+                schema:familyName "Mühlichen" ;
+                schema:givenName "Andreas" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0161-1888" ;
+                schema:familyName "Neumann" ;
+                schema:givenName "Janna" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0355-2594" ;
+                schema:familyName "Petersen" ;
+                schema:givenName "Britta" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-5237-0669" ;
+                schema:familyName "Scherreiks" ;
+                schema:givenName "Pascal" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-5343-2788" ;
+                schema:familyName "Slowig" ;
+                schema:givenName "Benjamin" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-0531-0182" ;
+                schema:familyName "Trautwein-Bruns" ;
+                schema:givenName "Ute" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-0363-3837" ;
+                schema:familyName "Wilbrandt" ;
+                schema:givenName "Jeanne" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-2528-5391" ;
+                schema:familyName "Wiljes" ;
+                schema:givenName "Cord" ] ) ;
+    schema:datePublished "2024-10-31"^^xsd:date ;
+    schema:fileSize "195.2 MB" ;
+    schema:keywords "Didactics",
+        "Forschungsdaten",
+        "Forschungsdatenmanagement",
+        "OER",
+        "RDM",
+        "research data",
+        "research data management",
+        "train-the-trainer",
+        "training" ;
+    schema:url <https://doi.org/10.5281/zenodo.13927614> ;
+    schema:version "5.1" .
+

@@ -276,3 +276,68 @@ dalia/media/
 .env
 .envs/*
 !.envs/.local/
+
+# ---------------------------------------------------------------------
+# Project-specific additions (Dalia 2.0)
+# ---------------------------------------------------------------------
+
+# Runtime / data directories (rootless Podman bind mounts)
+data/
+logs/
+backups/
+
+# Frontend build artefacts
+frontend/.pnpm-store/
+frontend/.next/
+frontend/out/
+frontend/build/
+
+# Internal-only docs (handover packages, never published)
+docs/Handover/
+docs/handover-tmp/
+
+# AI tooling artefacts (never committed)
+# Claude / Anthropic
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+# Cursor
+.cursor/
+.cursorrules
+.cursorignore
+# GitHub Copilot
+.copilot/
+.copilotignore
+# OpenAI Codex / ChatGPT
+.codex/
+.openai/
+# Aider
+.aider*
+.aider.chat.history.md
+.aider.input.history
+.aider.tags.cache.v*
+# Codeium / Windsurf
+.codeium/
+.windsurf/
+.windsurfrules
+# Continue (VS Code AI)
+.continue/
+# Cline
+.cline/
+# Gemini Code Assist
+GEMINI.md
+.gemini/
+# Generic AI scratch dirs
+.ai/
+.llm/
+.prompts/
+
+# IDE / OS
+.idea/
+*.swp
+*.swo
+Thumbs.db
+
+# Local override compose files
+podman-compose.*.local.yml
+docker-compose.*.local.yml

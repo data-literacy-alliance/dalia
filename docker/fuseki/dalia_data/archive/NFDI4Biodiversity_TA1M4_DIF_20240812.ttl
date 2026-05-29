@@ -1,0 +1,1535 @@
+@prefix bflr: <http://bibfra.me/vocab/relation/> .
+@prefix citedcat: <https://w3id.org/citedcat-ap/> .
+@prefix dalia-community: <https://id.dalia.education/community/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ec: <https://github.com/tibonto/educor#> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix hcrt: <https://w3id.org/kim/hcrt/> .
+@prefix m4i: <http://w3id.org/nfdi4ing/metadata4ing#> .
+@prefix mo: <https://purl.org/ontology/modalia#> .
+@prefix ns1: <https://dalia.education/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rec: <http://purl.org/ontology/rec/core#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://id.dalia.education/learning-resource/09141197-bc2e-43ff-a0bc-8c8d78f9fafc> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "Slides for a 60 min presentation on basic aspects of research data management. The first part discusses motivations and solutions for improved research data management specific for ecological and biodiversity data. The second part gives an overview of simple, hands-on improvements of research data management along the data life cycle. Many of the discipline specific tools and services presented in the talk are provided by the NFDI4Biodiversity consortium. Included is also an overview of generic tools and services provided by the local eResearch Center of the Philipps University of Marburg in close collaboration with the Hessian Research Data Infrastructures (HeFDI)." ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Introduction to research data management" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-4692-2700" ;
+            schema:familyName "Röder" ;
+            schema:givenName "Juliane" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:PresentationDigitalDocument ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isBasedOn <https://doi.org/10.5281/zenodo.10649322>,
+        <https://doi.org/10.5281/zenodo.6985361>,
+        <https://doi.org/10.5281/zenodo.7638635> ;
+    mo:isNewVersionOf <https://doi.org/10.5281/zenodo.1123545> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-4692-2700" ;
+                schema:familyName "Röder" ;
+                schema:givenName "Juliane" ] ) ;
+    schema:datePublished "2024-05-21"^^xsd:date ;
+    schema:fileSize "5.8 MB" ;
+    schema:keywords "biodiversity",
+        "research data management" ;
+    schema:url <https://doi.org/10.5281/zenodo.11235458> ;
+    schema:version "1.0" .
+
+<https://id.dalia.education/learning-resource/1ef0b4ff-39ed-45b6-b1f4-58c1632368f7> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description """Jupyter Book. This is an introductory course to Jupyter Notebook / Lab for the NFDI4Biodiversity & GfÖ Winterschool 2022.
+It covers: 1) Basic Introduction to Jupyter Notebook, 2) Practical example of data analysis using Jupyter Notebooks, 3) How to reuse and publish Jupyter code. 4) How to create a Jupyter Book and publish it online.""" ;
+    dcterms:format "HTML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "Jupyter Workshop Winterschool 2022" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-7848-3725" ;
+            schema:familyName "Wolf" ;
+            schema:givenName "Sophie" ] ;
+    mo:hasLearningType mo:Tutorial ;
+    mo:hasMediaType mo:Code,
+        schema:ImageObject,
+        schema:Text ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isBasedOn <https://github.com/sojwolf/Jupyter_Workshop_Winterschool_2022> ;
+    mo:isPartOf <https://doi.org/10.5281/zenodo.8221510> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-7848-3725" ;
+                schema:familyName "Wolf" ;
+                schema:givenName "Sophie" ] ) ;
+    schema:datePublished "2022-12-05"^^xsd:date ;
+    schema:keywords "NFDI4Biodiversity and GfÖ Winter School 2022",
+        "biodiversity data",
+        "jupyter book",
+        "jupyter notebook" ;
+    schema:url <https://sojwolf.github.io/Jupyter_Workshop_Winterschool_2022/intro.html> .
+
+<https://id.dalia.education/learning-resource/2da86f9f-75f1-4326-aac3-0268b4b90de3> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "Explore the legal challenges in research data management in this YouTube video. Dive into copyright, licenses, national and international data protection regulations, the world of open data, and many more." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-3.0> ;
+    dcterms:title "Legal Aspects" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-1454-591X" ;
+            schema:familyName "Kipker" ;
+            schema:givenName "Dennis-Kenji" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:VideoObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isPartOf <https://doi.org/10.5281/zenodo.8221510>,
+        <https://www.youtube.com/playlist?list=PL06Unzn1hDrhZ4mfsdfeypJajuGsuzdfm> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-1454-591X" ;
+                schema:familyName "Kipker" ;
+                schema:givenName "Dennis-Kenji" ] ) ;
+    schema:datePublished "2024-04-02"^^xsd:date ;
+    schema:keywords "NFDI4Biodiversity and GfÖ Winter School 2022",
+        "copyright law",
+        "data privacy",
+        "research data" ;
+    schema:url <https://www.youtube.com/watch?v=jHkHkCswbwM> .
+
+<https://id.dalia.education/learning-resource/2e350010-2ba1-4300-ae75-1d160be4bb7d> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "The video self-study series teaches researchers from the fields of biology and ecology how to work with the free R programming language." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-3.0> ;
+    dcterms:title "Data Science for Ecologists in R" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    fabio:hasSubtitle "Linear Models – Self-Learning Video Series [GFBio]" ;
+    mo:hasLearningType mo:Tutorial ;
+    mo:hasMediaType schema:VideoObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:datePublished "2022-06-27"^^xsd:date ;
+    schema:keywords "R",
+        "biodiversity",
+        "data analysis",
+        "data processing" ;
+    schema:url <https://youtube.com/playlist?list=PLE9wx7mxT8gsjR8IKEa43lk7VtXiYgPDy> .
+
+<https://id.dalia.education/learning-resource/3d3ee205-33b6-40a6-8b71-2f852588c63a> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "This course provides an introduction to research data management specifically tailored to the needs of biologists and is offered by the Biodiversity Data Consortium NFDI4Biodiversity in cooperation with the Hessian Research Data Infrastructure HeFDI." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Research Data Management for Biodiversity Data" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            schema:familyName "Fischer" ;
+            schema:givenName "Marlen" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+            schema:familyName "Brand" ;
+            schema:givenName "Ortrun" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+            schema:familyName "Tschink" ;
+            schema:givenName "Daniel" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-4692-2700" ;
+            schema:familyName "Röder" ;
+            schema:givenName "Juliane" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-2976-2300" ;
+            schema:familyName "Weibulat" ;
+            schema:givenName "Tanja" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-1771-7775" ;
+            schema:familyName "Signer" ;
+            schema:givenName "Johannes" ] ;
+    mo:hasLearningType hcrt:assessment ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isBasedOn <https://doi.org/10.5281/zenodo.6373596> ;
+    mo:isNewVersionOf <https://doi.org/10.5281/zenodo.10377868> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                schema:familyName "Fischer" ;
+                schema:givenName "Marlen" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-4692-2700" ;
+                schema:familyName "Röder" ;
+                schema:givenName "Juliane" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-1771-7775" ;
+                schema:familyName "Signer" ;
+                schema:givenName "Johannes" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+                schema:familyName "Tschink" ;
+                schema:givenName "Daniel" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-2976-2300" ;
+                schema:familyName "Weibulat" ;
+                schema:givenName "Tanja" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+                schema:familyName "Brand" ;
+                schema:givenName "Ortrun" ] ) ;
+    schema:datePublished "2023-12-20"^^xsd:date ;
+    schema:keywords "biodiversity",
+        "data collection",
+        "data life cycle",
+        "data management plan",
+        "data preservation",
+        "legal aspects",
+        "licenses",
+        "research data management",
+        "taxonomic data integration" ;
+    schema:url <https://ilias.uni-marburg.de/goto.php?target=pg_443261_3276691&client_id=UNIMR> ;
+    schema:version "1.1.0" .
+
+<https://id.dalia.education/learning-resource/3dc75e62-f105-4020-8db0-e5c02f73802f> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "Learn more about structuring your data sets and how tools such as Google Refine and RightField can help you in annotating your data." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-3.0> ;
+    dcterms:title "Data Integration and Annotation" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-4980-3512" ;
+            schema:familyName "Müller" ;
+            schema:givenName "Wolfgang" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:VideoObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isPartOf <https://doi.org/10.5281/zenodo.8221510>,
+        <https://www.youtube.com/playlist?list=PL06Unzn1hDrhZ4mfsdfeypJajuGsuzdfm> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-4980-3512" ;
+                schema:familyName "Müller" ;
+                schema:givenName "Wolfgang" ] ) ;
+    schema:datePublished "2023-05-04"^^xsd:date ;
+    schema:keywords "NFDI4Biodiversity and GfÖ Winter School 2022",
+        "biodiversity",
+        "data annotation",
+        "data integration" ;
+    schema:url <https://www.youtube.com/watch?v=F350FyqCkWA> .
+
+<https://id.dalia.education/learning-resource/52489fad-521e-4660-b515-6f32fb28a2b6> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:827c6f33-4e30-4b29-826e-408d41075005,
+        dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description """GitHub repository. This is an introductory course to Jupyter Notebook / Lab for the NFDI4Biodiversity & GfÖ Winterschool 2022.
+It covers: 1) Basic Introduction to Jupyter Notebook, 2) Practical example of data analysis using Jupyter Notebooks, 3) How to r""" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "PANGAEA Data Curation Checklist" ;
+    rec:recommender dalia-community:827c6f33-4e30-4b29-826e-408d41075005,
+        dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-7733-8427" ;
+            schema:familyName "Riemann-Campe" ;
+            schema:givenName "Kathrin" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-5392-6737" ;
+            schema:familyName "Oellermann" ;
+            schema:givenName "Michael" ] ;
+    mo:hasLearningType mo:Tutorial ;
+    mo:hasMediaType mo:Multipart ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isPartOf <https://doi.org/10.5281/zenodo.8221510> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-5392-6737" ;
+                schema:familyName "Oellermann" ;
+                schema:givenName "Michael" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-7733-8427" ;
+                schema:familyName "Riemann-Campe" ;
+                schema:givenName "Kathrin" ] ) ;
+    schema:datePublished "2023-10-30"^^xsd:date ;
+    schema:keywords "NFDI4Biodiversity and GfÖ Winter School 2022",
+        "biodiversity",
+        "data publication",
+        "data search" ;
+    schema:url <https://github.com/pangaea-data-publisher/community-workshop-material/tree/master/Python/Data_curation_checklist> ;
+    schema:version "1.1" .
+
+<https://id.dalia.education/learning-resource/5a7779ee-49ea-445c-93d1-3dbebdb4132f> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "Die dritte Episode des Rechtspodcasts legt ihren Fokus auf nationale und internationale Regelwerke im Zusammenhang mit Umwelt- und Biodiversitätsdaten. Wir beleuchten die rechtlichen Rahmenbedingungen und Herausforderungen, die sich aus diesen Regelwerken ergeben. Von nationaler Seite aus betrachtet die Diskussion die Umsetzung des Umweltinformationsgesetzes (UIG) und die damit verbundenen Anforderungen an Institutionen, z.B. in Bezug auf die Lieferung von Firmendaten an Landesämter. Es wird analysiert, wie das UIG Institutionen beeinflusst, welche Anreize geschaffen werden können, um Datenlieferungen zu fördern, und welcher Informationsbedarf besteht. Internationale Regelwerke spielen ebenfalls eine wichtige Rolle. Dabei wird über internationale Abkommen und Vereinbarungen informiert, die die Erhebung und den Austausch von Umweltdaten zwischen Ländern regeln." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Episode 3 - Nationale und internationale Regelwerke, UIG und Co." ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n135> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0009-0001-1696-1944" ;
+            schema:familyName "Witschas" ;
+            schema:givenName "Tom" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+            schema:familyName "Brand" ;
+            schema:givenName "Ortrun" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+            schema:familyName "Tschink" ;
+            schema:givenName "Daniel" ] ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isPartOf <https://kb.gfbio.org/pages/viewpage.action?pageId=121143505> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0009-0001-1696-1944" ;
+                schema:familyName "Witschas" ;
+                schema:givenName "Tom" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+                schema:familyName "Brand" ;
+                schema:givenName "Ortrun" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+                schema:familyName "Tschink" ;
+                schema:givenName "Daniel" ] ) ;
+    schema:datePublished "2024-04-23"^^xsd:date ;
+    schema:keywords "Biodiversität",
+        "Recht",
+        "Umweltinformationsgesetz" ;
+    schema:url <https://kb.gfbio.org/pages/viewpage.action?pageId=121143505> .
+
+<https://id.dalia.education/learning-resource/70dfbe15-7eef-492b-bf55-6e32c4f220b0> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "In this enlightening video, you delve into the realm of taxonomy. Discover the intricacies of \"taxonomic harmonization\" as we explore its definition, essential prerequisites, and practical execution. If you're engaged with biodiversity data, these vital insights on taxonomy are integral to your work." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-3.0> ;
+    dcterms:title "Taxonomic Harmonization" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-4659-7522" ;
+            schema:familyName "Grenié" ;
+            schema:givenName "Matthias" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:VideoObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isPartOf <https://doi.org/10.5281/zenodo.8221510>,
+        <https://www.youtube.com/playlist?list=PL06Unzn1hDrhZ4mfsdfeypJajuGsuzdfm> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-4659-7522" ;
+                schema:familyName "Grenié" ;
+                schema:givenName "Matthias" ] ) ;
+    schema:datePublished "2023-05-04"^^xsd:date ;
+    schema:keywords "NFDI4Biodiversity and GfÖ Winter School 2022",
+        "biodiversity",
+        "taxonomic data integration" ;
+    schema:url <https://www.youtube.com/watch?v=vOgadsdBCeo> .
+
+<https://id.dalia.education/learning-resource/74cf70e0-1a04-438f-8dc2-815118b4b60c> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description """Two lectures presented at the GfÖ & NFDI4Biodiversity Winter School on Data Management in Ecology and Environmental Science December 5-9, 2022. These lectures provide researchers with a hands-on guide for publishing their research data at open-access repositories. In particular the content addresses:
+1) Why is it important to share and publish research data?
+2) Where to publish research data?
+3) How to prepare research data for publication
+4) How to publish and cite research data. 
+Two more files contain the output of two practice sessions, which gathered general information about five popular data repositories and how they present data publications.
+A data curation checklist compiled as Jupyter notebook for Python users, can be found at the PANGAEA GitHub repository.""" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Publishing Research Data in Open Access Repositories" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-5392-6737" ;
+            schema:familyName "Oellermann" ;
+            schema:givenName "Michael" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:PresentationDigitalDocument ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isPartOf <https://doi.org/10.5281/zenodo.8221510>,
+        <https://zenodo.org/communities/nfdi4biodiv/search?page=1&size=20&q=title:(%22Legal%22)%20OR%20(keywords:(%22winterschool2022%22%20OR%20%22WinterSchool2022%22%20OR%20%22Winterschool2022%22)%20AND%20(%22nfdi4biodiversity%22%20OR%20%22NFDI4Biodiversity%22))> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-5392-6737" ;
+                schema:familyName "Oellermann" ;
+                schema:givenName "Michael" ] ) ;
+    schema:datePublished "2022-12-15"^^xsd:date ;
+    schema:fileSize "37.8 MB" ;
+    schema:keywords "NFDI4Biodiversity and GfÖ Winter School 2022",
+        "biodiversity",
+        "data publication",
+        "data search" ;
+    schema:url <https://doi.org/10.5281/zenodo.7441751> ;
+    schema:version "1.0" .
+
+<https://id.dalia.education/learning-resource/74eb3588-199d-4869-a9c3-0aca5a36fd20> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "The Winter School aimed on Early-Career-Researcher (ECR´s) with a background in biodiversity and environmental science and took place in December 2022. It was a collaborative event between the Ecological Society (GfÖ) and the consortium NFDI4Biodiversity within the National Research Data Infrastructure Germany (NFDI). Various experts from the partner network (universities, data centers and research institutions) shared their widespread knowledge and trained participants in the fundamentals of Research Data Management (RDM) as well as cutting-edge technologies in handling environmental and biodiversity data across the Data Life Cycle (DLC). This is a collection of recorded lectures from this Winter School 2022." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-3.0> ;
+    dcterms:title "Winter School Lectures" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-4980-3512" ;
+            schema:familyName "Müller" ;
+            schema:givenName "Wolfgang" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-4476-6764" ;
+            schema:familyName "Kostadinov" ;
+            schema:givenName "Ivaylo" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-1454-591X" ;
+            schema:familyName "Kipker" ;
+            schema:givenName "Dennis-Kenji" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-5392-6737" ;
+            schema:familyName "Oellermann" ;
+            schema:givenName "Michael" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3847-2663" ;
+            schema:familyName "Linares" ;
+            schema:givenName "Jimena" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-4659-7522" ;
+            schema:familyName "Grenié" ;
+            schema:givenName "Matthias" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:VideoObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isPartOf <https://doi.org/10.5281/zenodo.8221510> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-4476-6764" ;
+                schema:familyName "Kostadinov" ;
+                schema:givenName "Ivaylo" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3847-2663" ;
+                schema:familyName "Linares" ;
+                schema:givenName "Jimena" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-1454-591X" ;
+                schema:familyName "Kipker" ;
+                schema:givenName "Dennis-Kenji" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-4659-7522" ;
+                schema:familyName "Grenié" ;
+                schema:givenName "Matthias" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-4980-3512" ;
+                schema:familyName "Müller" ;
+                schema:givenName "Wolfgang" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-5392-6737" ;
+                schema:familyName "Oellermann" ;
+                schema:givenName "Michael" ] ) ;
+    schema:datePublished "2023-05-04"^^xsd:date ;
+    schema:keywords "NFDI4Biodiversity and GfÖ Winter School 2022",
+        "biodiversity",
+        "copyright law",
+        "data annotation",
+        "data integration",
+        "data literacy",
+        "data management plan",
+        "data privacy",
+        "data publication",
+        "data search",
+        "funding guidelines",
+        "research data",
+        "taxonomic data integration" ;
+    schema:url <https://www.youtube.com/playlist?list=PL06Unzn1hDrhZ4mfsdfeypJajuGsuzdfm> .
+
+<https://id.dalia.education/learning-resource/81f6d8e5-6a30-42bd-83a7-77d9c9f9ce3b> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "In unserer vierten Episode beleuchten wir die komplexe Landschaft der Verfügungsrechte an Daten und die damit verbundenen rechtlichen Rahmenbedingungen. Wir untersuchen, wie sich diese Rechte zwischen Universitäten, Verbänden oder Behörden unterscheiden. Ein besonderer Fokus liegt darauf wer letztendlich, unter Berücksichtigung der Beschäftigungsverhältnisse, über die Daten verfügen darf. Des Weiteren diskutieren wir die Bedeutung von Forschungsdatenpolicies und deren Wirksamkeit aus rechtlicher Sicht und erörtern verschiedene Möglichkeiten, den Umgang mit Daten zu regeln, insbesondere im Kontext von kooperativen Projekten um klare Regelungen zu schaffen und potenzielle Konflikte zu vermeiden. Hierbei stehen Kooperationsverträge, sowie Datenüberlassungs- und Datennutzungsverträge im Fokus." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Episode 4 - Institutionelle Perspektive" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n135> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0009-0001-1696-1944" ;
+            schema:familyName "Grünberger" ;
+            schema:givenName "Tom" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3328-6693" ;
+            schema:familyName "Ebert" ;
+            schema:givenName "Barbara" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+            schema:familyName "Brand" ;
+            schema:givenName "Ortrun" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+            schema:familyName "Tschink" ;
+            schema:givenName "Daniel" ] ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:ContentProvider,
+        mo:DataSteward,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isPartOf <https://kb.gfbio.org/pages/viewpage.action?pageId=121143505> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0009-0001-1696-1944" ;
+                schema:familyName "Grünberger" ;
+                schema:givenName "Tom" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+                schema:familyName "Brand" ;
+                schema:givenName "Ortrun" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+                schema:familyName "Tschink" ;
+                schema:givenName "Daniel" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3328-6693" ;
+                schema:familyName "Ebert" ;
+                schema:givenName "Barbara" ] ) ;
+    schema:datePublished "2023-07-03"^^xsd:date ;
+    schema:keywords "Biodiversität",
+        "Forschungsdatenpolicy",
+        "Recht",
+        "Verfügungsrechte" ;
+    schema:url <https://kb.gfbio.org/pages/viewpage.action?pageId=121143505> .
+
+<https://id.dalia.education/learning-resource/8a1d87d6-19cc-47bd-b289-15b26d4acc37> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "The Winter School aimed on Early-Career-Researcher (ECR´s) with a background in biodiversity and environmental science and took place in December 2022. It was a collaborative event between the Ecological Society (GfÖ) and the consortium NFDI4Biodiversity within the National Research Data Infrastructure Germany (NFDI). Various experts from the partner network (universities, data centers and research institutions) shared their widespread knowledge and trained participants in the fundamentals of Research Data Management (RDM) as well as cutting-edge technologies in handling environmental and biodiversity data across the Data Life Cycle (DLC). This is a collection of presentations from this Winter School 2022." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Winter School Lectures - Slides" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3847-2663" ;
+            schema:familyName "Linares" ;
+            schema:givenName "Jimena" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+            schema:familyName "Tschink" ;
+            schema:givenName "Daniel" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-4476-6764" ;
+            schema:familyName "Kostadinov" ;
+            schema:givenName "Ivaylo" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-4659-7522" ;
+            schema:familyName "Grenié" ;
+            schema:givenName "Matthias" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-1454-591X" ;
+            schema:familyName "Kipker" ;
+            schema:givenName "Dennis-Kenji" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-5392-6737" ;
+            schema:familyName "Oellermann" ;
+            schema:givenName "Michael" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:PresentationDigitalDocument ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isPartOf <https://doi.org/10.5281/zenodo.8221510> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-4476-6764" ;
+                schema:familyName "Kostadinov" ;
+                schema:givenName "Ivaylo" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3847-2663" ;
+                schema:familyName "Linares" ;
+                schema:givenName "Jimena" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-1454-591X" ;
+                schema:familyName "Kipker" ;
+                schema:givenName "Dennis-Kenji" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-4659-7522" ;
+                schema:familyName "Grenié" ;
+                schema:givenName "Matthias" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-5392-6737" ;
+                schema:familyName "Oellermann" ;
+                schema:givenName "Michael" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+                schema:familyName "Tschink" ;
+                schema:givenName "Daniel" ] ) ;
+    schema:datePublished "2022-12-09"^^xsd:date ;
+    schema:keywords "NFDI4Biodiversity and GfÖ Winter School 2022",
+        "biodiversity",
+        "copyright law",
+        "data integration",
+        "data literacy",
+        "data management plan",
+        "data privacy",
+        "data publication",
+        "data search",
+        "funding guidelines",
+        "research data",
+        "taxonomic data integration" ;
+    schema:url <https://zenodo.org/communities/nfdi4biodiv/search?page=1&size=20&q=title:(%22Legal%22)%20OR%20(keywords:(%22winterschool2022%22%20OR%20%22WinterSchool2022%22%20OR%20%22Winterschool2022%22)%20AND%20(%22nfdi4biodiversity%22%20OR%20%22NFDI4Biodiversity%22))> .
+
+<https://id.dalia.education/learning-resource/9d5c9188-25ea-4b84-8803-b1fc08fb1c6c> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "In diesem Podcast widmen wir uns den rechtlichen Aspekten im Umgang mit Biodiversitäts- und Umweltdaten. Für den Erhalt der Biodiversität ist eine zuverlässige Datenbasis und eine gute Datenverfügbarkeit unerlässlich. Dies beinhaltet natürlich auch die Notwendigkeit klarer rechtlicher Rahmenbedingungen für den Austausch und der Nutzung von Daten. Wir sehen es als unsere Verantwortung, Forschende und Datensammler:innen dabei zu unterstützen, rechtliche Angelegenheiten kompetent zu bewältigen. Dieser Podcast dient als Einstieg in ein Feld, das wir selbst noch erkunden. Wir laden unsere Zuhörer ein, uns auf dieser Reise durch den Rechtsdschungel zu begleiten. Die Episoden untersuchen verschiedene Aspekte des Zusammenspiels zwischen Recht und Wissenschaft, basierend auf den Fragen die unsere Partner in NFDI4Biodiversity beschäftigen und bieten ein  Verständnis der rechtlichen Rahmenbedingungen." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Rechtsdschungel" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n135> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0009-0001-1696-1944" ;
+            schema:familyName "Grünberger" ;
+            schema:givenName "Tom" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3328-6693" ;
+            schema:familyName "Ebert" ;
+            schema:givenName "Barbara" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+            schema:familyName "Brand" ;
+            schema:givenName "Ortrun" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+            schema:familyName "Tschink" ;
+            schema:givenName "Daniel" ] ;
+    mo:hasLearningType schema:PodcastSeries ;
+    mo:hasMediaType mo:Multipart ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0009-0001-1696-1944" ;
+                schema:familyName "Grünberger" ;
+                schema:givenName "Tom" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+                schema:familyName "Brand" ;
+                schema:givenName "Ortrun" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+                schema:familyName "Tschink" ;
+                schema:givenName "Daniel" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3328-6693" ;
+                schema:familyName "Ebert" ;
+                schema:givenName "Barbara" ] ) ;
+    schema:datePublished "2023-11-06"^^xsd:date ;
+    schema:keywords "Biodiversität",
+        "Lizenzen",
+        "Recht",
+        "Umweltinformationsgesetz" ;
+    schema:url <https://kb.gfbio.org/pages/viewpage.action?pageId=121143505> .
+
+<https://id.dalia.education/learning-resource/9f7c35b1-72fb-4ad1-b84d-09fc77c36cd9> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "This course provides an introduction to research data management specifically tailored to the needs of biologists and is offered by the Biodiversity Data Consortium NFDI4Biodiversity in cooperation with the Hessian Research Data Infrastructure HeFDI." ;
+    dcterms:format "MD",
+        "PNG" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Research Data Management for Biodiversity Data" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+            schema:familyName "Brand" ;
+            schema:givenName "Ortrun" ],
+        [ a schema:Person ;
+            schema:familyName "Fischer" ;
+            schema:givenName "Marlen" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+            schema:familyName "Tschink" ;
+            schema:givenName "Daniel" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-4692-2700" ;
+            schema:familyName "Röder" ;
+            schema:givenName "Juliane" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-1771-7775" ;
+            schema:familyName "Signer" ;
+            schema:givenName "Johannes" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-2976-2300" ;
+            schema:familyName "Weibulat" ;
+            schema:givenName "Tanja" ] ;
+    mo:hasLearningType hcrt:assessment ;
+    mo:hasMediaType mo:Code,
+        schema:ImageObject,
+        schema:Text ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isBasedOn <https://doi.org/10.5281/zenodo.6373596> ;
+    mo:isNewVersionOf <https://doi.org/10.5281/zenodo.10377868>,
+        <https://ilias.uni-marburg.de/goto.php?target=pg_443261_3276691&client_id=UNIMR> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                schema:familyName "Fischer" ;
+                schema:givenName "Marlen" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-4692-2700" ;
+                schema:familyName "Röder" ;
+                schema:givenName "Juliane" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-1771-7775" ;
+                schema:familyName "Signer" ;
+                schema:givenName "Johannes" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+                schema:familyName "Tschink" ;
+                schema:givenName "Daniel" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-2976-2300" ;
+                schema:familyName "Weibulat" ;
+                schema:givenName "Tanja" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+                schema:familyName "Brand" ;
+                schema:givenName "Ortrun" ] ) ;
+    schema:datePublished "2024-06-03"^^xsd:date ;
+    schema:fileSize "2.9 MB" ;
+    schema:keywords "biodiversity",
+        "data collection",
+        "data life cycle",
+        "data management plan",
+        "data preservation",
+        "legal aspects",
+        "licenses",
+        "research data management",
+        "taxonomic data integration" ;
+    schema:url <https://github.com/NFDI4Biodiversity/nfdi4biodiversity-sle> ;
+    schema:version "1.2.0" .
+
+<https://id.dalia.education/learning-resource/a0682fc4-db0b-42f2-83e7-2b52fe7b838f> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description """This is a short R script to automatically format questions in LiaScript format, based on text in a table.
+
+The structure of questions in the table is the same that R package GIFTr is using to format questions in GIFT format.
+
+The example questions are from the HeFDI Selbstlerneinheit Forschungsdatenmanagement - eine Online-Einführung (HeFDI Data Learning Materials). These questions are also used in the NFDI4Biodiversity Self-Study Unit—Research Data Management for Biodiversity.""" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Bulk formatting of questions in LiaScript format" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-4692-2700" ;
+            schema:familyName "Röder" ;
+            schema:givenName "Juliane" ] ;
+    mo:hasLearningType schema:SoftwareSourceCode ;
+    mo:hasMediaType mo:Multipart ;
+    mo:hasTargetGroup mo:ContentProvider,
+        mo:DataSteward,
+        mo:Researcher,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-4692-2700" ;
+                schema:familyName "Röder" ;
+                schema:givenName "Juliane" ] ) ;
+    schema:datePublished "2024-05-21"^^xsd:date ;
+    schema:fileSize "0.04 MB" ;
+    schema:keywords "R",
+        "data processing",
+        "research data" ;
+    schema:url <https://github.com/JulianeRoeder/LiaScript_bulk_formatting_questions> ;
+    schema:version "1.0" ;
+    citedcat:isSupplementTo <https://github.com/NFDI4Biodiversity/nfdi4biodiversity-sle> .
+
+<https://id.dalia.education/learning-resource/b03df7f1-443e-4c4d-a583-e69405d218cf> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "This folder contains the R scripts and datafiles used for the first Section of the Data Science 4 Ecologists in R series: TidyData each Script is associated with a video in this series: https://www.youtube.com/playlist?list=PLE9wx7mxT8gsjR8IKEa43lk7VtXiYgPDy" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "Data Science for Ecologists in R - TidyData" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            schema:familyName "Gerber" ;
+            schema:givenName "Nina" ] ;
+    mo:hasLearningType mo:Tutorial ;
+    mo:hasMediaType mo:Code ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                schema:familyName "Gerber" ;
+                schema:givenName "Nina" ] ) ;
+    schema:datePublished "2022-01-27"^^xsd:date ;
+    schema:keywords "R",
+        "biodiversity",
+        "data analysis",
+        "data processing" ;
+    schema:url <https://github.com/DataScience4EcologistsR/TidyData> ;
+    citedcat:isSupplementTo <https://www.youtube.com/playlist?list=PL06Unzn1hDrjw4nOQk7ZfZmZ8vJ48aDy_>,
+        <https://www.youtube.com/playlist?list=PLE9wx7mxT8gsjR8IKEa43lk7VtXiYgPDy>,
+        <https://youtube.com/playlist?list=PLE9wx7mxT8gsjR8IKEa43lk7VtXiYgPDy> .
+
+<https://id.dalia.education/learning-resource/b2ea820f-191b-49c6-b8fe-f25812e21ac2> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "In dieser Episode widmen wir uns der Rolle von Lizenzen im Umgang mit Forschungsdaten. Was genau sind Lizenzen und wie beeinflussen sie die (Wieder)verwendung von Forschungsdaten? Welche Lizenz sollten Sie für verschiedene Arten von Daten und unter welchen Umständen wählen?" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Episode 2 - Lizenzen im Umgang mit Forschungsdaten" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n135> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0009-0001-1696-1944" ;
+            schema:familyName "Witschas" ;
+            schema:givenName "Tom" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+            schema:familyName "Brand" ;
+            schema:givenName "Ortrun" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+            schema:familyName "Tschink" ;
+            schema:givenName "Daniel" ] ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isPartOf <https://kb.gfbio.org/pages/viewpage.action?pageId=121143505> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0009-0001-1696-1944" ;
+                schema:familyName "Witschas" ;
+                schema:givenName "Tom" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+                schema:familyName "Brand" ;
+                schema:givenName "Ortrun" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+                schema:familyName "Tschink" ;
+                schema:givenName "Daniel" ] ) ;
+    schema:datePublished "2023-11-21"^^xsd:date ;
+    schema:keywords "Biodiversität",
+        "Lizenzen",
+        "Recht" ;
+    schema:url <https://kb.gfbio.org/pages/viewpage.action?pageId=121143505> .
+
+<https://id.dalia.education/learning-resource/b8995f5e-25b1-4be9-bc93-57b48ca9beb3> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "Why should you publish data and where? Delve into the realms of databases, repositories." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-3.0> ;
+    dcterms:title "Data Search" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    fabio:hasSubtitle "Publish your Research Data pt. 1" ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-5392-6737" ;
+            schema:familyName "Oellermann" ;
+            schema:givenName "Michael" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:VideoObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isPartOf <https://doi.org/10.5281/zenodo.8221510>,
+        <https://www.youtube.com/playlist?list=PL06Unzn1hDrhZ4mfsdfeypJajuGsuzdfm> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-5392-6737" ;
+                schema:familyName "Oellermann" ;
+                schema:givenName "Michael" ] ) ;
+    schema:datePublished "2023-05-04"^^xsd:date ;
+    schema:keywords "NFDI4Biodiversity and GfÖ Winter School 2022",
+        "biodiversity",
+        "data publication",
+        "data search" ;
+    schema:url <https://www.youtube.com/watch?v=agCfSBWdRXM> .
+
+<https://id.dalia.education/learning-resource/c12fca86-98bf-4ac6-afda-61be896b1fb5> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "Wem gehören Biodiversitäts- und Umweltdaten? In unserer ersten Episode widmen wir uns den Feinheiten von Besitz an Daten, Urheberrecht und geistigem Eigentum im Kontext kooperativer wissenschaftlicher Projekte. Lernen Sie Herausforderungen und bewährte Praktiken im Umgang mit Forschungsdaten kennen." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/deu> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-SA-4.0> ;
+    dcterms:title "Episode 1 - Rechte und Pflichten an Daten" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026>,
+        <https://w3id.org/kim/hochschulfaechersystematik/n135> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+            schema:familyName "Brand" ;
+            schema:givenName "Ortrun" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+            schema:familyName "Tschink" ;
+            schema:givenName "Daniel" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0009-0001-1696-1944" ;
+            schema:familyName "Witschas" ;
+            schema:givenName "Tom" ] ;
+    mo:hasMediaType schema:AudioObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isPartOf <https://kb.gfbio.org/pages/viewpage.action?pageId=121143505> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0009-0001-1696-1944" ;
+                schema:familyName "Witschas" ;
+                schema:givenName "Tom" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+                schema:familyName "Brand" ;
+                schema:givenName "Ortrun" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+                schema:familyName "Tschink" ;
+                schema:givenName "Daniel" ] ) ;
+    schema:datePublished "2023-11-06"^^xsd:date ;
+    schema:keywords "Biodiversität",
+        "Recht" ;
+    schema:url <https://kb.gfbio.org/pages/viewpage.action?pageId=121143505> .
+
+<https://id.dalia.education/learning-resource/c42da4f4-e55a-4d4e-a53f-1adf8d4553e9> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "This course provides an introduction to research data management specifically tailored to the needs of biologists and is offered by the Biodiversity Data Consortium NFDI4Biodiversity in cooperation with the Hessian Research Data Infrastructure HeFDI." ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "NFDI4Biodiversity Self-Study Unit - Research Data Management for Biodiversity Data" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-2976-2300" ;
+            schema:familyName "Weibulat" ;
+            schema:givenName "Tanja" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+            schema:familyName "Brand" ;
+            schema:givenName "Ortrun" ],
+        [ a schema:Person ;
+            schema:familyName "Fischer" ;
+            schema:givenName "Marlen" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+            schema:familyName "Tschink" ;
+            schema:givenName "Daniel" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-1771-7775" ;
+            schema:familyName "Signer" ;
+            schema:givenName "Johannes" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-4692-2700" ;
+            schema:familyName "Röder" ;
+            schema:givenName "Juliane" ] ;
+    mo:hasLearningType hcrt:textbook ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isBasedOn <https://doi.org/10.5281/zenodo.6373596> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                schema:familyName "Fischer" ;
+                schema:givenName "Marlen" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-4692-2700" ;
+                schema:familyName "Röder" ;
+                schema:givenName "Juliane" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-1771-7775" ;
+                schema:familyName "Signer" ;
+                schema:givenName "Johannes" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+                schema:familyName "Tschink" ;
+                schema:givenName "Daniel" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-2976-2300" ;
+                schema:familyName "Weibulat" ;
+                schema:givenName "Tanja" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+                schema:familyName "Brand" ;
+                schema:givenName "Ortrun" ] ) ;
+    schema:datePublished "2023-12-14"^^xsd:date ;
+    schema:fileSize "2.8 MB" ;
+    schema:keywords "biodiversity",
+        "data collection",
+        "data life cycle",
+        "data management plan",
+        "data preservation",
+        "legal aspects",
+        "licenses",
+        "research data management",
+        "taxonomic data integration" ;
+    schema:url <https://doi.org/10.5281/zenodo.10377868> ;
+    schema:version "1.0.0" .
+
+<https://id.dalia.education/learning-resource/cff748b3-7baa-406d-8b38-f8e109b54555> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "This publication showcases the NFDI4Biodiversity & GfÖ Winter School 2022, a transformative one-week course program designed to equip young scientists with essential Research Data Management (RDM) skills tailored for biodiversity and environmental data. Organized by the NFDI4Biodiversity consortium, the Winter School fostered data literacy and promoted sustainable research practices within the ecological and environmental science communities. The publication offers an overview of the Winter School's structure, curriculum, and highlights." ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Template for the NFDI4Biodiversity & GfÖ Winter School" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-4692-2700" ;
+            schema:familyName "Röder" ;
+            schema:givenName "Juliane" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+            schema:familyName "Tschink" ;
+            schema:givenName "Daniel" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+            schema:familyName "Brand" ;
+            schema:givenName "Ortrun" ],
+        [ a schema:Person ;
+            schema:familyName "Fischer" ;
+            schema:givenName "Marlen" ] ;
+    mo:hasLearningType hcrt:lesson_plan ;
+    mo:hasMediaType schema:Text ;
+    mo:hasTargetGroup mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-4692-2700" ;
+                schema:familyName "Röder" ;
+                schema:givenName "Juliane" ] [ a schema:Person ;
+                schema:familyName "Fischer" ;
+                schema:givenName "Marlen" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+                schema:familyName "Tschink" ;
+                schema:givenName "Daniel" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-6850-5123" ;
+                schema:familyName "Brand" ;
+                schema:givenName "Ortrun" ] ) ;
+    schema:datePublished "2023-08-08"^^xsd:date ;
+    schema:hasPart <https://doi.org/10.5281/ZENODO.10075417>,
+        <https://doi.org/10.5281/ZENODO.7417951>,
+        <https://doi.org/10.5281/ZENODO.7638635>,
+        <https://doi.org/10.5281/zenodo.7441388>,
+        <https://doi.org/10.5281/zenodo.7441751>,
+        <https://github.com/pangaea-data-publisher/community-workshop-material/tree/master/Python/Data_curation_checklist>,
+        <https://github.com/sojwolf/Jupyter_Workshop_Winterschool_2022>,
+        <https://sojwolf.github.io/Jupyter_Workshop_Winterschool_2022/intro.html>,
+        <https://www.youtube.com/playlist?list=PL06Unzn1hDrhZ4mfsdfeypJajuGsuzdfm>,
+        <https://www.youtube.com/watch?v=CUcgHrEdt-M>,
+        <https://www.youtube.com/watch?v=F350FyqCkWA>,
+        <https://www.youtube.com/watch?v=U6kr3DfS9HA>,
+        <https://www.youtube.com/watch?v=agCfSBWdRXM>,
+        <https://www.youtube.com/watch?v=jHkHkCswbwM>,
+        <https://www.youtube.com/watch?v=vOgadsdBCeo>,
+        <https://zenodo.org/communities/nfdi4biodiv/search?page=1&size=20&q=title:(%22Legal%22)%20OR%20(keywords:(%22winterschool2022%22%20OR%20%22WinterSchool2022%22%20OR%20%22Winterschool2022%22)%20AND%20(%22nfdi4biodiversity%22%20OR%20%22NFDI4Biodiversity%22))> ;
+    schema:keywords "NFDI4Biodiversity and GfÖ Winter School 2022",
+        "biodiversity",
+        "educational event",
+        "research data management",
+        "workshop structure" ;
+    schema:url <https://doi.org/10.5281/zenodo.8221510> ;
+    schema:version "1.1" .
+
+<https://id.dalia.education/learning-resource/d03cf037-2d1f-4678-89c5-6f4004fd5f63> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "The first step in the data life cycle involves planning. A data management plan (DMP) is a document that facilitates this. As formal documents, DMPs favor local organizations and guarantee FAIRness and policy compliance." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "DMPs as part of local organisation, for FAIRness and policy compliance" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3847-2663" ;
+            schema:familyName "Linares" ;
+            schema:givenName "Jimena" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+            schema:familyName "Tschink" ;
+            schema:givenName "Daniel" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:PresentationDigitalDocument ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isPartOf <https://doi.org/10.5281/zenodo.8221510>,
+        <https://zenodo.org/communities/nfdi4biodiv/search?page=1&size=20&q=title:(%22Legal%22)%20OR%20(keywords:(%22winterschool2022%22%20OR%20%22WinterSchool2022%22%20OR%20%22Winterschool2022%22)%20AND%20(%22nfdi4biodiversity%22%20OR%20%22NFDI4Biodiversity%22))> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3847-2663" ;
+                schema:familyName "Linares" ;
+                schema:givenName "Jimena" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+                schema:familyName "Tschink" ;
+                schema:givenName "Daniel" ] ) ;
+    schema:datePublished "2023-02-14"^^xsd:date ;
+    schema:fileSize "2.2 MB" ;
+    schema:keywords "NFDI4Biodiversity and GfÖ Winter School 2022",
+        "biodiversity",
+        "data management plan",
+        "funding guidelines" ;
+    schema:url <https://doi.org/10.5281/ZENODO.7638635> ;
+    schema:version "1.0" .
+
+<https://id.dalia.education/learning-resource/d05a2e88-7f37-490f-951f-59dac365b22e> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "Learn more about the basics of Research Data Management and Data Literacy (e.g. research data types, FAIR principles, Data Management Plan) and what Funding Guidelines have to do with that." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-3.0> ;
+    dcterms:title "Data Management and Data Literacy" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-3847-2663" ;
+            schema:familyName "Linares" ;
+            schema:givenName "Jimena" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-4476-6764" ;
+            schema:familyName "Kostadinov" ;
+            schema:givenName "Ivaylo" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:VideoObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isPartOf <https://doi.org/10.5281/zenodo.8221510>,
+        <https://www.youtube.com/playlist?list=PL06Unzn1hDrhZ4mfsdfeypJajuGsuzdfm> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-4476-6764" ;
+                schema:familyName "Kostadinov" ;
+                schema:givenName "Ivaylo" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-3847-2663" ;
+                schema:familyName "Linares" ;
+                schema:givenName "Jimena" ] ) ;
+    schema:datePublished "2023-05-04"^^xsd:date ;
+    schema:keywords "NFDI4Biodiversity and GfÖ Winter School 2022",
+        "biodiversity",
+        "data literacy",
+        "data management plan",
+        "funding guidelines" ;
+    schema:url <https://www.youtube.com/watch?v=CUcgHrEdt-M> .
+
+<https://id.dalia.education/learning-resource/d3c92d71-ea47-4a02-a694-9fccc21e23df> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "The \"Data Science for Ecologists in R\" self-study series gives an introduction on what tidy data is and why it is a great way of mapping the meaning of a dataset to its structure." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-3.0> ;
+    dcterms:title "Data Science for Ecologists in R" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    fabio:hasSubtitle "Tidy Data – Self-Learning Video Series [GFBio]" ;
+    ns1:authorUnordered [ a schema:Person ;
+            schema:familyName "Gerber" ;
+            schema:givenName "Nina" ] ;
+    mo:hasLearningType mo:Tutorial ;
+    mo:hasMediaType schema:VideoObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                schema:familyName "Gerber" ;
+                schema:givenName "Nina" ] ) ;
+    schema:datePublished "2021-09-10"^^xsd:date ;
+    schema:keywords "R",
+        "biodiversity",
+        "data processing" ;
+    schema:url <https://www.youtube.com/playlist?list=PL06Unzn1hDrjw4nOQk7ZfZmZ8vJ48aDy_> .
+
+<https://id.dalia.education/learning-resource/d94c6efb-c734-44cb-969c-e2ccaae0c82a> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "The \"Data Science for Ecologists in R\" self-study series gives an introduction to tidy data and to linear models in R." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-3.0> ;
+    dcterms:title "Data Science 4 Ecologists in R" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            schema:familyName "Gerber" ;
+            schema:givenName "Nina" ] ;
+    mo:hasLearningType mo:Tutorial ;
+    mo:hasMediaType schema:VideoObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                schema:familyName "Gerber" ;
+                schema:givenName "Nina" ] ) ;
+    schema:datePublished "2021-09-10"^^xsd:date ;
+    schema:keywords "R",
+        "biodiversity",
+        "data analysis",
+        "data processing" ;
+    schema:url <https://www.youtube.com/playlist?list=PLE9wx7mxT8gsjR8IKEa43lk7VtXiYgPDy> .
+
+<https://id.dalia.education/learning-resource/dba3ac21-4277-4f59-8522-cd9f270c461c> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "Learn more about potential pitfalls in data description and gain expert guidance on the essential steps to ready your data for publication." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-3.0> ;
+    dcterms:title "Data Search" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    fabio:hasSubtitle "Publish your Research Data pt. 2" ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-5392-6737" ;
+            schema:familyName "Oellermann" ;
+            schema:givenName "Michael" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:VideoObject ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isPartOf <https://doi.org/10.5281/zenodo.8221510>,
+        <https://www.youtube.com/playlist?list=PL06Unzn1hDrhZ4mfsdfeypJajuGsuzdfm> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-5392-6737" ;
+                schema:familyName "Oellermann" ;
+                schema:givenName "Michael" ] ) ;
+    schema:datePublished "2023-05-04"^^xsd:date ;
+    schema:keywords "NFDI4Biodiversity and GfÖ Winter School 2022",
+        "biodiversity",
+        "data publication",
+        "data search" ;
+    schema:url <https://www.youtube.com/watch?v=U6kr3DfS9HA> .
+
+<https://id.dalia.education/learning-resource/dcba0629-c9b2-4732-a71d-dc4f2c843318> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description """GitHub repository. This is an introductory course to Jupyter Notebook / Lab for the NFDI4Biodiversity & GfÖ Winterschool 2022.
+It covers: 1) Basic Introduction to Jupyter Notebook, 2) Practical example of data analysis using Jupyter Notebooks, 3) How to reuse and publish Jupyter code.
+You can find the whole tutorial as a Jupyter Book here: https://sojwolf.github.io/Jupyter_Workshop_Winterschool_2022""" ;
+    dcterms:format "HMTL",
+        "IPYNB",
+        "JPG",
+        "MD",
+        "PNG",
+        "TXT",
+        "YML" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license mo:ProprietaryLicense ;
+    dcterms:title "Jupyter Workshop Winterschool 2022" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-7848-3725" ;
+            schema:familyName "Wolf" ;
+            schema:givenName "Sophie" ] ;
+    mo:hasLearningType mo:Tutorial ;
+    mo:hasMediaType mo:Multipart ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isPartOf <https://doi.org/10.5281/zenodo.8221510> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-7848-3725" ;
+                schema:familyName "Wolf" ;
+                schema:givenName "Sophie" ] ) ;
+    schema:datePublished "2022-12-05"^^xsd:date ;
+    schema:fileSize "72.5 MB" ;
+    schema:keywords "NFDI4Biodiversity and GfÖ Winter School 2022",
+        "biodiversity data",
+        "jupyter notebook" ;
+    schema:url <https://github.com/sojwolf/Jupyter_Workshop_Winterschool_2022> .
+
+<https://id.dalia.education/learning-resource/e0a50e91-9b1a-46b8-9ddc-ab5af98bc519> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "Presentation on data privacy and copyright law in the research context" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Legal framework of research data management with special focus on copyright law and data protection law" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-1454-591X" ;
+            schema:familyName "Kipker" ;
+            schema:givenName "Dennis-Kenji" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:PresentationDigitalDocument ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isPartOf <https://doi.org/10.5281/zenodo.8221510>,
+        <https://zenodo.org/communities/nfdi4biodiv/search?page=1&size=20&q=title:(%22Legal%22)%20OR%20(keywords:(%22winterschool2022%22%20OR%20%22WinterSchool2022%22%20OR%20%22Winterschool2022%22)%20AND%20(%22nfdi4biodiversity%22%20OR%20%22NFDI4Biodiversity%22))> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-1454-591X" ;
+                schema:familyName "Kipker" ;
+                schema:givenName "Dennis-Kenji" ] ) ;
+    schema:datePublished "2022-12-15"^^xsd:date ;
+    schema:fileSize "5.2 MB" ;
+    schema:keywords "NFDI4Biodiversity and GfÖ Winter School 2022",
+        "copyright law",
+        "data privacy",
+        "research data" ;
+    schema:url <https://doi.org/10.5281/zenodo.7441388> ;
+    schema:version "1.0" .
+
+<https://id.dalia.education/learning-resource/e90f78ac-93f3-4d59-9d16-0ab429723e23> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "Taxonomic Harmonization: A problem you didn’t know you had! A lecture given in the context of the first GfÖ &amp; NFDI4Biodiversity Winter School on Data Management in Ecology and Environmental Science December 5-9, 2022. This lecture aims to be an introduction to the problem of taxonomic harmonization and how to solve it. It's organized into four sections: What is taxonomy? (Taxonomy 101) What is “taxonomic harmonization”? What is needed to perform taxonomic harmonization? How to perform taxonomic harmonization in practice? It's following the CC-BY 4.0 License It heavily relies on the following publication, please cite it if you use some of the material: Grenié, M., Berti, E., Carvajal-Quintero, J., Dädlow, G. M., Sagouis, A. &amp; Winter, M. (2022). Harmonizing taxon names in biodiversity data: A review of tools, databases and best practices. <em>Methods in Ecology and Evolution</em>, 00, 1– 14. https://doi.org/10.1111/2041-210X.13802 An up-to-date version of this material is also available on GitHub: https://github.com/Rekyt/taxonomic_harmonization_lecture" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Taxonomic Harmonization" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    fabio:hasSubtitle "a problem you didn't know you had!" ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-4659-7522" ;
+            schema:familyName "Grenié" ;
+            schema:givenName "Matthias" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:PresentationDigitalDocument ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isPartOf <https://doi.org/10.5281/zenodo.8221510>,
+        <https://zenodo.org/communities/nfdi4biodiv/search?page=1&size=20&q=title:(%22Legal%22)%20OR%20(keywords:(%22winterschool2022%22%20OR%20%22WinterSchool2022%22%20OR%20%22Winterschool2022%22)%20AND%20(%22nfdi4biodiversity%22%20OR%20%22NFDI4Biodiversity%22))> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-4659-7522" ;
+                schema:familyName "Grenié" ;
+                schema:givenName "Matthias" ] ) ;
+    schema:datePublished "2022-12-09"^^xsd:date ;
+    schema:fileSize "50.4 MB" ;
+    schema:keywords "NFDI4Biodiversity and GfÖ Winter School 2022",
+        "biodiversity",
+        "taxonomic data integration" ;
+    schema:url <https://doi.org/10.5281/ZENODO.7417951> ;
+    schema:version "1.0" .
+
+<https://id.dalia.education/learning-resource/ef829720-0dca-453e-acdc-5e720c171517> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "This presentation at the NFDI4Biodiversity & GfÖ Winter School 2022 focused on the fundamentals of Data Management and Data Literacy in the context of biodiversity research. Attendees gained insights into best practices for data collection, storage, sharing, and preservation. Further, the presentation emphasized the vital roles of NFDI4Biodiversity and GFBio services in fostering data-driven research, supporting data curation, and promoting a culture of data literacy within the biodiversity community." ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Data Management and Data Literacy" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+            schema:familyName "Tschink" ;
+            schema:givenName "Daniel" ],
+        [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0003-4476-6764" ;
+            schema:familyName "Kostadinov" ;
+            schema:givenName "Ivaylo" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:PresentationDigitalDocument ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isPartOf <https://doi.org/10.5281/zenodo.8221510>,
+        <https://zenodo.org/communities/nfdi4biodiv/search?page=1&size=20&q=title:(%22Legal%22)%20OR%20(keywords:(%22winterschool2022%22%20OR%20%22WinterSchool2022%22%20OR%20%22Winterschool2022%22)%20AND%20(%22nfdi4biodiversity%22%20OR%20%22NFDI4Biodiversity%22))> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0003-4476-6764" ;
+                schema:familyName "Kostadinov" ;
+                schema:givenName "Ivaylo" ] [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0001-8683-2534" ;
+                schema:familyName "Tschink" ;
+                schema:givenName "Daniel" ] ) ;
+    schema:datePublished "2023-11-06"^^xsd:date ;
+    schema:fileSize "4.1 MB" ;
+    schema:keywords "NFDI4Biodiversity and GfÖ Winter School 2022",
+        "biodiversity",
+        "data literacy",
+        "funding guidelines" ;
+    schema:url <https://doi.org/10.5281/ZENODO.10075417> ;
+    schema:version "1.0" .
+
+<https://id.dalia.education/learning-resource/f2b0fb1c-9539-43f4-81fc-3cb70f6f6581> a ec:EducationalResource ;
+    bflr:supportinghost dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    dcterms:description "Slides for a 30 min presentation on basic aspects of research data management. The first part discusses motivations and solutions for improved research data management specific for ecological and biodiversity data. The second part gives an overview of simple, hands-on improvements of research data management along the data life cycle. Many of the discipline specific tools and services presented in the talk are provided by the NFDI4Biodiversity consortium." ;
+    dcterms:format "PDF" ;
+    dcterms:language <http://lexvo.org/id/iso639-3/eng> ;
+    dcterms:license <http://spdx.org/licenses/CC-BY-4.0> ;
+    dcterms:title "Introduction to research data management" ;
+    rec:recommender dalia-community:aac7b1be-cf00-4fdc-a26a-e8e0e1410b18 ;
+    fabio:hasDiscipline <https://w3id.org/kim/hochschulfaechersystematik/n026> ;
+    ns1:authorUnordered [ a schema:Person ;
+            m4i:orcidId "https://orcid.org/0000-0002-4692-2700" ;
+            schema:familyName "Röder" ;
+            schema:givenName "Juliane" ] ;
+    mo:hasLearningType mo:Lecture ;
+    mo:hasMediaType schema:PresentationDigitalDocument ;
+    mo:hasTargetGroup mo:BachelorStudent,
+        mo:MastersStudent,
+        mo:PhDStudent,
+        mo:Researcher,
+        mo:StudentSchool,
+        mo:TeacherHighEducation,
+        mo:TeacherSchool ;
+    mo:isBasedOn <https://doi.org/10.5281/zenodo.10649322>,
+        <https://doi.org/10.5281/zenodo.6985361>,
+        <https://doi.org/10.5281/zenodo.7638635> ;
+    mo:isNewVersionOf <https://doi.org/10.5281/zenodo.1123545> ;
+    mo:requiresProficiencyLevel mo:Beginner,
+        mo:Novice ;
+    schema:author ( [ a schema:Person ;
+                m4i:orcidId "https://orcid.org/0000-0002-4692-2700" ;
+                schema:familyName "Röder" ;
+                schema:givenName "Juliane" ] ) ;
+    schema:datePublished "2024-06-05"^^xsd:date ;
+    schema:fileSize "3.7 MB" ;
+    schema:keywords "biodiversity",
+        "research data management" ;
+    schema:url <https://doi.org/10.5281/zenodo.11491277> ;
+    schema:version "2.0" .
+

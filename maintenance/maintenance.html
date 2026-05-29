@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Site Under Maintenance</title>
+  <style>
+    body {
+      background-color: #f4f4f4;
+      color: #333;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 10% 20px;
+      overflow: hidden;
+    }
+    h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 20px;
+      margin-bottom: 40px;
+    }
+    .spinner {
+      border: 6px solid #eee;
+      border-top: 6px solid #333;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    #game-container {
+      margin-top: 60px;
+      /* position: relative; */
+      height: 300px;
+    }
+
+    #dot {
+      width: 30px;
+      height: 30px;
+      background: crimson;
+      border-radius: 50%;
+      position: fixed; /* ✅ changed from absolute */
+      cursor: pointer;
+      transition: top 0.2s, left 0.2s;
+      z-index: 1000; /* optional: ensures dot stays visible */
+    }
+  </style>
+</head>
+<body>
+  <h1>We'll Be Back Soon</h1>
+  <p>Our website is currently undergoing scheduled maintenance.<br />
+     Thank you for your patience.</p>
+
+  <div class="spinner"></div>
+
+  <div id="game-container">
+    <p style="font-size: 18px;">🎯 Click the dot to score!</p>
+    <div id="dot"></div>
+    <p id="score" style="font-size: 18px;">Score: 0</p>
+  </div>
+  
+  <script>
+    const dot = document.getElementById('dot');
+    const scoreText = document.getElementById('score');
+    let score = 0;
+    let speed = 2000;
+  
+    function moveDot() {
+      const dotSize = 30;
+      const maxX = window.innerWidth - dotSize;
+      const maxY = window.innerHeight - dotSize;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+      dot.style.position = 'fixed';
+      dot.style.left = x + 'px';
+      dot.style.top = y + 'px';
+    }
+  
+    dot.addEventListener('click', () => {
+      score++;
+      scoreText.innerText = 'Score: ' + score;
+      moveDot(); // 👈 move immediately on click
+      speed = Math.max(1000, speed * 0.95); // speed up
+      clearInterval(dotMover);
+      dotMover = setInterval(moveDot, speed);
+    });
+  
+    let dotMover = setInterval(moveDot, speed);
+  </script>
+</body>
+</html>

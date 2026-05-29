@@ -1,0 +1,164 @@
+.card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(248, 250, 252, 0.45);
+}
+
+.clearBtn {
+  background: none;
+  border: none;
+  color: rgba(248, 250, 252, 0.45);
+  cursor: pointer;
+  padding: 0.25rem;
+  font-size: 1rem;
+  transition: color 0.2s;
+}
+
+.clearBtn:hover {
+  color: #ef4444;
+}
+
+.historyList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.historyItem {
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.historyItem:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: #8b5cf6;
+}
+
+.historyContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.historyPreview {
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #f8fafc;
+}
+
+.historyTime {
+  font-size: 0.75rem;
+  color: rgba(248, 250, 252, 0.45);
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  color: rgba(248, 250, 252, 0.45);
+  cursor: pointer;
+  padding: 0.25rem;
+  font-size: 1rem;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+
+.deleteBtn:hover {
+  color: #ef4444;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.5;
+}
+
+.emptyText {
+  font-size: 0.85rem;
+  color: rgba(248, 250, 252, 0.45);
+}
+
+[data-theme="light"] .card {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.12);
+}
+
+[data-theme="light"] .card:hover {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(15, 23, 42, 0.15);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.15);
+}
+
+[data-theme="light"] .title {
+  color: rgba(15, 23, 42, 0.5);
+}
+
+[data-theme="light"] .clearBtn {
+  color: rgba(15, 23, 42, 0.5);
+}
+
+[data-theme="light"] .historyItem {
+  background: rgba(15, 23, 42, 0.05);
+  border-color: rgba(15, 23, 42, 0.12);
+}
+
+[data-theme="light"] .historyItem:hover {
+  background: rgba(15, 23, 42, 0.08);
+  border-color: #8b5cf6;
+}
+
+[data-theme="light"] .historyPreview {
+  color: #0f172a;
+}
+
+[data-theme="light"] .historyTime {
+  color: rgba(15, 23, 42, 0.5);
+}
+
+[data-theme="light"] .deleteBtn {
+  color: rgba(15, 23, 42, 0.5);
+}
+
+[data-theme="light"] .emptyText {
+  color: rgba(15, 23, 42, 0.5);
+}

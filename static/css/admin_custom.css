@@ -1,0 +1,57 @@
+/* Work Track Pro - Compact Sidebar Navigation */
+/* Using highly specific selectors to override Unfold Tailwind classes */
+
+/* 1. Target the sub-item lists specifically */
+/*
+.simplebar-content .has-\[ol\]\:has-\[li\]\:block ol {
+    padding-left: 2.75rem !important;
+    border-left: 1px solid rgba(156, 163, 175, 0.2);
+    margin-left: 1rem;
+}
+*/
+/* 2. Handle the links and the "Active" pill background */
+.simplebar-content .has-\[ol\]\:has-\[li\]\:block ol li a {
+    margin-left: 0 !important;
+/*    margin-right: 0.75rem !important;
+    padding-left: 0.75rem !important;
+    border-radius: 0.375rem !important; /* Matches Tailwind's rounded-md */
+    height: 24px !important; /* Slightly slimmer for sub-items */
+}
+
+/* 3. Ensure the active item stays prominent despite the shift */
+.simplebar-content .has-\[ol\]\:has-\[li\]\:block ol li a.active {
+    background-color: rgba(var(--color-primary-500), 0.1) !important;
+    font-weight: 600;
+}
+
+/* 4. Dark mode adjustments (Unfold uses 'dark' class on <html> or <body>) */
+.dark .simplebar-content .has-\[ol\]\:has-\[li\]\:block ol {
+    border-left-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 5. Hide the "You are X hours ahead/behind server time" notice (all form fields).
+   Inline forms already suppress this in admin_inline_fix.css with .inline-group scope;
+   this rule covers top-level date/time fields on add/change pages sitewide. */
+.timezonewarning {
+    display: none !important;
+}
+
+/* Fix related-widget popup buttons: keep them inline next to the select/autocomplete field.
+   Root cause: Unfold's styles.css sets `.related-widget-wrapper-link { order: 9999 }` which
+   pushes all link buttons to the END of the flex row (after the select widget).
+   The parent .related-widget-wrapper is display:flex, so display:inline-block has no effect.
+   Fix: reset order to 0 (overriding unfold's order:9999) so buttons appear in document order,
+   and ensure the wrapper is a proper flex row with aligned items. */
+.related-widget-wrapper {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 4px !important;
+}
+
+.related-widget-wrapper-link {
+    order: 0 !important;
+    display: inline-flex !important;
+    align-items: center;
+}

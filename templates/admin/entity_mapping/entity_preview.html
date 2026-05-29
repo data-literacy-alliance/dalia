@@ -1,0 +1,387 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}{{ title }} - {{ block.super }}{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    .preview-container {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 0 20px;
+    }
+
+    .preview-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 24px;
+        margin-bottom: 20px;
+    }
+
+    .preview-header {
+        border-bottom: 2px solid #e9ecef;
+        padding-bottom: 16px;
+        margin-bottom: 20px;
+    }
+
+    .preview-header h2 {
+        margin: 0 0 8px 0;
+        color: #333;
+    }
+
+    .preview-header .meta {
+        color: #6c757d;
+        font-size: 14px;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 500;
+        margin-right: 8px;
+    }
+
+    .status-valid {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .status-invalid {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    .status-warning {
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeaa7;
+    }
+
+    .data-section {
+        margin: 24px 0;
+    }
+
+    .data-section h3 {
+        font-size: 18px;
+        color: #495057;
+        margin-bottom: 16px;
+        border-left: 4px solid #007bff;
+        padding-left: 12px;
+    }
+
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .data-table tr {
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .data-table td {
+        padding: 12px 8px;
+        vertical-align: top;
+    }
+
+    .data-table td:first-child {
+        font-weight: 600;
+        color: #495057;
+        width: 180px;
+    }
+
+    .data-table td:last-child {
+        color: #212529;
+    }
+
+    .error-list, .warning-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .error-list li {
+        padding: 8px 12px;
+        margin: 4px 0;
+        background: #f8d7da;
+        border-left: 4px solid #dc3545;
+        border-radius: 4px;
+        color: #721c24;
+    }
+
+    .warning-list li {
+        padding: 8px 12px;
+        margin: 4px 0;
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        border-radius: 4px;
+        color: #856404;
+    }
+
+    .code-block {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        padding: 12px;
+        font-family: 'Courier New', monospace;
+        font-size: 13px;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+        padding-top: 24px;
+        border-top: 2px solid #e9ecef;
+    }
+
+    .btn {
+        padding: 10px 24px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-block;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s;
+    }
+
+    .btn-primary {
+        background: #007bff;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #0056b3;
+        color: white;
+    }
+
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background: #545b62;
+        color: white;
+    }
+
+    .btn-success {
+        background: #28a745;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background: #218838;
+        color: white;
+    }
+
+    .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .icon {
+        margin-right: 6px;
+    }
+
+    .empty-value {
+        color: #6c757d;
+        font-style: italic;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="preview-container">
+    <div class="preview-card">
+        <div class="preview-header">
+            <h2>🔍 Entity Transformation Preview</h2>
+            <div class="meta">
+                <strong>Entity Type:</strong> {{ preview.entity_type }}
+                <span style="margin: 0 12px;">|</span>
+                <strong>Model:</strong> {{ preview.model_name }}
+                <span style="margin: 0 12px;">|</span>
+                <strong>Mapping ID:</strong> #{{ preview.entity_mapping_id }}
+            </div>
+        </div>
+
+        <!-- Validation Status -->
+        <div class="data-section">
+            <h3>Validation Status</h3>
+            {% if preview.is_valid %}
+                <span class="status-badge status-valid">✅ Valid</span>
+                {% if preview.has_duplicates %}
+                    <span class="status-badge status-warning">⚠️ Duplicate Detected</span>
+                {% endif %}
+                {% if preview.warnings %}
+                    <span class="status-badge status-warning">⚠️ {{ preview.warnings|length }} Warning(s)</span>
+                {% endif %}
+            {% else %}
+                <span class="status-badge status-invalid">❌ Invalid</span>
+            {% endif %}
+
+            {% if not preview.import_approved %}
+                <span class="status-badge status-warning">⏳ Not Approved</span>
+            {% endif %}
+        </div>
+
+        <!-- Errors -->
+        {% if preview.errors %}
+        <div class="data-section">
+            <h3>❌ Validation Errors</h3>
+            <ul class="error-list">
+                {% for error in preview.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- Warnings -->
+        {% if preview.warnings %}
+        <div class="data-section">
+            <h3>⚠️ Warnings</h3>
+            <ul class="warning-list">
+                {% for warning in preview.warnings %}
+                <li>{{ warning }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- Duplicate Detection -->
+        {% if preview.has_duplicates %}
+        <div class="data-section">
+            <h3>⚠️ Duplicate Detection</h3>
+            <div style="padding: 12px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 4px;">
+                <strong>Duplicate Found:</strong> {{ preview.duplicate_message }}
+                <br><br>
+                <em>A similar entity already exists in PostgreSQL. Creating this entity may result in duplicates.</em>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Transformed Data -->
+        {% if preview.cleaned_data %}
+        <div class="data-section">
+            <h3>📝 Transformed Data (Ready for PostgreSQL)</h3>
+            <table class="data-table">
+                {% for key, value in preview.cleaned_data.items %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>
+                        {% if value %}
+                            {% if value|length > 200 %}
+                                <div class="code-block">{{ value|truncatewords:50 }}</div>
+                            {% else %}
+                                {{ value }}
+                            {% endif %}
+                        {% else %}
+                            <span class="empty-value">(empty)</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Source Data -->
+        <div class="data-section">
+            <h3>🗄️ Source Data (From Fuseki)</h3>
+            <table class="data-table">
+                <tr>
+                    <td>Fuseki URI</td>
+                    <td><a href="{{ preview.fuseki_uri }}" target="_blank">{{ preview.fuseki_uri }}</a></td>
+                </tr>
+                <tr>
+                    <td>Fuseki UUID</td>
+                    <td><code>{{ preview.fuseki_uuid }}</code></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            {% if preview.can_create and preview.import_approved %}
+                <a href="{% url 'admin:entity_mapping_create_entity' preview.entity_mapping_id %}"
+                   class="btn btn-success"
+                   onclick="return confirm('Are you sure you want to create this PostgreSQL entity?');">
+                    <span class="icon">✅</span>
+                    Create PostgreSQL Entity
+                </a>
+            {% elif not preview.import_approved %}
+                <button class="btn btn-success" disabled>
+                    <span class="icon">⏳</span>
+                    Approve Import First
+                </button>
+            {% elif not preview.is_valid %}
+                <button class="btn btn-success" disabled>
+                    <span class="icon">❌</span>
+                    Fix Validation Errors First
+                </button>
+            {% elif preview.has_duplicates %}
+                <a href="{% url 'admin:entity_mapping_create_entity' preview.entity_mapping_id %}"
+                   class="btn btn-success"
+                   onclick="return confirm('⚠️ WARNING: A duplicate entity may exist!\n\n{{ preview.duplicate_message }}\n\nAre you sure you want to create this entity anyway?');">
+                    <span class="icon">⚠️</span>
+                    Create Anyway (Duplicate Risk)
+                </a>
+            {% endif %}
+
+            <a href="{% url 'admin:entity_mapping_entitymapping_change' preview.entity_mapping_id %}"
+               class="btn btn-primary">
+                <span class="icon">📝</span>
+                Edit Mapping
+            </a>
+
+            <a href="{% url 'admin:entity_mapping_import_candidates' %}"
+               class="btn btn-secondary">
+                <span class="icon">📋</span>
+                Back to Import Candidates
+            </a>
+
+            <a href="{% url 'admin:entity_mapping_entitymapping_changelist' %}"
+               class="btn btn-secondary">
+                <span class="icon">🏠</span>
+                Back to Mappings List
+            </a>
+        </div>
+    </div>
+
+    <!-- Help Section -->
+    <div class="preview-card">
+        <h3>ℹ️ About Entity Preview</h3>
+        <p>
+            This preview shows how the Fuseki entity data will be transformed into a PostgreSQL entity.
+            The transformation process:
+        </p>
+        <ul>
+            <li><strong>Validates</strong> that all required fields are present</li>
+            <li><strong>Cleans</strong> and normalizes field values (labels, URIs, etc.)</li>
+            <li><strong>Checks for duplicates</strong> to prevent conflicts</li>
+            <li><strong>Generates slugs</strong> from labels for URL-friendly identifiers</li>
+            <li><strong>Applies entity-specific rules</strong> (e.g., SPDX ID validation for licenses)</li>
+        </ul>
+        <p>
+            <strong>Next Steps:</strong>
+        </p>
+        <ul>
+            <li>Review the transformed data carefully</li>
+            <li>Check for validation errors or warnings</li>
+            <li>Verify no duplicates exist</li>
+            <li>Click "Create PostgreSQL Entity" when ready</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
