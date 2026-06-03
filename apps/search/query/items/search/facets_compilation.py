@@ -3,25 +3,24 @@ from typing import Dict, List
 from rdflib.term import Node
 
 from search.api_models.api_models import Facet, FacetCategory, FacetItem
-from search.query.items.facets.existing_facet_items_in_database import \
-    get_existing_facet_items_in_text_search_for_facet
+from search.query.items.facets.existing_facet_items_in_database import (
+    get_existing_facet_items_in_text_search_for_facet,
+)
 from search.query.items.facets.facet_objects import FacetObject
 
 
 def compile_facets_for_text_search(
-        text_query: str,
-        active_facets: Dict[FacetObject, List[Node]],
-        facets: List[FacetObject]
+    text_query: str, active_facets: Dict[FacetObject, List[Node]], facets: List[FacetObject]
 ) -> List[Facet]:
     return [_compile_facet_for_text_search(text_query, active_facets, facet) for facet in facets]
 
 
 def _compile_facet_for_text_search(
-        text_query: str,
-        active_facets: Dict[FacetObject, List[Node]],
-        facet: FacetObject
+    text_query: str, active_facets: Dict[FacetObject, List[Node]], facet: FacetObject
 ) -> Facet:
-    found_facet_items = get_existing_facet_items_in_text_search_for_facet(text_query, active_facets, facet)
+    found_facet_items = get_existing_facet_items_in_text_search_for_facet(
+        text_query, active_facets, facet
+    )
     active_facet_items = active_facets.get(facet, [])
 
     facet_state: Dict[Node, bool] = {facet: True for facet in active_facet_items}

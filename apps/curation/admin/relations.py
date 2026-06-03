@@ -1,6 +1,7 @@
 """
 Admin classes for relationship models (RelationTypeCategory, RelationType).
 """
+
 import re
 
 from core.admin import BaseModelAdmin
@@ -20,20 +21,28 @@ class RelationTypeCategoryAdmin(BaseModelAdmin):
     ordering = ("order", "name")
 
     fieldsets = (
-        (None, {
-            "fields": ("name", "description", "color", "order", "is_active", "uuid"),
-        }),
-        ("Timestamps", {
-            "fields": ("created", "modified"),
-            "classes": ("collapse",),
-        }),
+        (
+            None,
+            {
+                "fields": ("name", "description", "color", "order", "is_active", "uuid"),
+            },
+        ),
+        (
+            "Timestamps",
+            {
+                "fields": ("created", "modified"),
+                "classes": ("collapse",),
+            },
+        ),
     )
 
     def color_display(self, obj):
         return format_html(
             '<span style="background-color: {}; padding: 2px 8px; border-radius: 3px; color: white;">{}</span>',
-            obj.color, obj.color,
+            obj.color,
+            obj.color,
         )
+
     color_display.short_description = "Color"
 
     def relation_types_count(self, obj):
@@ -41,6 +50,7 @@ class RelationTypeCategoryAdmin(BaseModelAdmin):
         if count > 0:
             return format_html("<strong>{}</strong>", count)
         return count
+
     relation_types_count.short_description = "Active Types"
 
     @admin.action(description="Activate selected categories")
@@ -92,13 +102,27 @@ class RelationTypeAdmin(BaseModelAdmin):
     ordering = ("category__order", "order", "label")
 
     fieldsets = (
-        (None, {
-            "fields": ("code", "label", "description", "category", "order", "is_active", "uuid"),
-        }),
-        ("Timestamps", {
-            "fields": ("created", "modified"),
-            "classes": ("collapse",),
-        }),
+        (
+            None,
+            {
+                "fields": (
+                    "code",
+                    "label",
+                    "description",
+                    "category",
+                    "order",
+                    "is_active",
+                    "uuid",
+                ),
+            },
+        ),
+        (
+            "Timestamps",
+            {
+                "fields": ("created", "modified"),
+                "classes": ("collapse",),
+            },
+        ),
     )
 
     def category_display(self, obj):
@@ -106,8 +130,10 @@ class RelationTypeAdmin(BaseModelAdmin):
             return mark_safe('<span style="color: #999;">—</span>')
         return format_html(
             '<span style="background-color: {}; padding: 1px 6px; border-radius: 3px; color: white; font-size: 0.8em;">{}</span>',
-            obj.category.color, obj.category.name,
+            obj.category.color,
+            obj.category.name,
         )
+
     category_display.short_description = "Category"
 
     @admin.action(description="Activate selected relation types")
@@ -123,11 +149,36 @@ class RelationTypeAdmin(BaseModelAdmin):
     @admin.action(description="Create default relation type categories")
     def create_default_categories(self, request, queryset):
         default_categories = [
-            {"name": "Content Relations", "description": "Relations describing content structure", "color": "#3b82f6", "order": 1},
-            {"name": "Version Relations", "description": "Relations describing version history", "color": "#10b981", "order": 2},
-            {"name": "Reference Relations", "description": "Relations describing citations and references", "color": "#f59e0b", "order": 3},
-            {"name": "Supplement Relations", "description": "Relations describing supplementary content", "color": "#8b5cf6", "order": 4},
-            {"name": "Translation Relations", "description": "Relations describing translations", "color": "#ef4444", "order": 5},
+            {
+                "name": "Content Relations",
+                "description": "Relations describing content structure",
+                "color": "#3b82f6",
+                "order": 1,
+            },
+            {
+                "name": "Version Relations",
+                "description": "Relations describing version history",
+                "color": "#10b981",
+                "order": 2,
+            },
+            {
+                "name": "Reference Relations",
+                "description": "Relations describing citations and references",
+                "color": "#f59e0b",
+                "order": 3,
+            },
+            {
+                "name": "Supplement Relations",
+                "description": "Relations describing supplementary content",
+                "color": "#8b5cf6",
+                "order": 4,
+            },
+            {
+                "name": "Translation Relations",
+                "description": "Relations describing translations",
+                "color": "#ef4444",
+                "order": 5,
+            },
         ]
         created_count = 0
         for cat in default_categories:

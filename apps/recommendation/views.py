@@ -51,9 +51,7 @@ class MaterialSuggestionsView(APIView):
 
         suggested_contents = get_suggested_contents(material_id)
         if len(suggested_contents.results) == 0:
-            return Response(
-                {"messages": "No suggestions found"}, status=status.HTTP_404_NOT_FOUND
-            )
+            return Response({"messages": "No suggestions found"}, status=status.HTTP_404_NOT_FOUND)
 
         result = serializers.SuggestedContentSerializer(suggested_contents)
 

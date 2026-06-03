@@ -9,38 +9,30 @@ VAR_ITEM = Variable("item")
 VAR_LABEL = Variable("label")
 
 
-def prepare_query_for_labels_from_items(items: Collection[URIRef], graph_pattern: tuple, order_by) -> str:
+def prepare_query_for_labels_from_items(
+    items: Collection[URIRef], graph_pattern: tuple, order_by
+) -> str:
     items_uri_ref_blocks = [[uri_ref] for uri_ref in items]
 
-    return QueryBuilder().SELECT(
-        VAR_ITEM,
-        VAR_LABEL
-    ).WHERE(
-        VALUES(
-            [VAR_ITEM],
-            items_uri_ref_blocks
-        ),
-        OPTIONAL(
-            *graph_pattern
-        )
-    ).ORDER_BY(
-        order_by
-    ).build()
+    return (
+        QueryBuilder()
+        .SELECT(VAR_ITEM, VAR_LABEL)
+        .WHERE(VALUES([VAR_ITEM], items_uri_ref_blocks), OPTIONAL(*graph_pattern))
+        .ORDER_BY(order_by)
+        .build()
+    )
 
 
 def _process_results(results) -> Dict[URIRef, str]:
     mapping = {}
-#    print("Raw Query Results:\n", results) # DEBUG
+    #    print("Raw Query Results:\n", results) # DEBUG
     for result in results:
         mapping[result.item] = str(result.label) if result.label else "Unknown label"
     return mapping
 
 
 def get_labels_for_item_uris(
-        items: Collection[URIRef],
-        dataset: Dataset,
-        graph_pattern: tuple,
-        order_by=VAR_LABEL
+    items: Collection[URIRef], dataset: Dataset, graph_pattern: tuple, order_by=VAR_LABEL
 ) -> Dict[URIRef, str]:
     """
     Retrieves the labels for the given items. Typically, these items should belong to the same category.
@@ -54,6 +46,6 @@ def get_labels_for_item_uris(
              reflects the specified order.
     """
     query = prepare_query_for_labels_from_items(items, graph_pattern, order_by)
-#    print("Generated SPARQL Query:\n", query) #DEBUG
+    #    print("Generated SPARQL Query:\n", query) #DEBUG
     results = query_dataset(dataset, query)
     return _process_results(results)

@@ -72,8 +72,12 @@ from django_otp.plugins.otp_totp.admin import TOTPDeviceAdmin as _TOTPDeviceAdmi
 from django_otp.plugins.otp_totp.models import TOTPDevice  # noqa: E402
 from rest_framework.authtoken.admin import TokenAdmin as _TokenAdmin  # noqa: E402
 from rest_framework.authtoken.models import TokenProxy  # noqa: E402
-from rest_framework_simplejwt.token_blacklist.admin import BlacklistedTokenAdmin as _BlacklistedTokenAdmin  # noqa: E402
-from rest_framework_simplejwt.token_blacklist.admin import OutstandingTokenAdmin as _OutstandingTokenAdmin  # noqa: E402
+from rest_framework_simplejwt.token_blacklist.admin import (
+    BlacklistedTokenAdmin as _BlacklistedTokenAdmin,
+)  # noqa: E402
+from rest_framework_simplejwt.token_blacklist.admin import (
+    OutstandingTokenAdmin as _OutstandingTokenAdmin,
+)  # noqa: E402
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken  # noqa: E402
 from taggit.admin import TagAdmin as _TagAdmin  # noqa: E402
 from taggit.models import Tag  # noqa: E402
@@ -156,6 +160,7 @@ class UnfoldSocialAccountAdmin(BaseModelAdmin):
 
     def get_search_fields(self, request):
         from allauth.account.adapter import get_adapter
+
         user_fields = get_adapter().get_user_search_fields()
         return list(self.search_fields) + [f"user__{f}" for f in user_fields]
 

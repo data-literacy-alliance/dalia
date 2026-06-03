@@ -17,6 +17,7 @@ from django.utils.text import slugify
 @dataclass
 class ValidationResult:
     """Result of validation with detailed feedback"""
+
     is_valid: bool
     errors: List[str]
     warnings: List[str]
@@ -59,10 +60,7 @@ class BaseTransformer(ABC):
         """
         self.fuseki_metadata = fuseki_metadata
         self.validation_result = ValidationResult(
-            is_valid=True,
-            errors=[],
-            warnings=[],
-            cleaned_data={}
+            is_valid=True, errors=[], warnings=[], cleaned_data={}
         )
 
     def transform(self) -> ValidationResult:
@@ -93,9 +91,7 @@ class BaseTransformer(ABC):
         """Validate that all required fields are present"""
         for field in self.required_fields:
             if field not in self.fuseki_metadata or not self.fuseki_metadata.get(field):
-                self.validation_result.add_error(
-                    f"Required field '{field}' is missing or empty"
-                )
+                self.validation_result.add_error(f"Required field '{field}' is missing or empty")
 
     @abstractmethod
     def _extract_fields(self):
@@ -110,7 +106,7 @@ class BaseTransformer(ABC):
     def _validate_final_data(self):
         """Final validation of cleaned data"""
         # Check that we have at least a label
-        if not self.validation_result.cleaned_data.get('label'):
+        if not self.validation_result.cleaned_data.get("label"):
             self.validation_result.add_error("Label is required but not set")
 
     def _clean_label(self, label: str) -> str:
@@ -118,7 +114,7 @@ class BaseTransformer(ABC):
         if not label:
             return ""
         # Remove excessive whitespace
-        label = re.sub(r'\s+', ' ', label.strip())
+        label = re.sub(r"\s+", " ", label.strip())
         # Limit length
         if len(label) > 255:
             self.validation_result.add_warning(
@@ -138,9 +134,7 @@ class BaseTransformer(ABC):
             validator(uri)
             return uri
         except ValidationError:
-            self.validation_result.add_warning(
-                f"Invalid URI format: {uri}"
-            )
+            self.validation_result.add_warning(f"Invalid URI format: {uri}")
             return None
 
     def _generate_slug(self, label: str) -> str:
@@ -177,7 +171,7 @@ class BaseTransformer(ABC):
         value = str(value).strip()
 
         # Remove excessive whitespace
-        value = re.sub(r'\s+', ' ', value)
+        value = re.sub(r"\s+", " ", value)
 
         # Truncate if needed
         if len(value) > max_length:
@@ -208,12 +202,12 @@ class LicenseTransformer(BaseTransformer):
             label = self._extract_text_field("name")
 
         if label:
-            self.validation_result.cleaned_data['label'] = self._clean_label(label)
+            self.validation_result.cleaned_data["label"] = self._clean_label(label)
 
         # Extract URI
         uri = self._clean_uri(self._extract_text_field("uri", max_length=500))
         if uri:
-            self.validation_result.cleaned_data['uri'] = uri
+            self.validation_result.cleaned_data["uri"] = uri
 
         # Extract SPDX ID
         spdx_id = self._extract_text_field("spdx_id", max_length=64)
@@ -221,22 +215,20 @@ class LicenseTransformer(BaseTransformer):
             spdx_id = self._extract_text_field("spdxId", max_length=64)
 
         if spdx_id:
-            self.validation_result.cleaned_data['spdx_id'] = spdx_id
+            self.validation_result.cleaned_data["spdx_id"] = spdx_id
 
     def _transform_entity_specific(self):
         """License-specific transformation"""
         # Generate slug
-        label = self.validation_result.cleaned_data.get('label', '')
-        self.validation_result.cleaned_data['slug'] = self._generate_slug(label)
+        label = self.validation_result.cleaned_data.get("label", "")
+        self.validation_result.cleaned_data["slug"] = self._generate_slug(label)
 
         # Validate SPDX ID format if present
-        spdx_id = self.validation_result.cleaned_data.get('spdx_id')
+        spdx_id = self.validation_result.cleaned_data.get("spdx_id")
         if spdx_id:
             # SPDX IDs typically follow pattern: MIT, GPL-3.0, CC-BY-4.0, etc.
-            if not re.match(r'^[\w\-\.]+$', spdx_id):
-                self.validation_result.add_warning(
-                    f"SPDX ID '{spdx_id}' has unusual format"
-                )
+            if not re.match(r"^[\w\-\.]+$", spdx_id):
+                self.validation_result.add_warning(f"SPDX ID '{spdx_id}' has unusual format")
 
 
 class LearningResourceTypeTransformer(BaseTransformer):
@@ -257,22 +249,30 @@ class LearningResourceTypeTransformer(BaseTransformer):
             label = self._extract_text_field("name")
 
         if label:
-            self.validation_result.cleaned_data['label'] = self._clean_label(label)
+            self.validation_result.cleaned_data["label"] = self._clean_label(label)
 
         # Extract URI
         uri = self._clean_uri(self._extract_text_field("uri", max_length=500))
         if uri:
-            self.validation_result.cleaned_data['uri'] = uri
+            self.validation_result.cleaned_data["uri"] = uri
 
     def _transform_entity_specific(self):
         """Learning resource type specific transformation"""
-        label = self.validation_result.cleaned_data.get('label', '')
-        self.validation_result.cleaned_data['slug'] = self._generate_slug(label)
+        label = self.validation_result.cleaned_data.get("label", "")
+        self.validation_result.cleaned_data["slug"] = self._generate_slug(label)
 
         # Common learning resource types validation
         known_types = [
-            'course', 'tutorial', 'dataset', 'software', 'publication',
-            'presentation', 'video', 'documentation', 'workshop', 'webinar'
+            "course",
+            "tutorial",
+            "dataset",
+            "software",
+            "publication",
+            "presentation",
+            "video",
+            "documentation",
+            "workshop",
+            "webinar",
         ]
         label_lower = label.lower()
         if not any(known_type in label_lower for known_type in known_types):
@@ -299,20 +299,20 @@ class ProficiencyLevelTransformer(BaseTransformer):
             label = self._extract_text_field("name")
 
         if label:
-            self.validation_result.cleaned_data['label'] = self._clean_label(label)
+            self.validation_result.cleaned_data["label"] = self._clean_label(label)
 
         # Extract URI
         uri = self._clean_uri(self._extract_text_field("uri", max_length=500))
         if uri:
-            self.validation_result.cleaned_data['uri'] = uri
+            self.validation_result.cleaned_data["uri"] = uri
 
     def _transform_entity_specific(self):
         """Proficiency level specific transformation"""
-        label = self.validation_result.cleaned_data.get('label', '')
-        self.validation_result.cleaned_data['slug'] = self._generate_slug(label)
+        label = self.validation_result.cleaned_data.get("label", "")
+        self.validation_result.cleaned_data["slug"] = self._generate_slug(label)
 
         # Common proficiency levels validation
-        known_levels = ['beginner', 'intermediate', 'advanced', 'expert', 'novice', 'master']
+        known_levels = ["beginner", "intermediate", "advanced", "expert", "novice", "master"]
         label_lower = label.lower()
         if not any(level in label_lower for level in known_levels):
             self.validation_result.add_warning(
@@ -338,23 +338,31 @@ class TargetGroupTransformer(BaseTransformer):
             label = self._extract_text_field("name")
 
         if label:
-            self.validation_result.cleaned_data['label'] = self._clean_label(label)
+            self.validation_result.cleaned_data["label"] = self._clean_label(label)
 
         # Extract URI
         uri = self._clean_uri(self._extract_text_field("uri", max_length=500))
         if uri:
-            self.validation_result.cleaned_data['uri'] = uri
+            self.validation_result.cleaned_data["uri"] = uri
 
     def _transform_entity_specific(self):
         """Target group specific transformation"""
-        label = self.validation_result.cleaned_data.get('label', '')
-        self.validation_result.cleaned_data['slug'] = self._generate_slug(label)
+        label = self.validation_result.cleaned_data.get("label", "")
+        self.validation_result.cleaned_data["slug"] = self._generate_slug(label)
 
         # Common target groups validation
         known_groups = [
-            'researchers', 'students', 'practitioners', 'educators',
-            'professionals', 'academics', 'undergraduates', 'graduates',
-            'postdocs', 'faculty', 'industry'
+            "researchers",
+            "students",
+            "practitioners",
+            "educators",
+            "professionals",
+            "academics",
+            "undergraduates",
+            "graduates",
+            "postdocs",
+            "faculty",
+            "industry",
         ]
         label_lower = label.lower()
         if not any(group in label_lower for group in known_groups):
@@ -381,23 +389,42 @@ class FileFormatTransformer(BaseTransformer):
             label = self._extract_text_field("name")
 
         if label:
-            self.validation_result.cleaned_data['label'] = self._clean_label(label)
+            self.validation_result.cleaned_data["label"] = self._clean_label(label)
 
         # Extract URI
         uri = self._clean_uri(self._extract_text_field("uri", max_length=500))
         if uri:
-            self.validation_result.cleaned_data['uri'] = uri
+            self.validation_result.cleaned_data["uri"] = uri
 
     def _transform_entity_specific(self):
         """File format specific transformation"""
-        label = self.validation_result.cleaned_data.get('label', '')
-        self.validation_result.cleaned_data['slug'] = self._generate_slug(label)
+        label = self.validation_result.cleaned_data.get("label", "")
+        self.validation_result.cleaned_data["slug"] = self._generate_slug(label)
 
         # Common file formats validation
         known_formats = [
-            'pdf', 'csv', 'json', 'xml', 'html', 'txt', 'doc', 'docx',
-            'xls', 'xlsx', 'zip', 'tar', 'gz', 'png', 'jpg', 'jpeg',
-            'gif', 'svg', 'mp4', 'avi', 'mp3', 'wav'
+            "pdf",
+            "csv",
+            "json",
+            "xml",
+            "html",
+            "txt",
+            "doc",
+            "docx",
+            "xls",
+            "xlsx",
+            "zip",
+            "tar",
+            "gz",
+            "png",
+            "jpg",
+            "jpeg",
+            "gif",
+            "svg",
+            "mp4",
+            "avi",
+            "mp3",
+            "wav",
         ]
         label_lower = label.lower()
         if not any(fmt in label_lower for fmt in known_formats):
@@ -424,22 +451,30 @@ class MediaTypeTransformer(BaseTransformer):
             label = self._extract_text_field("name")
 
         if label:
-            self.validation_result.cleaned_data['label'] = self._clean_label(label)
+            self.validation_result.cleaned_data["label"] = self._clean_label(label)
 
         # Extract URI
         uri = self._clean_uri(self._extract_text_field("uri", max_length=500))
         if uri:
-            self.validation_result.cleaned_data['uri'] = uri
+            self.validation_result.cleaned_data["uri"] = uri
 
     def _transform_entity_specific(self):
         """Media type specific transformation"""
-        label = self.validation_result.cleaned_data.get('label', '')
-        self.validation_result.cleaned_data['slug'] = self._generate_slug(label)
+        label = self.validation_result.cleaned_data.get("label", "")
+        self.validation_result.cleaned_data["slug"] = self._generate_slug(label)
 
         # Common media types validation
         known_types = [
-            'text', 'video', 'audio', 'image', 'interactive', 'dataset',
-            'application', 'software', 'simulation', 'game'
+            "text",
+            "video",
+            "audio",
+            "image",
+            "interactive",
+            "dataset",
+            "application",
+            "software",
+            "simulation",
+            "game",
         ]
         label_lower = label.lower()
         if not any(media_type in label_lower for media_type in known_types):
@@ -467,7 +502,7 @@ class LanguageTransformer(BaseTransformer):
             label = self._extract_text_field("name")
 
         if label:
-            self.validation_result.cleaned_data['label'] = self._clean_label(label)
+            self.validation_result.cleaned_data["label"] = self._clean_label(label)
 
         # Extract URI - try multiple sources
         # Note: The URI is typically in fuseki_uri from EntityMapping, not in metadata
@@ -477,41 +512,41 @@ class LanguageTransformer(BaseTransformer):
 
         uri = self._clean_uri(uri)
         if uri:
-            self.validation_result.cleaned_data['uri'] = uri
+            self.validation_result.cleaned_data["uri"] = uri
 
         # Extract code if provided in metadata
         code = self._extract_text_field("code", max_length=10)
         if code:
-            self.validation_result.cleaned_data['code'] = code
+            self.validation_result.cleaned_data["code"] = code
 
         # Extract native_name if available
         native_name = self._extract_text_field("native_name", max_length=100)
         if native_name:
-            self.validation_result.cleaned_data['native_name'] = native_name
+            self.validation_result.cleaned_data["native_name"] = native_name
 
     def _transform_entity_specific(self):
         """Language-specific transformation"""
-        label = self.validation_result.cleaned_data.get('label', '')
-        self.validation_result.cleaned_data['slug'] = self._generate_slug(label)
+        label = self.validation_result.cleaned_data.get("label", "")
+        self.validation_result.cleaned_data["slug"] = self._generate_slug(label)
 
         # Extract ISO code from URI
         # Pattern: http://lexvo.org/id/iso639-3/LANGUAGE_CODE
-        uri = self.validation_result.cleaned_data.get('uri', '')
+        uri = self.validation_result.cleaned_data.get("uri", "")
         code = self._extract_language_code_from_uri(uri)
 
         if code:
-            self.validation_result.cleaned_data['code'] = code
+            self.validation_result.cleaned_data["code"] = code
         else:
             # If no code found, generate from slug as fallback
-            slug = self.validation_result.cleaned_data.get('slug', '')
-            self.validation_result.cleaned_data['code'] = slug[:10]  # max_length=10
+            slug = self.validation_result.cleaned_data.get("slug", "")
+            self.validation_result.cleaned_data["code"] = slug[:10]  # max_length=10
             self.validation_result.add_warning(
                 f"Could not extract language code from URI, using slug: {slug[:10]}"
             )
 
         # If native_name not provided, use label as fallback
-        if 'native_name' not in self.validation_result.cleaned_data:
-            self.validation_result.cleaned_data['native_name'] = label
+        if "native_name" not in self.validation_result.cleaned_data:
+            self.validation_result.cleaned_data["native_name"] = label
 
     def _extract_language_code_from_uri(self, uri: str) -> Optional[str]:
         """
@@ -532,16 +567,17 @@ class LanguageTransformer(BaseTransformer):
 
         # Pattern: http://lexvo.org/id/iso639-X/CODE
         import re
-        match = re.search(r'/iso639-[0-9]/([a-zA-Z]{2,3})$', uri)
+
+        match = re.search(r"/iso639-[0-9]/([a-zA-Z]{2,3})$", uri)
         if match:
             return match.group(1).lower()
 
         # Try extracting last segment as fallback
-        parts = uri.rstrip('/').split('/')
+        parts = uri.rstrip("/").split("/")
         if parts:
             last_part = parts[-1]
             # Validate it looks like a language code (2-3 letters)
-            if re.match(r'^[a-zA-Z]{2,3}$', last_part):
+            if re.match(r"^[a-zA-Z]{2,3}$", last_part):
                 return last_part.lower()
 
         return None
@@ -571,40 +607,40 @@ class CommunityTransformer(BaseTransformer):
 
         if title:
             cleaned_title = self._clean_label(title)
-            self.validation_result.cleaned_data['title'] = cleaned_title
+            self.validation_result.cleaned_data["title"] = cleaned_title
         else:
             self.validation_result.add_error("Community title is required")
 
         # Extract URI
         uri = self._clean_uri(self._extract_text_field("uri", max_length=500))
         if uri:
-            self.validation_result.cleaned_data['uri'] = uri
+            self.validation_result.cleaned_data["uri"] = uri
 
         # Extract description
         description = self._extract_text_field("description", max_length=5000)
         if description:
-            self.validation_result.cleaned_data['description'] = description
+            self.validation_result.cleaned_data["description"] = description
 
         # Extract moderation policy
         moderation_policy = self._extract_text_field("moderation_policy", max_length=5000)
         if moderation_policy:
-            self.validation_result.cleaned_data['moderation_policy'] = moderation_policy
+            self.validation_result.cleaned_data["moderation_policy"] = moderation_policy
 
     def _transform_entity_specific(self):
         """Community specific transformation"""
-        title = self.validation_result.cleaned_data.get('title', '')
-        self.validation_result.cleaned_data['slug'] = self._generate_slug(title)
+        title = self.validation_result.cleaned_data.get("title", "")
+        self.validation_result.cleaned_data["slug"] = self._generate_slug(title)
 
         # Set default governance values
-        if 'auto_publish_threshold' not in self.validation_result.cleaned_data:
-            self.validation_result.cleaned_data['auto_publish_threshold'] = 2
+        if "auto_publish_threshold" not in self.validation_result.cleaned_data:
+            self.validation_result.cleaned_data["auto_publish_threshold"] = 2
 
-        if 'requires_approval' not in self.validation_result.cleaned_data:
-            self.validation_result.cleaned_data['requires_approval'] = True
+        if "requires_approval" not in self.validation_result.cleaned_data:
+            self.validation_result.cleaned_data["requires_approval"] = True
 
     def _validate_final_data(self):
         """Override: Community uses 'title' instead of 'label'"""
-        if not self.validation_result.cleaned_data.get('title'):
+        if not self.validation_result.cleaned_data.get("title"):
             self.validation_result.add_error("Title is required but not set")
 
         # Validate title uniqueness will be handled at database level
@@ -618,18 +654,20 @@ class TransformationService:
 
     # Mapping of entity types to transformer classes
     TRANSFORMERS = {
-        'license': LicenseTransformer,
-        'learning_resource_type': LearningResourceTypeTransformer,
-        'proficiency_level': ProficiencyLevelTransformer,
-        'target_group': TargetGroupTransformer,
-        'file_format': FileFormatTransformer,
-        'media_type': MediaTypeTransformer,
-        'language': LanguageTransformer,
-        'community': CommunityTransformer,
+        "license": LicenseTransformer,
+        "learning_resource_type": LearningResourceTypeTransformer,
+        "proficiency_level": ProficiencyLevelTransformer,
+        "target_group": TargetGroupTransformer,
+        "file_format": FileFormatTransformer,
+        "media_type": MediaTypeTransformer,
+        "language": LanguageTransformer,
+        "community": CommunityTransformer,
     }
 
     @classmethod
-    def get_transformer(cls, entity_type: str, fuseki_metadata: Dict[str, Any]) -> Optional[BaseTransformer]:
+    def get_transformer(
+        cls, entity_type: str, fuseki_metadata: Dict[str, Any]
+    ) -> Optional[BaseTransformer]:
         """
         Get appropriate transformer for entity type
 
@@ -647,7 +685,9 @@ class TransformationService:
         return transformer_class(fuseki_metadata)
 
     @classmethod
-    def transform_entity(cls, entity_type: str, fuseki_metadata: Dict[str, Any]) -> ValidationResult:
+    def transform_entity(
+        cls, entity_type: str, fuseki_metadata: Dict[str, Any]
+    ) -> ValidationResult:
         """
         Transform entity metadata to Django model data
 
@@ -665,7 +705,7 @@ class TransformationService:
                 is_valid=False,
                 errors=[f"No transformer available for entity type '{entity_type}'"],
                 warnings=[],
-                cleaned_data={}
+                cleaned_data={},
             )
             return result
 
@@ -677,7 +717,9 @@ class TransformationService:
         return list(cls.TRANSFORMERS.keys())
 
     @classmethod
-    def validate_entity(cls, entity_type: str, fuseki_metadata: Dict[str, Any]) -> Tuple[bool, List[str], List[str]]:
+    def validate_entity(
+        cls, entity_type: str, fuseki_metadata: Dict[str, Any]
+    ) -> Tuple[bool, List[str], List[str]]:
         """
         Validate entity metadata without full transformation
 

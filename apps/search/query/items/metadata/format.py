@@ -6,10 +6,7 @@ from search.query.utils import query_dalia_dataset
 from search.query_builder.query_builder import GROUP_CONCAT, QueryBuilder, VALUES
 from search.rdf.namespace import educor
 
-_VARIABLES = {
-    "lr": Variable("lr"),
-    "formats": Variable("formats")
-}
+_VARIABLES = {"lr": Variable("lr"), "formats": Variable("formats")}
 
 
 def prepare_query_for_format_metadata_for_resources(resource_uri_refs: List[URIRef]) -> str:
@@ -18,19 +15,17 @@ def prepare_query_for_format_metadata_for_resources(resource_uri_refs: List[URIR
 
     resource_uri_ref_blocks = [[uri_ref] for uri_ref in resource_uri_refs]
 
-    return QueryBuilder().SELECT(
-        var_lr,
-        **{_VARIABLES["formats"]: GROUP_CONCAT(var_format, separator=", ")}
-    ).WHERE(
-        VALUES(
-            [var_lr],
-            resource_uri_ref_blocks
-        ),
-        (var_lr, RDF.type, educor.EducationalResource),
-        (var_lr, DCTERMS.format, var_format)
-    ).GROUP_BY(
-        var_lr
-    ).build()
+    return (
+        QueryBuilder()
+        .SELECT(var_lr, **{_VARIABLES["formats"]: GROUP_CONCAT(var_format, separator=", ")})
+        .WHERE(
+            VALUES([var_lr], resource_uri_ref_blocks),
+            (var_lr, RDF.type, educor.EducationalResource),
+            (var_lr, DCTERMS.format, var_format),
+        )
+        .GROUP_BY(var_lr)
+        .build()
+    )
 
 
 def format_from_result(result) -> str:

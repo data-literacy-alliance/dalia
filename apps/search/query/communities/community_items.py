@@ -40,31 +40,31 @@ def process_result_for_resources_of_community(result) -> URIRef:
     return result.lr
 
 
-_VARIABLES = {
-    "lr": Variable("lr")
-}
+_VARIABLES = {"lr": Variable("lr")}
 
 
 def prepare_query_for_resources_of_community(community_uri_ref: URIRef) -> str:
     var_lr = _VARIABLES["lr"]
     var_community = Variable("community")
 
-    return QueryBuilder().SELECT(
-        var_lr,
-        distinct=True  # prevents duplicates in case the same community is both rec:recommender and bflr:supportinghost
-    ).WHERE(
-        VALUES(
-            [var_community],
-            [[community_uri_ref]]
-        ),
-        (var_community, RDF.type, MoDalia.Community),
-        # This GROUP-UNION pattern is equivalent to "?lr rec:recommender|bflr:supportinghost ?community"
-        # (AlternativePath expression in SPARQL).
-        GROUP(
-            (var_lr, rec.recommender, var_community),
-        ),
-        UNION(
-            (var_lr, bibframe_lite_relation.supportinghost, var_community),
-        ),
-        (var_lr, RDF.type, educor.EducationalResource)
-    ).build()
+    return (
+        QueryBuilder()
+        .SELECT(
+            var_lr,
+            distinct=True,  # prevents duplicates in case the same community is both rec:recommender and bflr:supportinghost
+        )
+        .WHERE(
+            VALUES([var_community], [[community_uri_ref]]),
+            (var_community, RDF.type, MoDalia.Community),
+            # This GROUP-UNION pattern is equivalent to "?lr rec:recommender|bflr:supportinghost ?community"
+            # (AlternativePath expression in SPARQL).
+            GROUP(
+                (var_lr, rec.recommender, var_community),
+            ),
+            UNION(
+                (var_lr, bibframe_lite_relation.supportinghost, var_community),
+            ),
+            (var_lr, RDF.type, educor.EducationalResource),
+        )
+        .build()
+    )

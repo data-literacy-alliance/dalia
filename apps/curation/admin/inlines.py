@@ -1,6 +1,7 @@
 """
 Admin inline classes for curation app.
 """
+
 from curation.models import (
     ResourceCommunityRelation,
     ResourceLink,

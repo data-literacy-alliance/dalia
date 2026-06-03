@@ -11,6 +11,7 @@ class _AllReadOnlySerializer(serializers.ModelSerializer):
     Base serializer that exposes all model fields but marks them read-only.
     Avoids invalid read_only_fields="__all__" (must be list/tuple).
     """
+
     class Meta:
         fields = "__all__"
 
@@ -59,13 +60,15 @@ class DisciplineSerializer(serializers.ModelSerializer):
 
     def get_ancestors(self, obj):
         """Return list of ancestor disciplines"""
-        return [{"id": ancestor.pk, "label": ancestor.label, "uuid": str(ancestor.uuid)}
-                for ancestor in obj.get_ancestors()]
+        return [
+            {"id": ancestor.pk, "label": ancestor.label, "uuid": str(ancestor.uuid)}
+            for ancestor in obj.get_ancestors()
+        ]
 
     def validate_parent_id(self, value):
         """Prevent circular references and self-references"""
         if value:
-            instance = getattr(self, 'instance', None)
+            instance = getattr(self, "instance", None)
             if instance:
                 # Prevent self-reference
                 if value.pk == instance.pk:
@@ -74,7 +77,9 @@ class DisciplineSerializer(serializers.ModelSerializer):
                 # Prevent circular reference by checking if the selected parent
                 # is a descendant of the current instance
                 if instance in value.get_descendants():
-                    raise serializers.ValidationError("Cannot create circular reference in hierarchy.")
+                    raise serializers.ValidationError(
+                        "Cannot create circular reference in hierarchy."
+                    )
 
         return value
 
@@ -163,8 +168,10 @@ class TargetGroupSerializer(serializers.ModelSerializer):
 # ---------- resource / content serializers ----------
 # Split READ vs WRITE so the frontend has a clear contract.
 
+
 class ResourceSerializer(serializers.ModelSerializer):
     """Grouper object (no translatable fields)."""
+
     uuid = serializers.UUIDField(read_only=True)
 
     class Meta:
@@ -179,6 +186,7 @@ class MinimalUserSerializer(serializers.ModelSerializer):
     Explicit allowlist — blocks password, is_staff, is_superuser, groups,
     user_permissions, date_joined, last_login, created_at, updated_at.
     """
+
     class Meta:
         model = User
         fields = ["id", "username", "first_name", "last_name", "email"]
@@ -187,6 +195,7 @@ class MinimalUserSerializer(serializers.ModelSerializer):
 
 class ResourceContentReadSerializer(serializers.ModelSerializer):
     """Expanded view of a content version (nice for Swagger & dev UIs)."""
+
     uuid = serializers.UUIDField(read_only=True)
     resource = ResourceSerializer(read_only=True)
     resource_uuid = serializers.UUIDField(source="resource.uuid", read_only=True)
@@ -212,6 +221,7 @@ class ResourceContentWriteSerializer(serializers.ModelSerializer):
     Frontend sends simple IDs for M2M fields (DRF handles that).
     If 'resource' is omitted, the ViewSet will create one automatically.
     """
+
     uuid = serializers.UUIDField(read_only=True)
 
     class Meta:
@@ -230,6 +240,7 @@ class ResourceContentWriteSerializer(serializers.ModelSerializer):
 # ---------- Community Management ----------
 class CommunityMembershipSerializer(serializers.ModelSerializer):
     """Community membership with role management."""
+
     uuid = serializers.UUIDField(read_only=True)
     user_username = serializers.CharField(source="user.username", read_only=True)
     community_title = serializers.CharField(source="community.title", read_only=True)
@@ -243,6 +254,7 @@ class CommunityMembershipSerializer(serializers.ModelSerializer):
 # ---------- User Interactions ----------
 class BookmarkSerializer(serializers.ModelSerializer):
     """User bookmarks with content object details."""
+
     uuid = serializers.UUIDField(read_only=True)
     content_object_str = serializers.CharField(source="content_object.__str__", read_only=True)
 
@@ -254,6 +266,7 @@ class BookmarkSerializer(serializers.ModelSerializer):
 
 class LikeSerializer(serializers.ModelSerializer):
     """User likes/favorites with content object details."""
+
     uuid = serializers.UUIDField(read_only=True)
     content_object_str = serializers.CharField(source="content_object.__str__", read_only=True)
 
@@ -265,6 +278,7 @@ class LikeSerializer(serializers.ModelSerializer):
 
 class ViewEventSerializer(_AllReadOnlySerializer):
     """Analytics view events (read-only)."""
+
     content_object_str = serializers.CharField(source="content_object.__str__", read_only=True)
 
     class Meta(_AllReadOnlySerializer.Meta):
@@ -273,6 +287,7 @@ class ViewEventSerializer(_AllReadOnlySerializer):
 
 class EditLogSerializer(_AllReadOnlySerializer):
     """Audit trail edit logs (read-only)."""
+
     content_object_str = serializers.CharField(source="content_object.__str__", read_only=True)
 
     class Meta(_AllReadOnlySerializer.Meta):
@@ -282,6 +297,7 @@ class EditLogSerializer(_AllReadOnlySerializer):
 # ---------- Review System ----------
 class ReviewAnswerSerializer(serializers.ModelSerializer):
     """Review answers - typically nested under Review."""
+
     uuid = serializers.UUIDField(read_only=True)
     question_text = serializers.CharField(source="question.question_text", read_only=True)
     answer_value = serializers.SerializerMethodField()
@@ -298,6 +314,7 @@ class ReviewAnswerSerializer(serializers.ModelSerializer):
 
 class ReviewReadSerializer(serializers.ModelSerializer):
     """Review with expanded details for read operations."""
+
     uuid = serializers.UUIDField(read_only=True)
     resource_content_title = serializers.CharField(source="resource_content.title", read_only=True)
     reviewer_username = serializers.CharField(source="reviewer.username", read_only=True)
@@ -316,6 +333,7 @@ class ReviewReadSerializer(serializers.ModelSerializer):
 
 class ReviewWriteSerializer(serializers.ModelSerializer):
     """Review for write operations."""
+
     uuid = serializers.UUIDField(read_only=True)
 
     class Meta:
@@ -326,6 +344,7 @@ class ReviewWriteSerializer(serializers.ModelSerializer):
 
 class ReviewQuestionSerializer(serializers.ModelSerializer):
     """Review question configuration."""
+
     uuid = serializers.UUIDField(read_only=True)
     community_title = serializers.CharField(source="community.title", read_only=True)
 
@@ -338,6 +357,7 @@ class ReviewQuestionSerializer(serializers.ModelSerializer):
 # ---------- Legal Compliance ----------
 class ResourceConsentSerializer(serializers.ModelSerializer):
     """GDPR consent tracking."""
+
     uuid = serializers.UUIDField(read_only=True)
     resource_content_title = serializers.CharField(source="resource_content.title", read_only=True)
     person_name = serializers.CharField(source="person.full_name", read_only=True)
@@ -355,9 +375,12 @@ class ResourceConsentSerializer(serializers.ModelSerializer):
 
 class ResourcePublishingConsentSerializer(serializers.ModelSerializer):
     """Publishing consent management."""
+
     uuid = serializers.UUIDField(read_only=True)
     resource_content_title = serializers.CharField(source="resource_content.title", read_only=True)
-    consenting_person_name = serializers.CharField(source="consenting_person.full_name", read_only=True)
+    consenting_person_name = serializers.CharField(
+        source="consenting_person.full_name", read_only=True
+    )
     is_complete = serializers.SerializerMethodField()
     consent_summary = serializers.SerializerMethodField()
 
@@ -378,6 +401,7 @@ class ResourcePublishingConsentSerializer(serializers.ModelSerializer):
 # ---------- Resource Relations ----------
 class RelationTypeCategorySerializer(serializers.ModelSerializer):
     """Relation type categories for organizing relation types."""
+
     uuid = serializers.UUIDField(read_only=True)
     relation_types_count = serializers.SerializerMethodField()
 
@@ -393,6 +417,7 @@ class RelationTypeCategorySerializer(serializers.ModelSerializer):
 
 class RelationTypeSerializer(serializers.ModelSerializer):
     """Relation types with category information."""
+
     uuid = serializers.UUIDField(read_only=True)
     category_name = serializers.CharField(source="category.name", read_only=True)
     category_color = serializers.CharField(source="category.color", read_only=True)
@@ -405,6 +430,7 @@ class RelationTypeSerializer(serializers.ModelSerializer):
 
 class ResourceLinkSerializer(serializers.ModelSerializer):
     """External resource links."""
+
     uuid = serializers.UUIDField(read_only=True)
     content_title = serializers.CharField(source="content.title", read_only=True)
 
@@ -416,13 +442,18 @@ class ResourceLinkSerializer(serializers.ModelSerializer):
 
 class ResourceCommunityRelationSerializer(serializers.ModelSerializer):
     """Resource-community associations."""
+
     uuid = serializers.UUIDField(read_only=True)
     content_title = serializers.CharField(source="content.title", read_only=True)
     community_title = serializers.CharField(source="community.title", read_only=True)
     relation_type_label = serializers.CharField(source="relation_type.label", read_only=True)
     relation_type_code = serializers.CharField(source="relation_type.code", read_only=True)
-    relation_type_category = serializers.CharField(source="relation_type.category.name", read_only=True)
-    relation_type_category_color = serializers.CharField(source="relation_type.category.color", read_only=True)
+    relation_type_category = serializers.CharField(
+        source="relation_type.category.name", read_only=True
+    )
+    relation_type_category_color = serializers.CharField(
+        source="relation_type.category.color", read_only=True
+    )
 
     class Meta:
         model = cf.ResourceCommunityRelation
@@ -432,36 +463,41 @@ class ResourceCommunityRelationSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Set the content field queryset dynamically based on request context
-        request = self.context.get('request')
-        if request and hasattr(request, 'user'):
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
             user = request.user
 
             content_qs = cf.ResourceContent.objects.all()
 
             # Apply filtering based on user role — no CMS versioning, use is_published field
-            if user.is_authenticated and (user.is_superuser or user.groups.filter(name="Curators").exists()):
+            if user.is_authenticated and (
+                user.is_superuser or user.groups.filter(name="Curators").exists()
+            ):
                 # Superusers/Curators can link to any content
                 pass
             elif user.is_authenticated:
                 # Regular users can link to published content or their own unpublished content
-                content_qs = content_qs.filter(
-                    Q(is_published=True) | Q(created_by=user)
-                )
+                content_qs = content_qs.filter(Q(is_published=True) | Q(created_by=user))
 
             # Update the content field queryset
-            self.fields['content'].queryset = content_qs
+            self.fields["content"].queryset = content_qs
 
 
 class ResourceRelatedItemSerializer(serializers.ModelSerializer):
     """Resource relationships."""
+
     uuid = serializers.UUIDField(read_only=True)
 
     # Read-only display fields
     content_title = serializers.CharField(source="content.title", read_only=True)
     relation_type_label = serializers.CharField(source="relation_type.label", read_only=True)
     relation_type_code = serializers.CharField(source="relation_type.code", read_only=True)
-    relation_type_category = serializers.CharField(source="relation_type.category.name", read_only=True)
-    relation_type_category_color = serializers.CharField(source="relation_type.category.color", read_only=True)
+    relation_type_category = serializers.CharField(
+        source="relation_type.category.name", read_only=True
+    )
+    relation_type_category_color = serializers.CharField(
+        source="relation_type.category.color", read_only=True
+    )
 
     class Meta:
         model = cf.ResourceRelatedItem
@@ -471,21 +507,21 @@ class ResourceRelatedItemSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Set the content field queryset dynamically based on request context
-        request = self.context.get('request')
-        if request and hasattr(request, 'user'):
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
             user = request.user
 
             content_qs = cf.ResourceContent.objects.all()
 
             # Apply filtering based on user role — no CMS versioning, use is_published field
-            if user.is_authenticated and (user.is_superuser or user.groups.filter(name="Curators").exists()):
+            if user.is_authenticated and (
+                user.is_superuser or user.groups.filter(name="Curators").exists()
+            ):
                 # Superusers/Curators can link to any content
                 pass
             elif user.is_authenticated:
                 # Regular users can link to published content or their own unpublished content
-                content_qs = content_qs.filter(
-                    Q(is_published=True) | Q(created_by=user)
-                )
+                content_qs = content_qs.filter(Q(is_published=True) | Q(created_by=user))
 
             # Update the content field queryset
-            self.fields['content'].queryset = content_qs
+            self.fields["content"].queryset = content_qs

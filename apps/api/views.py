@@ -22,6 +22,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint to view or edit users. Only authenticated users can access this.
     """
+
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -38,6 +39,7 @@ class AuthViewSet(viewsets.GenericViewSet):
     """
     API endpoint for identity-related actions of the authenticated user.
     """
+
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -50,12 +52,16 @@ class AuthViewSet(viewsets.GenericViewSet):
         summary="Get current authenticated user",
         description="Retrieve the authenticated user's details with groups and effective permissions.",
         responses={
-            200: OpenApiResponse(response=UserSerializer, description="User details returned successfully."),
-            401: OpenApiResponse(description="Authentication credentials were not provided or invalid.")
+            200: OpenApiResponse(
+                response=UserSerializer, description="User details returned successfully."
+            ),
+            401: OpenApiResponse(
+                description="Authentication credentials were not provided or invalid."
+            ),
         },
         examples=[
             OpenApiExample(
-                'Authenticated User Example',
+                "Authenticated User Example",
                 value={
                     "id": 1,
                     "username": "john_doe",
@@ -64,11 +70,11 @@ class AuthViewSet(viewsets.GenericViewSet):
                     "is_superuser": False,
                     "groups": [{"id": 1, "name": "Editors"}],
                     "user_permissions": [],
-                    "effective_permissions": ["blog.add_post", "blog.change_post"]
+                    "effective_permissions": ["blog.add_post", "blog.change_post"],
                 },
-                response_only=True
+                response_only=True,
             )
-        ]
+        ],
     )
     @action(detail=False, methods=["get"], url_path="me", url_name="me")
     def me(self, request):
@@ -81,7 +87,7 @@ class AuthViewSet(viewsets.GenericViewSet):
         responses={
             200: OpenApiResponse(description="User profile from social account"),
             401: OpenApiResponse(description="Unauthorized"),
-        }
+        },
     )
     @action(detail=False, methods=["get"], url_path="profile")
     def profile(self, request):
@@ -142,35 +148,34 @@ class AuthViewSet(viewsets.GenericViewSet):
             200: OpenApiResponse(
                 description="JWT access and refresh tokens for authenticated user"
             ),
-            401: OpenApiResponse(description="User not authenticated")
-        }
+            401: OpenApiResponse(description="User not authenticated"),
+        },
     )
     @action(detail=False, methods=["get"], url_path="jwt/social")
     def jwt_social(self, request):
         user = request.user
         refresh = RefreshToken.for_user(user)
-        return Response({
-            "refresh": str(refresh),
-            "access": str(refresh.access_token),
-        })
+        return Response(
+            {
+                "refresh": str(refresh),
+                "access": str(refresh.access_token),
+            }
+        )
 
     @extend_schema(
         summary="Logout the authenticated user",
         description="Logs out the user by clearing the Django session. Frontend should also clear any JWT tokens from local storage.",
         responses={
-            200: OpenApiResponse(
-                description="Logout successful"
-            ),
-            401: OpenApiResponse(description="User not authenticated")
-        }
+            200: OpenApiResponse(description="Logout successful"),
+            401: OpenApiResponse(description="User not authenticated"),
+        },
     )
     @action(detail=False, methods=["post"], url_path="logout")
     def logout(self, request):
         from django.contrib.auth import logout
+
         logout(request)
-        return Response({
-            "detail": "Successfully logged out."
-        })
+        return Response({"detail": "Successfully logged out."})
 
     @extend_schema(
         summary="Search for user profiles",
@@ -182,28 +187,63 @@ class AuthViewSet(viewsets.GenericViewSet):
             "Users always see their own profile regardless of privacy_level."
         ),
         parameters=[
-            OpenApiParameter(name="username", location=OpenApiParameter.QUERY, required=False,
-                             description="Django User username (exact match, case-sensitive)", type=str),
-            OpenApiParameter(name="person_id", location=OpenApiParameter.QUERY, required=False,
-                             description="Person model ID (integer)", type=int),
-            OpenApiParameter(name="user_id", location=OpenApiParameter.QUERY, required=False,
-                             description="Django User model ID (integer)", type=int),
-            OpenApiParameter(name="uuid", location=OpenApiParameter.QUERY, required=False,
-                             description="Person UUID", type=str),
-            OpenApiParameter(name="orcid", location=OpenApiParameter.QUERY, required=False,
-                             description="ORCID identifier", type=str),
-            OpenApiParameter(name="first_name", location=OpenApiParameter.QUERY, required=False,
-                             description="First name (case-insensitive partial match)", type=str),
-            OpenApiParameter(name="last_name", location=OpenApiParameter.QUERY, required=False,
-                             description="Last name (case-insensitive partial match)", type=str),
+            OpenApiParameter(
+                name="username",
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description="Django User username (exact match, case-sensitive)",
+                type=str,
+            ),
+            OpenApiParameter(
+                name="person_id",
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description="Person model ID (integer)",
+                type=int,
+            ),
+            OpenApiParameter(
+                name="user_id",
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description="Django User model ID (integer)",
+                type=int,
+            ),
+            OpenApiParameter(
+                name="uuid",
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description="Person UUID",
+                type=str,
+            ),
+            OpenApiParameter(
+                name="orcid",
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description="ORCID identifier",
+                type=str,
+            ),
+            OpenApiParameter(
+                name="first_name",
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description="First name (case-insensitive partial match)",
+                type=str,
+            ),
+            OpenApiParameter(
+                name="last_name",
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description="Last name (case-insensitive partial match)",
+                type=str,
+            ),
         ],
         responses={
             200: OpenApiResponse(
                 response=PersonProfileSerializer(many=True),
-                description="List of matching Person profiles"
+                description="List of matching Person profiles",
             ),
             400: OpenApiResponse(description="No search parameters provided"),
-            401: OpenApiResponse(description="Authentication required")
+            401: OpenApiResponse(description="Authentication required"),
         },
     )
     @action(detail=False, methods=["get"], url_path="profile/search")
@@ -215,19 +255,21 @@ class AuthViewSet(viewsets.GenericViewSet):
         user = request.user
 
         # Get search parameters
-        username = request.query_params.get('username')
-        person_id = request.query_params.get('person_id')
-        user_id = request.query_params.get('user_id')
-        uuid = request.query_params.get('uuid')
-        orcid = request.query_params.get('orcid')
-        first_name = request.query_params.get('first_name')
-        last_name = request.query_params.get('last_name')
+        username = request.query_params.get("username")
+        person_id = request.query_params.get("person_id")
+        user_id = request.query_params.get("user_id")
+        uuid = request.query_params.get("uuid")
+        orcid = request.query_params.get("orcid")
+        first_name = request.query_params.get("first_name")
+        last_name = request.query_params.get("last_name")
 
         # At least one parameter required
         if not any([username, person_id, user_id, uuid, orcid, first_name, last_name]):
             return Response(
-                {"detail": "At least one search parameter required: username, person_id, user_id, uuid, orcid, first_name, or last_name"},
-                status=400
+                {
+                    "detail": "At least one search parameter required: username, person_id, user_id, uuid, orcid, first_name, or last_name"
+                },
+                status=400,
             )
 
         # Build search query
@@ -255,12 +297,12 @@ class AuthViewSet(viewsets.GenericViewSet):
             query |= Q(last_name__icontains=last_name)
 
         # Get Person queryset
-        persons = cf.Person.objects.select_related('user').filter(query)
+        persons = cf.Person.objects.select_related("user").filter(query)
 
         # Apply privacy filtering
         if not user.is_superuser:
             # Authenticated users see public + internal; anonymous see only public
-            privacy_filter = Q(privacy_level='public') | Q(privacy_level='internal')
+            privacy_filter = Q(privacy_level="public") | Q(privacy_level="internal")
 
             # Include user's own profile regardless of privacy_level
             try:
@@ -272,5 +314,5 @@ class AuthViewSet(viewsets.GenericViewSet):
             persons = persons.filter(privacy_filter)
 
         # Serialize and return
-        serializer = PersonProfileSerializer(persons, many=True, context={'request': request})
+        serializer = PersonProfileSerializer(persons, many=True, context={"request": request})
         return Response(serializer.data)

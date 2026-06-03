@@ -19,13 +19,19 @@ _LABEL_GRAPH_PATTERN = (
 )
 
 
-def _map_proficiency_level_uris_to_label_value_items(items: Collection[Node]) -> Dict[Node, LabelValueItem]:
-    mapping = get_labels_for_item_uris(items, Dataset.ONTOLOGIES, _LABEL_GRAPH_PATTERN, order_by=_VAR_LEVEL_ORDER)
+def _map_proficiency_level_uris_to_label_value_items(
+    items: Collection[Node],
+) -> Dict[Node, LabelValueItem]:
+    mapping = get_labels_for_item_uris(
+        items, Dataset.ONTOLOGIES, _LABEL_GRAPH_PATTERN, order_by=_VAR_LEVEL_ORDER
+    )
 
     return remap_to_label_value_item(mapping)
 
 
-def get_proficiency_levels_for_resources(resource_uri_refs: List[URIRef]) -> Dict[URIRef, List[LabelValueItem]]:
+def get_proficiency_levels_for_resources(
+    resource_uri_refs: List[URIRef],
+) -> Dict[URIRef, List[LabelValueItem]]:
     """
     Retrieve the proficiency levels for each of the given learning resource URIRefs.
 
@@ -35,5 +41,5 @@ def get_proficiency_levels_for_resources(resource_uri_refs: List[URIRef]) -> Dic
     return get_one_to_many_metadata_for_resources(
         resource_uri_refs=resource_uri_refs,
         relation=MoDalia.requiresProficiencyLevel,
-        items_mapping_fn=_map_proficiency_level_uris_to_label_value_items
+        items_mapping_fn=_map_proficiency_level_uris_to_label_value_items,
     )

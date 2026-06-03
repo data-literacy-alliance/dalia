@@ -25,11 +25,13 @@ def health_check(request):
     except Exception as e:
         cache_status = f"error: {str(e)}"
 
-    return Response({
-        "status": "healthy",
-        "version": "1.0.0",
-        "cache": cache_status,
-    })
+    return Response(
+        {
+            "status": "healthy",
+            "version": "1.0.0",
+            "cache": cache_status,
+        }
+    )
 
 
 @csrf_exempt

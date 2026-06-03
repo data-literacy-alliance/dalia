@@ -30,11 +30,7 @@ class NFDISocialAdapter(DefaultSocialAccountAdapter):
             return
 
         try:
-            email = (
-                sociallogin.email_addresses[0].email
-                if sociallogin.email_addresses
-                else None
-            )
+            email = sociallogin.email_addresses[0].email if sociallogin.email_addresses else None
             if not email:
                 logger.debug("No email found in social login")
                 return
@@ -49,14 +45,10 @@ class NFDISocialAdapter(DefaultSocialAccountAdapter):
             logger.info(f"Connected social account to existing user: {email}")
 
         except user_model.DoesNotExist:
-            logger.debug(
-                f"No existing user found for email: {email}, will create new user"
-            )
+            logger.debug(f"No existing user found for email: {email}, will create new user")
             pass
         except user_model.MultipleObjectsReturned:
-            logger.warning(
-                f"Multiple users found with email: {email}, using first match"
-            )
+            logger.warning(f"Multiple users found with email: {email}, using first match")
             existing_user = user_model.objects.filter(email__iexact=email).first()
             sociallogin.connect(request, existing_user)
         except Exception as e:

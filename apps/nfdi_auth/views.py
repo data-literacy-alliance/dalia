@@ -37,12 +37,14 @@ class CustomLoginView(LoginView):
             else:
                 login_url = f"/accounts/{app.provider}/login/?process=login"
 
-            enriched_providers.append({
-                "id": oidc_id,
-                "name": app.name,
-                "logo_url": logo_url,
-                "url": login_url,
-            })
+            enriched_providers.append(
+                {
+                    "id": oidc_id,
+                    "name": app.name,
+                    "logo_url": logo_url,
+                    "url": login_url,
+                }
+            )
 
         context["custom_social_providers"] = enriched_providers
         return context
@@ -101,9 +103,7 @@ def nfdi_oidc_login(request, provider_id):
 def nfdi_oidc_callback(request, provider_id):
     """OIDC callback — uses NFDIOpenIDConnectAdapter to ensure correct Basic Auth."""
     try:
-        view = OAuth2CallbackView.adapter_view(
-            NFDIOpenIDConnectAdapter(request, provider_id)
-        )
+        view = OAuth2CallbackView.adapter_view(NFDIOpenIDConnectAdapter(request, provider_id))
         return view(request)
     except SocialApp.DoesNotExist:
         raise Http404
@@ -129,8 +129,8 @@ class AdminStyledTwoFactorLoginView(TwoFactorLoginView):
     def get_form(self, step=None, **kwargs):
         form = super().get_form(step=step, **kwargs)
         for field in form.fields.values():
-            existing = field.widget.attrs.get('class', '')
-            field.widget.attrs['class'] = f"{self._INPUT_CLASSES} {existing}".strip()
+            existing = field.widget.attrs.get("class", "")
+            field.widget.attrs["class"] = f"{self._INPUT_CLASSES} {existing}".strip()
         return form
 
     def get_context_data(self, form, **kwargs):
@@ -145,9 +145,7 @@ def profile_view(request):
     sa = None
 
     if last_provider:
-        sa = SocialAccount.objects.filter(
-            user=request.user, provider=last_provider
-        ).first()
+        sa = SocialAccount.objects.filter(user=request.user, provider=last_provider).first()
 
     claims = sa.extra_data if sa else {}
 

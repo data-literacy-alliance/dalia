@@ -1,5 +1,5 @@
 # host-trigger.py
-import os;
+import os
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import subprocess
 from urllib.parse import urlparse, parse_qs
@@ -14,6 +14,7 @@ ADMIN_URL = os.environ.get("ADMIN_URL")
 
 VALID_ACTIONS = ["start", "build", "stop"]
 VALID_ENVS = ["dev", "staging", "prod"]
+
 
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -53,11 +54,14 @@ class Handler(BaseHTTPRequestHandler):
             subprocess.Popen(cmd)
             self.send_response(200)
             self.end_headers()
-            self.wfile.write(f"{action}-{environment} triggered\nCheck status: {ADMIN_URL}/health/{environment}/\n".encode())
+            self.wfile.write(
+                f"{action}-{environment} triggered\nCheck status: {ADMIN_URL}/health/{environment}/\n".encode()
+            )
         except Exception as e:
             self.send_response(500)
             self.end_headers()
             self.wfile.write(f"Error: {str(e)}\n".encode())
+
 
 if __name__ == "__main__":
     server = HTTPServer(("0.0.0.0", 9001), Handler)

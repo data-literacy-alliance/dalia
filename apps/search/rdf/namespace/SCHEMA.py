@@ -1,6 +1,7 @@
 """
 Terms from schema.org
 """
+
 from rdflib import URIRef
 
 NS = "https://schema.org/"

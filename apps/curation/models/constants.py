@@ -5,7 +5,7 @@ Feature-specific constants should stay in their respective modules.
 
 # Privacy levels for user preferences
 PRIVACY_CHOICES = [
-    ('public', 'Public'),
-    ('internal', 'Internal Only'),
-    ('private', 'Private'),
+    ("public", "Public"),
+    ("internal", "Internal Only"),
+    ("private", "Private"),
 ]

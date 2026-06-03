@@ -144,9 +144,7 @@ class UserDetailsAdmin(BaseModelAdmin):
                 if hasattr(person, "full_name")
                 else f"{person.first_name} {person.last_name}".strip()
             )
-            return format_html(
-                '<a href="{}" target="_blank">{}</a>', url, full_name or person.pk
-            )
+            return format_html('<a href="{}" target="_blank">{}</a>', url, full_name or person.pk)
         # Not every User has a linked Person (it is optional). RelatedObjectDoesNotExist is
         # the common case; broad except also covers unexpected DB errors — safe here because
         # N/A is a correct fallback for an admin-only read-only column.
@@ -238,8 +236,7 @@ class UserDetailsAdmin(BaseModelAdmin):
         if count == 0:
             return mark_safe('<span style="color: #999;">0</span>')
         url = (
-            reverse("admin:curation_communitymembership_changelist")
-            + f"?user__id__exact={obj.pk}"
+            reverse("admin:curation_communitymembership_changelist") + f"?user__id__exact={obj.pk}"
         )
         return format_html(
             '<a href="{}" target="_blank" style="color: #20c997;">{}</a>', url, count
@@ -285,9 +282,7 @@ class UserDetailsAdmin(BaseModelAdmin):
                 url,
             )
         except Exception:
-            create_url = reverse(
-                "admin:users_userdetails_create_person", args=[obj.pk]
-            )
+            create_url = reverse("admin:users_userdetails_create_person", args=[obj.pk])
             return format_html(
                 '<span style="color:#dc3545;font-weight:bold;">&#10007; Missing</span> '
                 '&nbsp;<a href="{}" style="background:#dc3545;color:#fff;padding:2px 8px;'

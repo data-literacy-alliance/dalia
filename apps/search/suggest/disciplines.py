@@ -2,7 +2,10 @@ from typing import List, Tuple
 
 from rdflib import Literal, OWL, RDF, SKOS, URIRef, Variable
 
-from search.api_models.api_models import CurationSuggestDisciplinesResultItem, CurationSuggestSearchRequest
+from search.api_models.api_models import (
+    CurationSuggestDisciplinesResultItem,
+    CurationSuggestSearchRequest,
+)
 from search.query.utils import filter_by_lang, query_ontologies_dataset
 from search.query_builder.query_builder import FILTER_EXISTS, QueryBuilder
 
@@ -33,13 +36,16 @@ from search.query_builder.query_builder import FILTER_EXISTS, QueryBuilder
 
 
 # data for endpoint /curation/suggest/disciplines
-def get_disciplines_suggestions(request: CurationSuggestSearchRequest = None) -> List[CurationSuggestDisciplinesResultItem]:
+def get_disciplines_suggestions(
+    request: CurationSuggestSearchRequest = None,
+) -> List[CurationSuggestDisciplinesResultItem]:
     all_results = [
         CurationSuggestDisciplinesResultItem(
             value=discipline[0],
             label=discipline[1],
-            children=get_child_disciplines_of_discipline(discipline[0])
-        ) for discipline in get_top_disciplines()
+            children=get_child_disciplines_of_discipline(discipline[0]),
+        )
+        for discipline in get_top_disciplines()
     ]
 
     # Apply search filter if provided
@@ -62,22 +68,23 @@ def _prepare_query_to_get_disciplines_metadata(discipline_selection_bgp: Tuple) 
     var_label = _VARIABLES["label"]
     var_notation = _VARIABLES["notation"]
 
-    return QueryBuilder().SELECT(
-        var_discipline,
-        var_label,
-    ).WHERE(
-        discipline_selection_bgp,
-        (var_discipline, RDF.type, SKOS.Concept),
-        FILTER_EXISTS(
-            (var_discipline, OWL.deprecated, Literal(True)),
-            state=False
-        ),
-        (var_discipline, SKOS.prefLabel, var_label),
-        filter_by_lang(var_label),
-        (var_discipline, SKOS.notation, var_notation)
-    ).ORDER_BY(
-        var_notation
-    ).build()
+    return (
+        QueryBuilder()
+        .SELECT(
+            var_discipline,
+            var_label,
+        )
+        .WHERE(
+            discipline_selection_bgp,
+            (var_discipline, RDF.type, SKOS.Concept),
+            FILTER_EXISTS((var_discipline, OWL.deprecated, Literal(True)), state=False),
+            (var_discipline, SKOS.prefLabel, var_label),
+            filter_by_lang(var_label),
+            (var_discipline, SKOS.notation, var_notation),
+        )
+        .ORDER_BY(var_notation)
+        .build()
+    )
 
 
 def get_top_disciplines() -> List[Tuple[URIRef, str]]:
@@ -88,7 +95,11 @@ def get_top_disciplines() -> List[Tuple[URIRef, str]]:
 
 def prepare_query_to_get_all_top_disciplines() -> str:
     return _prepare_query_to_get_disciplines_metadata(
-        (_VARIABLES["discipline"], SKOS.topConceptOf, URIRef("https://w3id.org/kim/hochschulfaechersystematik/scheme"))
+        (
+            _VARIABLES["discipline"],
+            SKOS.topConceptOf,
+            URIRef("https://w3id.org/kim/hochschulfaechersystematik/scheme"),
+        )
     )
 
 
@@ -96,15 +107,18 @@ def _disciplines_data_from_results(results) -> List[Tuple[URIRef, str]]:
     return [(result.discipline, str(result.label)) for result in results]
 
 
-def get_child_disciplines_of_discipline(discipline: URIRef) -> List[CurationSuggestDisciplinesResultItem]:
+def get_child_disciplines_of_discipline(
+    discipline: URIRef,
+) -> List[CurationSuggestDisciplinesResultItem]:
     query = prepare_query_to_get_all_narrower_disciplines_of_discipline(discipline)
     results = query_ontologies_dataset(query)
     return [
         CurationSuggestDisciplinesResultItem(
             value=discipline[0],
             label=discipline[1],
-            children=get_child_disciplines_of_discipline(discipline[0])
-        ) for discipline in _disciplines_data_from_results(results)
+            children=get_child_disciplines_of_discipline(discipline[0]),
+        )
+        for discipline in _disciplines_data_from_results(results)
     ]
 
 

@@ -46,6 +46,7 @@ from .serializers_curation import (
 # -------------------- shared mixins --------------------
 class _NameSearchMixin:
     """Adds ?search=foo (tries 'label', 'name', 'title', or 'slug' if present)."""
+
     def get_queryset(self):
         qs = super().get_queryset()
         term = self.request.query_params.get("search")
@@ -68,14 +69,14 @@ class _NameSearchMixin:
 class _ReadOnlyLookupViewset(_NameSearchMixin, viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.AllowAny]
     pagination_class = None
-    lookup_field = 'uuid'
+    lookup_field = "uuid"
 
     def get_object(self):
         lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
         lookup_value = self.kwargs[lookup_url_kwarg]
 
         try:
-            if self.lookup_field == 'uuid':
+            if self.lookup_field == "uuid":
                 return self.get_queryset().get(uuid=lookup_value)
             else:
                 return self.get_queryset().get(pk=lookup_value)
@@ -86,10 +87,15 @@ class _ReadOnlyLookupViewset(_NameSearchMixin, viewsets.ReadOnlyModelViewSet):
                 raise Http404(f"{self.get_queryset().model._meta.verbose_name} not found") from err
 
     @extend_schema(
-        parameters=[OpenApiParameter(
-            name="search", location=OpenApiParameter.QUERY, required=False,
-            description="Case-insensitive filter on name/title.", type=str
-        )]
+        parameters=[
+            OpenApiParameter(
+                name="search",
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description="Case-insensitive filter on name/title.",
+                type=str,
+            )
+        ]
     )
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
@@ -101,11 +107,12 @@ class _EditableLookupViewset(_NameSearchMixin, viewsets.ModelViewSet):
     Supports UUID lookups and allows POST, PUT, PATCH operations.
     Public READ access for vocabularies, authenticated WRITE access.
     """
+
     pagination_class = None
-    lookup_field = 'uuid'
+    lookup_field = "uuid"
 
     def get_permissions(self):
-        if self.action in ['list', 'retrieve']:
+        if self.action in ["list", "retrieve"]:
             return [permissions.AllowAny()]
         return [permissions.IsAuthenticated()]
 
@@ -114,7 +121,7 @@ class _EditableLookupViewset(_NameSearchMixin, viewsets.ModelViewSet):
         lookup_value = self.kwargs[lookup_url_kwarg]
 
         try:
-            if self.lookup_field == 'uuid':
+            if self.lookup_field == "uuid":
                 return self.get_queryset().get(uuid=lookup_value)
             else:
                 return self.get_queryset().get(pk=lookup_value)
@@ -125,10 +132,15 @@ class _EditableLookupViewset(_NameSearchMixin, viewsets.ModelViewSet):
                 raise Http404(f"{self.get_queryset().model._meta.verbose_name} not found") from err
 
     @extend_schema(
-        parameters=[OpenApiParameter(
-            name="search", location=OpenApiParameter.QUERY, required=False,
-            description="Case-insensitive filter on name/title.", type=str
-        )]
+        parameters=[
+            OpenApiParameter(
+                name="search",
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description="Case-insensitive filter on name/title.",
+                type=str,
+            )
+        ]
     )
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
@@ -143,14 +155,16 @@ class CommunityViewSet(_EditableLookupViewset):
 
     def create(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return Response({"detail": "Authentication required."}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                {"detail": "Authentication required."}, status=status.HTTP_401_UNAUTHORIZED
+            )
         write_serializer = CommunityWriteSerializer(data=request.data)
         write_serializer.is_valid(raise_exception=True)
         community = write_serializer.save()
         cf.CommunityMembership.objects.create(
             user=request.user,
             community=community,
-            role='owner',
+            role="owner",
             is_approved=True,
             approved_by=request.user,
         )
@@ -161,14 +175,14 @@ class CommunityViewSet(_EditableLookupViewset):
 
 @extend_schema(tags=["Curation - Disciplines"], summary="Disciplines")
 class DisciplineViewSet(_EditableLookupViewset):
-    queryset = cf.Discipline.objects.select_related('parent_id').all().order_by("label")
+    queryset = cf.Discipline.objects.select_related("parent_id").all().order_by("label")
     serializer_class = DisciplineSerializer
 
     def get_queryset(self):
         qs = super().get_queryset()
-        parent_id = self.request.query_params.get('parent_id')
+        parent_id = self.request.query_params.get("parent_id")
 
-        if parent_id == 'null' or parent_id == '':
+        if parent_id == "null" or parent_id == "":
             qs = qs.filter(parent_id__isnull=True)
         elif parent_id:
             qs = qs.filter(parent_id=parent_id)
@@ -178,7 +192,7 @@ class DisciplineViewSet(_EditableLookupViewset):
     @extend_schema(
         summary="Get root disciplines",
         description="Get all top-level disciplines (where parent_id is NULL)",
-        responses={200: OpenApiResponse(response=DisciplineSerializer(many=True))}
+        responses={200: OpenApiResponse(response=DisciplineSerializer(many=True))},
     )
     @action(detail=False, methods=["get"], url_path="roots")
     def roots(self, request):
@@ -189,7 +203,7 @@ class DisciplineViewSet(_EditableLookupViewset):
     @extend_schema(
         summary="Get children of discipline",
         description="Get direct children of specified discipline",
-        responses={200: OpenApiResponse(response=DisciplineSerializer(many=True))}
+        responses={200: OpenApiResponse(response=DisciplineSerializer(many=True))},
     )
     @action(detail=True, methods=["get"], url_path="children")
     def children(self, request, uuid=None, **kwargs):
@@ -201,7 +215,7 @@ class DisciplineViewSet(_EditableLookupViewset):
     @extend_schema(
         summary="Get descendants of discipline",
         description="Get all descendants (recursive children) of specified discipline",
-        responses={200: OpenApiResponse(response=DisciplineSerializer(many=True))}
+        responses={200: OpenApiResponse(response=DisciplineSerializer(many=True))},
     )
     @action(detail=True, methods=["get"], url_path="descendants")
     def descendants(self, request, uuid=None, **kwargs):
@@ -213,7 +227,7 @@ class DisciplineViewSet(_EditableLookupViewset):
     @extend_schema(
         summary="Get ancestors of discipline",
         description="Get all ancestors (recursive parents) of specified discipline",
-        responses={200: OpenApiResponse(response=DisciplineSerializer(many=True))}
+        responses={200: OpenApiResponse(response=DisciplineSerializer(many=True))},
     )
     @action(detail=True, methods=["get"], url_path="ancestors")
     def ancestors(self, request, uuid=None, **kwargs):
@@ -225,32 +239,29 @@ class DisciplineViewSet(_EditableLookupViewset):
     @extend_schema(
         summary="Get hierarchy tree",
         description="Get complete hierarchy tree starting from roots",
-        responses={200: OpenApiResponse(description="Nested hierarchy structure")}
+        responses={200: OpenApiResponse(description="Nested hierarchy structure")},
     )
     @action(detail=False, methods=["get"], url_path="tree")
     def tree(self, request):
         def build_tree_node(discipline):
             children = discipline.get_children().order_by("label")
             return {
-                'id': discipline.pk,
-                'uuid': str(discipline.uuid),
-                'label': discipline.label,
-                'slug': discipline.slug,
-                'uri': discipline.uri,
-                'parent_id': discipline.parent_id.pk if discipline.parent_id else None,
-                'parent_label': discipline.parent_label,
-                'level': discipline.get_level(),
-                'children_count': len(children),
-                'children': [build_tree_node(child) for child in children] if children else []
+                "id": discipline.pk,
+                "uuid": str(discipline.uuid),
+                "label": discipline.label,
+                "slug": discipline.slug,
+                "uri": discipline.uri,
+                "parent_id": discipline.parent_id.pk if discipline.parent_id else None,
+                "parent_label": discipline.parent_label,
+                "level": discipline.get_level(),
+                "children_count": len(children),
+                "children": [build_tree_node(child) for child in children] if children else [],
             }
 
         root_disciplines = cf.Discipline.get_root_disciplines().order_by("label")
         tree_data = [build_tree_node(root) for root in root_disciplines]
 
-        return Response({
-            'tree': tree_data,
-            'total_roots': len(tree_data)
-        })
+        return Response({"tree": tree_data, "total_roots": len(tree_data)})
 
 
 @extend_schema(tags=["Curation - File formats"], summary="File formats")
@@ -301,9 +312,9 @@ class PersonViewSet(_EditableLookupViewset):
 
         if search_term:
             qs = qs.filter(
-                Q(first_name__icontains=search_term) |
-                Q(last_name__icontains=search_term) |
-                Q(orcid__icontains=search_term)
+                Q(first_name__icontains=search_term)
+                | Q(last_name__icontains=search_term)
+                | Q(orcid__icontains=search_term)
             )
 
         # Enforce privacy: public profiles visible to all; own profile always accessible
@@ -314,7 +325,7 @@ class PersonViewSet(_EditableLookupViewset):
 
         if user.is_authenticated:
             # Logged-in users see public + internal profiles
-            privacy_filter = Q(privacy_level='public') | Q(privacy_level='internal')
+            privacy_filter = Q(privacy_level="public") | Q(privacy_level="internal")
             try:
                 own_person = cf.Person.objects.get(user=user)
                 privacy_filter |= Q(id=own_person.id)
@@ -322,7 +333,7 @@ class PersonViewSet(_EditableLookupViewset):
                 pass
         else:
             # Anonymous visitors see only public profiles
-            privacy_filter = Q(privacy_level='public')
+            privacy_filter = Q(privacy_level="public")
 
         return qs.filter(privacy_filter)
 
@@ -331,10 +342,14 @@ class PersonViewSet(_EditableLookupViewset):
         description="Retrieve a person record using their ORCID identifier.",
         responses={
             200: OpenApiResponse(response=PersonSerializer, description="Person found"),
-            404: OpenApiResponse(description="Person with this ORCID not found")
+            404: OpenApiResponse(description="Person with this ORCID not found"),
         },
     )
-    @action(detail=False, methods=["get"], url_path="orcid/(?P<orcid>[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X])")
+    @action(
+        detail=False,
+        methods=["get"],
+        url_path="orcid/(?P<orcid>[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X])",
+    )
     def by_orcid(self, request, orcid=None):
         try:
             person = self.get_queryset().get(orcid=orcid)
@@ -360,24 +375,25 @@ class TargetGroupViewSet(_EditableLookupViewset):
 @extend_schema(
     tags=["Curation - Resources"],
     summary="Resources (grouper)",
-    description="Exposes resource grouper objects. Supports UUID-based lookups."
+    description="Exposes resource grouper objects. Supports UUID-based lookups.",
 )
 class ResourceViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Exposes the grouper object. Creation happens implicitly from ResourceContentViewSet.
     Public READ access (read-only ViewSet).
     """
+
     queryset = cf.Resource.objects.all().order_by("-id")
     serializer_class = ResourceSerializer
     permission_classes = [permissions.AllowAny]
-    lookup_field = 'uuid'
+    lookup_field = "uuid"
 
     def get_object(self):
         lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
         lookup_value = self.kwargs[lookup_url_kwarg]
 
         try:
-            if self.lookup_field == 'uuid':
+            if self.lookup_field == "uuid":
                 return self.get_queryset().get(uuid=lookup_value)
             else:
                 return self.get_queryset().get(pk=lookup_value)
@@ -390,14 +406,14 @@ class ResourceViewSet(viewsets.ReadOnlyModelViewSet):
 
 class ContributionsPagination(PageNumberPagination):
     page_size = 9
-    page_size_query_param = 'page_size'
+    page_size_query_param = "page_size"
     max_page_size = 9
 
 
 @extend_schema(
     tags=["Curation - Resource contents"],
     summary="Resource contents (versions)",
-    description="Create/update DRAFT content versions. Supports UUID-based lookups."
+    description="Create/update DRAFT content versions. Supports UUID-based lookups.",
 )
 class ResourceContentViewSet(viewsets.ModelViewSet):
     """
@@ -405,12 +421,13 @@ class ResourceContentViewSet(viewsets.ModelViewSet):
     Curators/admins see all; regular users see their own drafts + published.
     Anonymous users see only published content.
     """
+
     queryset = cf.ResourceContent.objects.select_related("resource").all().order_by("-id")
-    lookup_field = 'uuid'
+    lookup_field = "uuid"
     pagination_class = ContributionsPagination
 
     def get_permissions(self):
-        if self.action in ['list', 'retrieve']:
+        if self.action in ["list", "retrieve"]:
             return [permissions.AllowAny()]
         return [permissions.IsAuthenticated()]
 
@@ -419,7 +436,7 @@ class ResourceContentViewSet(viewsets.ModelViewSet):
         lookup_value = self.kwargs[lookup_url_kwarg]
 
         try:
-            if self.lookup_field == 'uuid':
+            if self.lookup_field == "uuid":
                 return self.get_queryset().get(uuid=lookup_value)
             else:
                 return self.get_queryset().get(pk=lookup_value)
@@ -438,26 +455,31 @@ class ResourceContentViewSet(viewsets.ModelViewSet):
         user = self.request.user
         qs = cf.ResourceContent.objects.select_related("resource").all().order_by("-id")
 
-        filter_param = self.request.query_params.get('filter', 'my-resources') if self.action == 'list' else 'my-resources'
-        show_all_param = self.request.query_params.get('show_all', 'false').lower() == 'true'
+        filter_param = (
+            self.request.query_params.get("filter", "my-resources")
+            if self.action == "list"
+            else "my-resources"
+        )
+        show_all_param = self.request.query_params.get("show_all", "false").lower() == "true"
 
         # Curators/superusers with show_all=true: see all content
-        if show_all_param and user.is_authenticated and (
-            user.is_superuser or user.groups.filter(name="Curators").exists()
+        if (
+            show_all_param
+            and user.is_authenticated
+            and (user.is_superuser or user.groups.filter(name="Curators").exists())
         ):
-            if filter_param == 'archived':
+            if filter_param == "archived":
                 return qs.filter(resource__is_removed=True)
-            if filter_param == 'published':
-                return qs.filter(is_active=True, resource__is_published=True, resource__is_removed=False)
-            if filter_param == 'pending':
-                return qs.filter(submitted_for_review=True, resource__is_removed=False)
-            if filter_param == 'unpublished':
+            if filter_param == "published":
                 return qs.filter(
-                    submitted_for_review=False,
-                    resource__is_removed=False
-                ).filter(
-                    Q(resource__is_published=True, is_active=False) |
-                    Q(resource__is_published=False, is_active=True)
+                    is_active=True, resource__is_published=True, resource__is_removed=False
+                )
+            if filter_param == "pending":
+                return qs.filter(submitted_for_review=True, resource__is_removed=False)
+            if filter_param == "unpublished":
+                return qs.filter(submitted_for_review=False, resource__is_removed=False).filter(
+                    Q(resource__is_published=True, is_active=False)
+                    | Q(resource__is_published=False, is_active=True)
                 )
             return qs.filter(resource__is_removed=False)
 
@@ -465,29 +487,30 @@ class ResourceContentViewSet(viewsets.ModelViewSet):
         if user.is_authenticated:
             base = qs.filter(created_by=user)
 
-            if filter_param in ('my-resources', 'all'):
+            if filter_param in ("my-resources", "all"):
                 return base.filter(resource__is_removed=False)
 
-            if filter_param == 'published':
-                return base.filter(is_active=True, resource__is_published=True, resource__is_removed=False)
-
-            if filter_param == 'pending':
-                return base.filter(submitted_for_review=True, resource__is_removed=False)
-
-            if filter_param == 'unpublished':
+            if filter_param == "published":
                 return base.filter(
-                    submitted_for_review=False,
-                    resource__is_removed=False
-                ).filter(
-                    Q(resource__is_published=True, is_active=False) |
-                    Q(resource__is_published=False, is_active=True)
+                    is_active=True, resource__is_published=True, resource__is_removed=False
                 )
 
-            if filter_param == 'archived':
+            if filter_param == "pending":
+                return base.filter(submitted_for_review=True, resource__is_removed=False)
+
+            if filter_param == "unpublished":
+                return base.filter(submitted_for_review=False, resource__is_removed=False).filter(
+                    Q(resource__is_published=True, is_active=False)
+                    | Q(resource__is_published=False, is_active=True)
+                )
+
+            if filter_param == "archived":
                 return base.filter(resource__is_removed=True)
 
-            if filter_param == 'all-resources':
-                return qs.filter(is_active=True, resource__is_published=True, resource__is_removed=False)
+            if filter_param == "all-resources":
+                return qs.filter(
+                    is_active=True, resource__is_published=True, resource__is_removed=False
+                )
 
             # default fallback: same as my-resources
             return base.filter(resource__is_removed=False)
@@ -523,12 +546,12 @@ class ResourceContentViewSet(viewsets.ModelViewSet):
                     return Response({"resource": ["Resource not found."]}, status=400)
 
         # Add required user fields to data before validation
-        data['created_by'] = request.user.pk
+        data["created_by"] = request.user.pk
 
         # Handle submission for review
-        if data.get('submitted_for_review'):
-            data['submitted_by'] = request.user.pk
-            data['submitted_at'] = timezone.now().isoformat()
+        if data.get("submitted_for_review"):
+            data["submitted_by"] = request.user.pk
+            data["submitted_at"] = timezone.now().isoformat()
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
@@ -556,12 +579,11 @@ class ResourceContentViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=["post"], url_path="soft-delete")
     def soft_delete(self, request, uuid=None):
         content = self.get_object()
-        is_curator = request.user.is_superuser or request.user.groups.filter(name="Curators").exists()
-        # Owners may delete their own unpublished drafts; curators may delete anything
-        is_owner_of_draft = (
-            content.created_by == request.user
-            and not content.resource.is_published
+        is_curator = (
+            request.user.is_superuser or request.user.groups.filter(name="Curators").exists()
         )
+        # Owners may delete their own unpublished drafts; curators may delete anything
+        is_owner_of_draft = content.created_by == request.user and not content.resource.is_published
         if not (is_curator or is_owner_of_draft):
             return Response({"detail": "Not permitted"}, status=403)
         cf_services.soft_delete(content.resource, request.user)
@@ -570,16 +592,19 @@ class ResourceContentViewSet(viewsets.ModelViewSet):
 
 # -------------------- New Models ViewSets --------------------
 
+
 @extend_schema(
     tags=["Curation - Community Management"],
     summary="Community memberships",
-    description="Manage community memberships and roles."
+    description="Manage community memberships and roles.",
 )
 class CommunityMembershipViewSet(viewsets.ModelViewSet):
-    queryset = cf.CommunityMembership.objects.select_related("user", "community").all().order_by("-id")
+    queryset = (
+        cf.CommunityMembership.objects.select_related("user", "community").all().order_by("-id")
+    )
     serializer_class = CommunityMembershipSerializer
     permission_classes = [permissions.IsAuthenticated]
-    lookup_field = 'uuid'
+    lookup_field = "uuid"
 
     def get_queryset(self):
         user = self.request.user
@@ -589,20 +614,18 @@ class CommunityMembershipViewSet(viewsets.ModelViewSet):
             return qs
 
         admin_communities = cf.CommunityMembership.objects.filter(
-            user=user, role__in=['admin', 'owner']
-        ).values_list('community_id', flat=True)
+            user=user, role__in=["admin", "owner"]
+        ).values_list("community_id", flat=True)
 
         if admin_communities:
-            return qs.filter(
-                Q(user=user) | Q(community_id__in=admin_communities)
-            ).distinct()
+            return qs.filter(Q(user=user) | Q(community_id__in=admin_communities)).distinct()
 
         return qs.filter(user=user)
 
     @extend_schema(
         summary="Approve pending memberships",
         description="Approve selected membership requests (community admins only).",
-        responses={200: OpenApiResponse(description="Memberships approved")}
+        responses={200: OpenApiResponse(description="Memberships approved")},
     )
     @action(detail=True, methods=["post"], url_path="approve")
     def approve_membership(self, request, pk=None):
@@ -617,12 +640,12 @@ class CommunityMembershipViewSet(viewsets.ModelViewSet):
     @extend_schema(
         summary="Promote member role",
         description="Promote member to moderator (community admins only).",
-        responses={200: OpenApiResponse(description="Member promoted")}
+        responses={200: OpenApiResponse(description="Member promoted")},
     )
     @action(detail=True, methods=["post"], url_path="promote")
     def promote_member(self, request, pk=None):
         membership = self.get_object()
-        new_role = request.data.get('role', 'moderator')
+        new_role = request.data.get("role", "moderator")
 
         if not membership.community.user_can_admin(request.user):
             return Response({"detail": "Not permitted"}, status=403)
@@ -634,13 +657,13 @@ class CommunityMembershipViewSet(viewsets.ModelViewSet):
 @extend_schema(
     tags=["Curation - User Interactions"],
     summary="User bookmarks",
-    description="Personal bookmark management."
+    description="Personal bookmark management.",
 )
 class BookmarkViewSet(viewsets.ModelViewSet):
     queryset = cf.Bookmark.objects.select_related("content_type").all().order_by("-id")
     serializer_class = BookmarkSerializer
     permission_classes = [permissions.IsAuthenticated]
-    lookup_field = 'uuid'
+    lookup_field = "uuid"
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
@@ -651,20 +674,18 @@ class BookmarkViewSet(viewsets.ModelViewSet):
     @extend_schema(
         summary="Toggle bookmark",
         description="Add or remove bookmark for given content object.",
-        responses={200: OpenApiResponse(description="Bookmark toggled")}
+        responses={200: OpenApiResponse(description="Bookmark toggled")},
     )
     @action(detail=False, methods=["post"], url_path="toggle")
     def toggle_bookmark(self, request):
-        content_type_id = request.data.get('content_type')
-        object_id = request.data.get('object_id')
+        content_type_id = request.data.get("content_type")
+        object_id = request.data.get("object_id")
 
         if not content_type_id or not object_id:
             return Response({"detail": "content_type and object_id required"}, status=400)
 
         bookmark, created = cf.Bookmark.objects.get_or_create(
-            user=request.user,
-            content_type_id=content_type_id,
-            object_id=object_id
+            user=request.user, content_type_id=content_type_id, object_id=object_id
         )
 
         if not created:
@@ -677,13 +698,13 @@ class BookmarkViewSet(viewsets.ModelViewSet):
 @extend_schema(
     tags=["Curation - User Interactions"],
     summary="User likes",
-    description="User likes/favorites management."
+    description="User likes/favorites management.",
 )
 class LikeViewSet(viewsets.ModelViewSet):
     queryset = cf.Like.objects.select_related("content_type").all().order_by("-id")
     serializer_class = LikeSerializer
     permission_classes = [permissions.IsAuthenticated]
-    lookup_field = 'uuid'
+    lookup_field = "uuid"
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
@@ -694,20 +715,18 @@ class LikeViewSet(viewsets.ModelViewSet):
     @extend_schema(
         summary="Toggle like",
         description="Add or remove like for given content object.",
-        responses={200: OpenApiResponse(description="Like toggled")}
+        responses={200: OpenApiResponse(description="Like toggled")},
     )
     @action(detail=False, methods=["post"], url_path="toggle")
     def toggle_like(self, request):
-        content_type_id = request.data.get('content_type')
-        object_id = request.data.get('object_id')
+        content_type_id = request.data.get("content_type")
+        object_id = request.data.get("object_id")
 
         if not content_type_id or not object_id:
             return Response({"detail": "content_type and object_id required"}, status=400)
 
         like, created = cf.Like.objects.get_or_create(
-            user=request.user,
-            content_type_id=content_type_id,
-            object_id=object_id
+            user=request.user, content_type_id=content_type_id, object_id=object_id
         )
 
         if not created:
@@ -720,36 +739,40 @@ class LikeViewSet(viewsets.ModelViewSet):
 @extend_schema(
     tags=["Curation - Analytics"],
     summary="View events (Admin only)",
-    description="Analytics view events - read-only access for administrators."
+    description="Analytics view events - read-only access for administrators.",
 )
 class ViewEventViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = cf.ViewEvent.objects.select_related("content_type").all().order_by("-id")
     serializer_class = ViewEventSerializer
     permission_classes = [permissions.IsAdminUser]
-    lookup_field = 'uuid'
+    lookup_field = "uuid"
 
 
 @extend_schema(
     tags=["Curation - Analytics"],
     summary="Edit logs (Admin only)",
-    description="Audit trail edit logs - read-only access for administrators."
+    description="Audit trail edit logs - read-only access for administrators.",
 )
 class EditLogViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = cf.EditLog.objects.select_related("content_type").all().order_by("-id")
     serializer_class = EditLogSerializer
     permission_classes = [permissions.IsAdminUser]
-    lookup_field = 'uuid'
+    lookup_field = "uuid"
 
 
 @extend_schema(
     tags=["Curation - Review System"],
     summary="Reviews",
-    description="Review management. Reviewers see their reviews, moderators see community reviews."
+    description="Review management. Reviewers see their reviews, moderators see community reviews.",
 )
 class ReviewViewSet(viewsets.ModelViewSet):
-    queryset = cf.Review.objects.select_related("resource_content", "reviewer", "community").all().order_by("-id")
+    queryset = (
+        cf.Review.objects.select_related("resource_content", "reviewer", "community")
+        .all()
+        .order_by("-id")
+    )
     permission_classes = [permissions.IsAuthenticated]
-    lookup_field = 'uuid'
+    lookup_field = "uuid"
 
     def get_serializer_class(self):
         if self.action in ("list", "retrieve"):
@@ -764,8 +787,8 @@ class ReviewViewSet(viewsets.ModelViewSet):
             return qs
 
         moderated_communities = cf.CommunityMembership.objects.filter(
-            user=user, role__in=['moderator', 'admin', 'owner']
-        ).values_list('community_id', flat=True)
+            user=user, role__in=["moderator", "admin", "owner"]
+        ).values_list("community_id", flat=True)
 
         if moderated_communities:
             return qs.filter(
@@ -780,7 +803,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
     @extend_schema(
         summary="Submit review",
         description="Submit review for approval.",
-        responses={200: OpenApiResponse(description="Review submitted")}
+        responses={200: OpenApiResponse(description="Review submitted")},
     )
     @action(detail=True, methods=["post"], url_path="submit")
     def submit_review(self, request, pk=None):
@@ -789,7 +812,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
         if review.reviewer != request.user:
             return Response({"detail": "Not permitted"}, status=403)
 
-        review.status = 'submitted'
+        review.status = "submitted"
         review.submitted_at = timezone.now()
         review.save()
         return Response({"ok": True, "submitted": True})
@@ -797,7 +820,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
     @extend_schema(
         summary="Approve review",
         description="Approve review (moderators only).",
-        responses={200: OpenApiResponse(description="Review approved")}
+        responses={200: OpenApiResponse(description="Review approved")},
     )
     @action(detail=True, methods=["post"], url_path="approve")
     def approve_review(self, request, pk=None):
@@ -806,7 +829,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
         if not (review.community and review.community.user_can_moderate(request.user)):
             return Response({"detail": "Not permitted"}, status=403)
 
-        review.status = 'approved'
+        review.status = "approved"
         review.completed_at = timezone.now()
         review.save()
         return Response({"ok": True, "approved": True})
@@ -815,13 +838,15 @@ class ReviewViewSet(viewsets.ModelViewSet):
 @extend_schema(
     tags=["Curation - Review System"],
     summary="Review questions",
-    description="Review question configuration (community admins and moderators)."
+    description="Review question configuration (community admins and moderators).",
 )
 class ReviewQuestionViewSet(viewsets.ModelViewSet):
-    queryset = cf.ReviewQuestion.objects.select_related("community").all().order_by("community", "order")
+    queryset = (
+        cf.ReviewQuestion.objects.select_related("community").all().order_by("community", "order")
+    )
     serializer_class = ReviewQuestionSerializer
     permission_classes = [permissions.IsAuthenticated]
-    lookup_field = 'uuid'
+    lookup_field = "uuid"
 
     def get_queryset(self):
         user = self.request.user
@@ -831,14 +856,11 @@ class ReviewQuestionViewSet(viewsets.ModelViewSet):
             return qs
 
         managed_communities = cf.CommunityMembership.objects.filter(
-            user=user, role__in=['moderator', 'admin', 'owner']
-        ).values_list('community_id', flat=True)
+            user=user, role__in=["moderator", "admin", "owner"]
+        ).values_list("community_id", flat=True)
 
         if managed_communities:
-            return qs.filter(
-                Q(community__isnull=True) |
-                Q(community_id__in=managed_communities)
-            )
+            return qs.filter(Q(community__isnull=True) | Q(community_id__in=managed_communities))
 
         return qs.filter(community__isnull=True)
 
@@ -852,16 +874,21 @@ class ReviewQuestionViewSet(viewsets.ModelViewSet):
 
 # -------------------- Legal Compliance --------------------
 
+
 @extend_schema(
     tags=["Curation - Legal Compliance"],
     summary="Resource consents",
-    description="GDPR consent tracking."
+    description="GDPR consent tracking.",
 )
 class ResourceConsentViewSet(viewsets.ModelViewSet):
-    queryset = cf.ResourceConsent.objects.select_related("resource_content", "person").all().order_by("-id")
+    queryset = (
+        cf.ResourceConsent.objects.select_related("resource_content", "person")
+        .all()
+        .order_by("-id")
+    )
     serializer_class = ResourceConsentSerializer
     permission_classes = [permissions.IsAuthenticated]
-    lookup_field = 'uuid'
+    lookup_field = "uuid"
 
     def get_queryset(self):
         user = self.request.user
@@ -879,7 +906,7 @@ class ResourceConsentViewSet(viewsets.ModelViewSet):
     @extend_schema(
         summary="Grant consent",
         description="Grant consent with audit trail.",
-        responses={200: OpenApiResponse(description="Consent granted")}
+        responses={200: OpenApiResponse(description="Consent granted")},
     )
     @action(detail=True, methods=["post"], url_path="grant")
     def grant_consent(self, request, pk=None):
@@ -888,10 +915,10 @@ class ResourceConsentViewSet(viewsets.ModelViewSet):
         if consent.person.user != request.user and not request.user.is_superuser:
             return Response({"detail": "Not permitted"}, status=403)
 
-        consent_text = request.data.get('consent_text', '')
-        version = request.data.get('version', '1.0')
-        ip_address = request.META.get('REMOTE_ADDR')
-        user_agent = request.META.get('HTTP_USER_AGENT', '')
+        consent_text = request.data.get("consent_text", "")
+        version = request.data.get("version", "1.0")
+        ip_address = request.META.get("REMOTE_ADDR")
+        user_agent = request.META.get("HTTP_USER_AGENT", "")
 
         consent.grant_consent(consent_text, version, ip_address, user_agent)
         return Response({"ok": True, "granted": True})
@@ -899,7 +926,7 @@ class ResourceConsentViewSet(viewsets.ModelViewSet):
     @extend_schema(
         summary="Withdraw consent",
         description="Withdraw consent with reason.",
-        responses={200: OpenApiResponse(description="Consent withdrawn")}
+        responses={200: OpenApiResponse(description="Consent withdrawn")},
     )
     @action(detail=True, methods=["post"], url_path="withdraw")
     def withdraw_consent(self, request, pk=None):
@@ -908,7 +935,7 @@ class ResourceConsentViewSet(viewsets.ModelViewSet):
         if consent.person.user != request.user and not request.user.is_superuser:
             return Response({"detail": "Not permitted"}, status=403)
 
-        reason = request.data.get('reason', '')
+        reason = request.data.get("reason", "")
         consent.withdraw_consent(reason)
         return Response({"ok": True, "withdrawn": True})
 
@@ -916,13 +943,17 @@ class ResourceConsentViewSet(viewsets.ModelViewSet):
 @extend_schema(
     tags=["Curation - Legal Compliance"],
     summary="Publishing consents",
-    description="Publishing consent management with GDPR compliance."
+    description="Publishing consent management with GDPR compliance.",
 )
 class ResourcePublishingConsentViewSet(viewsets.ModelViewSet):
-    queryset = cf.ResourcePublishingConsent.objects.select_related("resource_content", "consenting_person").all().order_by("-id")
+    queryset = (
+        cf.ResourcePublishingConsent.objects.select_related("resource_content", "consenting_person")
+        .all()
+        .order_by("-id")
+    )
     serializer_class = ResourcePublishingConsentSerializer
     permission_classes = [permissions.IsAuthenticated]
-    lookup_field = 'uuid'
+    lookup_field = "uuid"
 
     def get_queryset(self):
         user = self.request.user
@@ -940,7 +971,7 @@ class ResourcePublishingConsentViewSet(viewsets.ModelViewSet):
     @extend_schema(
         summary="Withdraw all consents",
         description="Withdraw all consents for this resource.",
-        responses={200: OpenApiResponse(description="All consents withdrawn")}
+        responses={200: OpenApiResponse(description="All consents withdrawn")},
     )
     @action(detail=True, methods=["post"], url_path="withdraw-all")
     def withdraw_all_consents(self, request, pk=None):
@@ -949,17 +980,18 @@ class ResourcePublishingConsentViewSet(viewsets.ModelViewSet):
         if consent.consenting_person.user != request.user and not request.user.is_superuser:
             return Response({"detail": "Not permitted"}, status=403)
 
-        reason = request.data.get('reason', '')
+        reason = request.data.get("reason", "")
         consent.withdraw_all(reason)
         return Response({"ok": True, "withdrawn": True})
 
 
 # -------------------- Resource Relations --------------------
 
+
 @extend_schema(
     tags=["Curation - Relation Types"],
     summary="Relation type categories",
-    description="Categories for organizing relation types."
+    description="Categories for organizing relation types.",
 )
 class RelationTypeCategoryViewSet(_EditableLookupViewset):
     queryset = cf.RelationTypeCategory.objects.filter(is_active=True).order_by("order", "name")
@@ -967,10 +999,20 @@ class RelationTypeCategoryViewSet(_EditableLookupViewset):
 
     @extend_schema(
         parameters=[
-            OpenApiParameter(name="search", location=OpenApiParameter.QUERY, required=False,
-                             description="Case-insensitive search on category name.", type=str),
-            OpenApiParameter(name="ordering", location=OpenApiParameter.QUERY, required=False,
-                             description="Order by: order, name, -order, -name", type=str)
+            OpenApiParameter(
+                name="search",
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description="Case-insensitive search on category name.",
+                type=str,
+            ),
+            OpenApiParameter(
+                name="ordering",
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description="Order by: order, name, -order, -name",
+                type=str,
+            ),
         ]
     )
     def list(self, request, *args, **kwargs):
@@ -980,22 +1022,46 @@ class RelationTypeCategoryViewSet(_EditableLookupViewset):
 @extend_schema(
     tags=["Curation - Relation Types"],
     summary="Relation types",
-    description="Dynamic relation types with category organization."
+    description="Dynamic relation types with category organization.",
 )
 class RelationTypeViewSet(_EditableLookupViewset):
-    queryset = cf.RelationType.objects.filter(is_active=True).select_related("category").order_by("category__order", "order", "label")
+    queryset = (
+        cf.RelationType.objects.filter(is_active=True)
+        .select_related("category")
+        .order_by("category__order", "order", "label")
+    )
     serializer_class = RelationTypeSerializer
 
     @extend_schema(
         parameters=[
-            OpenApiParameter(name="search", location=OpenApiParameter.QUERY, required=False,
-                             description="Case-insensitive search on relation type code or label.", type=str),
-            OpenApiParameter(name="category_uuid", location=OpenApiParameter.QUERY, required=False,
-                             description="Filter by category UUID (comma-separated for multiple).", type=str),
-            OpenApiParameter(name="category", location=OpenApiParameter.QUERY, required=False,
-                             description="Filter by category name (comma-separated for multiple).", type=str),
-            OpenApiParameter(name="ordering", location=OpenApiParameter.QUERY, required=False,
-                             description="Order by: order, label, code, -order, -label, -code", type=str)
+            OpenApiParameter(
+                name="search",
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description="Case-insensitive search on relation type code or label.",
+                type=str,
+            ),
+            OpenApiParameter(
+                name="category_uuid",
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description="Filter by category UUID (comma-separated for multiple).",
+                type=str,
+            ),
+            OpenApiParameter(
+                name="category",
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description="Filter by category name (comma-separated for multiple).",
+                type=str,
+            ),
+            OpenApiParameter(
+                name="ordering",
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description="Order by: order, label, code, -order, -label, -code",
+                type=str,
+            ),
         ]
     )
     def list(self, request, *args, **kwargs):
@@ -1006,13 +1072,13 @@ class RelationTypeViewSet(_EditableLookupViewset):
 
         category_uuid = self.request.query_params.get("category_uuid")
         if category_uuid:
-            uuids = [uuid.strip() for uuid in category_uuid.split(',') if uuid.strip()]
+            uuids = [uuid.strip() for uuid in category_uuid.split(",") if uuid.strip()]
             if uuids:
                 qs = qs.filter(category__uuid__in=uuids)
 
         category_name = self.request.query_params.get("category")
         if category_name:
-            names = [name.strip() for name in category_name.split(',') if name.strip()]
+            names = [name.strip() for name in category_name.split(",") if name.strip()]
             if names:
                 name_filters = Q()
                 for name in names:
@@ -1021,87 +1087,112 @@ class RelationTypeViewSet(_EditableLookupViewset):
 
         ordering_param = self.request.query_params.get("ordering")
         if ordering_param:
-            allowed_fields = ['order', 'label', 'code', '-order', '-label', '-code']
+            allowed_fields = ["order", "label", "code", "-order", "-label", "-code"]
             if ordering_param in allowed_fields:
                 qs = qs.order_by(ordering_param)
 
         return qs
 
     @extend_schema(
-        parameters=[OpenApiParameter(
-            name="category_uuid", location=OpenApiParameter.QUERY, required=False,
-            description="Get relation types for specific category.", type=str
-        )]
+        parameters=[
+            OpenApiParameter(
+                name="category_uuid",
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description="Get relation types for specific category.",
+                type=str,
+            )
+        ]
     )
-    @action(detail=False, methods=['get'])
+    @action(detail=False, methods=["get"])
     def by_category(self, request):
         """Get relation types grouped by category."""
-        categories = cf.RelationTypeCategory.objects.filter(is_active=True).prefetch_related('relation_types').order_by('order', 'name')
+        categories = (
+            cf.RelationTypeCategory.objects.filter(is_active=True)
+            .prefetch_related("relation_types")
+            .order_by("order", "name")
+        )
         result = []
         for category in categories:
-            relation_types = category.relation_types.filter(is_active=True).order_by('order', 'label')
-            result.append({
-                'uuid': str(category.uuid),
-                'name': category.name,
-                'description': category.description,
-                'color': category.color,
-                'relation_types': RelationTypeSerializer(relation_types, many=True).data
-            })
+            relation_types = category.relation_types.filter(is_active=True).order_by(
+                "order", "label"
+            )
+            result.append(
+                {
+                    "uuid": str(category.uuid),
+                    "name": category.name,
+                    "description": category.description,
+                    "color": category.color,
+                    "relation_types": RelationTypeSerializer(relation_types, many=True).data,
+                }
+            )
         return Response(result)
 
 
 @extend_schema(
     tags=["Curation - Resource Relations"],
     summary="Resource links",
-    description="External resource links management."
+    description="External resource links management.",
 )
 class ResourceLinkViewSet(viewsets.ModelViewSet):
     queryset = cf.ResourceLink.objects.select_related("content").all().order_by("-id")
     serializer_class = ResourceLinkSerializer
     permission_classes = [permissions.IsAuthenticated]
-    lookup_field = 'uuid'
+    lookup_field = "uuid"
+
     def get_queryset(self):
         qs = super().get_queryset()
-        content_uuid = self.request.query_params.get('content')
+        content_uuid = self.request.query_params.get("content")
         if content_uuid:
             qs = qs.filter(content__uuid=content_uuid)
         return qs
-
 
 
 @extend_schema(
     tags=["Curation - Resource Relations"],
     summary="Community relations",
-    description="Resource-community association management."
+    description="Resource-community association management.",
 )
 class ResourceCommunityRelationViewSet(viewsets.ModelViewSet):
-    queryset = cf.ResourceCommunityRelation.objects.select_related("content", "community", "relation_type", "relation_type__category").all().order_by("-id")
+    queryset = (
+        cf.ResourceCommunityRelation.objects.select_related(
+            "content", "community", "relation_type", "relation_type__category"
+        )
+        .all()
+        .order_by("-id")
+    )
     serializer_class = ResourceCommunityRelationSerializer
     permission_classes = [permissions.IsAuthenticated]
-    lookup_field = 'uuid'
+    lookup_field = "uuid"
+
     def get_queryset(self):
         qs = super().get_queryset()
-        content_uuid = self.request.query_params.get('content')
+        content_uuid = self.request.query_params.get("content")
         if content_uuid:
             qs = qs.filter(content__uuid=content_uuid)
         return qs
-
 
 
 @extend_schema(
     tags=["Curation - Resource Relations"],
     summary="Related items",
-    description="Resource relationship management."
+    description="Resource relationship management.",
 )
 class ResourceRelatedItemViewSet(viewsets.ModelViewSet):
-    queryset = cf.ResourceRelatedItem.objects.select_related("content", "relation_type", "relation_type__category").all().order_by("-id")
+    queryset = (
+        cf.ResourceRelatedItem.objects.select_related(
+            "content", "relation_type", "relation_type__category"
+        )
+        .all()
+        .order_by("-id")
+    )
     serializer_class = ResourceRelatedItemSerializer
     permission_classes = [permissions.IsAuthenticated]
-    lookup_field = 'uuid'
+    lookup_field = "uuid"
+
     def get_queryset(self):
         qs = super().get_queryset()
-        content_uuid = self.request.query_params.get('content')
+        content_uuid = self.request.query_params.get("content")
         if content_uuid:
             qs = qs.filter(content__uuid=content_uuid)
         return qs
-

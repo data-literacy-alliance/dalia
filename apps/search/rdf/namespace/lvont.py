@@ -1,6 +1,7 @@
 """
 Terms from the Lexvo.org Ontology (http://lexvo.org/ontology)
 """
+
 from rdflib import URIRef
 
 NS = "http://lexvo.org/ontology#"

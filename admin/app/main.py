@@ -12,6 +12,7 @@ HOST_TRIGGER = "http://host-trigger:9001"  # ← this is the internal hostname
 STATUS_PATH = "/status"
 VALID_ENVS = {"dev", "staging", "prod"}
 
+
 @app.get("/trigger")
 def trigger(secret: str = Header(None), action: str = Query(...), environment: str = Query(...)):
     if secret != SECRET_KEY:
@@ -21,16 +22,18 @@ def trigger(secret: str = Header(None), action: str = Query(...), environment: s
         response = requests.get(
             f"{HOST_TRIGGER}/?action={action}&environment={environment}",
             headers={"secret": SECRET_KEY},
-            timeout=5
+            timeout=5,
         )
         response.raise_for_status()
         return {"message": response.text.strip()}
     except requests.RequestException as e:
         raise HTTPException(status_code=500, detail=f"Host trigger failed: {e}")
 
+
 @app.get("/health", response_class=PlainTextResponse)
 def root_health():
     return PlainTextResponse("Server is running")
+
 
 # LOGS are not displayed for security reasons
 # def get_log_tail(log_file: str, lines: int = 20) -> str:
@@ -45,6 +48,7 @@ def root_health():
 #     f"✅ {environment} is {status}\n\nLast logs:\n{log_tail}",
 #     status_code=200
 # )
+
 
 def get_health(environment: str) -> PlainTextResponse:
     if environment not in VALID_ENVS:
@@ -73,6 +77,7 @@ def get_health(environment: str) -> PlainTextResponse:
         return PlainTextResponse(f"✅ {environment} is {status}", status_code=200)
 
     return PlainTextResponse(f"⚠️ Unknown status: {status}", status_code=500)
+
 
 @app.get("/health/{environment}", response_class=PlainTextResponse)
 @app.get("/health/{environment}/", response_class=PlainTextResponse)

@@ -9,7 +9,9 @@ from search.rdf.namespace import MoDalia
 
 
 # data for endpoint /curation/suggest/relation-types
-def get_relation_types_suggestions(request: CurationSuggestSearchRequest = None) -> List[LabelValueItem]:
+def get_relation_types_suggestions(
+    request: CurationSuggestSearchRequest = None,
+) -> List[LabelValueItem]:
     query = prepare_query_to_get_relation_types()
     results = query_ontologies_dataset(query)
     all_results = [_process_result(result) for result in results]
@@ -32,19 +34,18 @@ def prepare_query_to_get_relation_types() -> str:
     var_type = _VARIABLES["type"]
     var_label = _VARIABLES["label"]
 
-    return QueryBuilder().SELECT(
-        *_VARIABLES.values()
-    ).WHERE(
-        (var_type, RDFS.subPropertyOf, MoDalia.isRelatedTo),
-        (var_type, RDFS.label, var_label),
-        filter_by_lang(var_label),
-    ).ORDER_BY(
-        var_label
-    ).build()
+    return (
+        QueryBuilder()
+        .SELECT(*_VARIABLES.values())
+        .WHERE(
+            (var_type, RDFS.subPropertyOf, MoDalia.isRelatedTo),
+            (var_type, RDFS.label, var_label),
+            filter_by_lang(var_label),
+        )
+        .ORDER_BY(var_label)
+        .build()
+    )
 
 
 def _process_result(result) -> LabelValueItem:
-    return LabelValueItem(
-        label=str(result.label),
-        value=str(result.type)
-    )
+    return LabelValueItem(label=str(result.label), value=str(result.type))

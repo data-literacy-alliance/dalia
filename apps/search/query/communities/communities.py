@@ -23,5 +23,8 @@ def get_metadata_for_community(community_id: UUID) -> Optional[Community]:
 def get_metadata_for_communities(community_uri_refs: List[URIRef]) -> List[Community]:
     communities_metadata = get_one_to_one_metadata_for_communities(community_uri_refs)
 
-    return [community for community_uri_ref in community_uri_refs
-            if (community := communities_metadata.get(community_uri_ref))]
+    return [
+        community
+        for community_uri_ref in community_uri_refs
+        if (community := communities_metadata.get(community_uri_ref))
+    ]

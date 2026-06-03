@@ -16,7 +16,7 @@ _LABEL_GRAPH_PATTERN = (
 
 def _map_language_uris_to_string_label(items: Collection[Node]) -> Dict[Node, str]:
     mapping = get_labels_for_item_uris(items, Dataset.ONTOLOGIES, _LABEL_GRAPH_PATTERN)
-    #print(f"DEBUG (languages.py): _map_language_uris_to_string_label mapping: {mapping}") # ADD THIS LINE
+    # print(f"DEBUG (languages.py): _map_language_uris_to_string_label mapping: {mapping}") # ADD THIS LINE
     return mapping
 
 
@@ -27,9 +27,9 @@ def get_languages_for_resources(resource_uri_refs: List[URIRef]) -> Dict[URIRef,
     :param resource_uri_refs: List of learning resource URIRefs
     :return: Associations between the learning resource URIRefs and their respective list of languages.
     """
-    #print(f"DEBUG (languages.py): get_languages_for_resources called with resource_uri_refs: {resource_uri_refs}")  # ADD THIS LINE
+    # print(f"DEBUG (languages.py): get_languages_for_resources called with resource_uri_refs: {resource_uri_refs}")  # ADD THIS LINE
     return get_one_to_many_metadata_for_resources(
         resource_uri_refs=resource_uri_refs,
         relation=DCTERMS.language,
-        items_mapping_fn=_map_language_uris_to_string_label
+        items_mapping_fn=_map_language_uris_to_string_label,
     )

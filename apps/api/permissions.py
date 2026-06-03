@@ -52,10 +52,7 @@ class IsCuratorOrReadOnly(permissions.BasePermission):
         if not request.user.is_authenticated:
             return False
 
-        return (
-            request.user.is_superuser or
-            request.user.groups.filter(name="Curators").exists()
-        )
+        return request.user.is_superuser or request.user.groups.filter(name="Curators").exists()
 
 
 class IsAdminOrOwner(permissions.BasePermission):
@@ -70,11 +67,11 @@ class IsAdminOrOwner(permissions.BasePermission):
             return True
 
         # Check various owner fields
-        if hasattr(obj, 'owner') and obj.owner == request.user:
+        if hasattr(obj, "owner") and obj.owner == request.user:
             return True
-        if hasattr(obj, 'user') and obj.user == request.user:
+        if hasattr(obj, "user") and obj.user == request.user:
             return True
-        if hasattr(obj, 'created_by') and obj.created_by == request.user:
+        if hasattr(obj, "created_by") and obj.created_by == request.user:
             return True
 
         return False

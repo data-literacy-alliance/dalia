@@ -1,6 +1,7 @@
 """
 Terms from the MoDalia ontology (https://git.rwth-aachen.de/dalia/dalia-ontology/-/blob/main/MoDalia.ttl)
 """
+
 from rdflib import URIRef
 
 NS = "https://purl.org/ontology/modalia#"

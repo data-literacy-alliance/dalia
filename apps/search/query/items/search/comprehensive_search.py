@@ -24,7 +24,9 @@ from search.api_models.api_models import (
     ItemSearchRequest,
     ItemSearchResult,
 )
-from search.query.items.facets.active_facets_extraction import extract_active_facets_from_selected_facets
+from search.query.items.facets.active_facets_extraction import (
+    extract_active_facets_from_selected_facets,
+)
 from search.query.items.facets.facet_objects import (
     COMMUNITY_FACET,
     FacetObject,
@@ -33,7 +35,9 @@ from search.query.items.search.text_search import (
     _ITEM_SEARCH_FACETS,
     _ITEM_SEARCH_FACETS_MAPPED_BY_KEY,
 )
-from search.query.items.search.text_search_query import prepare_where_for_text_search_for_learning_resources
+from search.query.items.search.text_search_query import (
+    prepare_where_for_text_search_for_learning_resources,
+)
 from search.query.items.metadata.items import get_metadata_for_learning_resources
 from search.query.utils import query_dalia_dataset
 from search.query_builder.query_builder import (
@@ -66,8 +70,8 @@ def search_items_comprehensive(request: ItemSearchRequest) -> ItemSearchResult:
     offset = request.offset
     sort_by = request.sortBy
     sort_order = request.sortOrder
-    date_published_after = getattr(request, 'datePublished_after', None)
-    date_published_before = getattr(request, 'datePublished_before', None)
+    date_published_after = getattr(request, "datePublished_after", None)
+    date_published_before = getattr(request, "datePublished_before", None)
 
     active_facets = extract_active_facets_from_selected_facets(
         selected_facets, _ITEM_SEARCH_FACETS_MAPPED_BY_KEY
@@ -75,8 +79,7 @@ def search_items_comprehensive(request: ItemSearchRequest) -> ItemSearchResult:
 
     # Step 1: Get matching URIs only (no OPTIONAL joins = no cartesian product)
     all_uris = _get_matching_uris(
-        text_query, active_facets, sort_by, sort_order,
-        date_published_after, date_published_before
+        text_query, active_facets, sort_by, sort_order, date_published_after, date_published_before
     )
 
     # Step 2: Fetch all facet values for the result URIs and count in Python
@@ -84,7 +87,7 @@ def search_items_comprehensive(request: ItemSearchRequest) -> ItemSearchResult:
 
     # Step 3: Paginate in memory
     total_count = len(all_uris)
-    paginated_uris = all_uris[offset:offset + limit]
+    paginated_uris = all_uris[offset : offset + limit]
 
     # Step 4: Fetch metadata only for current page
     resources = get_metadata_for_learning_resources(paginated_uris)
@@ -121,33 +124,43 @@ def _get_matching_uris(
     var_score = Variable("score")
     var_created = Variable("created")
 
-    builder = QueryBuilder().SELECT(
-        var_lr,
-        distinct=True,
-    ).WHERE(
-        *prepare_where_for_text_search_for_learning_resources(
-            text_query,
-            active_facets,
+    builder = (
+        QueryBuilder()
+        .SELECT(
             var_lr,
-            var_score,
-            var_created,
-            date_published_after,
-            date_published_before,
-        ),
+            distinct=True,
+        )
+        .WHERE(
+            *prepare_where_for_text_search_for_learning_resources(
+                text_query,
+                active_facets,
+                var_lr,
+                var_score,
+                var_created,
+                date_published_after,
+                date_published_before,
+            ),
+        )
     )
 
     if sort_by == "relevance":
         from search.query_builder.query_builder import FunctionExpressions
+
         sort_fn = FunctionExpressions.DESC if sort_order == "dsc" else FunctionExpressions.ASC
         builder.ORDER_BY(sort_fn(var_score))
     elif sort_by == "created":
         from search.query_builder.query_builder import FunctionExpressions
-        from search.rdf.namespace.xpath_functions import day_from_date, month_from_date, year_from_date
+        from search.rdf.namespace.xpath_functions import (
+            day_from_date,
+            month_from_date,
+            year_from_date,
+        )
+
         sort_fn = FunctionExpressions.DESC if sort_order == "dsc" else FunctionExpressions.ASC
         builder.ORDER_BY(
             sort_fn(FunctionExpressions(year_from_date, var_created)),
             sort_fn(FunctionExpressions(month_from_date, var_created)),
-            sort_fn(FunctionExpressions(day_from_date, var_created))
+            sort_fn(FunctionExpressions(day_from_date, var_created)),
         )
 
     query = builder.build()
@@ -164,7 +177,7 @@ def _get_matching_uris(
 
 
 def _fetch_and_count_facets_from_results(
-    all_uris: List[URIRef]
+    all_uris: List[URIRef],
 ) -> Dict[FacetObject, Dict[Node, int]]:
     """
     Fetch all facet values for the given URIs and count in Python.
@@ -215,16 +228,14 @@ def _fetch_and_count_facets_from_results(
                     counts[facet][value] += 1
             except Exception as e:
                 import logging
+
                 logger = logging.getLogger(__name__)
                 logger.error(f"Failed to fetch facet values for {facet.label}: {e}")
 
     return {facet: dict(counter) for facet, counter in counts.items()}
 
 
-def _fetch_facet_values(
-    uris: List[URIRef],
-    predicates: List[URIRef]
-) -> List[Node]:
+def _fetch_facet_values(uris: List[URIRef], predicates: List[URIRef]) -> List[Node]:
     """
     Fetch all values for the given predicates across all URIs.
     Returns a list of values (may contain duplicates if multiple URIs have same value).
@@ -235,7 +246,7 @@ def _fetch_facet_values(
     if len(predicates) == 1:
         where_clause = [
             VALUES([var_lr], [(uri,) for uri in uris]),
-            (var_lr, predicates[0], var_value)
+            (var_lr, predicates[0], var_value),
         ]
     else:
         where_clause = [
@@ -252,8 +263,7 @@ def _fetch_facet_values(
 
 
 def _compile_facets_with_counts(
-    facet_counts: Dict[FacetObject, Dict[Node, int]],
-    active_facets: Dict[FacetObject, List[Node]]
+    facet_counts: Dict[FacetObject, Dict[Node, int]], active_facets: Dict[FacetObject, List[Node]]
 ) -> List[Facet]:
     """
     Compile facets with counts for frontend.
@@ -277,19 +287,11 @@ def _compile_facets_with_counts(
             is_active = item_key_str in active_items_str
 
             facet_items.append(
-                FacetItem(
-                    label=item_label,
-                    value=item_key_str,
-                    active=is_active,
-                    count=count
-                )
+                FacetItem(label=item_label, value=item_key_str, active=is_active, count=count)
             )
 
         facet = Facet()
-        facet.facetCategory = FacetCategory(
-            label=facet_obj.label,
-            name=str(facet_obj.key)
-        )
+        facet.facetCategory = FacetCategory(label=facet_obj.label, name=str(facet_obj.key))
         facet.facetItems = facet_items
         facets.append(facet)
 

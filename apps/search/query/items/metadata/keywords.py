@@ -21,5 +21,5 @@ def get_keywords_metadata_for_resources(resource_uri_refs: List[URIRef]) -> Dict
     return get_one_to_many_metadata_for_resources(
         resource_uri_refs=resource_uri_refs,
         relation=SCHEMA.keywords,
-        items_mapping_fn=_map_keyword_literals_to_string
+        items_mapping_fn=_map_keyword_literals_to_string,
     )

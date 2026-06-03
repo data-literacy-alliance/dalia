@@ -1,6 +1,7 @@
 """
 Admin classes for profile models (Person, Organization).
 """
+
 from core.admin import BaseModelAdmin
 from curation.models import Organization, Person
 from django.contrib import admin

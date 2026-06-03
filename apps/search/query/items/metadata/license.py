@@ -19,25 +19,25 @@ def prepare_query_for_license_info(license_uri: URIRef) -> str:
     var_crossref = Variable("crossref")
     var_order = Variable("order")
 
-    return QueryBuilder().SELECT(
-        *_VARIABLES.values()
-    ).WHERE(
-        VALUES(
-            [var_license],
-            [[license_uri]]
-        ),
-        (var_license, RDF.type, spdx.ListedLicense),
-        OPTIONAL((var_license, spdx.licenseId, _VARIABLES["licenseId"])),
-        OPTIONAL((var_license, spdx.name, _VARIABLES["name"])),
-        OPTIONAL(
-            (var_license, spdx.crossRef_P, var_crossref),
-            (var_crossref, RDF.type, spdx.CrossRef_T),
-            (var_crossref, spdx.order, var_order),
-            (var_crossref, spdx.url, _VARIABLES["url"])
-        ),
-    ).ORDER_BY(
-        FunctionExpressions.ASC(var_order)
-    ).LIMIT(1).build()
+    return (
+        QueryBuilder()
+        .SELECT(*_VARIABLES.values())
+        .WHERE(
+            VALUES([var_license], [[license_uri]]),
+            (var_license, RDF.type, spdx.ListedLicense),
+            OPTIONAL((var_license, spdx.licenseId, _VARIABLES["licenseId"])),
+            OPTIONAL((var_license, spdx.name, _VARIABLES["name"])),
+            OPTIONAL(
+                (var_license, spdx.crossRef_P, var_crossref),
+                (var_crossref, RDF.type, spdx.CrossRef_T),
+                (var_crossref, spdx.order, var_order),
+                (var_crossref, spdx.url, _VARIABLES["url"]),
+            ),
+        )
+        .ORDER_BY(FunctionExpressions.ASC(var_order))
+        .LIMIT(1)
+        .build()
+    )
 
 
 def _license_from_results(results) -> License:

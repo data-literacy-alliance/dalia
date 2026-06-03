@@ -12,6 +12,7 @@ class UUIDMixin(models.Model):
     Adds a unique, non-editable UUID to a model.
     Not a primary key - external-stable identifier.
     """
+
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, db_index=True)
 
     class Meta:
@@ -33,6 +34,7 @@ class UUIDMixin(models.Model):
 
 class TimeStampedModel(models.Model):
     """Adds created and modified timestamp fields."""
+
     created = models.DateTimeField(default=timezone.now, editable=False)
     modified = models.DateTimeField(auto_now=True)
 
@@ -42,6 +44,7 @@ class TimeStampedModel(models.Model):
 
 class Activatable(models.Model):
     """Adds is_active field for soft delete pattern."""
+
     is_active = models.BooleanField(default=True)
 
     class Meta:
@@ -53,6 +56,7 @@ class NamedVocabulary(UUIDMixin, Activatable, TimeStampedModel):
     Base class for controlled vocabulary models.
     Provides label, slug, URI fields with auto-slugification.
     """
+
     label = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     uri = models.URLField(blank=True)
@@ -72,6 +76,7 @@ class NamedVocabulary(UUIDMixin, Activatable, TimeStampedModel):
 
 class OrderedModel(models.Model):
     """Adds ordering functionality for child models."""
+
     order = models.PositiveIntegerField(default=0)
 
     class Meta:

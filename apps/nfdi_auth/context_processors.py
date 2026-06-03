@@ -14,9 +14,11 @@ def nfdi_claims(request):
         sa = None
 
         if last_provider:
-            sa = SocialAccount.objects.get(
-                user=request.user, provider=last_provider
-            ) if last_provider else None
+            sa = (
+                SocialAccount.objects.get(user=request.user, provider=last_provider)
+                if last_provider
+                else None
+            )
 
         if not sa:
             return {}
@@ -26,11 +28,13 @@ def nfdi_claims(request):
         # Optional: include token metadata - for dev purposes
         token = SocialToken.objects.filter(account=sa).first()
         if token:
-            claims.update({
-                "access_token": token.token,
-                "refresh_token": token.token_secret,
-                "expires_at": token.expires_at,
-            })
+            claims.update(
+                {
+                    "access_token": token.token,
+                    "refresh_token": token.token_secret,
+                    "expires_at": token.expires_at,
+                }
+            )
 
         return {"nfdi_claims": sa.extra_data}
     except SocialAccount.DoesNotExist:

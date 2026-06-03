@@ -1,6 +1,7 @@
 """
 Forms for curation app (frontend use).
 """
+
 from __future__ import annotations
 
 from curation.models import (
@@ -74,12 +75,14 @@ class ResourceCommunityRelationForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["relation_type"].queryset = RelationType.objects.filter(
-            is_active=True
-        ).select_related("category").order_by("category__order", "order", "label")
-        self.fields["relation_type"].help_text = (
-            "Select the type of relationship between this resource and the community."
+        self.fields["relation_type"].queryset = (
+            RelationType.objects.filter(is_active=True)
+            .select_related("category")
+            .order_by("category__order", "order", "label")
         )
+        self.fields[
+            "relation_type"
+        ].help_text = "Select the type of relationship between this resource and the community."
 
 
 class ResourceRelatedItemForm(forms.ModelForm):
@@ -91,12 +94,14 @@ class ResourceRelatedItemForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["relation_type"].queryset = RelationType.objects.filter(
-            is_active=True
-        ).select_related("category").order_by("category__order", "order", "label")
-        self.fields["relation_type"].help_text = (
-            "Select how this resource relates to the target URL."
+        self.fields["relation_type"].queryset = (
+            RelationType.objects.filter(is_active=True)
+            .select_related("category")
+            .order_by("category__order", "order", "label")
         )
+        self.fields[
+            "relation_type"
+        ].help_text = "Select how this resource relates to the target URL."
 
 
 LinkFormSet = inlineformset_factory(

@@ -1,6 +1,7 @@
 """
 Terms from the Bibliographic Ontology (https://dcmi.github.io/bibo/)
 """
+
 from rdflib import URIRef
 
 NS = "http://purl.org/ontology/bibo/"

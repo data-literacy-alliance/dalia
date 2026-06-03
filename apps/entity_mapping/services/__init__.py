@@ -6,8 +6,8 @@ from .transformation_service import TransformationService
 from .entity_creation_service import EntityCreationService
 
 __all__ = [
-    'FusekiQueryService',
-    'ImportCandidateService',
-    'TransformationService',
-    'EntityCreationService',
+    "FusekiQueryService",
+    "ImportCandidateService",
+    "TransformationService",
+    "EntityCreationService",
 ]

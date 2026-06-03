@@ -9,7 +9,9 @@ from search.rdf.namespace import MoDalia, hcrt
 
 
 # data for endpoint /curation/suggest/learning-resource-types
-def get_learning_resource_types_suggestions(request: CurationSuggestSearchRequest = None) -> List[LabelValueItem]:
+def get_learning_resource_types_suggestions(
+    request: CurationSuggestSearchRequest = None,
+) -> List[LabelValueItem]:
     query = prepare_query_to_get_learning_resource_types()
     results = query_ontologies_dataset(query)
     all_results = [_process_result(result) for result in results]
@@ -44,31 +46,29 @@ def prepare_query_to_get_learning_resource_types() -> str:
     var_lrt = _VARIABLES["lrt"]
     var_label = _VARIABLES["label"]
 
-    return QueryBuilder().SELECT(
-        *_VARIABLES.values()
-    ).WHERE(
-        QueryBuilder().SELECT(
-            var_lrt, distinct=True
-        ).WHERE(
-            GROUP(
-                (var_lrt, RDFS.subClassOf, MoDalia.LearningResourceType),
-            ),
-            UNION(
-                (var_lrt, SKOS.topConceptOf, hcrt.scheme),
-            ),
-            FILTER(
-                Operators.IN(var_lrt, *_EXCLUDED_LEARNING_RESOURCE_TYPES, state=False)
-            ),
-        ).build(),
-        (var_lrt, SKOS.prefLabel, var_label),
-        filter_by_lang(var_label),
-    ).ORDER_BY(
-        var_label
-    ).build()
+    return (
+        QueryBuilder()
+        .SELECT(*_VARIABLES.values())
+        .WHERE(
+            QueryBuilder()
+            .SELECT(var_lrt, distinct=True)
+            .WHERE(
+                GROUP(
+                    (var_lrt, RDFS.subClassOf, MoDalia.LearningResourceType),
+                ),
+                UNION(
+                    (var_lrt, SKOS.topConceptOf, hcrt.scheme),
+                ),
+                FILTER(Operators.IN(var_lrt, *_EXCLUDED_LEARNING_RESOURCE_TYPES, state=False)),
+            )
+            .build(),
+            (var_lrt, SKOS.prefLabel, var_label),
+            filter_by_lang(var_label),
+        )
+        .ORDER_BY(var_label)
+        .build()
+    )
 
 
 def _process_result(result) -> LabelValueItem:
-    return LabelValueItem(
-        label=str(result.label),
-        value=str(result.lrt)
-    )
+    return LabelValueItem(label=str(result.label), value=str(result.lrt))

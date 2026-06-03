@@ -13,9 +13,7 @@ def clear_review_on_publish(sender, instance, **kwargs):
     Uses queryset.update() to bypass post_save signals on ResourceContent.
     """
     if instance.is_published:
-        instance.contents.filter(submitted_for_review=True).update(
-            submitted_for_review=False
-        )
+        instance.contents.filter(submitted_for_review=True).update(submitted_for_review=False)
 
 
 @receiver(post_save, sender=ResourceContent)

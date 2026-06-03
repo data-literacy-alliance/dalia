@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     "unfold.contrib.filters",
     "unfold.contrib.forms",
     "unfold.contrib.import_export",
-
     # Django core apps
     "django.contrib.admin",
     "django.contrib.auth",
@@ -64,7 +63,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
-
     # Third-party apps
     "rest_framework",
     "rest_framework.authtoken",
@@ -88,7 +86,6 @@ INSTALLED_APPS = [
     "django_elasticsearch_dsl_drf",
     "taggit",
     "sortedm2m",
-
     # DALIA apps
     "core",
     "pages",
@@ -97,7 +94,6 @@ INSTALLED_APPS = [
     "account_deletion",
     "nfdi_auth",
     "api",
-
     # Search + GraphDB apps (Fuseki-backed)
     "search",
     "recommendation",
@@ -269,7 +265,7 @@ AXES_LOCKOUT_PARAMETERS = [["username", "ip_address"]]
 # Django Import/Export
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 IMPORT_EXPORT_SKIP_ADMIN_LOG = False
-IMPORT_EXPORT_TMP_STORAGE_CLASS = 'import_export.tmp_storages.TempFolderStorage'
+IMPORT_EXPORT_TMP_STORAGE_CLASS = "import_export.tmp_storages.TempFolderStorage"
 IMPORT_EXPORT_ESCAPE_FORMULAE_ON_EXPORT = True  # Security: prevent CSV injection
 
 # Django Unfold

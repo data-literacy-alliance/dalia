@@ -94,13 +94,19 @@ class DisciplineAdmin(BaseModelAdmin):
     readonly_fields = ("uuid", "parent_label")
 
     fieldsets = (
-        (None, {
-            "fields": ("label", "slug", "uri", "parent_id", "uuid", "is_active"),
-        }),
-        ("Auto-populated", {
-            "fields": ("parent_label",),
-            "classes": ("collapse",),
-        }),
+        (
+            None,
+            {
+                "fields": ("label", "slug", "uri", "parent_id", "uuid", "is_active"),
+            },
+        ),
+        (
+            "Auto-populated",
+            {
+                "fields": ("parent_label",),
+                "classes": ("collapse",),
+            },
+        ),
     )
 
     def get_queryset(self, request):
@@ -110,6 +116,7 @@ class DisciplineAdmin(BaseModelAdmin):
         level = obj.get_level()
         indent = "    " * level
         return format_html("{}{}", indent, obj.label)
+
     indented_label.short_description = "Label"
     indented_label.admin_order_field = "label"
 
@@ -118,6 +125,7 @@ class DisciplineAdmin(BaseModelAdmin):
         if count > 0:
             return format_html("<strong>{}</strong>", count)
         return count
+
     children_count.short_description = "Children"
 
     @admin.action(description="Move selected disciplines to root level")

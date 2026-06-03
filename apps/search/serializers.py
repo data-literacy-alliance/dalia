@@ -4,6 +4,7 @@ Django REST Framework serializers for search and curation suggest endpoints.
 These serializers use DataclassSerializer to automatically serialize/deserialize
 dataclass-based API models defined in api_models/api_models.py.
 """
+
 from rest_framework_dataclasses.serializers import DataclassSerializer
 
 import search.api_models.api_models as api_models
