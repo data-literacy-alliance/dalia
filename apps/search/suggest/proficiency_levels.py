@@ -9,7 +9,9 @@ from search.rdf.namespace import MoDalia
 
 
 # data for endpoint /curation/suggest/proficiency-levels
-def get_proficiency_levels_suggestions(request: CurationSuggestSearchRequest = None) -> List[LabelValueItem]:
+def get_proficiency_levels_suggestions(
+    request: CurationSuggestSearchRequest = None,
+) -> List[LabelValueItem]:
     query = prepare_query_to_get_proficiency_levels()
     results = query_ontologies_dataset(query)
     all_results = [_process_result(result) for result in results]
@@ -33,20 +35,19 @@ def prepare_query_to_get_proficiency_levels() -> str:
     var_level_order = Variable("levelOrder")
     var_label = _VARIABLES["label"]
 
-    return QueryBuilder().SELECT(
-        *_VARIABLES.values()
-    ).WHERE(
-        (var_level, RDF.type, MoDalia.Proficiency),
-        (var_level, MoDalia.hasOrder, var_level_order),
-        (var_level, RDFS.label, var_label),
-        filter_by_lang(var_label),
-    ).ORDER_BY(
-        var_level_order
-    ).build()
+    return (
+        QueryBuilder()
+        .SELECT(*_VARIABLES.values())
+        .WHERE(
+            (var_level, RDF.type, MoDalia.Proficiency),
+            (var_level, MoDalia.hasOrder, var_level_order),
+            (var_level, RDFS.label, var_label),
+            filter_by_lang(var_label),
+        )
+        .ORDER_BY(var_level_order)
+        .build()
+    )
 
 
 def _process_result(result) -> LabelValueItem:
-    return LabelValueItem(
-        label=str(result.label),
-        value=str(result.level)
-    )
+    return LabelValueItem(label=str(result.label), value=str(result.level))

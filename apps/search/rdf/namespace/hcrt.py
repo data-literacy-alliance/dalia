@@ -2,6 +2,7 @@
 Terms from Hochschulcampus Ressourcentypen
 (https://skohub.io/dini-ag-kim/hcrt/heads/master/w3id.org/kim/hcrt/scheme.html)
 """
+
 from rdflib import URIRef
 
 NS = "https://w3id.org/kim/hcrt/"

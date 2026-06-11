@@ -48,17 +48,14 @@ def sync_person_from_nfdi(sender, request, sociallogin, **kwargs):
     """
     if sociallogin.account.provider != "iam4nfdi":
         logger.debug(
-            f"Skipping Person sync - not NFDI login "
-            f"(provider: {sociallogin.account.provider})"
+            f"Skipping Person sync - not NFDI login (provider: {sociallogin.account.provider})"
         )
         return
 
     user = sociallogin.user
     claims = sociallogin.account.extra_data
 
-    logger.debug(
-        f"sync_person_from_nfdi triggered for user: {user.username} (ID: {user.id})"
-    )
+    logger.debug(f"sync_person_from_nfdi triggered for user: {user.username} (ID: {user.id})")
     logger.debug(f"NFDI Claims received: {claims}")
 
     try:
@@ -101,21 +98,14 @@ def sync_person_from_nfdi(sender, request, sociallogin, **kwargs):
 
             if updated:
                 person.save(update_fields=["first_name", "last_name", "modified"])
-                logger.info(
-                    f"Updated Person for user {user.username}: "
-                    f"{first_name} {last_name}"
-                )
+                logger.info(f"Updated Person for user {user.username}: {first_name} {last_name}")
             else:
                 logger.debug(f"Person already up-to-date for user {user.username}")
         else:
-            logger.info(
-                f"Created Person for user {user.username}: {first_name} {last_name}"
-            )
+            logger.info(f"Created Person for user {user.username}: {first_name} {last_name}")
 
     except Exception as e:
-        logger.error(
-            f"Error syncing Person for user {user.username}: {e}", exc_info=True
-        )
+        logger.error(f"Error syncing Person for user {user.username}: {e}", exc_info=True)
 
 
 @receiver(user_logged_in)

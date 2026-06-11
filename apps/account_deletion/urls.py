@@ -11,13 +11,13 @@ from .views import (
     AccountDeletionRequestViewSet,
 )
 
-app_name = 'account_deletion'
+app_name = "account_deletion"
 
 router = DefaultRouter()
-router.register('requests', AccountDeletionRequestViewSet, basename='deletion-requests')
-router.register('items', AccountDeletionItemViewSet, basename='deletion-items')
-router.register('logs', AccountDeletionLogViewSet, basename='deletion-logs')
+router.register("requests", AccountDeletionRequestViewSet, basename="deletion-requests")
+router.register("items", AccountDeletionItemViewSet, basename="deletion-items")
+router.register("logs", AccountDeletionLogViewSet, basename="deletion-logs")
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path("", include(router.urls)),
 ]

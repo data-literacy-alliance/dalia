@@ -9,12 +9,18 @@ import uuid
 from typing import Dict, List, Optional, Any
 
 from search.suggest import (
-    licenses, learning_resource_types, proficiency_levels,
-    target_groups, media_types, languages, communities
+    licenses,
+    learning_resource_types,
+    proficiency_levels,
+    target_groups,
+    media_types,
+    languages,
+    communities,
     # disciplines excluded: No transformer implemented
 )
 from search.api_models.api_models import (
-    CurationSuggestSearchRequest, CurationSuggestLicensesRequest
+    CurationSuggestSearchRequest,
+    CurationSuggestLicensesRequest,
 )
 
 
@@ -29,20 +35,22 @@ class FusekiQueryService:
 
     # Supported entity types
     SUPPORTED_ENTITY_TYPES = {
-        'license',
+        "license",
         # 'discipline',  # Disabled: No transformer implemented
-        'learning_resource_type',
-        'proficiency_level',
-        'target_group',
-        'media_type',
-        'language',
-        'community'
+        "learning_resource_type",
+        "proficiency_level",
+        "target_group",
+        "media_type",
+        "language",
+        "community",
     }
 
     def __init__(self):
         self.logger = logging.getLogger(self.__class__.__name__)
 
-    def discover_all_entities_by_type(self, entity_type: str, limit: int = 1000) -> List[Dict[str, Any]]:
+    def discover_all_entities_by_type(
+        self, entity_type: str, limit: int = 1000
+    ) -> List[Dict[str, Any]]:
         """
         Discover all entities of a specific type using DALIA suggest functions.
 
@@ -59,8 +67,8 @@ class FusekiQueryService:
 
         try:
             # Call the appropriate suggest function based on entity type
-            if entity_type == 'license':
-                request = CurationSuggestLicensesRequest(q='*', limit=limit, offset=0, filter='all')
+            if entity_type == "license":
+                request = CurationSuggestLicensesRequest(q="*", limit=limit, offset=0, filter="all")
                 result = licenses.search_all_licenses(request)
                 return self._process_suggest_result(result.results, entity_type)
 
@@ -69,33 +77,33 @@ class FusekiQueryService:
             #     result = disciplines.get_disciplines_suggestions(request)
             #     return self._process_suggest_result(result.results, entity_type)
 
-            elif entity_type == 'learning_resource_type':
+            elif entity_type == "learning_resource_type":
                 request = CurationSuggestSearchRequest(q=None, limit=limit, offset=0)
                 result = learning_resource_types.get_learning_resource_types_suggestions(request)
                 return self._process_suggest_result(result, entity_type)
 
-            elif entity_type == 'proficiency_level':
+            elif entity_type == "proficiency_level":
                 request = CurationSuggestSearchRequest(q=None, limit=limit, offset=0)
                 result = proficiency_levels.get_proficiency_levels_suggestions(request)
                 return self._process_suggest_result(result, entity_type)
 
-            elif entity_type == 'target_group':
+            elif entity_type == "target_group":
                 request = CurationSuggestSearchRequest(q=None, limit=limit, offset=0)
                 result = target_groups.get_target_groups_suggestions(request)
                 return self._process_suggest_result(result, entity_type)
 
-            elif entity_type == 'media_type':
+            elif entity_type == "media_type":
                 request = CurationSuggestSearchRequest(q=None, limit=limit, offset=0)
                 result = media_types.get_media_types_suggestions(request)
                 return self._process_suggest_result(result, entity_type)
 
-            elif entity_type == 'language':
-                request = CurationSuggestSearchRequest(q='*', limit=limit, offset=0)
+            elif entity_type == "language":
+                request = CurationSuggestSearchRequest(q="*", limit=limit, offset=0)
                 result = languages.get_languages_suggestions(request)
                 return self._process_suggest_result(result.results, entity_type)
 
-            elif entity_type == 'community':
-                request = CurationSuggestSearchRequest(q='*', limit=limit, offset=0)
+            elif entity_type == "community":
+                request = CurationSuggestSearchRequest(q="*", limit=limit, offset=0)
                 result = communities.get_communities_suggestions(request)
                 return self._process_suggest_result(result.results, entity_type)
 
@@ -141,7 +149,7 @@ class FusekiQueryService:
         """
         try:
             # Handle different item types based on the suggest function
-            if hasattr(item, 'value') and hasattr(item, 'label'):
+            if hasattr(item, "value") and hasattr(item, "label"):
                 # LabelValueItem from learning_resource_types, media_types, proficiency_levels, target_groups
                 fuseki_uri = item.value
                 label = item.label
@@ -152,16 +160,20 @@ class FusekiQueryService:
                     # Fallback: generate UUID if we can't extract from URI
                     fuseki_uuid = str(uuid.uuid4())
 
-                metadata = {'label': label}
+                metadata = {"label": label}
 
             else:
                 # Legacy handling for other item types (licenses, disciplines, communities)
-                fuseki_uri = getattr(item, 'value', None) or getattr(item, 'uri', None) or getattr(item, 'id', None)
+                fuseki_uri = (
+                    getattr(item, "value", None)
+                    or getattr(item, "uri", None)
+                    or getattr(item, "id", None)
+                )
                 if not fuseki_uri:
                     return None
 
                 # Try to get UUID from item attribute first
-                fuseki_uuid = getattr(item, 'uuid', None)
+                fuseki_uuid = getattr(item, "uuid", None)
                 if not fuseki_uuid:
                     # Try to extract UUID from URI (fragment or path segment)
                     fuseki_uuid = self._extract_uuid_from_uri(fuseki_uri)
@@ -170,57 +182,71 @@ class FusekiQueryService:
                         fuseki_uuid = str(uuid.uuid4())
 
                 # Extract label/name based on entity type
-                if entity_type == 'license':
-                    label = getattr(item, 'licenseName', '') or getattr(item, 'label', '')
+                if entity_type == "license":
+                    label = getattr(item, "licenseName", "") or getattr(item, "label", "")
                 else:
-                    label = getattr(item, 'label', '') or getattr(item, 'name', '') or getattr(item, 'title', '')
+                    label = (
+                        getattr(item, "label", "")
+                        or getattr(item, "name", "")
+                        or getattr(item, "title", "")
+                    )
 
                 # Build metadata dictionary
-                metadata = {'label': label}
+                metadata = {"label": label}
 
                 # Add entity-type-specific metadata
-                if entity_type == 'license':
-                    metadata.update({
-                        'license_id': getattr(item, 'licenseId', ''),
-                        'license_link': getattr(item, 'licenseLink', ''),
-                        'description': getattr(item, 'licenseDescription', ''),
-                    })
+                if entity_type == "license":
+                    metadata.update(
+                        {
+                            "license_id": getattr(item, "licenseId", ""),
+                            "license_link": getattr(item, "licenseLink", ""),
+                            "description": getattr(item, "licenseDescription", ""),
+                        }
+                    )
                 # elif entity_type == 'discipline':
                 #     metadata.update({
                 #         'description': getattr(item, 'description', ''),
                 #         'parent_id': getattr(item, 'parentId', ''),
                 #     })
-                elif entity_type == 'language':
+                elif entity_type == "language":
                     # Extract language code from URI for duplicate detection
                     code = self._extract_language_code_from_uri(fuseki_uri)
-                    metadata.update({
-                        'code': code if code else '',
-                        'uri': fuseki_uri,  # Add URI for Language model
-                        'native_name': getattr(item, 'native_name', ''),
-                    })
-                elif entity_type == 'community':
-                    metadata.update({
-                        'description': getattr(item, 'description', ''),
-                        'homepage': getattr(item, 'homepage', ''),
-                    })
+                    metadata.update(
+                        {
+                            "code": code if code else "",
+                            "uri": fuseki_uri,  # Add URI for Language model
+                            "native_name": getattr(item, "native_name", ""),
+                        }
+                    )
+                elif entity_type == "community":
+                    metadata.update(
+                        {
+                            "description": getattr(item, "description", ""),
+                            "homepage": getattr(item, "homepage", ""),
+                        }
+                    )
                 else:
                     # Generic metadata for other types
-                    metadata.update({
-                        'description': getattr(item, 'description', ''),
-                    })
+                    metadata.update(
+                        {
+                            "description": getattr(item, "description", ""),
+                        }
+                    )
 
             return {
-                'entity_type': entity_type,
-                'fuseki_uri': fuseki_uri,
-                'fuseki_uuid': fuseki_uuid,
-                'metadata': metadata
+                "entity_type": entity_type,
+                "fuseki_uri": fuseki_uri,
+                "fuseki_uuid": fuseki_uuid,
+                "metadata": metadata,
             }
 
         except Exception as e:
             self.logger.warning(f"Error processing suggest result for {entity_type}: {e}")
             return None
 
-    def search_entities_by_query(self, entity_type: str, query: str, limit: int = 100) -> List[Dict[str, Any]]:
+    def search_entities_by_query(
+        self, entity_type: str, query: str, limit: int = 100
+    ) -> List[Dict[str, Any]]:
         """
         Search for entities of a specific type using a text query.
 
@@ -238,8 +264,10 @@ class FusekiQueryService:
 
         try:
             # Call the appropriate suggest function with the query
-            if entity_type == 'license':
-                request = CurationSuggestLicensesRequest(q=query, limit=limit, offset=0, filter='all')
+            if entity_type == "license":
+                request = CurationSuggestLicensesRequest(
+                    q=query, limit=limit, offset=0, filter="all"
+                )
                 result = licenses.search_all_licenses(request)
                 return self._process_suggest_result(result.results, entity_type)
 
@@ -248,40 +276,40 @@ class FusekiQueryService:
             #     result = disciplines.get_disciplines_suggestions(request)
             #     return self._process_suggest_result(result.results, entity_type)
 
-            elif entity_type == 'learning_resource_type':
+            elif entity_type == "learning_resource_type":
                 # Use None for wildcard search, otherwise use the actual query
-                search_query = None if query == '*' else query
+                search_query = None if query == "*" else query
                 request = CurationSuggestSearchRequest(q=search_query, limit=limit, offset=0)
                 result = learning_resource_types.get_learning_resource_types_suggestions(request)
                 return self._process_suggest_result(result, entity_type)
 
-            elif entity_type == 'proficiency_level':
+            elif entity_type == "proficiency_level":
                 # Use None for wildcard search, otherwise use the actual query
-                search_query = None if query == '*' else query
+                search_query = None if query == "*" else query
                 request = CurationSuggestSearchRequest(q=search_query, limit=limit, offset=0)
                 result = proficiency_levels.get_proficiency_levels_suggestions(request)
                 return self._process_suggest_result(result, entity_type)
 
-            elif entity_type == 'target_group':
+            elif entity_type == "target_group":
                 # Use None for wildcard search, otherwise use the actual query
-                search_query = None if query == '*' else query
+                search_query = None if query == "*" else query
                 request = CurationSuggestSearchRequest(q=search_query, limit=limit, offset=0)
                 result = target_groups.get_target_groups_suggestions(request)
                 return self._process_suggest_result(result, entity_type)
 
-            elif entity_type == 'media_type':
+            elif entity_type == "media_type":
                 # Use None for wildcard search, otherwise use the actual query
-                search_query = None if query == '*' else query
+                search_query = None if query == "*" else query
                 request = CurationSuggestSearchRequest(q=search_query, limit=limit, offset=0)
                 result = media_types.get_media_types_suggestions(request)
                 return self._process_suggest_result(result, entity_type)
 
-            elif entity_type == 'language':
+            elif entity_type == "language":
                 request = CurationSuggestSearchRequest(q=query, limit=limit, offset=0)
                 result = languages.get_languages_suggestions(request)
                 return self._process_suggest_result(result.results, entity_type)
 
-            elif entity_type == 'community':
+            elif entity_type == "community":
                 request = CurationSuggestSearchRequest(q=query, limit=limit, offset=0)
                 result = communities.get_communities_suggestions(request)
                 return self._process_suggest_result(result.results, entity_type)
@@ -309,10 +337,10 @@ class FusekiQueryService:
         for entity_type in self.SUPPORTED_ENTITY_TYPES:
             try:
                 # Extract a search term from the URI (use the fragment or last part)
-                if '#' in uri:
-                    search_term = uri.split('#')[-1]
-                elif '/' in uri:
-                    search_term = uri.split('/')[-1]
+                if "#" in uri:
+                    search_term = uri.split("#")[-1]
+                elif "/" in uri:
+                    search_term = uri.split("/")[-1]
                 else:
                     search_term = uri
 
@@ -321,7 +349,7 @@ class FusekiQueryService:
 
                 # Look for exact URI match
                 for entity in entities:
-                    if entity.get('fuseki_uri') == uri:
+                    if entity.get("fuseki_uri") == uri:
                         return entity
 
             except Exception as e:
@@ -383,17 +411,17 @@ class FusekiQueryService:
             return None
 
         # First check fragment (after #)
-        if '#' in uri:
-            fragment = uri.split('#')[-1]
+        if "#" in uri:
+            fragment = uri.split("#")[-1]
             if self._is_valid_uuid(fragment):
                 return fragment
 
         # Then check all path segments (split by /)
-        parts = uri.rstrip('/').split('/')
+        parts = uri.rstrip("/").split("/")
         for part in reversed(parts):  # Check from end to start
             # Remove fragment if present
-            if '#' in part:
-                part = part.split('#')[0]
+            if "#" in part:
+                part = part.split("#")[0]
             if part and self._is_valid_uuid(part):
                 return part
 
@@ -417,17 +445,18 @@ class FusekiQueryService:
             return None
 
         import re
+
         # Pattern: http://lexvo.org/id/iso639-X/CODE
-        match = re.search(r'/iso639-[0-9]/([a-zA-Z]{2,3})$', uri)
+        match = re.search(r"/iso639-[0-9]/([a-zA-Z]{2,3})$", uri)
         if match:
             return match.group(1).lower()
 
         # Try extracting last segment as fallback
-        parts = uri.rstrip('/').split('/')
+        parts = uri.rstrip("/").split("/")
         if parts:
             last_part = parts[-1]
             # Validate it looks like a language code (2-3 letters)
-            if re.match(r'^[a-zA-Z]{2,3}$', last_part):
+            if re.match(r"^[a-zA-Z]{2,3}$", last_part):
                 return last_part.lower()
 
         return None

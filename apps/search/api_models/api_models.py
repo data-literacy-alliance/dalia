@@ -48,7 +48,7 @@ class Version:
 
 
 class Type(Enum):
-    Event = 'Event'
+    Event = "Event"
 
 
 @dataclass
@@ -131,7 +131,9 @@ class SocialMedia:
 class SelectedFacet:
     key: str  # facet category
     # facet items selected in the category
-    selected: List[str] = field(metadata={"serializer_kwargs": {"child_kwargs": {"allow_blank": True}}})
+    selected: List[str] = field(
+        metadata={"serializer_kwargs": {"child_kwargs": {"allow_blank": True}}}
+    )
 
 
 @dataclass
@@ -186,7 +188,9 @@ class Community:
     image: Optional[str] = None
     url: Optional[str] = None
     social_media: Optional[List[SocialMedia]] = None
-    about: Optional[str] = field(default=None, metadata={"serializer_kwargs": {"allow_blank": True}})
+    about: Optional[str] = field(
+        default=None, metadata={"serializer_kwargs": {"allow_blank": True}}
+    )
     likes: Optional[int] = None
     views: Optional[int] = None
     followers: Optional[int] = None
@@ -198,10 +202,14 @@ class BaseItem:
     slug: Optional[UniqueSlug] = None
     title: Optional[str] = None
     communities: Optional[List[Community]] = None
-    description: Optional[str] = field(default=None, metadata={"serializer_kwargs": {"allow_blank": True}})
+    description: Optional[str] = field(
+        default=None, metadata={"serializer_kwargs": {"allow_blank": True}}
+    )
     authors: Optional[List[Union[PersonAuthor, OrganizationAuthor]]] = field(
         default=None,
-        metadata={"serializer_kwargs": {"child_kwargs": {"discriminator_field_name": "authorType"}}},
+        metadata={
+            "serializer_kwargs": {"child_kwargs": {"discriminator_field_name": "authorType"}}
+        },
     )
     url: Optional[str] = None
     image: Optional[str] = None

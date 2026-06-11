@@ -1,6 +1,7 @@
 """
 Admin classes for community-related models.
 """
+
 from core.admin import BaseModelAdmin
 from curation.models import Community, CommunityMembership
 from django.contrib import admin
@@ -22,16 +23,25 @@ class CommunityMembershipAdmin(BaseModelAdmin):
     readonly_fields = ("uuid", "joined_at", "approved_at")
 
     fieldsets = (
-        (None, {
-            "fields": ("user", "community", "role", "uuid"),
-        }),
-        ("Approval", {
-            "fields": ("is_approved", "approved_by", "approved_at"),
-        }),
-        ("Permissions", {
-            "fields": ("permissions_granted", "sync_with_group"),
-            "classes": ("collapse",),
-        }),
+        (
+            None,
+            {
+                "fields": ("user", "community", "role", "uuid"),
+            },
+        ),
+        (
+            "Approval",
+            {
+                "fields": ("is_approved", "approved_by", "approved_at"),
+            },
+        ),
+        (
+            "Permissions",
+            {
+                "fields": ("permissions_granted", "sync_with_group"),
+                "classes": ("collapse",),
+            },
+        ),
     )
 
     @admin.action(description="Approve selected memberships")

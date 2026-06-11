@@ -164,10 +164,7 @@ def get_suggested_contents_id(uuid: UUID) -> Set:
     results = set()
     for i in range(len(RANKING)):
         for result in RANKING[i](uuid):
-            if (
-                _LEARNING_RESOURCE_BASE_URI
-                == result[: len(_LEARNING_RESOURCE_BASE_URI)]
-            ):
+            if _LEARNING_RESOURCE_BASE_URI == result[: len(_LEARNING_RESOURCE_BASE_URI)]:
                 results.add(result)
             if len(results) == number_of_materials:
                 return results

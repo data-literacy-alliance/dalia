@@ -72,25 +72,49 @@ ResourcePublishingConsent = consents.ResourcePublishingConsent
 
 __all__ = [
     # Base classes
-    "UUIDMixin", "TimeStampedModel", "Activatable", "NamedVocabulary", "OrderedModel",
+    "UUIDMixin",
+    "TimeStampedModel",
+    "Activatable",
+    "NamedVocabulary",
+    "OrderedModel",
     # Constants
     "PRIVACY_CHOICES",
     # Profiles
-    "Person", "Organization",
+    "Person",
+    "Organization",
     # Vocabularies
-    "LearningResourceType", "Discipline", "License", "ProficiencyLevel",
-    "TargetGroup", "FileFormat", "MediaType", "Language",
+    "LearningResourceType",
+    "Discipline",
+    "License",
+    "ProficiencyLevel",
+    "TargetGroup",
+    "FileFormat",
+    "MediaType",
+    "Language",
     # Resources
-    "ResourceManager", "ResourceContentManager", "Resource", "ResourceContent",
+    "ResourceManager",
+    "ResourceContentManager",
+    "Resource",
+    "ResourceContent",
     # Relations
-    "RelationTypeCategory", "RelationType", "ResourceLink",
-    "ResourceRelatedItem", "ResourceCommunityRelation",
+    "RelationTypeCategory",
+    "RelationType",
+    "ResourceLink",
+    "ResourceRelatedItem",
+    "ResourceCommunityRelation",
     # Communities
-    "Community", "CommunityMembership",
+    "Community",
+    "CommunityMembership",
     # Interactions
-    "Bookmark", "Like", "ViewEvent", "EditLog",
+    "Bookmark",
+    "Like",
+    "ViewEvent",
+    "EditLog",
     # Reviews
-    "Review", "ReviewQuestion", "ReviewAnswer",
+    "Review",
+    "ReviewQuestion",
+    "ReviewAnswer",
     # Consents
-    "ResourceConsent", "ResourcePublishingConsent",
+    "ResourceConsent",
+    "ResourcePublishingConsent",
 ]

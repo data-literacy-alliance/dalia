@@ -15,7 +15,7 @@ class ResourceManager(models.Manager):
     def get_by_uuid_with_contents(self, uuid_value):
         """Get resource by UUID with prefetched contents."""
         try:
-            return self.select_related('owner').prefetch_related('contents').get(uuid=uuid_value)
+            return self.select_related("owner").prefetch_related("contents").get(uuid=uuid_value)
         except self.model.DoesNotExist:
             return None
 
@@ -30,12 +30,25 @@ class ResourceContentManager(models.Manager):
     def get_by_uuid_with_relations(self, uuid_value):
         """Get content by UUID with optimized related object fetching."""
         try:
-            return (self.select_related('resource', 'created_by', 'submitted_by')
-                    .prefetch_related('people', 'organizations', 'learning_resource_types',
-                                    'disciplines', 'licenses', 'proficiency_levels',
-                                    'target_groups', 'file_formats', 'media_types',
-                                    'keywords', 'links', 'community_relations', 'related_items')
-                    .get(uuid=uuid_value))
+            return (
+                self.select_related("resource", "created_by", "submitted_by")
+                .prefetch_related(
+                    "people",
+                    "organizations",
+                    "learning_resource_types",
+                    "disciplines",
+                    "licenses",
+                    "proficiency_levels",
+                    "target_groups",
+                    "file_formats",
+                    "media_types",
+                    "keywords",
+                    "links",
+                    "community_relations",
+                    "related_items",
+                )
+                .get(uuid=uuid_value)
+            )
         except self.model.DoesNotExist:
             return None
 
@@ -48,19 +61,15 @@ class Resource(UUIDMixin, TimeStampedModel):
     """
     Resource grouper for versioned content.
     """
+
     owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.PROTECT,
-        related_name="owned_resources"
+        settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="owned_resources"
     )
     title = models.CharField(
-        max_length=500,
-        blank=True,
-        help_text="Display title for this resource (grouper)."
+        max_length=500, blank=True, help_text="Display title for this resource (grouper)."
     )
     is_removed = models.BooleanField(
-        default=False,
-        help_text="Soft delete flag. Curators can set this."
+        default=False, help_text="Soft delete flag. Curators can set this."
     )
     # Publishing fields (replaces django-cms versioning)
     version = models.PositiveIntegerField(default=1)
@@ -70,9 +79,7 @@ class Resource(UUIDMixin, TimeStampedModel):
     objects = ResourceManager()
 
     class Meta:
-        permissions = (
-            ("soft_delete_resource", "Can soft delete resource"),
-        )
+        permissions = (("soft_delete_resource", "Can soft delete resource"),)
         ordering = ("-created",)
 
     def __str__(self):
@@ -85,40 +92,30 @@ class ResourceContent(UUIDMixin, TimeStampedModel):
     """
     Versioned content with full metadata and relationships.
     """
+
     resource = models.ForeignKey(Resource, on_delete=models.CASCADE, related_name="contents")
     languages = models.ManyToManyField(
         "curation.Language",
         blank=False,
         related_name="resource_contents",
-        help_text="Languages in which this content is available (at least one required)"
+        help_text="Languages in which this content is available (at least one required)",
     )
 
     # Core content fields
     title = models.CharField(max_length=500)
-    main_url = models.URLField(
-        validators=[URLValidator()],
-        help_text="Main content URL"
-    )
+    main_url = models.URLField(validators=[URLValidator()], help_text="Main content URL")
     publication_date = models.DateField(blank=True, null=True)
     description = models.TextField(blank=True)
     size_mb = models.DecimalField(
-        max_digits=12,
-        decimal_places=3,
-        blank=True,
-        null=True,
-        validators=[MinValueValidator(0)]
+        max_digits=12, decimal_places=3, blank=True, null=True, validators=[MinValueValidator(0)]
     )
 
     # Authors (ordering matters)
     people = SortedManyToManyField(
-        "curation.Person",
-        blank=True,
-        related_name="resource_contents_people"
+        "curation.Person", blank=True, related_name="resource_contents_people"
     )
     organizations = SortedManyToManyField(
-        "curation.Organization",
-        blank=True,
-        related_name="resource_contents_orgs"
+        "curation.Organization", blank=True, related_name="resource_contents_orgs"
     )
 
     # Vocabularies (all multi-select)
@@ -135,9 +132,7 @@ class ResourceContent(UUIDMixin, TimeStampedModel):
 
     # Versioning / auditing
     created_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.PROTECT,
-        related_name="created_resource_contents"
+        settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="created_resource_contents"
     )
 
     # Review system integration
@@ -186,16 +181,25 @@ class ResourceContent(UUIDMixin, TimeStampedModel):
         # Copy related objects (these will be imported from relations module)
         for link in old_instance.links.all():
             from curation.models.relations import ResourceLink
+
             ResourceLink.objects.create(content=self, url=link.url, order=link.order)
 
         for rel in old_instance.community_relations.all():
             from curation.models.relations import ResourceCommunityRelation
+
             ResourceCommunityRelation.objects.create(
-                content=self, community=rel.community, relation_type=rel.relation_type, order=rel.order
+                content=self,
+                community=rel.community,
+                relation_type=rel.relation_type,
+                order=rel.order,
             )
 
         for item in old_instance.related_items.all():
             from curation.models.relations import ResourceRelatedItem
+
             ResourceRelatedItem.objects.create(
-                content=self, relation_type=item.relation_type, target_url=item.target_url, order=item.order
+                content=self,
+                relation_type=item.relation_type,
+                target_url=item.target_url,
+                order=item.order,
             )

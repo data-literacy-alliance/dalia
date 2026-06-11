@@ -1,6 +1,7 @@
 """
 Admin classes for review models (Review, ReviewQuestion, ReviewAnswer).
 """
+
 from core.admin import BaseModelAdmin
 from curation.admin.inlines import ReviewAnswerInline
 from curation.models import Review, ReviewQuestion
@@ -14,24 +15,37 @@ class ReviewAdmin(BaseModelAdmin):
     list_display = ("resource_content", "reviewer", "status", "recommendation", "created", "uuid")
     list_filter = ("status", "recommendation", "community", "created")
     search_fields = (
-        "resource_content__id", "resource_content__title",
-        "resource_content__resource__id", "resource_content__resource__title",
-        "reviewer__username", "summary", "uuid",
+        "resource_content__id",
+        "resource_content__title",
+        "resource_content__resource__id",
+        "resource_content__resource__title",
+        "reviewer__username",
+        "summary",
+        "uuid",
     )
     readonly_fields = ("uuid", "created", "modified", "submitted_at", "completed_at")
     raw_id_fields = ("resource_content", "reviewer", "community")
     inlines = [ReviewAnswerInline]
 
     fieldsets = (
-        (None, {
-            "fields": ("resource_content", "reviewer", "community", "uuid"),
-        }),
-        ("Review Content", {
-            "fields": ("status", "recommendation", "summary", "terms_version"),
-        }),
-        ("Timeline", {
-            "fields": ("created", "submitted_at", "completed_at"),
-        }),
+        (
+            None,
+            {
+                "fields": ("resource_content", "reviewer", "community", "uuid"),
+            },
+        ),
+        (
+            "Review Content",
+            {
+                "fields": ("status", "recommendation", "summary", "terms_version"),
+            },
+        ),
+        (
+            "Timeline",
+            {
+                "fields": ("created", "submitted_at", "completed_at"),
+            },
+        ),
     )
 
     @admin.action(description="Approve selected reviews")
@@ -65,10 +79,12 @@ class ReviewQuestionAdminForm(forms.ModelForm):
             "help_text_field",
         ]
         widgets = {
-            "choices": Textarea(attrs={
-                "rows": 4,
-                "placeholder": '["Option 1", "Option 2", "Option 3"]',
-            }),
+            "choices": Textarea(
+                attrs={
+                    "rows": 4,
+                    "placeholder": '["Option 1", "Option 2", "Option 3"]',
+                }
+            ),
             "min_value": NumberInput(attrs={"min": 0, "max": 100}),
             "max_value": NumberInput(attrs={"min": 1, "max": 100}),
             "question_text": Textarea(attrs={"rows": 3}),
@@ -97,27 +113,45 @@ class ReviewQuestionAdminForm(forms.ModelForm):
 @admin.register(ReviewQuestion)
 class ReviewQuestionAdmin(BaseModelAdmin):
     form = ReviewQuestionAdminForm
-    list_display = ("question_text_short", "community", "question_type", "required", "is_active", "order", "uuid")
+    list_display = (
+        "question_text_short",
+        "community",
+        "question_type",
+        "required",
+        "is_active",
+        "order",
+        "uuid",
+    )
     list_filter = ("question_type", "community", "required", "is_active")
     search_fields = ("question_text", "uuid")
     readonly_fields = ("uuid", "created", "modified")
     raw_id_fields = ("community",)
 
     fieldsets = (
-        (None, {
-            "fields": ("community", "question_text", "question_type", "uuid"),
-        }),
-        ("Configuration", {
-            "fields": ("choices", "min_value", "max_value", "help_text_field"),
-        }),
-        ("Settings", {
-            "fields": ("order", "required", "is_active"),
-        }),
+        (
+            None,
+            {
+                "fields": ("community", "question_text", "question_type", "uuid"),
+            },
+        ),
+        (
+            "Configuration",
+            {
+                "fields": ("choices", "min_value", "max_value", "help_text_field"),
+            },
+        ),
+        (
+            "Settings",
+            {
+                "fields": ("order", "required", "is_active"),
+            },
+        ),
     )
 
     def question_text_short(self, obj):
         text = obj.question_text
         return text[:50] + "..." if len(text) > 50 else text
+
     question_text_short.short_description = "Question"
 
     @admin.action(description="Activate selected questions")

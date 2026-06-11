@@ -25,37 +25,31 @@ def prepare_query_for_authors_metadata_for_resources(resource_uri_refs: List[URI
 
     resource_uri_ref_blocks = [[uri_ref] for uri_ref in resource_uri_refs]
 
-    return QueryBuilder().SELECT(
-        *_VARIABLES.values()
-    ).WHERE(
-        VALUES(
-            [var_lr],
-            resource_uri_ref_blocks
-        ),
-        (var_lr, RDF.type, educor.EducationalResource),
-        (var_lr, SCHEMA.author, var_list),
-        (var_list, Jena_ARQ_list.member, var_member),
-        (var_member, RDF.type, _VARIABLES["type"]),
-        GROUP(
-            (var_member, RDF.type, SCHEMA.Organization),
-            (var_member, SCHEMA.name, _VARIABLES["name"])
-        ),
-        UNION(
-            (var_member, RDF.type, SCHEMA.Person),
-            (var_member, SCHEMA.familyName, _VARIABLES["family"]),
-            OPTIONAL(
-                (var_member, SCHEMA.givenName, _VARIABLES["given"])
+    return (
+        QueryBuilder()
+        .SELECT(*_VARIABLES.values())
+        .WHERE(
+            VALUES([var_lr], resource_uri_ref_blocks),
+            (var_lr, RDF.type, educor.EducationalResource),
+            (var_lr, SCHEMA.author, var_list),
+            (var_list, Jena_ARQ_list.member, var_member),
+            (var_member, RDF.type, _VARIABLES["type"]),
+            GROUP(
+                (var_member, RDF.type, SCHEMA.Organization),
+                (var_member, SCHEMA.name, _VARIABLES["name"]),
             ),
-            OPTIONAL(
-                (var_member, metadata4ing.orcidId, _VARIABLES["orcid"])
-            )
+            UNION(
+                (var_member, RDF.type, SCHEMA.Person),
+                (var_member, SCHEMA.familyName, _VARIABLES["family"]),
+                OPTIONAL((var_member, SCHEMA.givenName, _VARIABLES["given"])),
+                OPTIONAL((var_member, metadata4ing.orcidId, _VARIABLES["orcid"])),
+            ),
         )
-    ).build()
+        .build()
+    )
 
 
-def authors_from_results(
-        results
-) -> Dict[URIRef, List[Union[PersonAuthor, OrganizationAuthor]]]:
+def authors_from_results(results) -> Dict[URIRef, List[Union[PersonAuthor, OrganizationAuthor]]]:
     lr_authors = defaultdict(list)
 
     for result in results:
@@ -77,7 +71,7 @@ def authors_from_results(
 
 
 def get_authors_metadata_for_resources(
-        resource_uri_refs: List[URIRef]
+    resource_uri_refs: List[URIRef],
 ) -> Dict[URIRef, List[Union[PersonAuthor, OrganizationAuthor]]]:
     """
     Retrieve the authors metadata for each of the given learning resource URIRefs.

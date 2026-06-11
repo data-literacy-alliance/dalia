@@ -13,13 +13,17 @@ from drf_spectacular.views import (
 import two_factor.urls as _tf_urls
 
 from apps.core.views import admin_logout
-from nfdi_auth.views import AdminStyledTwoFactorLoginView, CustomLoginView, nfdi_oidc_callback, nfdi_oidc_login
+from nfdi_auth.views import (
+    AdminStyledTwoFactorLoginView,
+    CustomLoginView,
+    nfdi_oidc_callback,
+    nfdi_oidc_login,
+)
 from search.views_sparql_proxy import SPARQLProxyView
 
 urlpatterns = [
     # Custom admin logout (handles CSRF properly)
     path("admin/logout/", admin_logout, name="admin_logout"),
-
     # Admin panel
     path("admin/", admin.site.urls),
     # two_factor login at /account/login/ — Unfold-styled, accepts username (used by admin redirect)
@@ -29,7 +33,11 @@ urlpatterns = [
     # Override OIDC login with custom adapter (localhost callback URL fix + DB-derived URL)
     path("accounts/oidc/<str:provider_id>/login/", nfdi_oidc_login, name="openid_connect_login"),
     # Override OIDC callback with custom adapter (must come before allauth.urls)
-    path("accounts/oidc/<str:provider_id>/login/callback/", nfdi_oidc_callback, name="openid_connect_callback"),
+    path(
+        "accounts/oidc/<str:provider_id>/login/callback/",
+        nfdi_oidc_callback,
+        name="openid_connect_callback",
+    ),
     # Override allauth login with CustomLoginView to inject custom_social_providers context
     path("accounts/login/", CustomLoginView.as_view(), name="account_login"),
     # Authentication URLs (login, logout, password reset)

@@ -10,7 +10,9 @@ from search.query.items.metadata.format import get_format_metadata_for_resources
 from search.query.items.metadata.item_communities import get_communities_for_resources
 from search.query.items.metadata.keywords import get_keywords_metadata_for_resources
 from search.query.items.metadata.languages import get_languages_for_resources
-from search.query.items.metadata.learning_resource_types import get_learning_resource_types_for_resources
+from search.query.items.metadata.learning_resource_types import (
+    get_learning_resource_types_for_resources,
+)
 from search.query.items.metadata.media_types import get_media_types_for_resources
 from search.query.items.metadata.one_to_one_metadata import get_one_to_one_metadata_for_resources
 from search.query.items.metadata.proficiency_levels import get_proficiency_levels_for_resources
@@ -21,13 +23,13 @@ from search.rdf.dalia_kb import lr_uri_ref
 # data for endpoint /items/{itemId}
 def get_metadata_for_learning_resource(resource_id: UUID) -> Optional[Resource]:
     items = get_metadata_for_learning_resources([lr_uri_ref(resource_id)])
-    #print(f"DEBUG (items.py): get_metadata_for_learning_resource items: {items}") # ADD THIS LINE
+    # print(f"DEBUG (items.py): get_metadata_for_learning_resource items: {items}") # ADD THIS LINE
 
     if not items:
         # indicate 404
         return None
 
-    #print(f"DEBUG (items.py): Metadata for resource {resource_id}: {items}") # ADD THIS LINE
+    # print(f"DEBUG (items.py): Metadata for resource {resource_id}: {items}") # ADD THIS LINE
 
     # indicate 200
     return items[0]
@@ -50,7 +52,7 @@ def get_metadata_for_learning_resources(resource_uri_refs: List[URIRef]) -> List
     items_communities = get_communities_for_resources(resource_uri_refs)
     items_languages = get_languages_for_resources(resource_uri_refs)
 
-    #print(f"DEBUG (items.py): get_metadata_for_learning_resources - items_languages: {items_languages}") # ADD THIS LINE
+    # print(f"DEBUG (items.py): get_metadata_for_learning_resources - items_languages: {items_languages}") # ADD THIS LINE
 
     results = []
     for resource_uri_ref in resource_uri_refs:
@@ -69,9 +71,9 @@ def get_metadata_for_learning_resources(resource_uri_refs: List[URIRef]) -> List
             keywords=items_keywords.get(resource_uri_ref),
             authors=items_authors.get(resource_uri_ref),
             communities=items_communities.get(resource_uri_ref),
-            languages=items_languages.get(resource_uri_ref)
+            languages=items_languages.get(resource_uri_ref),
         )
-        #print(f"DEBUG (items.py): get_metadata_for_learning_resources - item after _add_metadata_to_item, languages: {item.languages}")
+        # print(f"DEBUG (items.py): get_metadata_for_learning_resources - item after _add_metadata_to_item, languages: {item.languages}")
         results.append(item)
 
     return results

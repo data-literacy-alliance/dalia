@@ -84,6 +84,7 @@ Import all data from old production PostgreSQL database into dalia20.
      so re-running is safe.
   4. Old prod database is opened read-only (autocommit, no writes).
 """
+
 import json as _json
 import os
 import sys
@@ -104,14 +105,54 @@ OLD_PROD_DEFAULT_URL = os.environ.get("OLD_PROD_DB_URL", "")
 # Vocabulary IDs are IDENTICAL between old prod and dalia20 (verified), so rows
 # can be copied directly without any ID remapping on the value column.
 M2M_TABLE_MAP = {
-    "disciplines":             ("curation_form_resourcecontent_disciplines",            "curation_resourcecontent_disciplines",            "resourcecontent_id", "discipline_id"),
-    "languages":               ("curation_form_resourcecontent_languages",              "curation_resourcecontent_languages",              "resourcecontent_id", "language_id"),
-    "learning_resource_types": ("curation_form_resourcecontent_learning_resource_types","curation_resourcecontent_learning_resource_types","resourcecontent_id", "learningresourcetype_id"),
-    "licenses":                ("curation_form_resourcecontent_licenses",               "curation_resourcecontent_licenses",               "resourcecontent_id", "license_id"),
-    "media_types":             ("curation_form_resourcecontent_media_types",            "curation_resourcecontent_media_types",            "resourcecontent_id", "mediatype_id"),
-    "file_formats":            ("curation_form_resourcecontent_file_formats",           "curation_resourcecontent_file_formats",           "resourcecontent_id", "fileformat_id"),
-    "proficiency_levels":      ("curation_form_resourcecontent_proficiency_levels",     "curation_resourcecontent_proficiency_levels",     "resourcecontent_id", "proficiencylevel_id"),
-    "target_groups":           ("curation_form_resourcecontent_target_groups",          "curation_resourcecontent_target_groups",          "resourcecontent_id", "targetgroup_id"),
+    "disciplines": (
+        "curation_form_resourcecontent_disciplines",
+        "curation_resourcecontent_disciplines",
+        "resourcecontent_id",
+        "discipline_id",
+    ),
+    "languages": (
+        "curation_form_resourcecontent_languages",
+        "curation_resourcecontent_languages",
+        "resourcecontent_id",
+        "language_id",
+    ),
+    "learning_resource_types": (
+        "curation_form_resourcecontent_learning_resource_types",
+        "curation_resourcecontent_learning_resource_types",
+        "resourcecontent_id",
+        "learningresourcetype_id",
+    ),
+    "licenses": (
+        "curation_form_resourcecontent_licenses",
+        "curation_resourcecontent_licenses",
+        "resourcecontent_id",
+        "license_id",
+    ),
+    "media_types": (
+        "curation_form_resourcecontent_media_types",
+        "curation_resourcecontent_media_types",
+        "resourcecontent_id",
+        "mediatype_id",
+    ),
+    "file_formats": (
+        "curation_form_resourcecontent_file_formats",
+        "curation_resourcecontent_file_formats",
+        "resourcecontent_id",
+        "fileformat_id",
+    ),
+    "proficiency_levels": (
+        "curation_form_resourcecontent_proficiency_levels",
+        "curation_resourcecontent_proficiency_levels",
+        "resourcecontent_id",
+        "proficiencylevel_id",
+    ),
+    "target_groups": (
+        "curation_form_resourcecontent_target_groups",
+        "curation_resourcecontent_target_groups",
+        "resourcecontent_id",
+        "targetgroup_id",
+    ),
 }
 
 
@@ -121,7 +162,9 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("--db-url", default=OLD_PROD_DEFAULT_URL, help="Old prod DB URL")
         parser.add_argument("--dry-run", action="store_true", help="Preview without writing")
-        parser.add_argument("--no-backup", action="store_true", help="Skip backup (not recommended)")
+        parser.add_argument(
+            "--no-backup", action="store_true", help="Skip backup (not recommended)"
+        )
         parser.add_argument("--backup-dir", default="/tmp", help="Backup directory (default: /tmp)")
 
     def handle(self, *args, **options):
@@ -147,18 +190,26 @@ class Command(BaseCommand):
                 self.stdout.write(f"Creating backup: {backup_file}")
                 try:
                     import subprocess
+
                     env = {
                         "PGPASSWORD": os.environ.get("POSTGRES_PASSWORD") or "",
                         "PATH": os.environ.get("PATH", "/usr/bin:/usr/local/bin"),
                     }
                     result = subprocess.run(
-                        ["pg_dump",
-                         "-h", os.environ.get("POSTGRES_HOST", "db"),
-                         "-p", os.environ.get("POSTGRES_PORT", "5432"),
-                         "-U", os.environ.get("POSTGRES_USER", "dalia20"),
-                         "-F", "c",           # custom format: faster, smaller, selective restore
-                         "-f", backup_file,
-                         os.environ.get("POSTGRES_DB", "dalia20")],
+                        [
+                            "pg_dump",
+                            "-h",
+                            os.environ.get("POSTGRES_HOST", "db"),
+                            "-p",
+                            os.environ.get("POSTGRES_PORT", "5432"),
+                            "-U",
+                            os.environ.get("POSTGRES_USER", "dalia20"),
+                            "-F",
+                            "c",  # custom format: faster, smaller, selective restore
+                            "-f",
+                            backup_file,
+                            os.environ.get("POSTGRES_DB", "dalia20"),
+                        ],
                         env=env,
                         capture_output=True,
                         text=True,
@@ -168,9 +219,9 @@ class Command(BaseCommand):
                     size = os.path.getsize(backup_file)
                     if size < 100:
                         raise RuntimeError("Backup file is suspiciously small")
-                    self.stdout.write(self.style.SUCCESS(
-                        f"Backup saved ({size:,} bytes): {backup_file}"
-                    ))
+                    self.stdout.write(
+                        self.style.SUCCESS(f"Backup saved ({size:,} bytes): {backup_file}")
+                    )
                     self.stdout.write(
                         f"  Restore: pg_restore -h db -U dalia20 -d dalia20 -c {backup_file}"
                     )
@@ -184,7 +235,9 @@ class Command(BaseCommand):
         # ------------------------------------------------------------------ #
         # Step 2 — Fetch all data from old prod (read-only connection)       #
         # ------------------------------------------------------------------ #
-        self.stdout.write(f"Connecting to old prod: {db_url.split('@')[1] if '@' in db_url else db_url}")
+        self.stdout.write(
+            f"Connecting to old prod: {db_url.split('@')[1] if '@' in db_url else db_url}"
+        )
         try:
             old_conn = psycopg.connect(db_url, row_factory=dict_row)
         except Exception as e:
@@ -203,21 +256,21 @@ class Command(BaseCommand):
         old_cur.execute(
             "SELECT sa.provider, sa.uid, sa.extra_data, sa.last_login, sa.date_joined, sa.user_id "
             "FROM socialaccount_socialaccount sa WHERE sa.user_id = ANY(%s)",
-            (all_old_user_ids,)
+            (all_old_user_ids,),
         )
         old_social_accounts = old_cur.fetchall()
 
         # Fetch RelationTypeCategory
         old_cur.execute(
             'SELECT id, uuid, created, modified, is_active, name, description, color, "order" '
-            'FROM curation_form_relationtypecategory'
+            "FROM curation_form_relationtypecategory"
         )
         old_relation_type_categories = old_cur.fetchall()
 
         # Fetch RelationType (depends on category)
         old_cur.execute(
             'SELECT id, uuid, created, modified, is_active, code, label, description, "order", category_id '
-            'FROM curation_form_relationtype'
+            "FROM curation_form_relationtype"
         )
         old_relation_types = old_cur.fetchall()
 
@@ -275,14 +328,14 @@ class Command(BaseCommand):
         # Fetch ResourceRelatedItem
         old_cur.execute(
             'SELECT id, uuid, created, modified, "order", target_url, content_id, relation_type_id '
-            'FROM curation_form_resourcerelateditem'
+            "FROM curation_form_resourcerelateditem"
         )
         old_related_items = old_cur.fetchall()
 
         # Fetch ResourceCommunityRelation
         old_cur.execute(
             'SELECT id, uuid, created, modified, "order", community_id, content_id, relation_type_id '
-            'FROM curation_form_resourcecommunityrelation'
+            "FROM curation_form_resourcecommunityrelation"
         )
         old_community_relations = old_cur.fetchall()
 
@@ -293,11 +346,19 @@ class Command(BaseCommand):
         # ------------------------------------------------------------------ #
         if dry_run:
             self._preview(
-                old_users, old_social_accounts, old_relation_type_categories,
-                old_relation_types, old_organizations, old_persons,
-                old_resources, old_contents, old_related_items,
-                old_community_relations, old_users_by_id,
-                old_m2m_organizations, old_m2m_people,
+                old_users,
+                old_social_accounts,
+                old_relation_type_categories,
+                old_relation_types,
+                old_organizations,
+                old_persons,
+                old_resources,
+                old_contents,
+                old_related_items,
+                old_community_relations,
+                old_users_by_id,
+                old_m2m_organizations,
+                old_m2m_people,
             )
             self.stdout.write("Dry run complete.")
             return
@@ -316,17 +377,27 @@ class Command(BaseCommand):
                 )
                 self._import_m2m(old_m2m, content_map)
                 self._import_sorted_m2m(
-                    old_m2m_organizations, content_map, org_map,
-                    "curation_resourcecontent_organizations", "organization_id"
+                    old_m2m_organizations,
+                    content_map,
+                    org_map,
+                    "curation_resourcecontent_organizations",
+                    "organization_id",
                 )
                 self._import_sorted_m2m(
-                    old_m2m_people, content_map, person_map,
-                    "curation_resourcecontent_people", "person_id"
+                    old_m2m_people,
+                    content_map,
+                    person_map,
+                    "curation_resourcecontent_people",
+                    "person_id",
                 )
                 self._import_resource_related_items(old_related_items, content_map, rt_map)
-                self._import_resource_community_relations(old_community_relations, content_map, rt_map)
+                self._import_resource_community_relations(
+                    old_community_relations, content_map, rt_map
+                )
         except Exception as e:
-            self.stderr.write(self.style.ERROR(f"\nIMPORT FAILED — all changes rolled back.\nError: {e}"))
+            self.stderr.write(
+                self.style.ERROR(f"\nIMPORT FAILED — all changes rolled back.\nError: {e}")
+            )
             if backup_file:
                 self.stderr.write(f"Your data is unchanged. Backup at: {backup_file}")
             raise
@@ -339,10 +410,22 @@ class Command(BaseCommand):
     # Helpers                                                             #
     # ------------------------------------------------------------------ #
 
-    def _preview(self, old_users, old_social_accounts, old_cats, old_types,
-                 old_organizations, old_persons, old_resources, old_contents,
-                 old_related_items, old_community_relations, old_users_by_id,
-                 old_m2m_organizations, old_m2m_people):
+    def _preview(
+        self,
+        old_users,
+        old_social_accounts,
+        old_cats,
+        old_types,
+        old_organizations,
+        old_persons,
+        old_resources,
+        old_contents,
+        old_related_items,
+        old_community_relations,
+        old_users_by_id,
+        old_m2m_organizations,
+        old_m2m_people,
+    ):
         self.stdout.write(f"--- USERS ({len(old_users)}) ---")
         for u in old_users:
             existing = None
@@ -350,13 +433,19 @@ class Command(BaseCommand):
                 existing = User.objects.filter(email=u["email"]).first()
             if not existing:
                 existing = User.objects.filter(username=u["username"]).first()
-            status = f"matched '{u['username']}' -> id {existing.id}" if existing else f"would create '{u['username']}' ({u['email']})"
+            status = (
+                f"matched '{u['username']}' -> id {existing.id}"
+                if existing
+                else f"would create '{u['username']}' ({u['email']})"
+            )
             self.stdout.write(f"  {status}")
 
         self.stdout.write(f"--- SOCIAL ACCOUNTS ({len(old_social_accounts)}) ---")
         for sa in old_social_accounts:
             u = old_users_by_id.get(sa["user_id"], {})
-            self.stdout.write(f"  {sa['provider']} uid={sa['uid'][:16]}... for '{u.get('username', '?')}'")
+            self.stdout.write(
+                f"  {sa['provider']} uid={sa['uid'][:16]}... for '{u.get('username', '?')}'"
+            )
 
         self.stdout.write(f"--- RELATION TYPE CATEGORIES ({len(old_cats)}) ---")
         for c in old_cats:
@@ -373,7 +462,9 @@ class Command(BaseCommand):
         self.stdout.write(f"--- PERSONS ({len(old_persons)}) ---")
         for p in old_persons:
             u = old_users_by_id.get(p["user_id"], {})
-            self.stdout.write(f"  {p['first_name']} {p['last_name']} (user: {u.get('username', '?')})")
+            self.stdout.write(
+                f"  {p['first_name']} {p['last_name']} (user: {u.get('username', '?')})"
+            )
 
         self.stdout.write(f"--- RESOURCES ({len(old_resources)}) ---")
         for r in old_resources:
@@ -399,7 +490,9 @@ class Command(BaseCommand):
 
     def _import_users(self, old_users):
         user_map = {}
-        default_admin_id = User.objects.filter(is_superuser=True).values_list("id", flat=True).first()
+        default_admin_id = (
+            User.objects.filter(is_superuser=True).values_list("id", flat=True).first()
+        )
         for u in old_users:
             new_user = self._get_or_create_user(u)
             uid = new_user.id if new_user else default_admin_id
@@ -438,25 +531,38 @@ class Command(BaseCommand):
         # the already-imported User — preventing duplicate user creation.
         # ON CONFLICT DO NOTHING makes this idempotent on re-runs.
         from django.db import connection as django_conn
+
         with django_conn.cursor() as cur:
             for sa in old_social_accounts:
                 new_user_id = user_map.get(sa["user_id"])
                 if not new_user_id:
                     continue
-                extra = (sa["extra_data"] if isinstance(sa["extra_data"], str)
-                         else _json.dumps(sa["extra_data"]))
+                extra = (
+                    sa["extra_data"]
+                    if isinstance(sa["extra_data"], str)
+                    else _json.dumps(sa["extra_data"])
+                )
                 cur.execute(
                     "INSERT INTO socialaccount_socialaccount "
                     "    (provider, uid, extra_data, last_login, date_joined, user_id) "
                     "VALUES (%s, %s, %s, %s, %s, %s) "
                     "ON CONFLICT (provider, uid) DO NOTHING",
-                    [sa["provider"], sa["uid"], extra,
-                     sa["last_login"], sa["date_joined"], new_user_id]
+                    [
+                        sa["provider"],
+                        sa["uid"],
+                        extra,
+                        sa["last_login"],
+                        sa["date_joined"],
+                        new_user_id,
+                    ],
                 )
-                self.stdout.write(f"  SocialAccount: {sa['provider']} uid={sa['uid'][:16]}... -> user_id {new_user_id}")
+                self.stdout.write(
+                    f"  SocialAccount: {sa['provider']} uid={sa['uid'][:16]}... -> user_id {new_user_id}"
+                )
 
     def _import_relation_type_categories(self, old_cats):
         from curation.models import RelationTypeCategory
+
         cat_map = {}
         for c in old_cats:
             existing = RelationTypeCategory.objects.filter(uuid=c["uuid"]).first()
@@ -481,6 +587,7 @@ class Command(BaseCommand):
 
     def _import_relation_types(self, old_types, cat_map):
         from curation.models import RelationType
+
         rt_map = {}
         for t in old_types:
             existing = RelationType.objects.filter(uuid=t["uuid"]).first()
@@ -505,6 +612,7 @@ class Command(BaseCommand):
 
     def _import_organizations(self, old_orgs):
         from curation.models import Organization
+
         org_map = {}
         # First pass: create all without parent links
         for o in old_orgs:
@@ -538,12 +646,15 @@ class Command(BaseCommand):
 
     def _import_persons(self, old_persons, user_map):
         from curation.models import Person
+
         person_map = {}
         for p in old_persons:
             existing = Person.objects.filter(uuid=p["uuid"]).first()
             if existing:
                 person_map[p["id"]] = existing.id
-                self.stdout.write(f"  Person '{p['first_name']} {p['last_name']}' already exists, skipping")
+                self.stdout.write(
+                    f"  Person '{p['first_name']} {p['last_name']}' already exists, skipping"
+                )
                 continue
             # user_id may be None for external contributors (no login account)
             new_user_id = user_map.get(p["user_id"]) if p["user_id"] is not None else None
@@ -568,9 +679,7 @@ class Command(BaseCommand):
                 email_notifications=p["email_notifications"],
                 is_active=p["is_active"],
             )
-            Person.objects.filter(pk=new_p.pk).update(
-                created=p["created"], modified=p["modified"]
-            )
+            Person.objects.filter(pk=new_p.pk).update(created=p["created"], modified=p["modified"])
             person_map[p["id"]] = new_p.id
             self.stdout.write(f"  Person '{p['first_name']} {p['last_name']}' -> id {new_p.id}")
         return person_map
@@ -584,7 +693,10 @@ class Command(BaseCommand):
         # Timestamps are restored via a secondary .update() because .create()
         # ignores auto_now_add fields.
         from curation.models import Resource, ResourceContent
-        default_admin_id = User.objects.filter(is_superuser=True).values_list("id", flat=True).first()
+
+        default_admin_id = (
+            User.objects.filter(is_superuser=True).values_list("id", flat=True).first()
+        )
 
         resource_map = {}
         for r in old_resources:
@@ -595,11 +707,16 @@ class Command(BaseCommand):
                 self.stdout.write(f"  Resource '{r['title']}' already exists, skipping")
                 continue
             new_r = Resource.objects.create(
-                uuid=r["uuid"], title=r["title"] or "",
-                owner_id=owner_id, is_removed=r["is_removed"],
-                is_published=False, version=1,
+                uuid=r["uuid"],
+                title=r["title"] or "",
+                owner_id=owner_id,
+                is_removed=r["is_removed"],
+                is_published=False,
+                version=1,
             )
-            Resource.objects.filter(pk=new_r.pk).update(created=r["created"], modified=r["modified"])
+            Resource.objects.filter(pk=new_r.pk).update(
+                created=r["created"], modified=r["modified"]
+            )
             resource_map[r["id"]] = new_r.id
             self.stdout.write(f"  Resource '{r['title']}' -> id {new_r.id}")
 
@@ -617,13 +734,17 @@ class Command(BaseCommand):
                 self.stdout.write(f"  Content '{rc['title']}' already exists, skipping")
                 continue
             new_rc = ResourceContent.objects.create(
-                uuid=rc["uuid"], resource_id=new_resource_id,
-                title=rc["title"], main_url=rc["main_url"],
+                uuid=rc["uuid"],
+                resource_id=new_resource_id,
+                title=rc["title"],
+                main_url=rc["main_url"],
                 publication_date=rc["publication_date"],
                 description=rc["description"] or "",
-                size_mb=rc["size_mb"], created_by_id=created_by_id,
+                size_mb=rc["size_mb"],
+                created_by_id=created_by_id,
                 submitted_for_review=rc["submitted_for_review"],
-                submitted_at=rc["submitted_at"], submitted_by_id=submitted_by_id,
+                submitted_at=rc["submitted_at"],
+                submitted_by_id=submitted_by_id,
             )
             ResourceContent.objects.filter(pk=new_rc.pk).update(
                 created=rc["created"], modified=rc["modified"]
@@ -638,6 +759,7 @@ class Command(BaseCommand):
         # content_map translates old ResourceContent IDs to new ones.
         # Vocabulary value IDs need no remapping (identical sequences in both DBs).
         from django.db import connection as django_conn
+
         with django_conn.cursor() as cur:
             for rel_name, (_, new_tbl, fk_col, val_col) in M2M_TABLE_MAP.items():
                 count = 0
@@ -648,7 +770,7 @@ class Command(BaseCommand):
                     cur.execute(
                         f"INSERT INTO {new_tbl} (resourcecontent_id, {val_col}) "
                         f"VALUES (%s, %s) ON CONFLICT DO NOTHING",
-                        [new_content_id, row[val_col]]
+                        [new_content_id, row[val_col]],
                     )
                     count += 1
                 self.stdout.write(f"  M2M {rel_name}: {count} rows")
@@ -657,6 +779,7 @@ class Command(BaseCommand):
         # Copy sorted M2M rows (organizations, people) that have a sort_value column.
         # value_map translates old IDs to new ones (e.g. old org_id → new org_id).
         from django.db import connection as django_conn
+
         count = 0
         skip = 0
         with django_conn.cursor() as cur:
@@ -670,13 +793,14 @@ class Command(BaseCommand):
                 cur.execute(
                     f"INSERT INTO {new_tbl} (resourcecontent_id, {val_col}, sort_value) "
                     f"VALUES (%s, %s, %s) ON CONFLICT DO NOTHING",
-                    [new_content_id, new_value_id, row["sort_value"]]
+                    [new_content_id, new_value_id, row["sort_value"]],
                 )
                 count += 1
         self.stdout.write(f"  {new_tbl}: {count} rows ({skip} skipped — no content/value mapping)")
 
     def _import_resource_related_items(self, old_items, content_map, rt_map):
         from curation.models import ResourceRelatedItem
+
         count = 0
         skip = 0
         for item in old_items:
@@ -702,6 +826,7 @@ class Command(BaseCommand):
 
     def _import_resource_community_relations(self, old_relations, content_map, rt_map):
         from curation.models import ResourceCommunityRelation, Community
+
         count = 0
         skip = 0
         for rel in old_relations:

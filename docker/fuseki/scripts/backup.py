@@ -62,7 +62,7 @@ def call_http(url: str, post_data: Any = None) -> Any:
         print_to_stderr(f"Connection to {url} failed. Reason: {e.reason}")
         exit(1)
     else:
-        return json.loads(response.read().decode(response.info().get_content_charset('utf-8')))
+        return json.loads(response.read().decode(response.info().get_content_charset("utf-8")))
 
 
 # JSON returned by backup call:

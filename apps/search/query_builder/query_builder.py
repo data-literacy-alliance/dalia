@@ -8,17 +8,64 @@ from search.rdf.namespace.xpath_functions import year_from_date, month_from_date
 AGGREGATE_FUNCTION_LIST = ["SUM", "AVG", "COUNT", "SET", "MIN", "MAX", "SAMPLE"]
 # list of supported functions expressions
 FUNCTION_EXPRESSION_SUPPORTED_LIST = [
-    "ASC", "DESC", "IRI", "ISBLANK", "ISLITERAL", "ISIRI", "ISNUMERIC", "BNODE",
-    "ABS", "IF", "RAND", "UUID", "STRUUID", "MD5", "SHA1", "SHA256",
-    "SHA384", "SHA512", "COALESCE", "CEIL", "FLOOR", "ROUND", "REGEX",
-    "REPLACE", "STRDT", "STRLANG", "CONCAT", "STRSTARTS", "STRENDS",
-    "STRBEFORE", "STRAFTER", "CONTAINS", "ENCODE_FOR_URI", "SUBSTR",
-    "STRLEN", "STR", "LCASE", "LANGMATCHES", "NOW", "YEAR", "MONTH",
-    "DAY", "HOURS", "MINUTES", "SECONDS", "TIMEZONE", "TZ", "UCASE",
-    "LANG", "DATATYPE", "SAMETERM", "BOUND", "EXISTS",
+    "ASC",
+    "DESC",
+    "IRI",
+    "ISBLANK",
+    "ISLITERAL",
+    "ISIRI",
+    "ISNUMERIC",
+    "BNODE",
+    "ABS",
+    "IF",
+    "RAND",
+    "UUID",
+    "STRUUID",
+    "MD5",
+    "SHA1",
+    "SHA256",
+    "SHA384",
+    "SHA512",
+    "COALESCE",
+    "CEIL",
+    "FLOOR",
+    "ROUND",
+    "REGEX",
+    "REPLACE",
+    "STRDT",
+    "STRLANG",
+    "CONCAT",
+    "STRSTARTS",
+    "STRENDS",
+    "STRBEFORE",
+    "STRAFTER",
+    "CONTAINS",
+    "ENCODE_FOR_URI",
+    "SUBSTR",
+    "STRLEN",
+    "STR",
+    "LCASE",
+    "LANGMATCHES",
+    "NOW",
+    "YEAR",
+    "MONTH",
+    "DAY",
+    "HOURS",
+    "MINUTES",
+    "SECONDS",
+    "TIMEZONE",
+    "TZ",
+    "UCASE",
+    "LANG",
+    "DATATYPE",
+    "SAMETERM",
+    "BOUND",
+    "EXISTS",
 ]
 XPATH_FUNCTIONS = [
-    year_from_date, month_from_date, day_from_date,
+    year_from_date,
+    month_from_date,
+    day_from_date,
 ]
 
 
@@ -58,14 +105,11 @@ class STATEMENT(tuple):
         if len(statement) == 3:
             s, p, o = statement
             # check the variable support
-            if is_variable_supported(s) and is_variable_supported(
-                    p) and is_variable_supported(o):
+            if is_variable_supported(s) and is_variable_supported(p) and is_variable_supported(o):
                 return tuple.__new__(STATEMENT, (s, p, o))
             else:
                 raise Exception(
-                    "Values in the statement {} are not of acceptable types.".format(
-                        statement
-                    )
+                    "Values in the statement {} are not of acceptable types.".format(statement)
                 )
         else:
             raise Exception("Statement has to be a tuple in the format (s, p, o)")
@@ -478,6 +522,7 @@ class PropertyPaths(object):
     """
     Property paths. See https://www.w3.org/TR/sparql11-query/#propertypaths
     """
+
     class UnaryPropertyPath(tuple):
         def __new__(cls, operator, operator_position: Literal["prefix", "suffix"], elt):
             if operator_position not in ["prefix", "suffix"]:
@@ -550,17 +595,9 @@ class Aggregates(STATEMENT):
         :return: tuple of (function, statement)
         """
         if not is_variable_supported(statement):
-            raise Exception(
-                "Statement in aggregate function {} not of acceptable type.".format(
-                    fn
-                )
-            )
+            raise Exception("Statement in aggregate function {} not of acceptable type.".format(fn))
         if fn not in AGGREGATE_FUNCTION_LIST:
-            raise Exception(
-                "Aggregate Function {} not supported".format(
-                    fn
-                )
-            )
+            raise Exception("Aggregate Function {} not supported".format(fn))
 
         return tuple.__new__(Aggregates, (fn, statement, params))
 
@@ -617,7 +654,7 @@ class GROUP_CONCAT(STATEMENT):
         """
         Function to define n triple format for the object
         """
-        return 'GROUP_CONCAT(' + self[0].n3() + '; SEPARATOR="' + self[1] + '")'
+        return "GROUP_CONCAT(" + self[0].n3() + '; SEPARATOR="' + self[1] + '")'
 
 
 class FunctionExpressions(STATEMENT):
@@ -648,11 +685,11 @@ class FunctionExpressions(STATEMENT):
         if isinstance(fn_expression, str) and not isinstance(fn_expression, URIRef):
             fn_expression = fn_expression.upper()
 
-        if fn_expression not in FUNCTION_EXPRESSION_SUPPORTED_LIST and fn_expression not in XPATH_FUNCTIONS:
-            raise Exception(
-                "Function expression {} not supported".format(
-                    fn_expression)
-            )
+        if (
+            fn_expression not in FUNCTION_EXPRESSION_SUPPORTED_LIST
+            and fn_expression not in XPATH_FUNCTIONS
+        ):
+            raise Exception("Function expression {} not supported".format(fn_expression))
 
         return tuple.__new__(FunctionExpressions, (fn_expression, args, state))
 
@@ -690,8 +727,11 @@ for function in AGGREGATE_FUNCTION_LIST:
 
 # Initialising all the function expressions
 for function_expression in FUNCTION_EXPRESSION_SUPPORTED_LIST:
-    setattr(FunctionExpressions, function_expression,
-            FunctionExpressions.create_function_expressions(function_expression))
+    setattr(
+        FunctionExpressions,
+        function_expression,
+        FunctionExpressions.create_function_expressions(function_expression),
+    )
 
 
 class FILTER(STATEMENT):
@@ -715,11 +755,7 @@ class FILTER(STATEMENT):
         :return: FILTER tuple object
         """
         if not is_variable_supported(expression):
-            raise Exception(
-                "Expression {} in FILTER not of acceptable type".format(
-                    expression
-                )
-            )
+            raise Exception("Expression {} in FILTER not of acceptable type".format(expression))
 
         return tuple.__new__(FILTER, (expression,))
 
@@ -798,20 +834,18 @@ class BIND(STATEMENT):
         :return: BIND tuple object
         """
         if not is_variable_supported(left):
-            raise Exception(
-                "Variable {} in BIND not of acceptable type".format(
-                    expression
-                )
-            )
+            raise Exception("Variable {} in BIND not of acceptable type".format(expression))
 
         if not is_variable_supported(expression):
-            raise Exception(
-                "Expression {} in BIND not of acceptable type".format(
-                    expression
-                )
-            )
+            raise Exception("Expression {} in BIND not of acceptable type".format(expression))
 
-        return tuple.__new__(BIND, (left, expression,))
+        return tuple.__new__(
+            BIND,
+            (
+                left,
+                expression,
+            ),
+        )
 
     def n3(self):
         """
@@ -956,11 +990,7 @@ class QueryBuilder:
 
         for var in args:
             if isinstance(var, Aggregates):
-                raise Exception(
-                    "Alias not provided for {}".format(
-                        var[1].n3()
-                    )
-                )
+                raise Exception("Alias not provided for {}".format(var[1].n3()))
             if not is_variable_supported(var):
                 raise Exception("Argument not of valid type.")
 
@@ -974,7 +1004,9 @@ class QueryBuilder:
 
         return self
 
-    def MOVE(self, move_from_graph=URIRef("DEFAULT"), move_to_graph=URIRef("DEFAULT"), move_silent=False):
+    def MOVE(
+        self, move_from_graph=URIRef("DEFAULT"), move_to_graph=URIRef("DEFAULT"), move_silent=False
+    ):
         """
         Initialise variables required for the MOVE query
 
@@ -1000,7 +1032,9 @@ class QueryBuilder:
         self.move_silent = move_silent
         return self
 
-    def ADD(self, add_from_graph=URIRef("DEFAULT"), add_to_graph=URIRef("DEFAULT"), add_silent=False):
+    def ADD(
+        self, add_from_graph=URIRef("DEFAULT"), add_to_graph=URIRef("DEFAULT"), add_silent=False
+    ):
         """
         Initialise variables required for the ADD query
 

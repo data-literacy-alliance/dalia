@@ -8,6 +8,7 @@ class LearningResourceType(NamedVocabulary):
     """
     Types of learning resources (course, tutorial, dataset, etc.)
     """
+
     pass
 
 
@@ -15,18 +16,17 @@ class Discipline(NamedVocabulary):
     """
     Research domains and disciplines with hierarchical structure
     """
+
     parent_id = models.ForeignKey(
-        'self',
+        "self",
         on_delete=models.CASCADE,
         null=True,
         blank=True,
-        related_name='children',
-        help_text="Parent discipline for hierarchical organization"
+        related_name="children",
+        help_text="Parent discipline for hierarchical organization",
     )
     parent_label = models.CharField(
-        max_length=255,
-        blank=True,
-        help_text="Label of the parent discipline for display purposes"
+        max_length=255, blank=True, help_text="Label of the parent discipline for display purposes"
     )
 
     class Meta(NamedVocabulary.Meta):
@@ -85,10 +85,11 @@ class License(NamedVocabulary):
     """
     Licensing information with SPDX integration
     """
+
     spdx_id = models.CharField(
         max_length=64,
         blank=True,
-        help_text="Optional SPDX identifier (e.g., MIT, GPL-3.0, CC-BY-4.0)"
+        help_text="Optional SPDX identifier (e.g., MIT, GPL-3.0, CC-BY-4.0)",
     )
 
 
@@ -96,6 +97,7 @@ class ProficiencyLevel(NamedVocabulary):
     """
     Skill levels required (beginner, intermediate, advanced)
     """
+
     pass
 
 
@@ -103,6 +105,7 @@ class TargetGroup(NamedVocabulary):
     """
     Target audiences (researchers, students, practitioners)
     """
+
     pass
 
 
@@ -110,6 +113,7 @@ class FileFormat(NamedVocabulary):
     """
     File formats supported (PDF, CSV, JSON, etc.)
     """
+
     pass
 
 
@@ -117,6 +121,7 @@ class MediaType(NamedVocabulary):
     """
     Media types (text, video, interactive, etc.)
     """
+
     pass
 
 
@@ -124,15 +129,14 @@ class Language(NamedVocabulary):
     """
     Language codes with ISO 639-1 support for multilingual content.
     """
+
     code = models.CharField(
-        max_length=10,
-        unique=True,
-        help_text="ISO 639-1 language code (e.g., 'en', 'de', 'fr')"
+        max_length=10, unique=True, help_text="ISO 639-1 language code (e.g., 'en', 'de', 'fr')"
     )
     native_name = models.CharField(
         max_length=100,
         blank=True,
-        help_text="Native language name (e.g., 'English', 'Deutsch', 'Francais')"
+        help_text="Native language name (e.g., 'English', 'Deutsch', 'Francais')",
     )
 
     class Meta(NamedVocabulary.Meta):

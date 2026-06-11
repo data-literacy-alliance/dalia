@@ -9,11 +9,19 @@ import uuid
 from typing import Dict, List, Optional, Set, Tuple
 from django.db import transaction
 from django.contrib.auth import get_user_model
+
 User = get_user_model()
 
 from curation.models import (
-    License, LearningResourceType, ProficiencyLevel,
-    TargetGroup, MediaType, Language, Community, Person, Organization
+    License,
+    LearningResourceType,
+    ProficiencyLevel,
+    TargetGroup,
+    MediaType,
+    Language,
+    Community,
+    Person,
+    Organization,
     # Discipline excluded: No transformer implemented
 )
 from entity_mapping.models import EntityMapping, SyncLog
@@ -31,14 +39,14 @@ class ImportCandidateService:
 
     # Mapping of entity types to their corresponding Django models
     ENTITY_MODEL_MAPPING = {
-        'license': License,
+        "license": License,
         # 'discipline': Discipline,  # Disabled: No transformer implemented
-        'learning_resource_type': LearningResourceType,
-        'proficiency_level': ProficiencyLevel,
-        'target_group': TargetGroup,
-        'media_type': MediaType,
-        'language': Language,
-        'community': Community,
+        "learning_resource_type": LearningResourceType,
+        "proficiency_level": ProficiencyLevel,
+        "target_group": TargetGroup,
+        "media_type": MediaType,
+        "language": Language,
+        "community": Community,
         # Note: person and organization are not supported by current Fuseki service
         # 'person': Person,
         # 'organization': Organization,
@@ -49,10 +57,7 @@ class ImportCandidateService:
         self.fuseki_service = FusekiQueryService()
 
     def discover_import_candidates(
-        self,
-        entity_type: Optional[str] = None,
-        user: Optional[User] = None,
-        limit: int = 1000
+        self, entity_type: Optional[str] = None, user: Optional[User] = None, limit: int = 1000
     ) -> Dict[str, int]:
         """
         Discover entities that exist in Fuseki but not in PostgreSQL.
@@ -68,13 +73,13 @@ class ImportCandidateService:
         if not user:
             # Get or create a system user for automated operations
             user, created = User.objects.get_or_create(
-                username='system_import_service',
+                username="system_import_service",
                 defaults={
-                    'email': 'system@dalia.education',
-                    'first_name': 'Import',
-                    'last_name': 'Service',
-                    'is_active': False,  # System user, not for login
-                }
+                    "email": "system@dalia.education",
+                    "first_name": "Import",
+                    "last_name": "Service",
+                    "is_active": False,  # System user, not for login
+                },
             )
 
         entity_types = [entity_type] if entity_type else list(self.ENTITY_MODEL_MAPPING.keys())
@@ -114,25 +119,25 @@ class ImportCandidateService:
 
         # Get existing mappings and PostgreSQL entities
         existing_fuseki_uris = set(
-            EntityMapping.objects.filter(entity_type=entity_type)
-            .values_list('fuseki_uri', flat=True)
+            EntityMapping.objects.filter(entity_type=entity_type).values_list(
+                "fuseki_uri", flat=True
+            )
         )
 
         model_class = self.ENTITY_MODEL_MAPPING[entity_type]
         existing_postgresql_uris = set()
 
         # For entities that might have URI fields, check those too
-        if hasattr(model_class, 'uri'):
+        if hasattr(model_class, "uri"):
             existing_postgresql_uris.update(
-                model_class.objects.exclude(uri='')
-                .values_list('uri', flat=True)
+                model_class.objects.exclude(uri="").values_list("uri", flat=True)
             )
 
         new_candidates = 0
 
         with transaction.atomic():
             for entity_data in fuseki_entities:
-                fuseki_uri = entity_data['fuseki_uri']
+                fuseki_uri = entity_data["fuseki_uri"]
 
                 # Skip if we already have a mapping for this URI
                 if fuseki_uri in existing_fuseki_uris:
@@ -149,29 +154,26 @@ class ImportCandidateService:
                 # Create import candidate mapping
                 try:
                     mapping = EntityMapping.objects.create(
-                        fuseki_uuid=entity_data['fuseki_uuid'] or str(uuid.uuid4()),
+                        fuseki_uuid=entity_data["fuseki_uuid"] or str(uuid.uuid4()),
                         fuseki_uri=fuseki_uri,
                         entity_type=entity_type,
                         import_candidate=True,
                         import_approved=False,
-                        sync_status='pending',
-                        sync_direction='fuseki_to_postgresql',
+                        sync_status="pending",
+                        sync_direction="fuseki_to_postgresql",
                         created_by=user,
-                        fuseki_metadata=entity_data['metadata'],
-                        sync_notes=f"Auto-discovered import candidate from Fuseki"
+                        fuseki_metadata=entity_data["metadata"],
+                        sync_notes=f"Auto-discovered import candidate from Fuseki",
                     )
 
                     # Log the discovery
                     SyncLog.objects.create(
                         entity_mapping=mapping,
-                        action='create_mapping',
-                        status='success',
+                        action="create_mapping",
+                        status="success",
                         message=f"Import candidate discovered for {entity_type}",
-                        details={
-                            'fuseki_uri': fuseki_uri,
-                            'metadata': entity_data['metadata']
-                        },
-                        created_by=user
+                        details={"fuseki_uri": fuseki_uri, "metadata": entity_data["metadata"]},
+                        created_by=user,
                     )
 
                     new_candidates += 1
@@ -193,49 +195,44 @@ class ImportCandidateService:
         Returns:
             Matching model instance or None
         """
-        metadata = entity_data['metadata']
-        label = metadata.get('label', '').strip()
+        metadata = entity_data["metadata"]
+        label = metadata.get("label", "").strip()
 
         if not label:
             return None
 
         try:
             # Try exact label match
-            if hasattr(model_class, 'label'):
+            if hasattr(model_class, "label"):
                 match = model_class.objects.filter(label__iexact=label).first()
                 if match:
                     return match
 
             # Try exact name match
-            if hasattr(model_class, 'name'):
+            if hasattr(model_class, "name"):
                 match = model_class.objects.filter(name__iexact=label).first()
                 if match:
                     return match
 
             # For licenses, try SPDX ID match
-            if hasattr(model_class, 'spdx_id') and metadata.get('license_id'):
-                match = model_class.objects.filter(
-                    spdx_id__iexact=metadata['license_id']
-                ).first()
+            if hasattr(model_class, "spdx_id") and metadata.get("license_id"):
+                match = model_class.objects.filter(spdx_id__iexact=metadata["license_id"]).first()
                 if match:
                     return match
 
             # For languages, try code match (extracted from URI)
-            if hasattr(model_class, 'code') and metadata.get('code'):
-                match = model_class.objects.filter(
-                    code__iexact=metadata['code']
-                ).first()
+            if hasattr(model_class, "code") and metadata.get("code"):
+                match = model_class.objects.filter(code__iexact=metadata["code"]).first()
                 if match:
                     return match
 
             # For persons, try name components
-            if hasattr(model_class, 'first_name') and hasattr(model_class, 'last_name'):
-                first_name = metadata.get('first_name', '').strip()
-                last_name = metadata.get('last_name', '').strip()
+            if hasattr(model_class, "first_name") and hasattr(model_class, "last_name"):
+                first_name = metadata.get("first_name", "").strip()
+                last_name = metadata.get("last_name", "").strip()
                 if first_name and last_name:
                     match = model_class.objects.filter(
-                        first_name__iexact=first_name,
-                        last_name__iexact=last_name
+                        first_name__iexact=first_name, last_name__iexact=last_name
                     ).first()
                     if match:
                         return match
@@ -256,14 +253,13 @@ class ImportCandidateService:
 
         for entity_type in self.ENTITY_MODEL_MAPPING.keys():
             candidates = EntityMapping.objects.filter(
-                entity_type=entity_type,
-                import_candidate=True
+                entity_type=entity_type, import_candidate=True
             )
 
             summary[entity_type] = {
-                'total': candidates.count(),
-                'pending': candidates.filter(import_approved=False).count(),
-                'approved': candidates.filter(import_approved=True).count(),
+                "total": candidates.count(),
+                "pending": candidates.filter(import_approved=False).count(),
+                "approved": candidates.filter(import_approved=True).count(),
             }
 
         return summary
@@ -282,9 +278,7 @@ class ImportCandidateService:
         try:
             with transaction.atomic():
                 mapping = EntityMapping.objects.select_for_update().get(
-                    id=mapping_id,
-                    import_candidate=True,
-                    import_approved=False
+                    id=mapping_id, import_candidate=True, import_approved=False
                 )
 
                 mapping.import_approved = True
@@ -294,11 +288,11 @@ class ImportCandidateService:
                 # Log the approval
                 SyncLog.objects.create(
                     entity_mapping=mapping,
-                    action='import_from_fuseki',
-                    status='success',
+                    action="import_from_fuseki",
+                    status="success",
                     message=f"Import candidate approved for {mapping.entity_type}",
-                    details={'approved_by': user.username},
-                    created_by=user
+                    details={"approved_by": user.username},
+                    created_by=user,
                 )
 
                 self.logger.info(f"Import candidate {mapping_id} approved by {user.username}")
@@ -326,25 +320,21 @@ class ImportCandidateService:
         try:
             with transaction.atomic():
                 mapping = EntityMapping.objects.select_for_update().get(
-                    id=mapping_id,
-                    import_candidate=True
+                    id=mapping_id, import_candidate=True
                 )
 
-                mapping.sync_status = 'failed'
+                mapping.sync_status = "failed"
                 mapping.sync_notes += f"\nRejected by {user.username}: {reason}"
                 mapping.save()
 
                 # Log the rejection
                 SyncLog.objects.create(
                     entity_mapping=mapping,
-                    action='import_from_fuseki',
-                    status='error',
+                    action="import_from_fuseki",
+                    status="error",
                     message=f"Import candidate rejected for {mapping.entity_type}",
-                    details={
-                        'rejected_by': user.username,
-                        'reason': reason
-                    },
-                    created_by=user
+                    details={"rejected_by": user.username, "reason": reason},
+                    created_by=user,
                 )
 
                 self.logger.info(f"Import candidate {mapping_id} rejected by {user.username}")
@@ -374,9 +364,7 @@ class ImportCandidateService:
 
         # Remove old rejected candidates
         old_candidates = EntityMapping.objects.filter(
-            import_candidate=True,
-            sync_status='failed',
-            created__lt=cutoff_date
+            import_candidate=True, sync_status="failed", created__lt=cutoff_date
         )
 
         count = old_candidates.count()

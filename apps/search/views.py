@@ -8,6 +8,7 @@ These views provide public access to:
 - Community metadata
 - Community items
 """
+
 from uuid import UUID
 
 from django.http import HttpResponse, HttpResponseNotFound
@@ -32,6 +33,7 @@ class BasicSearchFiltersView(APIView):
     Returns available filter options for search (vocabularies).
     Public endpoint - no authentication required.
     """
+
     permission_classes = [AllowAny]
 
     def get(self, request: Request) -> HttpResponse:
@@ -46,6 +48,7 @@ class ItemView(APIView):
     Returns metadata for a single learning resource.
     Public endpoint - no authentication required.
     """
+
     permission_classes = [AllowAny]
 
     def get(self, request: Request, resource_id: UUID) -> HttpResponse:
@@ -67,6 +70,7 @@ class ItemSearchView(APIView):
     Response: ItemSearchResult (count, results, facets)
     Public endpoint - no authentication required.
     """
+
     permission_classes = [AllowAny]
 
     def post(self, request: Request) -> HttpResponse:
@@ -79,13 +83,15 @@ class ItemSearchView(APIView):
         return Response(result_serializer.data)
 
 
-
 class CurationSuggestCommunitiesView(APIView):
     """GET /v1/curation/suggest/communities/ -- community autocomplete"""
+
     permission_classes = [AllowAny]
 
     def get(self, request: Request) -> HttpResponse:
-        request_serializer = serializers.CurationSuggestSearchRequestSerializer(data=request.query_params)
+        request_serializer = serializers.CurationSuggestSearchRequestSerializer(
+            data=request.query_params
+        )
         request_serializer.is_valid(raise_exception=True)
         result_serializer = serializers.CurationSuggestPaginatedResultSerializer(
             get_communities_suggestions(request_serializer.validated_data)
@@ -100,6 +106,7 @@ class CommunityView(APIView):
     Returns metadata for a community.
     Public endpoint - no authentication required.
     """
+
     permission_classes = [AllowAny]
 
     def get(self, request: Request, community_id: UUID) -> HttpResponse:
@@ -119,6 +126,7 @@ class CommunityItemsView(APIView):
     Returns all learning resources in a community.
     Public endpoint - no authentication required.
     """
+
     permission_classes = [AllowAny]
 
     def get(self, request: Request, community_id: UUID) -> HttpResponse:

@@ -16,26 +16,22 @@ from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = 'Expire deletion request tokens that have passed their 7-day validity period'
+    help = "Expire deletion request tokens that have passed their 7-day validity period"
 
     def handle(self, *args, **options):
         """Execute the command."""
-        self.stdout.write('Checking for expired deletion request tokens...')
+        self.stdout.write("Checking for expired deletion request tokens...")
 
         try:
             count = AccountDeletionService.expire_old_tokens()
 
             if count > 0:
                 self.stdout.write(
-                    self.style.SUCCESS(f'Successfully expired {count} deletion request token(s)')
+                    self.style.SUCCESS(f"Successfully expired {count} deletion request token(s)")
                 )
             else:
-                self.stdout.write(
-                    self.style.SUCCESS('No expired tokens found')
-                )
+                self.stdout.write(self.style.SUCCESS("No expired tokens found"))
 
         except Exception as e:
-            self.stdout.write(
-                self.style.ERROR(f'Error expiring tokens: {e}')
-            )
+            self.stdout.write(self.style.ERROR(f"Error expiring tokens: {e}"))
             raise

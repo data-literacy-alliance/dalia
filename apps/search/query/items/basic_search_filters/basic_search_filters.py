@@ -2,7 +2,11 @@ from typing import List
 
 from rdflib import RDF, Variable
 
-from search.api_models.api_models import BasicSearchFilter, BasicSearchFilterKey, BasicSearchFilterValue
+from search.api_models.api_models import (
+    BasicSearchFilter,
+    BasicSearchFilterKey,
+    BasicSearchFilterValue,
+)
 from search.query.items.facets.facet_objects import FacetObject
 from search.query.items.search.text_search import _ITEM_SEARCH_FACETS
 from search.query.utils import query_dalia_dataset
@@ -23,7 +27,7 @@ def get_basic_search_filters_for_facet(facet: FacetObject) -> BasicSearchFilter:
     # TODO: What happens in the UI if there is no item?
     return BasicSearchFilter(
         key=BasicSearchFilterKey(name=facet.key, label=facet.label),
-        values=get_all_existing_filter_items_for_facet(facet)
+        values=get_all_existing_filter_items_for_facet(facet),
     )
 
 
@@ -42,19 +46,16 @@ def get_all_existing_filter_items_for_facet(facet: FacetObject) -> List[BasicSea
     ]
 
 
-_VARIABLES = {
-    "item": Variable("item")
-}
+_VARIABLES = {"item": Variable("item")}
 
 
 def prepare_query_to_get_all_existing_filter_items_for_facet(facet: FacetObject) -> str:
     var_item = _VARIABLES["item"]
     var_lr = Variable("lr")
 
-    return QueryBuilder().SELECT(
-        var_item,
-        distinct=True
-    ).WHERE(
-        (var_lr, RDF.type, educor.EducationalResource),
-        (var_lr, facet.predicate, var_item)
-    ).build()
+    return (
+        QueryBuilder()
+        .SELECT(var_item, distinct=True)
+        .WHERE((var_lr, RDF.type, educor.EducationalResource), (var_lr, facet.predicate, var_item))
+        .build()
+    )

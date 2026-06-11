@@ -1,6 +1,7 @@
 """
 Terms from spdx.org
 """
+
 from rdflib import URIRef
 
 NS = "http://spdx.org/rdf/terms#"

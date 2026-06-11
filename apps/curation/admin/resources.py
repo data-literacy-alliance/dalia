@@ -1,6 +1,7 @@
 """
 Admin classes for resource models (Resource, ResourceContent).
 """
+
 from urllib.parse import urlparse
 
 from core.admin import BaseModelAdmin
@@ -27,7 +28,17 @@ from django.http import Http404
 
 @admin.register(Resource)
 class ResourceAdmin(BaseModelAdmin):
-    list_display = ("id", "title", "versions_count", "owner", "is_published", "published_at", "created", "is_removed", "uuid")
+    list_display = (
+        "id",
+        "title",
+        "versions_count",
+        "owner",
+        "is_published",
+        "published_at",
+        "created",
+        "is_removed",
+        "uuid",
+    )
     list_filter = ("is_removed", "is_published", "created")
     search_fields = ("id", "title", "owner__username", "uuid")
     actions = ("mark_as_removed", "unmark_removed", "merge_resources")
@@ -49,15 +60,18 @@ class ResourceAdmin(BaseModelAdmin):
             return format_html(
                 '<a href="{}" style="background:#0d6efd;color:#fff;padding:2px 8px;'
                 'border-radius:3px;font-size:11px;text-decoration:none;white-space:nowrap;">'
-                'Open Content</a>',
+                "Open Content</a>",
                 url,
             )
-        url = reverse("admin:curation_resourcecontent_changelist") + f"?resource__id__exact={obj.pk}"
+        url = (
+            reverse("admin:curation_resourcecontent_changelist") + f"?resource__id__exact={obj.pk}"
+        )
         return format_html(
             '<a href="{}" style="background:#6c757d;color:#fff;padding:2px 8px;'
             'border-radius:3px;font-size:11px;text-decoration:none;white-space:nowrap;">'
-            '{} Contents</a>',
-            url, count,
+            "{} Contents</a>",
+            url,
+            count,
         )
 
     content_link.short_description = "Content"
@@ -71,9 +85,11 @@ class ResourceAdmin(BaseModelAdmin):
         return format_html(
             '<a href="{}" style="background:#7c3aed;color:#fff;padding:2px 10px;'
             'border-radius:3px;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap;">'
-            '{}</a>',
-            url, count,
+            "{}</a>",
+            url,
+            count,
         )
+
     versions_count.short_description = "Versions"
     versions_count.admin_order_field = "content_count"
     versions_count.allow_tags = True
@@ -86,9 +102,11 @@ class ResourceAdmin(BaseModelAdmin):
         return format_html(
             '<a href="{}" style="background:#7c3aed;color:#fff;padding:4px 14px;'
             'border-radius:4px;font-size:12px;font-weight:500;text-decoration:none;display:inline-block;">'
-            'View {} Version(s) ↗</a>',
-            url, count,
+            "View {} Version(s) ↗</a>",
+            url,
+            count,
         )
+
     versions_link.short_description = "Versions panel"
 
     def save_model(self, request, obj, form, change):
@@ -98,6 +116,7 @@ class ResourceAdmin(BaseModelAdmin):
 
     def get_urls(self):
         from django.urls import path
+
         urls = super().get_urls()
         custom = [
             path(
@@ -118,15 +137,23 @@ class ResourceAdmin(BaseModelAdmin):
 
         if not self.has_view_permission(request):
             from django.core.exceptions import PermissionDenied
+
             raise PermissionDenied
 
         contents = list(
             ResourceContent.objects.filter(resource=resource)
             .prefetch_related(
-                "languages", "people", "organizations",
-                "learning_resource_types", "disciplines", "licenses",
-                "proficiency_levels", "target_groups", "file_formats",
-                "media_types", "keywords",
+                "languages",
+                "people",
+                "organizations",
+                "learning_resource_types",
+                "disciplines",
+                "licenses",
+                "proficiency_levels",
+                "target_groups",
+                "file_formats",
+                "media_types",
+                "keywords",
             )
             .order_by("id")
         )
@@ -152,8 +179,7 @@ class ResourceAdmin(BaseModelAdmin):
         ]
 
         scalar_all = {
-            name: [str(getattr(rc, name) or "") for rc in contents]
-            for name, _ in SCALAR_FIELDS
+            name: [str(getattr(rc, name) or "") for rc in contents] for name, _ in SCALAR_FIELDS
         }
         m2m_all = {
             name: [set(str(x) for x in getattr(rc, name).all()) for rc in contents]
@@ -184,17 +210,17 @@ class ResourceAdmin(BaseModelAdmin):
                 curr_val = scalar_all[name][i]
                 prev_val = scalar_all[name][i - 1] if i > 0 else None
                 differs_from_prev = (
-                    i > 0
-                    and name not in SKIP_CONSECUTIVE_DIFF
-                    and curr_val != prev_val
+                    i > 0 and name not in SKIP_CONSECUTIVE_DIFF and curr_val != prev_val
                 )
-                fields.append({
-                    "name": name,
-                    "label": label,
-                    "values": [curr_val],
-                    "differs": scalar_differs(scalar_all[name]),
-                    "differs_from_prev": differs_from_prev,
-                })
+                fields.append(
+                    {
+                        "name": name,
+                        "label": label,
+                        "values": [curr_val],
+                        "differs": scalar_differs(scalar_all[name]),
+                        "differs_from_prev": differs_from_prev,
+                    }
+                )
 
             m2m_diffs = {}
             for name, label in M2M_FIELDS:
@@ -212,19 +238,23 @@ class ResourceAdmin(BaseModelAdmin):
                     cell_values = unchanged
                 else:
                     cell_values = sorted(my_set)
-                fields.append({
-                    "name": name,
-                    "label": label,
-                    "values": cell_values,
-                    "differs": differs,
-                    "differs_from_prev": differs_from_prev,
-                })
+                fields.append(
+                    {
+                        "name": name,
+                        "label": label,
+                        "values": cell_values,
+                        "differs": differs,
+                        "differs_from_prev": differs_from_prev,
+                    }
+                )
 
-            versions_data.append({
-                "obj": rc,
-                "fields": fields,
-                "m2m_diffs": m2m_diffs,
-            })
+            versions_data.append(
+                {
+                    "obj": rc,
+                    "fields": fields,
+                    "m2m_diffs": m2m_diffs,
+                }
+            )
 
         activate_url = reverse("admin:curation_resourcecontent_changelist")
         context = {
@@ -237,7 +267,9 @@ class ResourceAdmin(BaseModelAdmin):
         }
         return django_render(request, "admin/curation/resource/versions.html", context)
 
-    @admin.action(description="Merge selected resources into one (published becomes canonical, else oldest)")
+    @admin.action(
+        description="Merge selected resources into one (published becomes canonical, else oldest)"
+    )
     def merge_resources(self, request, queryset):
         if queryset.count() < 2:
             self.message_user(
@@ -270,9 +302,7 @@ class ResourceAdmin(BaseModelAdmin):
                 )
 
             # Recalculate version numbers for all RCs under canonical (ordered by id)
-            all_rcs = list(
-                ResourceContent.objects.filter(resource=canonical).order_by("id")
-            )
+            all_rcs = list(ResourceContent.objects.filter(resource=canonical).order_by("id"))
             for idx, rc in enumerate(all_rcs, start=1):
                 ResourceContent.objects.filter(pk=rc.pk).update(version=idx)
 
@@ -416,8 +446,13 @@ class ResourceContentAdmin(BaseModelAdmin):
     list_display_links = ("resource_title",)
     list_filter = ("is_active", "created_by", "submitted_for_review", "languages")
     search_fields = (
-        "id", "title", "resource__id", "resource__title",
-        "description", "main_url", "uuid",
+        "id",
+        "title",
+        "resource__id",
+        "resource__title",
+        "description",
+        "main_url",
+        "uuid",
     )
     inlines = (ResourceLinkInline, ResourceCommunityRelationInline, ResourceRelatedItemInline)
 
@@ -437,30 +472,33 @@ class ResourceContentAdmin(BaseModelAdmin):
     readonly_fields = ("title", "resource_link", "uuid")
 
     fieldsets = (
-        (None, {
-            "fields": (
-                "resource",
-                "resource_link",
-                "uuid",
-                "languages",
-                "main_url",
-                "publication_date",
-                "description",
-                "size_mb",
-                "people",
-                "organizations",
-                "learning_resource_types",
-                "disciplines",
-                "licenses",
-                "proficiency_levels",
-                "target_groups",
-                "file_formats",
-                "media_types",
-                "keywords",
-                "created_by",
-                ("submitted_for_review", "submitted_at", "submitted_by"),
-            ),
-        }),
+        (
+            None,
+            {
+                "fields": (
+                    "resource",
+                    "resource_link",
+                    "uuid",
+                    "languages",
+                    "main_url",
+                    "publication_date",
+                    "description",
+                    "size_mb",
+                    "people",
+                    "organizations",
+                    "learning_resource_types",
+                    "disciplines",
+                    "licenses",
+                    "proficiency_levels",
+                    "target_groups",
+                    "file_formats",
+                    "media_types",
+                    "keywords",
+                    "created_by",
+                    ("submitted_for_review", "submitted_at", "submitted_by"),
+                ),
+            },
+        ),
     )
 
     def version_link(self, obj):
@@ -468,9 +506,11 @@ class ResourceContentAdmin(BaseModelAdmin):
         return format_html(
             '<a href="{}" style="background:#7c3aed;color:#fff;padding:2px 10px;'
             'border-radius:3px;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap;">'
-            'v{}</a>',
-            url, obj.version,
+            "v{}</a>",
+            url,
+            obj.version,
         )
+
     version_link.short_description = "Version"
     version_link.admin_order_field = "version"
 
@@ -481,15 +521,17 @@ class ResourceContentAdmin(BaseModelAdmin):
         return format_html(
             '<a href="{}" target="_blank" style="background:#0d6efd;color:#fff;padding:4px 14px;'
             'border-radius:4px;font-size:12px;font-weight:500;text-decoration:none;display:inline-block;">'
-            'Open Resource Admin ↗</a>',
+            "Open Resource Admin ↗</a>",
             url,
         )
+
     resource_link.short_description = "Resource admin"
 
     def review_flag(self, obj):
         if obj.submitted_for_review:
             return mark_safe('<span style="color:#b45309;font-weight:500;">Needs review</span>')
         return mark_safe('<span style="color:#065f46;">\u2014</span>')
+
     review_flag.short_description = "Review"
 
     def get_languages(self, obj):
@@ -499,6 +541,7 @@ class ResourceContentAdmin(BaseModelAdmin):
         if not langs:
             return "\u2014"
         return ", ".join([lang.code for lang in langs])
+
     get_languages.short_description = "Languages"
 
     @admin.display(description="Resource title", ordering="resource__title")
@@ -542,7 +585,7 @@ class ResourceContentAdmin(BaseModelAdmin):
             )
         self.message_user(
             request,
-            f"Version {target.version} is now active for \"{target.resource}\".",
+            f'Version {target.version} is now active for "{target.resource}".',
         )
 
     def get_actions(self, request):
@@ -556,6 +599,7 @@ class ResourceContentAdmin(BaseModelAdmin):
         Two-step add: step 1 selects a Resource, step 2 fills in content.
         """
         from django.shortcuts import render as django_render
+
         resource_id = request.GET.get("resource")
 
         if not resource_id:

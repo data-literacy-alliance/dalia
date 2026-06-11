@@ -16,13 +16,17 @@ _LABEL_GRAPH_PATTERN = (
 )
 
 
-def _map_learning_resource_type_uris_to_label_value_items(items: Collection[Node]) -> Dict[Node, LabelValueItem]:
+def _map_learning_resource_type_uris_to_label_value_items(
+    items: Collection[Node],
+) -> Dict[Node, LabelValueItem]:
     mapping = get_labels_for_item_uris(items, Dataset.ONTOLOGIES, _LABEL_GRAPH_PATTERN)
 
     return remap_to_label_value_item(mapping)
 
 
-def get_learning_resource_types_for_resources(resource_uri_refs: List[URIRef]) -> Dict[URIRef, List[LabelValueItem]]:
+def get_learning_resource_types_for_resources(
+    resource_uri_refs: List[URIRef],
+) -> Dict[URIRef, List[LabelValueItem]]:
     """
     Retrieve the learning resource types for each of the given learning resource URIRefs.
 
@@ -32,5 +36,5 @@ def get_learning_resource_types_for_resources(resource_uri_refs: List[URIRef]) -
     return get_one_to_many_metadata_for_resources(
         resource_uri_refs=resource_uri_refs,
         relation=MoDalia.hasLearningType,
-        items_mapping_fn=_map_learning_resource_type_uris_to_label_value_items
+        items_mapping_fn=_map_learning_resource_type_uris_to_label_value_items,
     )

@@ -7,10 +7,10 @@ from django.utils.text import slugify
 
 # Feature-specific constants
 MEMBERSHIP_ROLES = [
-    ('member', 'Member'),
-    ('moderator', 'Moderator'),
-    ('admin', 'Administrator'),
-    ('owner', 'Owner'),
+    ("member", "Member"),
+    ("moderator", "Moderator"),
+    ("admin", "Administrator"),
+    ("owner", "Owner"),
 ]
 
 
@@ -18,6 +18,7 @@ class Community(UUIDMixin, TimeStampedModel, Activatable):
     """
     Enhanced Community model with governance settings.
     """
+
     title = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     uri = models.URLField(blank=True)
@@ -25,16 +26,13 @@ class Community(UUIDMixin, TimeStampedModel, Activatable):
     # Governance and moderation settings
     description = models.TextField(blank=True, help_text="Community description and purpose")
     moderation_policy = models.TextField(
-        blank=True,
-        help_text="Community moderation guidelines and policies"
+        blank=True, help_text="Community moderation guidelines and policies"
     )
     auto_publish_threshold = models.IntegerField(
-        default=2,
-        help_text="Number of positive reviews needed for auto-publishing"
+        default=2, help_text="Number of positive reviews needed for auto-publishing"
     )
     requires_approval = models.BooleanField(
-        default=True,
-        help_text="Whether new members require approval to join"
+        default=True, help_text="Whether new members require approval to join"
     )
 
     class Meta:
@@ -51,33 +49,29 @@ class Community(UUIDMixin, TimeStampedModel, Activatable):
 
     def get_members(self):
         """Get all community members."""
-        return self.memberships.select_related('user').filter(user__is_active=True)
+        return self.memberships.select_related("user").filter(user__is_active=True)
 
     def get_admins(self):
         """Get community administrators and owners."""
-        return self.memberships.filter(role__in=['admin', 'owner']).select_related('user')
+        return self.memberships.filter(role__in=["admin", "owner"]).select_related("user")
 
     def get_moderators(self):
         """Get community moderators, admins, and owners."""
-        return self.memberships.filter(role__in=['moderator', 'admin', 'owner']).select_related('user')
+        return self.memberships.filter(role__in=["moderator", "admin", "owner"]).select_related(
+            "user"
+        )
 
     def user_can_moderate(self, user):
         """Check if user has moderation permissions."""
         if not user.is_authenticated:
             return False
-        return self.memberships.filter(
-            user=user,
-            role__in=['moderator', 'admin', 'owner']
-        ).exists()
+        return self.memberships.filter(user=user, role__in=["moderator", "admin", "owner"]).exists()
 
     def user_can_admin(self, user):
         """Check if user has admin permissions."""
         if not user.is_authenticated:
             return False
-        return self.memberships.filter(
-            user=user,
-            role__in=['admin', 'owner']
-        ).exists()
+        return self.memberships.filter(user=user, role__in=["admin", "owner"]).exists()
 
 
 class CommunityMembership(UUIDMixin, TimeStampedModel):
@@ -85,56 +79,45 @@ class CommunityMembership(UUIDMixin, TimeStampedModel):
     Community membership with roles and permissions.
     Maps to FAIR-DS Organization Ontology (org:Membership).
     """
+
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name="community_memberships"
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="community_memberships"
     )
-    community = models.ForeignKey(
-        Community,
-        on_delete=models.CASCADE,
-        related_name="memberships"
-    )
+    community = models.ForeignKey(Community, on_delete=models.CASCADE, related_name="memberships")
     role = models.CharField(
         max_length=20,
         choices=MEMBERSHIP_ROLES,
-        default='member',
-        help_text="Member role (maps to org:role in FAIR-DS ontology)"
+        default="member",
+        help_text="Member role (maps to org:role in FAIR-DS ontology)",
     )
     joined_at = models.DateTimeField(auto_now_add=True)
     is_approved = models.BooleanField(
-        default=False,
-        help_text="Whether membership has been approved"
+        default=False, help_text="Whether membership has been approved"
     )
     approved_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="approved_memberships"
+        related_name="approved_memberships",
     )
     approved_at = models.DateTimeField(null=True, blank=True)
 
     # Extended permissions for fine-grained control
     permissions_granted = models.JSONField(
-        default=list,
-        help_text="Additional specific permissions beyond role defaults"
+        default=list, help_text="Additional specific permissions beyond role defaults"
     )
 
     # Integration with Django Groups for global roles
     sync_with_group = models.BooleanField(
-        default=False,
-        help_text="Sync role changes with Django user groups"
+        default=False, help_text="Sync role changes with Django user groups"
     )
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(
-                fields=['community', 'user'],
-                name='unique_community_member'
-            )
+            models.UniqueConstraint(fields=["community", "user"], name="unique_community_member")
         ]
-        ordering = ('community', 'role', 'user__username')
+        ordering = ("community", "role", "user__username")
 
     def __str__(self):
         return f"{self.user.username} - {self.community.title} ({self.get_role_display()})"
@@ -147,12 +130,30 @@ class CommunityMembership(UUIDMixin, TimeStampedModel):
     def get_role_permissions(self):
         """Get default permissions for the current role."""
         role_perms = {
-            'member': ['view_content', 'create_content'],
-            'moderator': ['view_content', 'create_content', 'moderate_content', 'review_submissions'],
-            'admin': ['view_content', 'create_content', 'moderate_content', 'review_submissions',
-                     'manage_members', 'edit_community'],
-            'owner': ['view_content', 'create_content', 'moderate_content', 'review_submissions',
-                     'manage_members', 'edit_community', 'delete_community'],
+            "member": ["view_content", "create_content"],
+            "moderator": [
+                "view_content",
+                "create_content",
+                "moderate_content",
+                "review_submissions",
+            ],
+            "admin": [
+                "view_content",
+                "create_content",
+                "moderate_content",
+                "review_submissions",
+                "manage_members",
+                "edit_community",
+            ],
+            "owner": [
+                "view_content",
+                "create_content",
+                "moderate_content",
+                "review_submissions",
+                "manage_members",
+                "edit_community",
+                "delete_community",
+            ],
         }
         return role_perms.get(self.role, [])
 
@@ -170,10 +171,10 @@ class CommunityMembership(UUIDMixin, TimeStampedModel):
         if promoted_by:
             # Log the promotion in permissions_granted
             promotion_log = {
-                'action': 'promoted',
-                'from_role': old_role,
-                'to_role': new_role,
-                'by': promoted_by.username,
+                "action": "promoted",
+                "from_role": old_role,
+                "to_role": new_role,
+                "by": promoted_by.username,
             }
             if not isinstance(self.permissions_granted, list):
                 self.permissions_granted = []
@@ -184,6 +185,7 @@ class CommunityMembership(UUIDMixin, TimeStampedModel):
     def approve_membership(self, approved_by):
         """Approve pending membership."""
         from django.utils import timezone
+
         self.is_approved = True
         self.approved_by = approved_by
         self.approved_at = timezone.now()

@@ -21,17 +21,18 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
-        fields = ['id', 'name']
+        fields = ["id", "name"]
 
 
 class PermissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Permission
-        fields = ['id', 'codename', 'name']
+        fields = ["id", "codename", "name"]
 
 
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for User accounts, including staff roles."""
+
     groups = GroupSerializer(many=True, read_only=True)
     user_permissions = PermissionSerializer(many=True, read_only=True)
     effective_permissions = serializers.SerializerMethodField()
@@ -80,13 +81,14 @@ class PersonProfileSerializer(serializers.Serializer):
     Serializer for Person profile search results.
     Returns Person model fields respecting privacy_level.
     """
+
     # Person model fields
     id = serializers.IntegerField(read_only=True)
     uuid = serializers.UUIDField(read_only=True)
 
     # Related User info (for context)
-    user_id = serializers.IntegerField(source='user.id', read_only=True, allow_null=True)
-    username = serializers.CharField(source='user.username', read_only=True, allow_null=True)
+    user_id = serializers.IntegerField(source="user.id", read_only=True, allow_null=True)
+    username = serializers.CharField(source="user.username", read_only=True, allow_null=True)
 
     # Person profile fields
     first_name = serializers.CharField()
@@ -124,15 +126,16 @@ class PersonProfileSerializer(serializers.Serializer):
 
     def _is_visible(self, obj):
         """Return True if sensitive fields should be shown."""
-        if obj.privacy_level == 'public':
+        if obj.privacy_level == "public":
             return True
-        request = self.context.get('request')
+        request = self.context.get("request")
         if request and request.user.is_authenticated:
             # Internal profiles expose orcid/homepage to any logged-in user
-            if obj.privacy_level == 'internal':
+            if obj.privacy_level == "internal":
                 return True
             try:
                 from curation.models import Person
+
                 own = Person.objects.get(user=request.user)
                 return own.pk == obj.pk
             except Person.DoesNotExist:
