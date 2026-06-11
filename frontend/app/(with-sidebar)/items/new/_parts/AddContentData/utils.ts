@@ -198,7 +198,7 @@ export async function submitData(
         organizations: data.organizations
           .filter((o) => o.id !== undefined)
           .map((o) => o.id),
-        learning_resource_types: data.learningResourceTypes.map(
+        learning_resource_types: data.learningResourceTypes?.map(
           (lrt) => lrt.value
         ),
         disciplines: data.disciplines

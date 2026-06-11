@@ -65,7 +65,7 @@ export const languagesField: FieldKey = {
 
 export const learningResourceTypesField: FieldKey = {
   label: 'Learning Resource Type',
-  value: (i) => i.learning_resource_types.map((lrs) => lrs.label).join(', '),
+  value: (i) => i.learning_resource_types?.map((lrs) => lrs.label).join(', ') ?? "",
   property: 'mo:hasLearningType',
 };
 
