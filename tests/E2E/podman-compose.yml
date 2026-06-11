@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  capture:
+    build:
+      context: .
+      dockerfile: Containerfile
+    container_name: dalia-e2e-capture
+    ports:
+      - "6080:6080"
+      - "5900:5900"
+    volumes:
+      - e2e-session:/session:z
+    command: ["/app/scripts/start-capture.sh"]
+    stdin_open: true
+    tty: true
+    profiles: ["capture"]
+
+  test:
+    build:
+      context: .
+      dockerfile: Containerfile
+    container_name: dalia-e2e-test
+    volumes:
+      - e2e-session:/session:ro,z
+      - ./reports:/reports:z
+      - ./tests:/app/tests:ro,z
+      - ./playwright.config.ts:/app/playwright.config.ts:ro,z
+      - ./test-results:/app/test-results:z
+    command: ["npx", "playwright", "test"]
+    profiles: ["test"]
+
+volumes:
+  e2e-session:

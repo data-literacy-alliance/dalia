@@ -170,7 +170,8 @@ export async function submitData(
   accessKey: string,
   userId: number,
   disciplines: LabelValueChild[],
-  resourceUuid?: string
+  resourceUuid?: string,
+  idempotencyKey?: string
 ) {
   try {
     const result = await apiFetch('/api/curation/resource-contents/', {
@@ -178,6 +179,7 @@ export async function submitData(
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessKey}`,
+        ...(idempotencyKey ? { 'Idempotency-Key': idempotencyKey } : {}),
       },
       body: JSON.stringify({
         ...(resourceUuid ? { resource: resourceUuid } : {}),
@@ -214,6 +216,10 @@ export async function submitData(
         target_groups: data.targetGroups.map((tg) => tg.value),
         file_formats: data.fileFormats.map((ff) => ff.value),
         media_types: data.mediaTypes.map((mt) => mt.value),
+        keywords: data.keywords
+          .split(',')
+          .map((k) => k.trim())
+          .filter(Boolean),
       }),
     });
 
@@ -351,6 +357,9 @@ export async function submitEditData(
       target_groups: data.targetGroups?.map((tg) => tg.value),
       file_formats: data.fileFormats?.map((ff) => ff.value).filter((v) => v !== 'unknown'),
       media_types: data.mediaTypes?.map((mt) => mt.value),
+      keywords: data.keywords !== undefined
+        ? data.keywords.split(',').map((k) => k.trim()).filter(Boolean)
+        : undefined,
     };
 
     const editData = Object.fromEntries(

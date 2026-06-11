@@ -12,7 +12,7 @@ from curation.admin.inlines import (
 )
 from curation.models import Resource, ResourceContent
 from django import forms
-from unfold.widgets import UnfoldAdminSelectWidget
+from unfold.widgets import UnfoldAdminSelectWidget, UnfoldAdminTextInputWidget
 from django.contrib import admin
 from django.db.models import Count, Min
 from django.shortcuts import redirect
@@ -21,6 +21,8 @@ from django.utils import timezone
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
+from taggit.forms import TagField
+from taggit.utils import edit_string_for_tags
 import difflib
 from django.db import transaction
 from django.http import Http404
@@ -364,7 +366,26 @@ class SelectResourceForm(forms.Form):
     )
 
 
+class TaggitUnfoldWidget(UnfoldAdminTextInputWidget):
+    """UnfoldAdminTextInputWidget that renders a taggit Tag queryset as comma-separated names."""
+
+    def format_value(self, value):
+        if value is not None and not isinstance(value, str):
+            try:
+                value = edit_string_for_tags(value)
+            except (AttributeError, TypeError):
+                pass
+        return super().format_value(value)
+
+
 class ResourceContentAdminForm(forms.ModelForm):
+    keywords = TagField(
+        label="Keywords",
+        required=False,
+        help_text="Comma-separated keywords, e.g. chemistry, FAIR data",
+        widget=TaggitUnfoldWidget(attrs={"placeholder": "e.g. chemistry, FAIR data"}),
+    )
+
     class Meta:
         model = ResourceContent
         fields = [
@@ -409,6 +430,10 @@ class ResourceContentAdminForm(forms.ModelForm):
             if fname in self.fields:
                 self.fields[fname].help_text = deselect_hint
 
+    def clean_keywords(self):
+        tags = self.cleaned_data.get("keywords") or []
+        return [t.lower().strip() for t in tags if t.strip()]
+
     def clean_main_url(self):
         """Normalize values like //example.com to https://example.com."""
         url = self.cleaned_data.get("main_url")
@@ -425,6 +450,13 @@ class ResourceContentAdminForm(forms.ModelForm):
         if not languages or languages.count() == 0:
             raise forms.ValidationError({"languages": "At least one language is required."})
         return cleaned
+
+    def save(self, commit=True):
+        instance = super().save(commit=commit)
+        if commit and "keywords" in self.cleaned_data:
+            kw = self.cleaned_data["keywords"]
+            instance.keywords.set(*kw)
+        return instance
 
 
 @admin.register(ResourceContent)
@@ -572,20 +604,15 @@ class ResourceContentAdmin(BaseModelAdmin):
         with transaction.atomic():
             ResourceContent.objects.filter(
                 resource_id=target.resource_id,
-            ).exclude(pk=target.pk).update(is_active=False)
+            ).exclude(pk=target.pk).update(is_active=False, submitted_for_review=False)
             ResourceContent.objects.filter(pk=target.pk).update(
                 is_active=True,
                 submitted_for_review=False,
-                submitted_at=None,
-                submitted_by=None,
-            )
-            Resource.objects.filter(pk=target.resource_id).update(
-                is_published=True,
-                published_at=timezone.now(),
             )
         self.message_user(
             request,
-            f'Version {target.version} is now active for "{target.resource}".',
+            f'Version {target.version} is now the active draft for "{target.resource}". '
+            "Publish the resource via the Resource admin form to make it publicly visible.",
         )
 
     def get_actions(self, request):

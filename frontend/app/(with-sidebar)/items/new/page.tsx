@@ -75,6 +75,9 @@ type ResourceContentResponse = {
     slug: string;
   }>;
   size_mb: string | null;
+  resource_uuid?: string;
+  submitted_for_review?: boolean;
+  keywords?: string[];
 };
 
 function transformResourceContentToItem(content: ResourceContentResponse): ResourceItem {
@@ -107,7 +110,7 @@ function transformResourceContentToItem(content: ResourceContentResponse): Resou
     likes: 0,
     views: 0,
     comments: 0,
-    tags: [],
+    tags: Array.isArray(content.keywords) ? content.keywords : [],
     related_works: [],
     learning_resource_types: Array.isArray(content.learning_resource_types)
       ? content.learning_resource_types.map((t) => ({
@@ -157,6 +160,8 @@ function transformResourceContentToItem(content: ResourceContentResponse): Resou
         }))
       : [],
     file_size: content.size_mb ? `${content.size_mb} MB` : undefined,
+    resource_uuid: content.resource_uuid,
+    submitted_for_review: content.submitted_for_review,
   };
 }
 

@@ -59,6 +59,7 @@ import DetailsBody from '@/app/(with-sidebar)/items/[id]/[slug]/_parts/DetailsBo
 const AddContentData: FC<AddContentDataProps> = ({ item }) => {
   const isEdit = !!item;
   const [saved, setSaved] = useState(false);
+  const [idempotencyKey] = useState<string>(() => crypto.randomUUID());
   const router = useRouter();
   const form = useForm<NewItemData>({
     resolver: zodResolver(addNewItemSchema),
@@ -292,7 +293,9 @@ const AddContentData: FC<AddContentDataProps> = ({ item }) => {
             data,
             access,
             userInfo.id,
-            disciplines
+            disciplines,
+            undefined,
+            idempotencyKey
           );
           if (!result) {
             form.setError('title', { message: 'Failed to save data!' });
