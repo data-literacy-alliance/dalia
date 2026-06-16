@@ -132,7 +132,7 @@ const GridItem: FC<ItemProps> = ({
           className={'line-clamp-3 text-[1.5rem] font-semibold'}
           title={item.title}
         >
-          <Link href={`/items/${item.id}/${item.slug}`}>{item.title}</Link>
+          <Link href={`/items/${item.resource_uuid ?? item.id}/${item.slug}`}>{item.title}</Link>
         </Text>
         <Text className={'line-clamp-4'}>
           {item.description || <i>No description.</i>}
@@ -284,7 +284,7 @@ const GridItem: FC<ItemProps> = ({
               })}
               dark
               link={{
-                href: `/items/${item.id}/${item.slug}/`,
+                href: `/items/${item.resource_uuid ?? item.id}/${item.slug}/`,
               }}
             >
               See Details

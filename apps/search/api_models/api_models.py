@@ -178,6 +178,9 @@ class ResourceSpecial:
     doi: Optional[str] = None
     learning_time: Optional[int] = None
     versions: Optional[List[Version]] = None
+    source: Optional[str] = (
+        None  # provenance: "fuseki" | "postgres" (additive; FE ignores unknown fields)
+    )
 
 
 @dataclass

@@ -116,7 +116,9 @@ def store_provider_in_session(request, user, **kwargs):
         return
     try:
         provider = sociallogin.account.provider
+        uid = sociallogin.account.uid
         request.session["last_social_provider"] = provider
-        logger.debug(f"Stored last used social provider: {provider}")
+        request.session["last_social_uid"] = uid
+        logger.debug(f"Stored last used social provider: {provider}, uid: {uid}")
     except Exception as e:
         logger.warning(f"Could not store provider in session: {e}")

@@ -202,6 +202,10 @@ class ResourceContentReadSerializer(serializers.ModelSerializer):
     resource_title = serializers.CharField(source="resource.title", read_only=True)
     created_by = MinimalUserSerializer(read_only=True)
     submitted_by = MinimalUserSerializer(read_only=True)
+    keywords = serializers.SerializerMethodField()
+
+    def get_keywords(self, obj):
+        return sorted(obj.keywords.names())
 
     class Meta:
         model = cf.ResourceContent
@@ -220,9 +224,20 @@ class ResourceContentWriteSerializer(serializers.ModelSerializer):
     Write serializer for creating/updating a DRAFT content.
     Frontend sends simple IDs for M2M fields (DRF handles that).
     If 'resource' is omitted, the ViewSet will create one automatically.
+    keywords is handled explicitly: TaggableManager is not a real model field
+    so DRF cannot introspect it; we pop it from validated_data and call
+    instance.keywords.set() after the underlying save.
     """
 
     uuid = serializers.UUIDField(read_only=True)
+    uuid = serializers.UUIDField(read_only=True)
+    keywords = serializers.ListField(
+        child=serializers.CharField(allow_blank=False, trim_whitespace=True),
+        required=False,
+        allow_null=True,
+        default=None,
+        write_only=True,
+    )
 
     class Meta:
         model = cf.ResourceContent
@@ -230,11 +245,30 @@ class ResourceContentWriteSerializer(serializers.ModelSerializer):
         # 'resource' may be omitted on POST to create a new grouper
         read_only_fields = ("id", "uuid", "created", "modified")
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data["keywords"] = sorted(instance.keywords.names())
+        return data
+
     def validate_languages(self, value):
         """Ensure at least one language is provided."""
         if not value or len(value) == 0:
             raise serializers.ValidationError("At least one language is required.")
         return value
+
+    def create(self, validated_data):
+        keywords = validated_data.pop("keywords", None) or []
+        instance = super().create(validated_data)
+        if keywords:
+            instance.keywords.set(keywords)
+        return instance
+
+    def update(self, instance, validated_data):
+        keywords = validated_data.pop("keywords", None)
+        instance = super().update(instance, validated_data)
+        if keywords is not None:
+            instance.keywords.set(keywords)
+        return instance
 
 
 # ---------- Community Management ----------
