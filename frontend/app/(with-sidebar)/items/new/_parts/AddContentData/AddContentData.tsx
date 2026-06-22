@@ -9,6 +9,7 @@ import {
   calculateFairScore,
   createTempResourceItem,
   findDisciplinesFromString,
+  findDisciplinePathInTree,
   loadErrorsToForm,
   randomString,
   submitData,
@@ -59,6 +60,7 @@ import DetailsBody from '@/app/(with-sidebar)/items/[id]/[slug]/_parts/DetailsBo
 const AddContentData: FC<AddContentDataProps> = ({ item }) => {
   const isEdit = !!item;
   const [saved, setSaved] = useState(false);
+  const [idempotencyKey] = useState<string>(() => crypto.randomUUID());
   const router = useRouter();
   const form = useForm<NewItemData>({
     resolver: zodResolver(addNewItemSchema),
@@ -97,9 +99,7 @@ const AddContentData: FC<AddContentDataProps> = ({ item }) => {
             is_supporting: c.is_supporting,
           }))
         : [],
-      disciplines: item?.disciplines
-        ? item.disciplines.map((d) => [d.value])
-        : [],
+      disciplines: [],
       licenses: item?.license
         ? [
             {
@@ -143,9 +143,35 @@ const AddContentData: FC<AddContentDataProps> = ({ item }) => {
   const { userInfo } = useUserInfo();
   const { items: disciplines } = useNewDisciplines(false);
 
-  // Reset form when item prop changes (for edit mode)
+  // Tracks the item key for which the authoritative reset has already run,
+  // so a later catalog revalidation does not clobber the user's in-progress edits.
+  const loadedItemKeyRef = React.useRef<string | null>(null);
+
+  // Reset form when item prop changes (for edit mode).
+  // Also re-runs when `disciplines` loads so resolved discipline paths can be
+  // included in the baseline (making Reset and reload restore them).
   React.useEffect(() => {
+    const key = item ? item.id : 'new';
+    const itemHasDisciplines = !!(item?.disciplines && item.disciplines.length > 0);
+
+    // For an existing item WITH disciplines, wait until the catalog has loaded so
+    // we can resolve the discipline paths and put them in the reset baseline.
+    if (itemHasDisciplines && disciplines.length === 0) {
+      return;
+    }
+    // Run the authoritative reset once per item — a later catalog revalidation
+    // must not clobber the user's in-progress edits.
+    if (loadedItemKeyRef.current === key) {
+      return;
+    }
+    loadedItemKeyRef.current = key;
+
     if (item) {
+      const resolvedDisciplines = itemHasDisciplines
+        ? item.disciplines
+            .map((d) => findDisciplinePathInTree(d.value, disciplines))
+            .filter((path) => path.length > 0)
+        : [];
       const formValues = {
         title: item.title ?? '',
         url: item.url ?? '',
@@ -179,9 +205,7 @@ const AddContentData: FC<AddContentDataProps> = ({ item }) => {
               is_supporting: c.is_supporting,
             }))
           : [],
-        disciplines: item.disciplines
-          ? item.disciplines.map((d) => [d.value])
-          : [],
+        disciplines: resolvedDisciplines,
         licenses: item.license
           ? [
               {
@@ -245,7 +269,15 @@ const AddContentData: FC<AddContentDataProps> = ({ item }) => {
       setAcceptedRules(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [item?.id]);
+  }, [item?.id, disciplines]);
+
+  const unresolvedDisciplineCount = React.useMemo(() => {
+    if (!item?.disciplines || disciplines.length === 0) return 0;
+    return item.disciplines.filter(
+      (d) => findDisciplinePathInTree(d.value, disciplines).length === 0
+    ).length;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [item?.id, disciplines]);
 
   const isLoading = form.formState.isSubmitting;
   const onSubmit = async (data: NewItemData, e?: BaseSyntheticEvent) => {
@@ -292,7 +324,9 @@ const AddContentData: FC<AddContentDataProps> = ({ item }) => {
             data,
             access,
             userInfo.id,
-            disciplines
+            disciplines,
+            undefined,
+            idempotencyKey
           );
           if (!result) {
             form.setError('title', { message: 'Failed to save data!' });
@@ -566,7 +600,7 @@ const AddContentData: FC<AddContentDataProps> = ({ item }) => {
             <ContentCommunities />
           </VFlex>
 
-          <ContentDisciplines />
+          <ContentDisciplines unresolvedCount={unresolvedDisciplineCount} />
 
           <VFlex className={'gap-5'}>
             <HFlex className={'gap-1'}>

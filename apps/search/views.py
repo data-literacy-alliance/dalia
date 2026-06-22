@@ -24,6 +24,8 @@ from search.suggest.communities import get_communities_suggestions
 from search.query.items.basic_search_filters.basic_search_filters import get_basic_search_filters
 from search.query.items.metadata.items import get_metadata_for_learning_resource
 from search.query.items.search.comprehensive_search import search_items_comprehensive
+from search.query.items.search.sources import get_enabled_search_sources
+from search.query.items.search.producers.postgres_producer import postgres_hydrate
 
 
 class BasicSearchFiltersView(APIView):
@@ -53,6 +55,11 @@ class ItemView(APIView):
 
     def get(self, request: Request, resource_id: UUID) -> HttpResponse:
         item = get_metadata_for_learning_resource(resource_id)
+
+        if not item and "postgres" in get_enabled_search_sources():
+            # Fuseki has no record for this UUID; try the postgres producer.
+            pg_results = postgres_hydrate([str(resource_id)])
+            item = pg_results[0] if pg_results else None
 
         if not item:
             return HttpResponseNotFound()
