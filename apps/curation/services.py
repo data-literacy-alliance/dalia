@@ -19,19 +19,15 @@ User = get_user_model()
 
 
 @transaction.atomic
-def submit_for_review(content: ResourceContent, user: User) -> None:
+def submit_for_review(content: ResourceContent, user) -> None:
     """
     Flag a draft for curator review and trigger the notification placeholder.
     """
-    if hasattr(content, "submitted_for_review"):
-        content.submitted_for_review = True
-        content.save(update_fields=["submitted_for_review"])
-    elif hasattr(content.resource, "submitted_for_review"):
-        content.resource.submitted_for_review = True
-        content.resource.save(update_fields=["submitted_for_review"])
-    else:
-        pass
-
+    submitter = user if (user and getattr(user, "is_authenticated", False)) else None
+    content.submitted_for_review = True
+    content.submitted_at = timezone.now()
+    content.submitted_by = submitter
+    content.save(update_fields=["submitted_for_review", "submitted_at", "submitted_by"])
     notify_curators_submission(resource=content.resource, submitted_by=user, content=content)
 
 

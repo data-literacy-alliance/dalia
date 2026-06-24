@@ -1,5 +1,10 @@
+import re
+import uuid
+
 from curation import models as cf
 from curation import services as cf_services
+from django.core.cache import cache
+from django.db import transaction
 from django.db.models import Q
 from django.http import Http404
 from django.utils import timezone
@@ -41,6 +46,8 @@ from .serializers_curation import (
     TargetGroupSerializer,
     ViewEventSerializer,
 )
+
+_IDEMPOTENCY_KEY_RE = re.compile(r"^[a-zA-Z0-9\-_]{1,64}$")
 
 
 # -------------------- shared mixins --------------------
@@ -469,54 +476,65 @@ class ResourceContentViewSet(viewsets.ModelViewSet):
             and (user.is_superuser or user.groups.filter(name="Curators").exists())
         ):
             if filter_param == "archived":
-                return qs.filter(resource__is_removed=True)
-            if filter_param == "published":
-                return qs.filter(
+                qs_result = qs.filter(resource__is_removed=True)
+            elif filter_param == "published":
+                qs_result = qs.filter(
                     is_active=True, resource__is_published=True, resource__is_removed=False
                 )
-            if filter_param == "pending":
-                return qs.filter(submitted_for_review=True, resource__is_removed=False)
-            if filter_param == "unpublished":
-                return qs.filter(submitted_for_review=False, resource__is_removed=False).filter(
+            elif filter_param == "pending":
+                qs_result = qs.filter(submitted_for_review=True, resource__is_removed=False)
+            elif filter_param == "unpublished":
+                qs_result = qs.filter(
+                    submitted_for_review=False, resource__is_removed=False
+                ).filter(
                     Q(resource__is_published=True, is_active=False)
                     | Q(resource__is_published=False, is_active=True)
                 )
-            return qs.filter(resource__is_removed=False)
-
-        # Authenticated users: only their own content, filtered by state
-        if user.is_authenticated:
+            else:
+                qs_result = qs.filter(resource__is_removed=False)
+        elif user.is_authenticated:
+            # Authenticated users: only their own content, filtered by state
             base = qs.filter(created_by=user)
 
             if filter_param in ("my-resources", "all"):
-                return base.filter(resource__is_removed=False)
-
-            if filter_param == "published":
-                return base.filter(
+                qs_result = base.filter(resource__is_removed=False)
+            elif filter_param == "published":
+                qs_result = base.filter(
                     is_active=True, resource__is_published=True, resource__is_removed=False
                 )
-
-            if filter_param == "pending":
-                return base.filter(submitted_for_review=True, resource__is_removed=False)
-
-            if filter_param == "unpublished":
-                return base.filter(submitted_for_review=False, resource__is_removed=False).filter(
+            elif filter_param == "pending":
+                qs_result = base.filter(submitted_for_review=True, resource__is_removed=False)
+            elif filter_param == "unpublished":
+                qs_result = base.filter(
+                    submitted_for_review=False, resource__is_removed=False
+                ).filter(
                     Q(resource__is_published=True, is_active=False)
                     | Q(resource__is_published=False, is_active=True)
                 )
-
-            if filter_param == "archived":
-                return base.filter(resource__is_removed=True)
-
-            if filter_param == "all-resources":
-                return qs.filter(
+            elif filter_param == "archived":
+                qs_result = base.filter(resource__is_removed=True)
+            elif filter_param == "all-resources":
+                qs_result = qs.filter(
                     is_active=True, resource__is_published=True, resource__is_removed=False
                 )
+            else:
+                # default fallback: same as my-resources
+                qs_result = base.filter(resource__is_removed=False)
+        else:
+            # Anonymous: only published, active, non-removed
+            qs_result = qs.filter(
+                resource__is_published=True, resource__is_removed=False, is_active=True
+            )
 
-            # default fallback: same as my-resources
-            return base.filter(resource__is_removed=False)
-
-        # Anonymous: only published, active, non-removed
-        return qs.filter(resource__is_published=True, resource__is_removed=False, is_active=True)
+        # Optional filter: narrow to a specific resource by uuid (additive, permission-safe)
+        resource_uuid_str = self.request.query_params.get("resource")
+        if resource_uuid_str:
+            try:
+                uuid.UUID(resource_uuid_str)
+            except (ValueError, TypeError):
+                return qs_result.none()
+            qs_result = qs_result.filter(resource__uuid=resource_uuid_str)
+        return qs_result
 
     @extend_schema(
         summary="Create a new DRAFT content (and grouper if needed)",
@@ -528,6 +546,22 @@ class ResourceContentViewSet(viewsets.ModelViewSet):
         responses={201: OpenApiResponse(response=ResourceContentReadSerializer)},
     )
     def create(self, request, *args, **kwargs):
+        idmpk_raw = request.headers.get("Idempotency-Key", "").strip()
+        cache_key = None
+        if idmpk_raw and _IDEMPOTENCY_KEY_RE.match(idmpk_raw):
+            cache_key = f"idmpk:{request.user.pk}:{idmpk_raw}"
+            cached = cache.get(cache_key)
+            if cached is not None:
+                return Response(cached["body"], status=cached["status"])
+
+        auto_publish_raw = request.data.get("auto_publish", False)
+        auto_publish = str(auto_publish_raw).lower() in ("true", "1", "yes")
+        is_curator = (
+            request.user.is_superuser or request.user.groups.filter(name="Curators").exists()
+        )
+        if auto_publish and not is_curator:
+            auto_publish = False
+
         data = request.data.copy()
         resource_ref = data.get("resource")
         if not resource_ref:
@@ -556,9 +590,40 @@ class ResourceContentViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         instance = serializer.save()
+
+        if auto_publish:
+            with transaction.atomic():
+                cf.ResourceContent.objects.filter(resource_id=instance.resource_id).exclude(
+                    pk=instance.pk
+                ).update(is_active=False, submitted_for_review=False)
+                cf.ResourceContent.objects.filter(pk=instance.pk).update(
+                    is_active=True,
+                    submitted_for_review=False,
+                )
+                cf.Resource.objects.filter(pk=instance.resource_id).update(
+                    is_published=True,
+                    published_at=timezone.now(),
+                )
+            instance.refresh_from_db()
+
         read = ResourceContentReadSerializer(instance, context={"request": request})
         headers = self.get_success_headers(read.data)
+        if cache_key is not None:
+            cache.set(
+                cache_key, {"body": read.data, "status": status.HTTP_201_CREATED}, timeout=86400
+            )
         return Response(read.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop("partial", False)
+        instance = self.get_object()
+        data = request.data.copy()
+        data["created_by"] = instance.created_by_id
+        serializer = self.get_serializer(instance, data=data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        read = ResourceContentReadSerializer(instance, context={"request": request})
+        return Response(read.data)
 
     @extend_schema(
         summary="Submit a DRAFT for review",
@@ -588,6 +653,37 @@ class ResourceContentViewSet(viewsets.ModelViewSet):
             return Response({"detail": "Not permitted"}, status=403)
         cf_services.soft_delete(content.resource, request.user)
         return Response({"ok": True, "removed": True})
+
+    @extend_schema(
+        summary="Publish a ResourceContent version (curators/superusers only)",
+        description=(
+            "Activates this version, deactivates all sibling versions, clears pending "
+            "review flags on all siblings, and marks the resource grouper as published. "
+            "Curator or superuser access required."
+        ),
+        responses={200: OpenApiResponse(description="Published successfully")},
+    )
+    @action(detail=True, methods=["post"], url_path="publish")
+    def publish(self, request, uuid=None):
+        content = self.get_object()
+        is_curator = (
+            request.user.is_superuser or request.user.groups.filter(name="Curators").exists()
+        )
+        if not is_curator:
+            return Response({"detail": "Not permitted"}, status=403)
+        with transaction.atomic():
+            cf.ResourceContent.objects.filter(resource_id=content.resource_id).exclude(
+                pk=content.pk
+            ).update(is_active=False, submitted_for_review=False)
+            cf.ResourceContent.objects.filter(pk=content.pk).update(
+                is_active=True,
+                submitted_for_review=False,
+            )
+            cf.Resource.objects.filter(pk=content.resource_id).update(
+                is_published=True,
+                published_at=timezone.now(),
+            )
+        return Response({"ok": True, "published": True})
 
 
 # -------------------- New Models ViewSets --------------------

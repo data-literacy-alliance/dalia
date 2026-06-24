@@ -1,4 +1,5 @@
 import React from 'react';
+import { notFound } from 'next/navigation';
 import { getItem } from '@/lib/api/item';
 import Button from '@/components/Button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -14,6 +15,11 @@ export const dynamic = 'force-dynamic';
 
 export default async function ItemDetails({ params: { id } }: ItemDetails) {
   const item = await getItem(id);
+
+  if (!item) {
+    notFound();
+  }
+
 
   return (
     <div
