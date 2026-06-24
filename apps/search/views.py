@@ -12,18 +12,24 @@ These views provide public access to:
 from uuid import UUID
 
 from django.http import HttpResponse, HttpResponseNotFound
+from django.utils.text import slugify
 from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from curation.models.communities import Community as PgCommunity
 from search import serializers
+from search.api_models.api_models import Community as ApiCommunity
+from search.api_models.api_models import SocialMedia as ApiSocialMedia
 from search.query.communities.communities import get_metadata_for_community
 from search.query.communities.community_items import get_items_for_community
 from search.suggest.communities import get_communities_suggestions
 from search.query.items.basic_search_filters.basic_search_filters import get_basic_search_filters
 from search.query.items.metadata.items import get_metadata_for_learning_resource
 from search.query.items.search.comprehensive_search import search_items_comprehensive
+from search.query.items.search.sources import get_enabled_search_sources
+from search.query.items.search.producers.postgres_producer import postgres_hydrate
 
 
 class BasicSearchFiltersView(APIView):
@@ -53,6 +59,11 @@ class ItemView(APIView):
 
     def get(self, request: Request, resource_id: UUID) -> HttpResponse:
         item = get_metadata_for_learning_resource(resource_id)
+
+        if not item and "postgres" in get_enabled_search_sources():
+            # Fuseki has no record for this UUID; try the postgres producer.
+            pg_results = postgres_hydrate([str(resource_id)])
+            item = pg_results[0] if pg_results else None
 
         if not item:
             return HttpResponseNotFound()
@@ -111,6 +122,27 @@ class CommunityView(APIView):
 
     def get(self, request: Request, community_id: UUID) -> HttpResponse:
         community = get_metadata_for_community(community_id)
+
+        if not community:
+            try:
+                pg = PgCommunity.objects.get(uuid=community_id)
+                community = ApiCommunity(
+                    id=str(community_id),
+                    slug=pg.slug or slugify(pg.title),
+                    title=pg.title,
+                    image=pg.image or None,
+                    url=pg.website_url or "",
+                    about=pg.description or "",
+                    likes=0,
+                    views=0,
+                    followers=0,
+                    social_media=[
+                        ApiSocialMedia(name=sm.name, url=sm.url)
+                        for sm in pg.social_media_links.all()
+                    ],
+                )
+            except PgCommunity.DoesNotExist:
+                pass
 
         if not community:
             return HttpResponseNotFound()

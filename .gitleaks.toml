@@ -1,0 +1,32 @@
+title = "Dalia 2.0 — gitleaks configuration"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id          = "dalia-internal-ip"
+description = "Internal network IP address (deployment-specific subnet)"
+regex       = '''10\.89\.\d{1,3}\.\d{1,3}'''
+tags        = ["network", "topology"]
+
+[[rules]]
+id          = "dalia-ionos-hostname"
+description = "IONOS internal routing hostname"
+regex       = '''\.ionos\.coscine\.dev'''
+tags        = ["network", "hostname"]
+
+[[rules]]
+id          = "dalia-rwth-git"
+description = "Private RWTH Aachen git / registry server"
+regex       = '''(git|registry)\.rwth-aachen\.de'''
+tags        = ["git", "private-server"]
+
+[allowlist]
+description = "Safe files: templates, documentation, this config file"
+paths = [
+    '''^\.gitleaks\.toml''',
+    '''^README\.md''',
+    '''^docs/.*''',
+    '''apps/search/rdf/''',
+    '''docker/fuseki/.*\.ttl''',
+]
