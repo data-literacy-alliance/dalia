@@ -18,6 +18,11 @@ urlpatterns = [
         name="basic_search_filters",
     ),
     # Item endpoints
+    path(
+        "v1/items/<uuid:resource_id>/view/",
+        views.ItemViewEventView.as_view(),
+        name="item_view_event",
+    ),
     path("v1/items/<uuid:resource_id>/", views.ItemView.as_view(), name="item_detail"),
     path("v1/items/", views.ItemSearchView.as_view(), name="item_search"),
     # Curation suggest endpoints

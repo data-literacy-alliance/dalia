@@ -31,6 +31,33 @@ export function findDisciplinesFromString(
   return undefined;
 }
 
+/**
+ * Given a discipline leaf value (slug or id string) and the loaded discipline
+ * tree, returns the full path from root to that node as an array of `value`
+ * strings — i.e. [rootValue, ..., leafValue]. This is the format expected by
+ * the form schema (`disciplines: z.array(z.array(z.string()))`).
+ *
+ * Returns [] when the value is not found anywhere in the tree so that callers
+ * can filter out unresolved disciplines instead of creating blank rows.
+ */
+export function findDisciplinePathInTree(
+  value: string,
+  tree: LabelValueChild[]
+): string[] {
+  for (const node of tree) {
+    if (node.value === value) {
+      return [node.value];
+    }
+    if (node.children.length > 0) {
+      const childPath = findDisciplinePathInTree(value, node.children);
+      if (childPath.length > 0) {
+        return [node.value, ...childPath];
+      }
+    }
+  }
+  return [];
+}
+
 type formData = {
   title: string;
   authors: {
@@ -170,7 +197,8 @@ export async function submitData(
   accessKey: string,
   userId: number,
   disciplines: LabelValueChild[],
-  resourceUuid?: string
+  resourceUuid?: string,
+  idempotencyKey?: string
 ) {
   try {
     const result = await apiFetch('/api/curation/resource-contents/', {
@@ -178,6 +206,7 @@ export async function submitData(
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessKey}`,
+        ...(idempotencyKey ? { 'Idempotency-Key': idempotencyKey } : {}),
       },
       body: JSON.stringify({
         ...(resourceUuid ? { resource: resourceUuid } : {}),
@@ -214,6 +243,10 @@ export async function submitData(
         target_groups: data.targetGroups.map((tg) => tg.value),
         file_formats: data.fileFormats.map((ff) => ff.value),
         media_types: data.mediaTypes.map((mt) => mt.value),
+        keywords: data.keywords
+          .split(',')
+          .map((k) => k.trim())
+          .filter(Boolean),
       }),
     });
 
@@ -351,6 +384,9 @@ export async function submitEditData(
       target_groups: data.targetGroups?.map((tg) => tg.value),
       file_formats: data.fileFormats?.map((ff) => ff.value).filter((v) => v !== 'unknown'),
       media_types: data.mediaTypes?.map((mt) => mt.value),
+      keywords: data.keywords !== undefined
+        ? data.keywords.split(',').map((k) => k.trim()).filter(Boolean)
+        : undefined,
     };
 
     const editData = Object.fromEntries(

@@ -19,19 +19,15 @@ User = get_user_model()
 
 
 @transaction.atomic
-def submit_for_review(content: ResourceContent, user: User) -> None:
+def submit_for_review(content: ResourceContent, user) -> None:
     """
     Flag a draft for curator review and trigger the notification placeholder.
     """
-    if hasattr(content, "submitted_for_review"):
-        content.submitted_for_review = True
-        content.save(update_fields=["submitted_for_review"])
-    elif hasattr(content.resource, "submitted_for_review"):
-        content.resource.submitted_for_review = True
-        content.resource.save(update_fields=["submitted_for_review"])
-    else:
-        pass
-
+    submitter = user if (user and getattr(user, "is_authenticated", False)) else None
+    content.submitted_for_review = True
+    content.submitted_at = timezone.now()
+    content.submitted_by = submitter
+    content.save(update_fields=["submitted_for_review", "submitted_at", "submitted_by"])
     notify_curators_submission(resource=content.resource, submitted_by=user, content=content)
 
 
@@ -197,21 +193,33 @@ def withdraw_all_publishing_consents(consent: ResourcePublishingConsent, reason:
 
 
 def log_view_event(
-    user: User, content_object: object, ip_address: str = "", user_agent: str = ""
+    user,
+    content_object=None,
+    resource_uuid=None,
+    session_id: str = "",
+    ip_address: str = "",
+    user_agent: str = "",
 ) -> None:
     """
     Log a view event for analytics (non-transactional).
+    Pass content_object for PG-resident resources, resource_uuid for Fuseki-only.
+    Both may be supplied; resource_uuid is always stored for unified count queries.
     """
     from .models import ViewEvent
 
-    content_type = ContentType.objects.get_for_model(content_object)
-    ViewEvent.objects.create(
+    kwargs: dict = dict(
         user=user,
-        content_type=content_type,
-        object_id=content_object.pk,
+        session_id=session_id,
         ip_address=ip_address,
         user_agent=user_agent,
     )
+    if content_object is not None:
+        content_type = ContentType.objects.get_for_model(content_object)
+        kwargs["content_type"] = content_type
+        kwargs["object_id"] = content_object.pk
+    if resource_uuid is not None:
+        kwargs["resource_uuid"] = resource_uuid
+    ViewEvent.objects.create(**kwargs)
 
 
 def log_edit_event(

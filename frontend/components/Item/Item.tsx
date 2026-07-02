@@ -74,7 +74,7 @@ const Item: FC<ItemProps> = ({ className, item, editable, deletable = true, ...p
         />
         <VFlex className={'min-w-0 grow content-between gap-5'}>
           <Text variant={'h3'} className={'text-[1.5rem]'}>
-            <Link href={`/items/${item.id}/${item.slug}`}>{item.title}</Link>
+            <Link href={`/items/${item.resource_uuid ?? item.id}/${item.slug}`}>{item.title}</Link>
             {editable && (
               <HFlex className={'gap-4'}>
                 <Link
@@ -268,7 +268,7 @@ const Item: FC<ItemProps> = ({ className, item, editable, deletable = true, ...p
               'h-auto w-[12.5rem] shrink-0 grow-0 basis-[12.5rem] border-b-0'
             }
             link={{
-              href: `/items/${item.id}/${item.slug}/`,
+              href: `/items/${item.resource_uuid ?? item.id}/${item.slug}/`,
             }}
           >
             See Details

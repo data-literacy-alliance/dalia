@@ -81,9 +81,11 @@ class ViewEvent(TimeStampedModel):
         null=True,  # Allow anonymous views
         related_name="view_events",
     )
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
+    object_id = models.PositiveIntegerField(null=True, blank=True)
     content_object = GenericForeignKey("content_type", "object_id")
+    # Always populated — enables view count queries across PG and Fuseki resources.
+    resource_uuid = models.UUIDField(null=True, blank=True, db_index=True)
 
     session_id = models.CharField(
         max_length=40, blank=True, help_text="Session ID for anonymous users"
@@ -104,6 +106,7 @@ class ViewEvent(TimeStampedModel):
             models.Index(fields=["user", "created"]),
             models.Index(fields=["content_type", "object_id", "user", "created"]),
             models.Index(fields=["session_id", "created"]),
+            models.Index(fields=["resource_uuid"]),
         ]
 
     def __str__(self):

@@ -4,7 +4,7 @@ from rdflib import URIRef
 from rdflib.term import Node
 
 from search.api_models.api_models import SelectedFacet
-from search.query.items.facets.facet_objects import FacetObject
+from search.query.items.facets.facet_objects import COMMUNITY_FACET, FacetObject
 
 
 def extract_active_facets_from_selected_facets(
@@ -25,15 +25,15 @@ def extract_active_facets_from_selected_facets(
 def _extract_active_facet_items_from_selected_facet(
     selected_facet: SelectedFacet, target_facet: FacetObject
 ) -> List[Node]:
-    # selected_nodes = []
-    # for selected_facet_item in selected_facet.selected:
-    #     selected_facet_item_as_node = target_facet.selected_facet_initializer(selected_facet_item)
-    #     if selected_facet_item_as_node in target_facet.items:
-    #         selected_nodes.append(selected_facet_item_as_node)
-    #
-    # return selected_nodes
+    if target_facet is COMMUNITY_FACET:
+        # Community filter values are generated dynamically from the database and
+        # are not constrained to a fixed items dict — accept any valid URIRef.
+        return [
+            node
+            for item in selected_facet.selected
+            if (node := target_facet.selected_facet_initializer(item))
+        ]
 
-    # equivalent to the explicit for loop
     return [
         selected_facet_item_as_node
         for selected_facet_item in selected_facet.selected

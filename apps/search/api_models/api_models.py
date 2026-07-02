@@ -178,6 +178,9 @@ class ResourceSpecial:
     doi: Optional[str] = None
     learning_time: Optional[int] = None
     versions: Optional[List[Version]] = None
+    source: Optional[str] = (
+        None  # provenance: "fuseki" | "postgres" (additive; FE ignores unknown fields)
+    )
 
 
 @dataclass
@@ -194,6 +197,12 @@ class Community:
     likes: Optional[int] = None
     views: Optional[int] = None
     followers: Optional[int] = None
+
+
+@dataclass
+class RelatedWork:
+    type: Optional[LabelValueItem] = None
+    link: Optional[str] = field(default=None, metadata={"serializer_kwargs": {"allow_blank": True}})
 
 
 @dataclass
@@ -217,6 +226,7 @@ class BaseItem:
     views: Optional[int] = None
     comments: Optional[int] = None
     tags: Optional[List[str]] = None
+    related_works: Optional[List[RelatedWork]] = None
 
 
 @dataclass

@@ -54,6 +54,7 @@ ResourceCommunityRelation = relations.ResourceCommunityRelation
 # Community models
 Community = communities.Community
 CommunityMembership = communities.CommunityMembership
+CommunitySocialMedia = communities.CommunitySocialMedia
 
 # Interaction models
 Bookmark = interactions.Bookmark
@@ -105,6 +106,7 @@ __all__ = [
     # Communities
     "Community",
     "CommunityMembership",
+    "CommunitySocialMedia",
     # Interactions
     "Bookmark",
     "Like",

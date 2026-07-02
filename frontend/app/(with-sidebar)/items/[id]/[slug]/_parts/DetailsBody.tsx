@@ -1,6 +1,7 @@
 'use client';
 
 import React, { FC, Fragment, useEffect, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { HFlex, VFlex } from '@/components/Flex';
 import Text from '@/components/Text';
 import Image from 'next/image';
@@ -14,6 +15,7 @@ import { ItemObject } from '@/lib/types/ItemTypes';
 import parseAuthor from '@/lib/parseAuthor';
 import getImage from '@/lib/getImage';
 import { useParams } from 'next/navigation';
+import appFetch from '@/lib/api/fetch';
 import DetailsDescriptionAndStats from '@/app/(with-sidebar)/items/[id]/[slug]/_parts/DetailsDescriptionAndStats';
 import { cn, formatFileSize } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -37,6 +39,7 @@ const DetailsBody: FC<DetailsBodyProps> = ({
   const [recommendationView, setRecommendationView] = useState<'list' | 'grid'>(
     'grid'
   );
+  const [viewCount, setViewCount] = useState(item.views ?? 0);
 
   // params is being updated on hash update in url.
   // hack: https://github.com/vercel/next.js/discussions/49465
@@ -49,6 +52,17 @@ const DetailsBody: FC<DetailsBodyProps> = ({
       }
     }
   }, [params]);
+
+  useEffect(() => {
+    appFetch(`/items/${item.id}/view/`, {
+      method: 'POST',
+      credentials: 'include',
+    })
+      .then(res => {
+        if (res.status === 201) setViewCount(c => c + 1);
+      })
+      .catch(() => {});
+  }, [item.id]);
 
   // Helper function to convert text to title case
   const toTitleCase = (str: string): string => {
@@ -244,13 +258,13 @@ const DetailsBody: FC<DetailsBodyProps> = ({
               </ScrollArea>
             </VFlex>
             <DetailsDescriptionAndStats
-              item={item}
+              item={{ ...item, views: viewCount }}
               className={'lg:hidden xl:flex'}
             />
           </VFlex>
         </div>
         <DetailsDescriptionAndStats
-          item={item}
+          item={{ ...item, views: viewCount }}
           className={'hidden lg:flex xl:hidden'}
         />
       </VFlex>
@@ -287,12 +301,16 @@ const DetailsBody: FC<DetailsBodyProps> = ({
                 </Text>
               }
             >
-              <Text
-                className={'text-wrap break-words px-1 py-6 md:px-6'}
+              <div
+                className={'prose prose-sm max-w-none text-wrap break-words px-1 py-6 md:px-6'}
                 property={'dcterms:description'}
               >
-                {item.description || <i>No description</i>}
-              </Text>
+                {item.description ? (
+                  <ReactMarkdown>{item.description}</ReactMarkdown>
+                ) : (
+                  <i>No description</i>
+                )}
+              </div>
             </Collapsible>
           </VFlex>
           <DetailsBodySpacer smallOnly />
@@ -454,6 +472,31 @@ const DetailsBody: FC<DetailsBodyProps> = ({
                 )}
               </VFlex>
             </Collapsible>
+            {item.related_works && item.related_works.length > 0 && (
+              <Collapsible
+                title={
+                  <Text
+                    variant={'h4'}
+                    className={
+                      'h-20 px-1 py-7 text-start text-xl md:px-6 md:text-h4'
+                    }
+                  >
+                    Related Work
+                  </Text>
+                }
+              >
+                <VFlex className={'gap-4 py-8 pl-4 pr-4 2xl:pl-10'}>
+                  {item.related_works.map((work) => (
+                    <Text key={work.link} className={'block break-all'}>
+                      <b>{work.type.label}:</b>{' '}
+                      <Link href={work.link} target={'_blank'}>
+                        {work.link}
+                      </Link>
+                    </Text>
+                  ))}
+                </VFlex>
+              </Collapsible>
+            )}
             <Collapsible
               title={
                 <Text
@@ -516,41 +559,6 @@ const DetailsBody: FC<DetailsBodyProps> = ({
                 )}
               </HFlex>
             </Collapsible>
-            {item.related_works && item.related_works.length > 0 && (
-              <Collapsible
-                title={
-                  <Text
-                    variant={'h4'}
-                    className={
-                      'h-20 px-1 py-7 text-start text-xl md:px-6 md:text-h4'
-                    }
-                  >
-                    Related Works
-                  </Text>
-                }
-              >
-                <HFlex
-                  className={
-                    'items-center gap-4 pb-4 pl-10 pt-8 lg:pl-0 xl:pl-10 xl:pr-4'
-                  }
-                >
-                  <Text className={'block'}>
-                    <ul className={'ml-4 list-inside list-disc'}>
-                      {item.related_works.map((work) => (
-                        <li key={work.link}>
-                          <span className={'text-sm italic'}>
-                            {toTitleCase(work.type.label)}
-                          </span>{' '}
-                          <Link href={work.link} target={'_blank'}>
-                            {work.link}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </Text>
-                </HFlex>
-              </Collapsible>
-            )}
           </VFlex>
         </div>
         {/*<div id={'suggested'}>*/}
