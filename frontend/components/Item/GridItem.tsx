@@ -21,6 +21,7 @@ import { useRouter } from 'next/navigation';
 import { softDeleteResource } from '@/lib/api/item';
 import { useAuthLogin } from '@/lib/auth/clientAuth';
 import { getCsrfTokenClient } from '@/lib/auth/csrfToken';
+import InteractionButtons from '@/components/Item/InteractionButtons';
 
 const GridItem: FC<ItemProps> = ({
   item,
@@ -28,6 +29,7 @@ const GridItem: FC<ItemProps> = ({
   noBorder,
   editable,
   deletable = true,
+  onRemove,
   ...props
 }) => {
   const [rootRef, width] = useWidth<HTMLDivElement>();
@@ -132,7 +134,7 @@ const GridItem: FC<ItemProps> = ({
           className={'line-clamp-3 text-[1.5rem] font-semibold'}
           title={item.title}
         >
-          <Link href={`/items/${item.id}/${item.slug}`}>{item.title}</Link>
+          <Link href={`/items/${item.resource_uuid ?? item.id}/${item.slug}`}>{item.title}</Link>
         </Text>
         <Text className={'line-clamp-4'}>
           {item.description || <i>No description.</i>}
@@ -209,6 +211,13 @@ const GridItem: FC<ItemProps> = ({
           )}
         >
           <HFlex>
+            <InteractionButtons
+              resourceId={item.resource_uuid ?? item.id}
+              initialIsBookmarked={item.is_bookmarked}
+              initialIsLiked={item.is_liked}
+              initialLikes={item.likes}
+              onRemove={onRemove}
+            />
             {ItemActions.map(({ Parent, disabled, ...action }, index) =>
               Parent ? (
                 <Parent key={index} item={item}>
@@ -284,7 +293,7 @@ const GridItem: FC<ItemProps> = ({
               })}
               dark
               link={{
-                href: `/items/${item.id}/${item.slug}/`,
+                href: `/items/${item.resource_uuid ?? item.id}/${item.slug}/`,
               }}
             >
               See Details
