@@ -8,7 +8,8 @@ export async function getResultsAndFacets(
   filters: Record<string, string>,
   query?: string,
   strOffset?: string,
-  strLimit?: string
+  strLimit?: string,
+  ssrHeaders?: Record<string, string>
 ): Promise<{
   results: (Pageable<ResourceItem> & { facets: Facet[] }) | null;
   selectedFacets: SelectedFacet[];
@@ -44,7 +45,8 @@ export async function getResultsAndFacets(
     'relevance',
     'dsc',
     datePublished_after,
-    datePublished_before
+    datePublished_before,
+    ssrHeaders
   );
 
   return {

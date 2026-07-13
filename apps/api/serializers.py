@@ -101,6 +101,7 @@ class PersonProfileSerializer(serializers.Serializer):
     # Privacy and preferences
     privacy_level = serializers.CharField()
     email_notifications = serializers.BooleanField()
+    sync_name_from_provider = serializers.BooleanField()
     is_active = serializers.BooleanField()
 
     # Timestamps
