@@ -16,7 +16,7 @@ import { useNewDisciplines } from '@/lib/api/newSuggestions';
 import { Loader2Icon } from 'lucide-react';
 import Tooltip from '@/components/Tooltip';
 
-const ContentDisciplines: FC<ContentDisciplinesProps> = ({}) => {
+const ContentDisciplines: FC<ContentDisciplinesProps> = ({ unresolvedCount = 0 }) => {
   const form = useFormContext<NewItemData>();
   const { items: allDisciplines, isLoading } = useNewDisciplines(false);
 
@@ -34,6 +34,14 @@ const ContentDisciplines: FC<ContentDisciplinesProps> = ({}) => {
         </Text>
         <Tooltip message={'The discipline or university/college subject the learning resource belongs to.'} />
       </HFlex>
+      {unresolvedCount > 0 && (
+        <p
+          role="alert"
+          className={'text-sm text-amber-600'}
+        >
+          Some disciplines from this resource are not in the current catalog and were not pre-filled.
+        </p>
+      )}
       {disciplines.map((discipline, index) => (
         <FormField
           key={discipline.id}
@@ -83,6 +91,8 @@ const ContentDisciplines: FC<ContentDisciplinesProps> = ({}) => {
   );
 };
 
-export type ContentDisciplinesProps = {};
+export type ContentDisciplinesProps = {
+  unresolvedCount?: number;
+};
 
 export default ContentDisciplines;

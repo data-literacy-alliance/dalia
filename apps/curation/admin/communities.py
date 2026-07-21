@@ -3,8 +3,15 @@ Admin classes for community-related models.
 """
 
 from core.admin import BaseModelAdmin
-from curation.models import Community, CommunityMembership
+from curation.models import Community, CommunityMembership, CommunitySocialMedia
 from django.contrib import admin
+from unfold.admin import TabularInline
+
+
+class CommunitySocialMediaInline(TabularInline):
+    model = CommunitySocialMedia
+    extra = 1
+    fields = ("name", "url")
 
 
 @admin.register(Community)
@@ -13,6 +20,24 @@ class CommunityAdmin(BaseModelAdmin):
     list_filter = ("is_active",)
     search_fields = ("title", "slug", "description", "uuid")
     readonly_fields = ("uuid",)
+    inlines = [CommunitySocialMediaInline]
+
+    fieldsets = (
+        (
+            None,
+            {"fields": ("title", "slug", "is_active", "uuid", "uri")},
+        ),
+        (
+            "Content",
+            {"fields": ("description", "website_url", "image")},
+        ),
+        (
+            "Governance",
+            {
+                "fields": ("moderation_policy", "auto_publish_threshold", "requires_approval"),
+            },
+        ),
+    )
 
 
 @admin.register(CommunityMembership)
@@ -39,7 +64,6 @@ class CommunityMembershipAdmin(BaseModelAdmin):
             "Permissions",
             {
                 "fields": ("permissions_granted", "sync_with_group"),
-                "classes": ("collapse",),
             },
         ),
     )

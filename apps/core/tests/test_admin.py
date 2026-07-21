@@ -36,15 +36,15 @@ class TestAdminPanel:
         response = client.get(reverse("admin:index"))
         assert response.status_code == 200
         # Verify the dashboard page title includes the site name
-        assert b"ICZ" in response.content
+        assert b"DALIA 2.0" in response.content
 
     def test_unfold_configuration_loaded(self):
         """Test that Unfold configuration is properly loaded."""
         from django.conf import settings
 
         assert hasattr(settings, "UNFOLD")
-        assert settings.UNFOLD["SITE_TITLE"] == "ICZ"
-        assert settings.UNFOLD["SITE_HEADER"] == "ICZ"
+        assert settings.UNFOLD["SITE_TITLE"] == "DALIA 2.0"
+        assert settings.UNFOLD["SITE_HEADER"] == "DALIA 2.0"
         assert settings.UNFOLD["THEME"] is None
         assert settings.UNFOLD.get("SHOW_ALL_APPLICATIONS", False) is True
 

@@ -1,7 +1,7 @@
 .PHONY: help build build-frontend build-web build-fuseki up down restart logs shell dbshell bash migrate makemigrations \
         createsuperuser test test-cov lint format check collectstatic clean backup-db \
         check-migrations git-add git-commit list-migrations init-env \
-        dbrestore deploy rollback redis-cli flush-cache rename-project \
+        dbrestore deploy rollback up-tunnel down-tunnel redis-cli flush-cache rename-project setup-private push-private \
         reset-db up-all autostart-status autostart-enable autostart-disable autostart-update \
         convert-privacy-policy regenerate-lockfile
 
@@ -82,12 +82,14 @@ up-all: ## Start Traefik + all dalia20 containers (use for manual full startup)
 	@$(MAKE) up
 
 build: init-env ## Build all containers (no cache)
+	$(MAKE) format
 	podman-compose build --no-cache
 
 build-frontend: init-env ## Rebuild only the frontend (Next.js) container
 	podman-compose build --no-cache frontend
 
 build-web: init-env ## Rebuild only the web (Django) container
+	$(MAKE) format
 	podman-compose build --no-cache web
 
 build-fuseki: init-env ## Rebuild only the Fuseki container
@@ -105,6 +107,28 @@ up: init-env ## Start all containers (detached)
 	@echo "Containers started. Access at http://localhost:8000"
 
 down: ## Stop and remove all containers
+	podman-compose down
+
+up-tunnel: init-env ## Start all containers including Cloudflare tunnel (requires CF_TUNNEL_TOKEN in .env)
+	@test -f .env || (echo "ERROR: .env not found. Run 'make up' first or copy .env.example"; exit 1)
+	@CF_TOKEN=$$(grep -s '^CF_TUNNEL_TOKEN=' .env | cut -d= -f2 | tr -d '[:space:]'); \
+	if [ -z "$$CF_TOKEN" ]; then \
+		echo "ERROR: CF_TUNNEL_TOKEN not set in .env"; \
+		echo "Add: CF_TUNNEL_TOKEN=your-token"; \
+		exit 1; \
+	fi; \
+	podman-compose up -d; \
+	podman rm -f dalia20-cloudflared 2>/dev/null || true; \
+	podman run -d \
+		--name dalia20-cloudflared \
+		--network icz_django-generic-network \
+		--restart unless-stopped \
+		docker.io/cloudflare/cloudflared:latest \
+		tunnel --no-autoupdate run --token "$$CF_TOKEN"
+	@echo "All containers started including Cloudflare tunnel"
+
+down-tunnel: ## Stop all containers including Cloudflare tunnel
+	-podman stop dalia20-cloudflared 2>/dev/null; podman rm dalia20-cloudflared 2>/dev/null
 	podman-compose down
 
 restart: ## Restart all containers
@@ -264,6 +288,55 @@ clean: ## Clean temporary files (runs on host)
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
 	find . -type f -name "*.pyc" -delete 2>/dev/null || true
 	rm -rf htmlcov/ .coverage .pytest_cache/
+
+# ============================================================
+# Project Customization
+# ============================================================
+
+# ============================================================
+# Private config overlay (for trusted developers / new VPS)
+# ============================================================
+# Store the private repo URL once in .syncrc (gitignored):
+#   echo "PRIVATE_REPO=https://github.com/data-literacy-alliance/dalia-private-config.git" > .syncrc
+-include .syncrc
+PRIVATE_REPO ?=
+PRIVATE_TMP  := /tmp/dalia-private-config
+
+.PHONY: setup-private push-private
+
+setup-private: ## Restore private config overlay into this directory (run once per new checkout)
+	@[ -n "$(PRIVATE_REPO)" ] || { \
+		echo "Set PRIVATE_REPO in .syncrc:"; \
+		echo "  echo 'PRIVATE_REPO=https://github.com/data-literacy-alliance/dalia-private-config.git' > .syncrc"; \
+		exit 1; \
+	}
+	rm -rf $(PRIVATE_TMP)
+	git clone --depth 1 $(PRIVATE_REPO) $(PRIVATE_TMP)
+	rsync -a $(PRIVATE_TMP)/overlay/ $(CURDIR)/
+	rm -rf $(PRIVATE_TMP)
+	@echo "Private config restored."
+
+push-private: ## Backup sensitive files to private config repo
+	@[ -n "$(PRIVATE_REPO)" ] || { \
+		echo "Set PRIVATE_REPO in .syncrc:"; \
+		echo "  echo 'PRIVATE_REPO=https://github.com/data-literacy-alliance/dalia-private-config.git' > .syncrc"; \
+		exit 1; \
+	}
+	rm -rf $(PRIVATE_TMP)
+	git clone --depth 1 $(PRIVATE_REPO) $(PRIVATE_TMP)
+	mkdir -p $(PRIVATE_TMP)/overlay/traefik
+	rsync -a $(CURDIR)/.env     $(PRIVATE_TMP)/overlay/
+	rsync -a $(CURDIR)/hosts    $(PRIVATE_TMP)/overlay/
+	rsync -a $(CURDIR)/traefik/ $(PRIVATE_TMP)/overlay/traefik/
+	@[ -f $(CURDIR)/podman-compose.tunnel.yml ] && \
+		rsync -a $(CURDIR)/podman-compose.tunnel.yml $(PRIVATE_TMP)/overlay/ || true
+	cd $(PRIVATE_TMP) && git add -A && \
+		( git diff --cached --quiet \
+			&& echo "  Private config unchanged." \
+			|| git commit -m "update: $$(date '+%Y-%m-%d %H:%M')" ) && \
+		git push
+	rm -rf $(PRIVATE_TMP)
+	@echo "Private config pushed."
 
 # ============================================================
 # Project Customization

@@ -140,8 +140,9 @@ const EditPersonDialog: FC<EditPersonDialogProps> = ({
                 });
 
                 if (valid) {
+                  const latestPerson = form.getValues(fieldKey);
                   if (step === 'new' && access) {
-                    const result = await savePerson(currentPerson, access);
+                    const result = await savePerson(latestPerson, access);
                     if (result) {
                       form.setValue(`${fieldKey}.id`, result.id);
                       form.setValue(`${fieldKey}.uuid`, result.uuid);
@@ -160,7 +161,7 @@ const EditPersonDialog: FC<EditPersonDialogProps> = ({
                       dirtyFields?.lastname ||
                       dirtyFields?.orcid
                     ) {
-                      const result = await savePerson(currentPerson, access);
+                      const result = await savePerson(latestPerson, access);
                       if (!result) {
                         form.setError(`${fieldKey}.firstname`, {
                           message: 'Failed to save person.',
