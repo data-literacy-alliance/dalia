@@ -141,6 +141,24 @@ class OrganizationSerializer(serializers.ModelSerializer):
 class PersonSerializer(serializers.ModelSerializer):
     uuid = serializers.UUIDField(read_only=True)
 
+    def validate(self, data):
+        user = data.get("user")
+        if user is None:
+            first_name = data.get("first_name", "")
+            last_name = data.get("last_name", "")
+            qs = cf.Person.objects.filter(
+                first_name=first_name, last_name=last_name, user__isnull=True
+            )
+            if self.instance:
+                qs = qs.exclude(pk=self.instance.pk)
+            if qs.exists():
+                raise serializers.ValidationError(
+                    {
+                        "first_name": "A public profile with this name already exists. Use the search field above to find and select it."
+                    }
+                )
+        return data
+
     class Meta:
         model = cf.Person
         fields = "__all__"
@@ -177,7 +195,7 @@ class ResourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = cf.Resource
         fields = ["id", "uuid", "title", "owner", "is_removed", "created", "modified"]
-        read_only_fields = ("id", "uuid", "created", "modified")
+        read_only_fields = ("id", "uuid", "created", "modified", "first_name", "last_name")
 
 
 class MinimalUserSerializer(serializers.ModelSerializer):
@@ -202,6 +220,10 @@ class ResourceContentReadSerializer(serializers.ModelSerializer):
     resource_title = serializers.CharField(source="resource.title", read_only=True)
     created_by = MinimalUserSerializer(read_only=True)
     submitted_by = MinimalUserSerializer(read_only=True)
+    keywords = serializers.SerializerMethodField()
+
+    def get_keywords(self, obj):
+        return sorted(obj.keywords.names())
 
     class Meta:
         model = cf.ResourceContent
@@ -220,21 +242,51 @@ class ResourceContentWriteSerializer(serializers.ModelSerializer):
     Write serializer for creating/updating a DRAFT content.
     Frontend sends simple IDs for M2M fields (DRF handles that).
     If 'resource' is omitted, the ViewSet will create one automatically.
+    keywords is handled explicitly: TaggableManager is not a real model field
+    so DRF cannot introspect it; we pop it from validated_data and call
+    instance.keywords.set() after the underlying save.
     """
 
     uuid = serializers.UUIDField(read_only=True)
+    uuid = serializers.UUIDField(read_only=True)
+    keywords = serializers.ListField(
+        child=serializers.CharField(allow_blank=False, trim_whitespace=True),
+        required=False,
+        allow_null=True,
+        default=None,
+        write_only=True,
+    )
 
     class Meta:
         model = cf.ResourceContent
         fields = "__all__"
         # 'resource' may be omitted on POST to create a new grouper
-        read_only_fields = ("id", "uuid", "created", "modified")
+        read_only_fields = ("id", "uuid", "created", "modified", "first_name", "last_name")
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data["keywords"] = sorted(instance.keywords.names())
+        return data
 
     def validate_languages(self, value):
         """Ensure at least one language is provided."""
         if not value or len(value) == 0:
             raise serializers.ValidationError("At least one language is required.")
         return value
+
+    def create(self, validated_data):
+        keywords = validated_data.pop("keywords", None) or []
+        instance = super().create(validated_data)
+        if keywords:
+            instance.keywords.set(keywords)
+        return instance
+
+    def update(self, instance, validated_data):
+        keywords = validated_data.pop("keywords", None)
+        instance = super().update(instance, validated_data)
+        if keywords is not None:
+            instance.keywords.set(keywords)
+        return instance
 
 
 # ---------- Community Management ----------
@@ -261,7 +313,7 @@ class BookmarkSerializer(serializers.ModelSerializer):
     class Meta:
         model = cf.Bookmark
         fields = "__all__"
-        read_only_fields = ("id", "uuid", "created", "modified")
+        read_only_fields = ("id", "uuid", "created", "modified", "first_name", "last_name")
 
 
 class LikeSerializer(serializers.ModelSerializer):
@@ -273,13 +325,20 @@ class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = cf.Like
         fields = "__all__"
-        read_only_fields = ("id", "uuid", "created", "modified")
+        read_only_fields = ("id", "uuid", "created", "modified", "first_name", "last_name")
 
 
 class ViewEventSerializer(_AllReadOnlySerializer):
     """Analytics view events (read-only)."""
 
-    content_object_str = serializers.CharField(source="content_object.__str__", read_only=True)
+    content_object_str = serializers.SerializerMethodField()
+
+    def get_content_object_str(self, obj):
+        if obj.content_object:
+            return str(obj.content_object)
+        if obj.resource_uuid:
+            return f"resource:{obj.resource_uuid}"
+        return None
 
     class Meta(_AllReadOnlySerializer.Meta):
         model = cf.ViewEvent
@@ -305,7 +364,7 @@ class ReviewAnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = cf.ReviewAnswer
         fields = "__all__"
-        read_only_fields = ("id", "uuid", "created", "modified")
+        read_only_fields = ("id", "uuid", "created", "modified", "first_name", "last_name")
 
     def get_answer_value(self, obj):
         """Get the actual answer value regardless of type."""
@@ -351,7 +410,7 @@ class ReviewQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = cf.ReviewQuestion
         fields = "__all__"
-        read_only_fields = ("id", "uuid", "created", "modified")
+        read_only_fields = ("id", "uuid", "created", "modified", "first_name", "last_name")
 
 
 # ---------- Legal Compliance ----------
@@ -408,7 +467,7 @@ class RelationTypeCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = cf.RelationTypeCategory
         fields = "__all__"
-        read_only_fields = ("id", "uuid", "created", "modified")
+        read_only_fields = ("id", "uuid", "created", "modified", "first_name", "last_name")
 
     def get_relation_types_count(self, obj):
         """Count of active relation types in this category."""
@@ -425,7 +484,7 @@ class RelationTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = cf.RelationType
         fields = "__all__"
-        read_only_fields = ("id", "uuid", "created", "modified")
+        read_only_fields = ("id", "uuid", "created", "modified", "first_name", "last_name")
 
 
 class ResourceLinkSerializer(serializers.ModelSerializer):
@@ -437,7 +496,7 @@ class ResourceLinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = cf.ResourceLink
         fields = "__all__"
-        read_only_fields = ("id", "uuid", "created", "modified")
+        read_only_fields = ("id", "uuid", "created", "modified", "first_name", "last_name")
 
 
 class ResourceCommunityRelationSerializer(serializers.ModelSerializer):
@@ -458,7 +517,7 @@ class ResourceCommunityRelationSerializer(serializers.ModelSerializer):
     class Meta:
         model = cf.ResourceCommunityRelation
         fields = "__all__"
-        read_only_fields = ("id", "uuid", "created", "modified")
+        read_only_fields = ("id", "uuid", "created", "modified", "first_name", "last_name")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -477,7 +536,7 @@ class ResourceCommunityRelationSerializer(serializers.ModelSerializer):
                 pass
             elif user.is_authenticated:
                 # Regular users can link to published content or their own unpublished content
-                content_qs = content_qs.filter(Q(is_published=True) | Q(created_by=user))
+                content_qs = content_qs.filter(Q(resource__is_published=True) | Q(created_by=user))
 
             # Update the content field queryset
             self.fields["content"].queryset = content_qs
@@ -502,7 +561,7 @@ class ResourceRelatedItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = cf.ResourceRelatedItem
         fields = "__all__"
-        read_only_fields = ("id", "uuid", "created", "modified")
+        read_only_fields = ("id", "uuid", "created", "modified", "first_name", "last_name")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -521,7 +580,7 @@ class ResourceRelatedItemSerializer(serializers.ModelSerializer):
                 pass
             elif user.is_authenticated:
                 # Regular users can link to published content or their own unpublished content
-                content_qs = content_qs.filter(Q(is_published=True) | Q(created_by=user))
+                content_qs = content_qs.filter(Q(resource__is_published=True) | Q(created_by=user))
 
             # Update the content field queryset
             self.fields["content"].queryset = content_qs

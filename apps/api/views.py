@@ -92,9 +92,12 @@ class AuthViewSet(viewsets.GenericViewSet):
     @action(detail=False, methods=["get"], url_path="profile")
     def profile(self, request):
         user = request.user
-        sa = SocialAccount.objects.filter(
-            user=user, provider=request.session.get("last_social_provider")
-        ).first()
+        last_provider = request.session.get("last_social_provider")
+        last_uid = request.session.get("last_social_uid")
+        qs = SocialAccount.objects.filter(user=user, provider=last_provider)
+        if last_uid:
+            qs = qs.filter(uid=last_uid)
+        sa = qs.first()
         token = SocialToken.objects.filter(account=sa).first() if sa else None
         raw_extra = sa.extra_data if sa else {}
         # Normalize: allauth v65+ nests claims under extra_data["userinfo"];

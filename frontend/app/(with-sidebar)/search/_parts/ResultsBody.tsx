@@ -13,7 +13,7 @@ import { useSearchParams } from 'next/navigation';
 import useWindowDimensions, { ScreenSizes } from '@/lib/useWindowDimensions';
 import AppliedFilters from '@/app/(with-sidebar)/search/_parts/AppliedFilters';
 
-const ResultsBody: FC<ResultsBodyProps> = ({ query, results, selectedFacets }) => {
+const ResultsBody: FC<ResultsBodyProps> = ({ query, results, selectedFacets, crossFacetOperators }) => {
   const { width } = useWindowDimensions();
   const params = useSearchParams();
   const view =
@@ -54,6 +54,7 @@ const ResultsBody: FC<ResultsBodyProps> = ({ query, results, selectedFacets }) =
                   <AppliedFilters
                     facets={results.facets}
                     selectedFacets={selectedFacets}
+                    crossFacetOperators={crossFacetOperators ?? []}
                   />
                 )}
               </>
@@ -103,6 +104,7 @@ type ResultsBodyProps = {
   query?: string | undefined;
   results?: (Pageable<ItemObject> & { facets: Facet[] }) | null;
   selectedFacets?: SelectedFacet[];
+  crossFacetOperators?: ('AND' | 'OR')[];
 };
 
 export default ResultsBody;
