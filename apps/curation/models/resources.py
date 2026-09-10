@@ -2,9 +2,11 @@ from __future__ import annotations
 
 from curation.models.base import TimeStampedModel, UUIDMixin
 from django.conf import settings
+from django.contrib.postgres.indexes import GinIndex
+from django.contrib.postgres.search import SearchVector, SearchVectorField
 from django.core.validators import MinValueValidator, URLValidator
 from django.db import models
-from django.db.models import Q
+from django.db.models import GeneratedField, Q
 from sortedm2m.fields import SortedManyToManyField
 from taggit.managers import TaggableManager
 
@@ -110,6 +112,13 @@ class ResourceContent(UUIDMixin, TimeStampedModel):
         max_digits=12, decimal_places=3, blank=True, null=True, validators=[MinValueValidator(0)]
     )
 
+    # FTS — stored generated column; maintained by Postgres on INSERT/UPDATE.
+    search_vector = GeneratedField(
+        expression=SearchVector("title", "description", config="english"),
+        output_field=SearchVectorField(),
+        db_persist=True,
+    )
+
     # Authors (ordering matters)
     people = SortedManyToManyField(
         "curation.Person", blank=True, related_name="resource_contents_people"
@@ -158,6 +167,9 @@ class ResourceContent(UUIDMixin, TimeStampedModel):
                 condition=Q(is_active=True),
                 name="uniq_active_content_per_resource",
             ),
+        ]
+        indexes = [
+            GinIndex(fields=["search_vector"], name="rc_fts_vector_gin"),
         ]
 
     def __str__(self):

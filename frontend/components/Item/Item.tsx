@@ -22,8 +22,9 @@ import { useRouter } from 'next/navigation';
 import { softDeleteResource } from '@/lib/api/item';
 import { useAuthLogin } from '@/lib/auth/clientAuth';
 import { getCsrfTokenClient } from '@/lib/auth/csrfToken';
+import InteractionButtons from '@/components/Item/InteractionButtons';
 
-const Item: FC<ItemProps> = ({ className, item, editable, deletable = true, ...props }) => {
+const Item: FC<ItemProps> = ({ className, item, editable, deletable = true, onRemove, ...props }) => {
   const router = useRouter();
   const { access } = useAuthLogin();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -74,7 +75,7 @@ const Item: FC<ItemProps> = ({ className, item, editable, deletable = true, ...p
         />
         <VFlex className={'min-w-0 grow content-between gap-5'}>
           <Text variant={'h3'} className={'text-[1.5rem]'}>
-            <Link href={`/items/${item.id}/${item.slug}`}>{item.title}</Link>
+            <Link href={`/items/${item.resource_uuid ?? item.id}/${item.slug}`}>{item.title}</Link>
             {editable && (
               <HFlex className={'gap-4'}>
                 <Link
@@ -165,42 +166,14 @@ const Item: FC<ItemProps> = ({ className, item, editable, deletable = true, ...p
           <HFlex
             className={'w-[12.5rem] items-center justify-center bg-primary'}
           >
-            {/*<AlertDialog*/}
-            {/*  title={'Not implemented'}*/}
-            {/*  content={*/}
-            {/*    'This feature is not implement yet in the prototype version.'*/}
-            {/*  }*/}
-            {/*>*/}
-            {/*  <IconButton*/}
-            {/*    dark={true}*/}
-            {/*    iconProps={{ size: 14 }}*/}
-            {/*    source={'bookmark'}*/}
-            {/*    disabled*/}
-            {/*    title={'This functionality is not implemented yet.'}*/}
-            {/*  />*/}
-            {/*</AlertDialog>*/}
-            {/*<ShareDialog item={item}>*/}
-            {/*  <IconButton*/}
-            {/*    dark={true}*/}
-            {/*    iconProps={{ size: 14 }}*/}
-            {/*    source={'share'}*/}
-            {/*    disabled*/}
-            {/*  />*/}
-            {/*</ShareDialog>*/}
-            {/*<CiteDialog item={item}>*/}
-            {/*  <IconButton*/}
-            {/*    dark={true}*/}
-            {/*    iconProps={{ size: 14 }}*/}
-            {/*    source={'cite'}*/}
-            {/*    disabled*/}
-            {/*  />*/}
-            {/*</CiteDialog>*/}
-            {/*<IconButton*/}
-            {/*  dark={true}*/}
-            {/*  iconProps={{ size: 14 }}*/}
-            {/*  source={'cite'}*/}
-            {/*  disabled*/}
-            {/*/>*/}
+            <InteractionButtons
+              resourceId={item.resource_uuid ?? item.id}
+              initialIsBookmarked={item.is_bookmarked}
+              initialIsLiked={item.is_liked}
+              initialLikes={item.likes}
+              small
+              onRemove={onRemove}
+            />
             {ItemActions.map(({ Parent, disabled, ...action }, index) =>
               Parent ? (
                 <Parent key={index} item={item}>
@@ -268,7 +241,7 @@ const Item: FC<ItemProps> = ({ className, item, editable, deletable = true, ...p
               'h-auto w-[12.5rem] shrink-0 grow-0 basis-[12.5rem] border-b-0'
             }
             link={{
-              href: `/items/${item.id}/${item.slug}/`,
+              href: `/items/${item.resource_uuid ?? item.id}/${item.slug}/`,
             }}
           >
             See Details
@@ -287,6 +260,7 @@ export type ItemProps = Omit<
   noBorder?: boolean;
   editable?: boolean;
   deletable?: boolean;
+  onRemove?: () => void;
 };
 
 export default Item;

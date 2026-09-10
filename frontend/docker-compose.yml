@@ -12,8 +12,5 @@ services:
         BUILD_ENV: ${BUILD_ENV}
       
     # container_name: dev-frontend
-    ## instead of build, specify a pre-built image:
-#    image: <your-registry>/dalia/portal:latest
-#    container_name: dalia-ui
 
 # TODO should be in the same network with backend?

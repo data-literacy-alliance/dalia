@@ -4,16 +4,26 @@ from rdflib import BNode, Graph, Literal, RDF, Variable, XSD
 from rdflib.collection import Collection
 from rdflib.term import Node, URIRef
 
-from search.query.items.facets.facet_objects import FacetObject
+from search.query.items.facets.facet_objects import COMMUNITY_FACET, FacetObject
 from search.query_builder.query_builder import (
     BIND,
     FILTER,
     FILTER_EXISTS,
+    GROUP,
     OPTIONAL,
     Operators,
+    UNION,
     VALUES,
 )
-from search.rdf.namespace import Dalia_text, Jena_text, MoDalia, SCHEMA, educor
+from search.rdf.namespace import (
+    bibframe_lite_relation,
+    Dalia_text,
+    Jena_text,
+    MoDalia,
+    rec,
+    SCHEMA,
+    educor,
+)
 
 
 class _MultiTypeDateExpr:
@@ -112,9 +122,14 @@ def prepare_where_for_text_search_for_learning_resources(
             Graph(), BNode(), [Dalia_text.learningResourceTexts, Literal(lucene_query)]
         )
 
+        # GROUP+UNION (not OPTIONALs) so ?lr is always bound from the text-search
+        # paths before facet filter triples are appended.  With OPTIONALs, ?lr
+        # could be unbound when the hit was neither an ER nor a Person/Org; the
+        # subsequent facet triple would then bind ?lr to every resource in the
+        # triplestore with that predicate, inflating counts (issue #106).
         where = [
             (left_list, Jena_text.query, right_list),
-            OPTIONAL(
+            GROUP(
                 (var_s, RDF.type, var_type),
                 FILTER(
                     Operators.OR(
@@ -125,7 +140,7 @@ def prepare_where_for_text_search_for_learning_resources(
                 (var_lr, URIRef("https://dalia.education/authorUnordered"), var_s),
                 OPTIONAL((var_lr, SCHEMA.datePublished, var_created)),
             ),
-            OPTIONAL(
+            UNION(
                 (var_s, RDF.type, educor.EducationalResource),
                 OPTIONAL((var_s, SCHEMA.datePublished, var_created)),
                 BIND(var_s, var_lr),
@@ -140,7 +155,15 @@ def prepare_where_for_text_search_for_learning_resources(
             var_facet_value = Variable(f"facetValue_{var_name}")
 
             where.append(VALUES([var_facet_value], [(item,) for item in active_facet_items]))
-            where.append((var_lr, facet.predicate, var_facet_value))
+            if facet is COMMUNITY_FACET:
+                # hasCommunity predicate does not exist in Fuseki; community membership
+                # is expressed via rec:recommender (or bflr:supportinghost for future data).
+                where.append(GROUP((var_lr, rec.recommender, var_facet_value)))
+                where.append(
+                    UNION((var_lr, bibframe_lite_relation.supportinghost, var_facet_value))
+                )
+            else:
+                where.append((var_lr, facet.predicate, var_facet_value))
 
     # Date range filtering — handles xsd:date, xsd:gYearMonth, xsd:gYear
     if date_published_after or date_published_before:

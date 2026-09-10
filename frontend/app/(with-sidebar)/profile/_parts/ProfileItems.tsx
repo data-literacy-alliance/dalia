@@ -11,7 +11,7 @@ import { LoginURL } from '@/lib/settings.mjs';
 import { useRouter } from 'nextjs-toploader/app';
 import { useUserInfo } from '@/lib/auth/authApi';
 
-const ProfileItems: FC<ProfileLatestUploadsProps> = ({ items, title, pagination }) => {
+const ProfileItems: FC<ProfileLatestUploadsProps> = ({ items, title, pagination, editable: editableProp, deletable: deletableProp }) => {
   const params = useSearchParams();
   const { width } = useWindowDimensions();
   const view =
@@ -19,7 +19,8 @@ const ProfileItems: FC<ProfileLatestUploadsProps> = ({ items, title, pagination 
       ? 'grid'
       : ((params.get('view') || 'list') as 'list' | 'grid');
   const activeFilter = params.get('filter') || 'my-resources';
-  const deletable = activeFilter !== 'all-resources';
+  const deletable = deletableProp !== undefined ? deletableProp : activeFilter !== 'all-resources';
+  const editable = editableProp !== undefined ? editableProp : true;
 
   const titleRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -62,8 +63,9 @@ const ProfileItems: FC<ProfileLatestUploadsProps> = ({ items, title, pagination 
               key={item.id}
               noBorder
               className={'w-full border-b border-primary lg:border-r'}
-              editable
+              editable={editable}
               deletable={deletable}
+              onRemove={!editable && !deletable ? () => router.refresh() : undefined}
             />
           ))}
         </HFlex>
@@ -79,8 +81,9 @@ const ProfileItems: FC<ProfileLatestUploadsProps> = ({ items, title, pagination 
               key={item.id}
               noBorder
               className={'w-full border-b border-primary lg:border-r'}
-              editable
+              editable={editable}
               deletable={deletable}
+              onRemove={!editable && !deletable ? () => router.refresh() : undefined}
             />
           ))}
         </VFlex>
@@ -124,6 +127,8 @@ export type ProfileLatestUploadsProps = {
   items: ResourceItem[];
   title?: string;
   pagination?: { count: number; next: string | null; previous: string | null; page: number };
+  editable?: boolean;
+  deletable?: boolean;
 };
 
 export default ProfileItems;

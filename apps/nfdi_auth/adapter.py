@@ -1,5 +1,4 @@
 import logging
-import os
 
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 
@@ -60,11 +59,9 @@ class NFDISocialAdapter(DefaultSocialAccountAdapter):
         host = request.get_host()
 
         if "admin-dev" in host:
-            base = os.environ.get("DEV_FRONTEND_URL", "")
-            return base + "/profile/" if base else "/profile/"
+            return "https://dev-zubilewicz.web.vulcanus.otc.coscine.dev/profile/"
         elif "admin-staging" in host or "admin-stage" in host:
-            base = os.environ.get("STAGING_FRONTEND_URL", "")
-            return base + "/profile/" if base else "/profile/"
+            return "https://staging-zubilewicz.web.vulcanus.otc.coscine.dev/profile/"
         elif "search.dalia.education" in host or "admin-prod" in host:
             return "https://search.dalia.education/profile/"
         else:

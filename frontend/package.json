@@ -48,9 +48,6 @@
     "vaul": "^1.1.1",
     "zod": "^3.25.76"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": ["sharp", "unrs-resolver"]
-  },
   "devDependencies": {
     "@types/d3": "^7.4.3",
     "@types/js-cookie": "^3.0.6",

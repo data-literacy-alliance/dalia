@@ -1,9 +1,10 @@
 'use client';
-import React, { FC, Suspense } from 'react';
+import React, { FC, Suspense, useState } from 'react';
+import { ChevronDownIcon, ChevronRightIcon } from 'lucide-react';
 import SortBar from './_parts/SortBar';
 import DateRangeFilter from './_parts/DateRangeFilter';
 import Checkbox from '@/components/Checkbox';
-import { Facet, SelectedFacet } from '@/lib/types/Filters';
+import { Facet, FacetItem, SelectedFacet } from '@/lib/types/Filters';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 import { useMainContext } from '@/app/Providers';
@@ -17,19 +18,68 @@ import {
 import { VFlex } from '@/components/Flex';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
+import { NEXT_PUBLIC_API_URL } from '@/lib/settings.mjs';
 
 const ResultsSide: FC<ResultsSideProps> = ({ facets, selectedFacets }) => {
   const { setSidebarOpen } = useMainContext();
+  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
+  // childrenCache: children loaded without counts (on ▶ expand click)
+  const [childrenCache, setChildrenCache] = useState<Record<string, FacetItem[]>>({});
+  // childrenWithCounts: children loaded with full search params (on select)
+  const [childrenWithCounts, setChildrenWithCounts] = useState<Record<string, FacetItem[]>>({});
+
   const categoriesHasSelected = facets.filter((facet) =>
     facet.facetItems.some(
       (facetItem) =>
         facetItem.active ||
-        isFacetSelected(facetItem, facet.facetCategory.name, selectedFacets)
+        isFacetSelected(facetItem, facet.facetCategory.name, selectedFacets) ||
+        (facetItem.children ?? []).some(
+          (c) => c.active || isFacetSelected(c, facet.facetCategory.name, selectedFacets)
+        )
     )
   );
 
-  // Check if any filters are active
-  // const hasActiveFilters = selectedFacets.some((sf) => sf.selected.length > 0);
+  const toggleItem = (value: string) => {
+    setExpandedItems((prev) => {
+      const next = new Set(prev);
+      if (next.has(value)) next.delete(value);
+      else next.add(value);
+      return next;
+    });
+  };
+
+  // Load children without counts — called on ▶ expand click
+  const loadChildrenNoCount = async (parentValue: string) => {
+    if (childrenCache[parentValue] !== undefined) return;
+    try {
+      const res = await fetch(
+        `${NEXT_PUBLIC_API_URL}/disciplines/children/?parent=${encodeURIComponent(parentValue)}`,
+        { credentials: 'include' }
+      );
+      if (res.ok) {
+        const data = (await res.json()) as FacetItem[];
+        setChildrenCache((prev) => ({ ...prev, [parentValue]: data }));
+      }
+    } catch {}
+  };
+
+  // Load children with full search context (counts) — called when parent is selected
+  const loadChildrenWithCounts = async (
+    parentValue: string,
+    currentParams: URLSearchParams
+  ) => {
+    try {
+      const p = new URLSearchParams(currentParams);
+      const res = await fetch(
+        `${NEXT_PUBLIC_API_URL}/disciplines/children/?parent=${encodeURIComponent(parentValue)}&${p.toString()}`,
+        { credentials: 'include' }
+      );
+      if (res.ok) {
+        const data = (await res.json()) as FacetItem[];
+        setChildrenWithCounts((prev) => ({ ...prev, [parentValue]: data }));
+      }
+    } catch {}
+  };
 
   const router = useRouter();
   const pathname = usePathname();
@@ -115,39 +165,148 @@ const ResultsSide: FC<ResultsSideProps> = ({ facets, selectedFacets }) => {
               </AccordionTrigger>
               <AccordionContent className={'border-b border-primary'}>
                 <VFlex className="gap-2 px-2 pb-2 pt-4">
-                  {facet.facetItems.map((facetItem) => {
-                    const checked =
-                      facetItem.active ||
-                      isFacetSelected(
-                        facetItem,
-                        facet.facetCategory.name,
-                        selectedFacets
+                  {(() => {
+                    const hasFacetChildren = facet.facetItems.some(
+                      (fi) => (fi.children ?? []).length > 0
+                    );
+
+                    return facet.facetItems.map((facetItem) => {
+                      const checked =
+                        facetItem.active ||
+                        isFacetSelected(facetItem, facet.facetCategory.name, selectedFacets);
+
+                      const hasActiveChild = (facetItem.children ?? []).some(
+                        (c) =>
+                          c.active ||
+                          isFacetSelected(c, facet.facetCategory.name, selectedFacets)
                       );
 
-                    // Display count if available
-                    const hasResults = (facetItem.count ?? 0) > 0;
-                    const label = facetItem.count !== undefined
-                      ? `${facetItem.label} (${facetItem.count})`
-                      : facetItem.label;
+                      const hasChildren = (facetItem.children ?? []).length > 0;
+                      const isExpanded =
+                        hasActiveChild || expandedItems.has(facetItem.value);
 
-                    return (
-                      <Checkbox
-                        key={`${facet.facetCategory.name}_${facetItem.value}`}
-                        label={label}
-                        value={facetItem.value}
-                        onCheckedChange={() =>
-                          changeFacet(
-                            facet.facetCategory.name,
-                            facetItem.value,
-                            !checked
-                          )
-                        }
-                        checked={checked}
-                        disabled={!hasResults && !checked}
-                        className={!hasResults && !checked ? 'opacity-50' : ''}
-                      />
-                    );
-                  })}
+                      const hasResults = (facetItem.count ?? 0) > 0;
+                      const label =
+                        facetItem.count !== undefined && !isExpanded
+                          ? `${facetItem.label} (${facetItem.count})`
+                          : facetItem.label;
+
+                      // Tree layout: activate when ANY item has children or hasChildren flag
+                      const showAsTree = hasFacetChildren || facetItem.hasChildren;
+
+                      if (showAsTree) {
+                        const showToggle = hasChildren || facetItem.hasChildren;
+
+                        // Parent is active (selected as filter)
+                        const parentIsActive = checked;
+                        // Show counts in children only when parent is selected
+                        const showCount = parentIsActive;
+
+                        // Determine what children to display:
+                        // - If parent is active: prefer childrenWithCounts (have counts), fall back to childrenCache or pre-loaded
+                        // - If parent is expanded but not active: use childrenCache (no counts) or pre-loaded
+                        const displayChildren = parentIsActive
+                          ? (childrenWithCounts[facetItem.value] ??
+                              childrenCache[facetItem.value] ??
+                              facetItem.children ??
+                              [])
+                          : (childrenCache[facetItem.value] ??
+                              facetItem.children ??
+                              []);
+
+                        return (
+                          <div key={`${facet.facetCategory.name}_${facetItem.value}`}>
+                            <div className="flex items-center gap-1">
+                              {showToggle ? (
+                                <button
+                                  onClick={() => {
+                                    toggleItem(facetItem.value);
+                                    void loadChildrenNoCount(facetItem.value);
+                                  }}
+                                  className="flex-shrink-0 text-gray-500 hover:text-gray-700"
+                                  aria-label={isExpanded ? 'Collapse' : 'Expand'}
+                                >
+                                  {isExpanded ? (
+                                    <ChevronDownIcon className="h-4 w-4" />
+                                  ) : (
+                                    <ChevronRightIcon className="h-4 w-4" />
+                                  )}
+                                </button>
+                              ) : (
+                                <span className="w-4 flex-shrink-0" />
+                              )}
+                              <Checkbox
+                                label={label}
+                                value={facetItem.value}
+                                onCheckedChange={() => {
+                                  changeFacet(facet.facetCategory.name, facetItem.value, !checked);
+                                  // When selecting (becoming active), load children with counts
+                                  if (!checked) {
+                                    const updatedParams = new URLSearchParams(params);
+                                    updatedParams.append(facet.facetCategory.name, facetItem.value);
+                                    void loadChildrenWithCounts(facetItem.value, updatedParams);
+                                  }
+                                }}
+                                checked={checked}
+                                disabled={!hasResults && !checked && !hasActiveChild}
+                                className={
+                                  !hasResults && !checked && !hasActiveChild ? 'opacity-50' : ''
+                                }
+                              />
+                            </div>
+                            {showToggle && isExpanded && (
+                              <div className="ml-5 mt-1 flex flex-col gap-1 border-l border-primary pl-3">
+                                {displayChildren.map((child) => {
+                                  const childChecked =
+                                    child.active ||
+                                    isFacetSelected(
+                                      child,
+                                      facet.facetCategory.name,
+                                      selectedFacets
+                                    );
+                                  // Show count only when parent is an active filter
+                                  const childLabel =
+                                    showCount && child.count !== undefined
+                                      ? `${child.label} (${child.count})`
+                                      : child.label;
+                                  return (
+                                    <Checkbox
+                                      key={`${facet.facetCategory.name}_${child.value}`}
+                                      label={childLabel}
+                                      value={child.value}
+                                      onCheckedChange={() =>
+                                        changeFacet(
+                                          facet.facetCategory.name,
+                                          child.value,
+                                          !childChecked
+                                        )
+                                      }
+                                      checked={childChecked}
+                                    />
+                                  );
+                                })}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      }
+
+                      // Flat layout — all other facets
+                      return (
+                        <Checkbox
+                          key={`${facet.facetCategory.name}_${facetItem.value}`}
+                          label={label}
+                          value={facetItem.value}
+                          onCheckedChange={() =>
+                            changeFacet(facet.facetCategory.name, facetItem.value, !checked)
+                          }
+                          checked={checked}
+                          disabled={!hasResults && !checked}
+                          className={!hasResults && !checked ? 'opacity-50' : ''}
+                        />
+                      );
+                    });
+                  })()}
                 </VFlex>
               </AccordionContent>
             </AccordionItem>

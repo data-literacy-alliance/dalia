@@ -28,6 +28,9 @@ class ItemSearchResult(PaginatedResult):
 class ItemSearchRequest:
     query: str = field(default="*", metadata={"serializer_kwargs": {"allow_blank": True}})
     selectedFacets: List[SelectedFacet] = field(default_factory=list)
+    crossFacetOperators: List[str] = field(default_factory=list)
+    # crossFacetOperators[i] = 'AND' or 'OR', operator between selectedFacets[i] and selectedFacets[i+1]
+    # Default 'AND' when index out of range
     limit: int = field(default=20, metadata={"serializer_kwargs": {"min_value": 1}})
     offset: int = field(default=0, metadata={"serializer_kwargs": {"min_value": 0}})
     sortBy: Literal["relevance", "created"] = "relevance"
@@ -134,6 +137,7 @@ class SelectedFacet:
     selected: List[str] = field(
         metadata={"serializer_kwargs": {"child_kwargs": {"allow_blank": True}}}
     )
+    operator: str = field(default="OR")  # 'AND' or 'OR' — within-group operator
 
 
 @dataclass
@@ -148,6 +152,8 @@ class FacetItem:
     value: str
     active: bool
     count: Optional[int] = None  # Number of results with this facet value
+    children: Optional[List["FacetItem"]] = None
+    hasChildren: Optional[bool] = None
 
 
 @dataclass
@@ -178,6 +184,9 @@ class ResourceSpecial:
     doi: Optional[str] = None
     learning_time: Optional[int] = None
     versions: Optional[List[Version]] = None
+    source: Optional[str] = (
+        None  # provenance: "fuseki" | "postgres" (additive; FE ignores unknown fields)
+    )
 
 
 @dataclass
@@ -194,6 +203,12 @@ class Community:
     likes: Optional[int] = None
     views: Optional[int] = None
     followers: Optional[int] = None
+
+
+@dataclass
+class RelatedWork:
+    type: Optional[LabelValueItem] = None
+    link: Optional[str] = field(default=None, metadata={"serializer_kwargs": {"allow_blank": True}})
 
 
 @dataclass
@@ -216,7 +231,10 @@ class BaseItem:
     likes: Optional[int] = None
     views: Optional[int] = None
     comments: Optional[int] = None
+    is_bookmarked: Optional[bool] = None
+    is_liked: Optional[bool] = None
     tags: Optional[List[str]] = None
+    related_works: Optional[List[RelatedWork]] = None
 
 
 @dataclass

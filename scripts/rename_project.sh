@@ -79,6 +79,7 @@ mkdir -p "$BACKUP_DIR"
 
 cp .env.example "$BACKUP_DIR/.env.example.bak"
 cp podman-compose.yml "$BACKUP_DIR/podman-compose.yml.bak"
+cp podman-compose.tunnel.yml "$BACKUP_DIR/podman-compose.tunnel.yml.bak"
 cp Makefile "$BACKUP_DIR/Makefile.bak"
 cp pyproject.toml "$BACKUP_DIR/pyproject.toml.bak"
 cp config/settings/base.py "$BACKUP_DIR/base.py.bak"
@@ -103,24 +104,32 @@ sed -i "s/POSTGRES_USER:-$OLD_DB_USER/POSTGRES_USER:-$NEW_DB_USER/g" podman-comp
 sed -i "s|container_name: ${OLD_CONTAINER_PREFIX}-|container_name: ${NEW_CONTAINER_PREFIX}-|g" podman-compose.yml
 sed -i "s|# \./ = $OLD_NAME/ directory|# ./ = $NEW_NAME/ directory|g" podman-compose.yml
 
-# Step 5: Update Makefile
+# Step 5: Update podman-compose.tunnel.yml
+print_info "Updating podman-compose.tunnel.yml..."
+sed -i "s/${OLD_NAME}-network/${NEW_NAME}-network/g" podman-compose.tunnel.yml
+sed -i "s/name: ${OLD_NAME}_${OLD_NAME}-network/name: ${NEW_NAME}_${NEW_NAME}-network/g" podman-compose.tunnel.yml
+sed -i "s/container_name: ${OLD_NAME}-cloudflared/container_name: ${NEW_NAME}-cloudflared/g" podman-compose.tunnel.yml
+sed -i "s/Joins the existing $OLD_NAME network/Joins the existing $NEW_NAME network/g" podman-compose.tunnel.yml
+
+# Step 6: Update Makefile
 print_info "Updating Makefile..."
 sed -i "s/WEB_CONTAINER := ${OLD_CONTAINER_PREFIX}-web/WEB_CONTAINER := ${NEW_CONTAINER_PREFIX}-web/g" Makefile
 sed -i "s/DB_CONTAINER := ${OLD_CONTAINER_PREFIX}-db/DB_CONTAINER := ${NEW_CONTAINER_PREFIX}-db/g" Makefile
 sed -i "s/NGINX_CONTAINER := ${OLD_CONTAINER_PREFIX}-nginx/NGINX_CONTAINER := ${NEW_CONTAINER_PREFIX}-nginx/g" Makefile
 sed -i "s/REDIS_CONTAINER := ${OLD_CONTAINER_PREFIX}-redis/REDIS_CONTAINER := ${NEW_CONTAINER_PREFIX}-redis/g" Makefile
+sed -i "s/${OLD_NAME}-cloudflared/${NEW_NAME}-cloudflared/g" Makefile
 sed -i "s/${OLD_NAME}_${OLD_NAME}-network/${NEW_NAME}_${NEW_NAME}-network/g" Makefile
 sed -i "s/POSTGRES_DB:-$OLD_DB_NAME/POSTGRES_DB:-$NEW_DB_NAME/g" Makefile
 sed -i "s/POSTGRES_USER:-$OLD_DB_USER/POSTGRES_USER:-$NEW_DB_USER/g" Makefile
 sed -i "s|Run all commands from: $OLD_NAME/|Run all commands from: $NEW_NAME/|g" Makefile
 sed -i "s|\"$OLD_NAME - Makefile|\"$NEW_NAME - Makefile|g" Makefile
 
-# Step 6: Update pyproject.toml
+# Step 7: Update pyproject.toml
 print_info "Updating pyproject.toml..."
 sed -i "s/name = \"$OLD_NAME\"/name = \"$NEW_NAME\"/g" pyproject.toml
 sed -i "s/\"$OLD_NAME - Django 6.0/\"$NEW_NAME - Django 6.0/g" pyproject.toml
 
-# Step 7: Update Django settings
+# Step 8: Update Django settings
 print_info "Updating Django settings..."
 sed -i "s/\"SITE_TITLE\": \"$OLD_NAME\"/\"SITE_TITLE\": \"$NEW_NAME\"/g" config/settings/base.py
 sed -i "s/\"SITE_HEADER\": \"$OLD_NAME\"/\"SITE_HEADER\": \"$NEW_NAME\"/g" config/settings/base.py
@@ -130,33 +139,33 @@ sed -i "s/\"DESCRIPTION\": \"$OLD_NAME Django/\"DESCRIPTION\": \"$NEW_NAME Djang
 sed -i "s/\"$OLD_NAME\"/\"$NEW_NAME\"/g" config/settings/production.py
 sed -i "s/\"$OLD_NAME\"/\"$NEW_NAME\"/g" config/settings/testing.py
 
-# Step 8: Update login template
+# Step 9: Update login template
 print_info "Updating login template..."
 sed -i "s/<title>Login - $OLD_NAME<\/title>/<title>Login - $NEW_NAME<\/title>/g" templates/registration/login.html
 sed -i "s/<h1>$OLD_NAME<\/h1>/<h1>$NEW_NAME<\/h1>/g" templates/registration/login.html
 
-# Step 9: Regenerate .env from updated .env.example
+# Step 10: Regenerate .env from updated .env.example
 print_info "Regenerating .env file..."
 cp .env.example .env
 
-# Step 10: Remove old database data (fresh start)
+# Step 11: Remove old database data (fresh start)
 print_info "Removing old database data..."
 rm -rf data/postgres/*
 rm -rf data/redis/*
 
-# Step 11: Build containers with new names
+# Step 12: Build containers with new names
 print_info "Building containers with new names..."
 make build
 
-# Step 12: Start containers (will create new database)
+# Step 13: Start containers (will create new database)
 print_info "Starting containers (creating fresh database)..."
 make up
 
-# Step 13: Wait for containers to be ready
+# Step 14: Wait for containers to be ready
 print_info "Waiting for containers to start..."
 sleep 10
 
-# Step 14: Verify containers are running
+# Step 15: Verify containers are running
 print_info "Verifying containers..."
 if podman ps | grep -q "${NEW_CONTAINER_PREFIX}-web"; then
     print_info "✓ Web container running"
@@ -206,5 +215,5 @@ echo "  3. Check logs: make logs"
 echo "  4. Rename directory: cd .. && mv icz $NEW_NAME && cd $NEW_NAME"
 echo ""
 print_warn "NOTE: You need to manually rename the directory from 'icz/' to '$NEW_NAME/'"
-print_warn "      Run: cd /path/to/your/project && mv icz $NEW_NAME"
+print_warn "      Run: cd /home/mzubilewicz/django_generic && mv icz $NEW_NAME"
 echo ""
