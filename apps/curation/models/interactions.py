@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.db.models import Q
 
 
 class Bookmark(UUIDMixin, TimeStampedModel):
@@ -16,9 +17,10 @@ class Bookmark(UUIDMixin, TimeStampedModel):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="bookmarks"
     )
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
+    object_id = models.PositiveIntegerField(null=True, blank=True)
     content_object = GenericForeignKey("content_type", "object_id")
+    resource_uuid = models.UUIDField(null=True, blank=True, db_index=True)
 
     notes = models.TextField(blank=True, help_text="Personal notes about this bookmark")
     is_private = models.BooleanField(
@@ -29,7 +31,12 @@ class Bookmark(UUIDMixin, TimeStampedModel):
         constraints = [
             models.UniqueConstraint(
                 fields=["user", "content_type", "object_id"], name="unique_user_bookmark"
-            )
+            ),
+            models.UniqueConstraint(
+                fields=["user", "resource_uuid"],
+                condition=Q(resource_uuid__isnull=False),
+                name="unique_user_bookmark_uuid",
+            ),
         ]
         indexes = [
             models.Index(fields=["content_type", "object_id"]),
@@ -49,15 +56,21 @@ class Like(UUIDMixin, TimeStampedModel):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="likes"
     )
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
+    object_id = models.PositiveIntegerField(null=True, blank=True)
     content_object = GenericForeignKey("content_type", "object_id")
+    resource_uuid = models.UUIDField(null=True, blank=True, db_index=True)
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
                 fields=["user", "content_type", "object_id"], name="unique_user_like"
-            )
+            ),
+            models.UniqueConstraint(
+                fields=["user", "resource_uuid"],
+                condition=Q(resource_uuid__isnull=False),
+                name="unique_user_like_uuid",
+            ),
         ]
         indexes = [
             models.Index(fields=["content_type", "object_id"]),
@@ -81,9 +94,11 @@ class ViewEvent(TimeStampedModel):
         null=True,  # Allow anonymous views
         related_name="view_events",
     )
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
+    object_id = models.PositiveIntegerField(null=True, blank=True)
     content_object = GenericForeignKey("content_type", "object_id")
+    # Always populated — enables view count queries across PG and Fuseki resources.
+    resource_uuid = models.UUIDField(null=True, blank=True, db_index=True)
 
     session_id = models.CharField(
         max_length=40, blank=True, help_text="Session ID for anonymous users"
@@ -104,6 +119,7 @@ class ViewEvent(TimeStampedModel):
             models.Index(fields=["user", "created"]),
             models.Index(fields=["content_type", "object_id", "user", "created"]),
             models.Index(fields=["session_id", "created"]),
+            models.Index(fields=["resource_uuid"]),
         ]
 
     def __str__(self):

@@ -16,6 +16,7 @@ import { MSelect2 } from '@/components/MSelect';
 import { LabelValuePair } from '@/lib/types/Common';
 import Button from '@/components/Button';
 import TextBox from '@/components/Textbox/Textbox';
+import { Checkbox } from '@/components/ui/checkbox';
 import { apiFetch } from '@/lib/auth/apiFetch';
 import { useAuthLogin } from '@/lib/auth/clientAuth';
 import { mutate } from 'swr';
@@ -41,10 +42,9 @@ const PreferencesForm: FC<PreferencesFormProps> = ({ person }) => {
     resolver: zodResolver(preferencesForm),
     defaultValues: {
       orcid: person.orcid,
-      last_name: person.last_name,
-      first_name: person.first_name,
       homepage: person.homepage,
       privacy_level: person.privacy_level,
+      sync_name_from_provider: person.sync_name_from_provider,
     },
   });
   const { access } = useAuthLogin();
@@ -113,38 +113,22 @@ const PreferencesForm: FC<PreferencesFormProps> = ({ person }) => {
               {message}
             </div>
           )}
-          <FormField
-            name={'first_name'}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <TextBox
-                    label={'Given Name'}
-                    priority={'Mandatory'}
-                    disabled={loading}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            name={'last_name'}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <TextBox
-                    label={'Family Name'}
-                    priority={'Mandatory'}
-                    disabled={loading}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className={'flex flex-col gap-1'}>
+            <span className={'text-xs font-medium uppercase tracking-wide text-gray-500'}>
+              Given Name
+            </span>
+            <span className={'border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-700'}>
+              {person.first_name || <span className={'text-gray-400 italic'}>Not set</span>}
+            </span>
+          </div>
+          <div className={'flex flex-col gap-1'}>
+            <span className={'text-xs font-medium uppercase tracking-wide text-gray-500'}>
+              Family Name
+            </span>
+            <span className={'border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-700'}>
+              {person.last_name || <span className={'text-gray-400 italic'}>Not set</span>}
+            </span>
+          </div>
           <FormField
             name={'homepage'}
             render={({ field }) => (
@@ -201,6 +185,39 @@ const PreferencesForm: FC<PreferencesFormProps> = ({ person }) => {
                     }}
                   />
                 </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className={'px-4 pb-4 2xl:pl-10'}>
+          <p className={'text-sm text-gray-600 leading-relaxed'}>
+            <strong>Why is my name changing?</strong> The name is automatically retrieved from the
+            data associated with your chosen login method (institution, ORCID, etc.) and updated if
+            necessary. If the names stored in the systems differ, changing your login method may
+            result in the name on your DALIA profile being updated. You can disable this option to
+            keep the current one. Nevertheless, your name will be set up for the first time when you
+            login.
+          </p>
+          <FormField
+            name={'sync_name_from_provider'}
+            control={form.control}
+            render={({ field }) => (
+              <FormItem className={'mt-3 flex items-center gap-2'}>
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    disabled={loading}
+                    id={'sync_name_from_provider'}
+                  />
+                </FormControl>
+                <label
+                  htmlFor={'sync_name_from_provider'}
+                  className={'cursor-pointer text-sm font-medium leading-none'}
+                >
+                  Automatically update my name from the login provider
+                </label>
                 <FormMessage />
               </FormItem>
             )}

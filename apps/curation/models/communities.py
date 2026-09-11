@@ -21,10 +21,14 @@ class Community(UUIDMixin, TimeStampedModel, Activatable):
 
     title = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
-    uri = models.URLField(blank=True)
+    uri = models.URLField(blank=True, null=True, unique=True)
+
+    # Content fields — replicated from Fuseki for fallback use
+    description = models.TextField(blank=True, help_text="Community description and purpose")
+    website_url = models.URLField(blank=True, default="", help_text="Community website URL")
+    image = models.URLField(blank=True, null=True, help_text="Community logo or banner image URL")
 
     # Governance and moderation settings
-    description = models.TextField(blank=True, help_text="Community description and purpose")
     moderation_policy = models.TextField(
         blank=True, help_text="Community moderation guidelines and policies"
     )
@@ -169,7 +173,6 @@ class CommunityMembership(UUIDMixin, TimeStampedModel):
         old_role = self.role
         self.role = new_role
         if promoted_by:
-            # Log the promotion in permissions_granted
             promotion_log = {
                 "action": "promoted",
                 "from_role": old_role,
@@ -190,3 +193,21 @@ class CommunityMembership(UUIDMixin, TimeStampedModel):
         self.approved_by = approved_by
         self.approved_at = timezone.now()
         self.save()
+
+
+class CommunitySocialMedia(TimeStampedModel):
+    """Social media links for a community — editable in admin, replicated from Fuseki."""
+
+    community = models.ForeignKey(
+        Community, on_delete=models.CASCADE, related_name="social_media_links"
+    )
+    name = models.CharField(max_length=100, help_text="Platform name, e.g. Zenodo, YouTube")
+    url = models.URLField(help_text="Full URL to the community's profile on this platform")
+
+    class Meta:
+        ordering = ("name",)
+        verbose_name = "Social Media Link"
+        verbose_name_plural = "Social Media Links"
+
+    def __str__(self):
+        return f"{self.community.title} — {self.name}"

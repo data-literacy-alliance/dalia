@@ -12,6 +12,14 @@ import {
 import { apiFetch } from '@/lib/auth/apiFetch';
 import { FieldValues, Path, UseFormReturn } from 'react-hook-form';
 
+export type PartialSaveResult = {
+  success: 'partial';
+  id: number;
+  uuid: string;
+  communityErrors: Array<{ index: number; label: string; message: string }>;
+  relationErrors: Array<{ index: number; url: string; message: string }>;
+};
+
 export function findDisciplinesFromString(
   data: LabelValueChild[],
   selected: string
@@ -29,6 +37,33 @@ export function findDisciplinesFromString(
     }
   }
   return undefined;
+}
+
+/**
+ * Given a discipline leaf value (slug or id string) and the loaded discipline
+ * tree, returns the full path from root to that node as an array of `value`
+ * strings — i.e. [rootValue, ..., leafValue]. This is the format expected by
+ * the form schema (`disciplines: z.array(z.array(z.string()))`).
+ *
+ * Returns [] when the value is not found anywhere in the tree so that callers
+ * can filter out unresolved disciplines instead of creating blank rows.
+ */
+export function findDisciplinePathInTree(
+  value: string,
+  tree: LabelValueChild[]
+): string[] {
+  for (const node of tree) {
+    if (node.value === value) {
+      return [node.value];
+    }
+    if (node.children.length > 0) {
+      const childPath = findDisciplinePathInTree(value, node.children);
+      if (childPath.length > 0) {
+        return [node.value, ...childPath];
+      }
+    }
+  }
+  return [];
 }
 
 type formData = {
@@ -165,12 +200,20 @@ export function calculateFairScore(data: FairScoreData) {
   return Math.round((hasValue.length * 100) / allValues.length);
 }
 
+function extractApiError(errData: Record<string, string[]> & { detail?: string }, fallback: string): string {
+  if (errData.detail) return errData.detail;
+  const firstField = Object.values(errData)[0];
+  if (Array.isArray(firstField) && firstField.length > 0) return firstField[0];
+  return fallback;
+}
+
 export async function submitData(
   data: NewItemData,
   accessKey: string,
   userId: number,
   disciplines: LabelValueChild[],
-  resourceUuid?: string
+  resourceUuid?: string,
+  idempotencyKey?: string
 ) {
   try {
     const result = await apiFetch('/api/curation/resource-contents/', {
@@ -178,6 +221,7 @@ export async function submitData(
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessKey}`,
+        ...(idempotencyKey ? { 'Idempotency-Key': idempotencyKey } : {}),
       },
       body: JSON.stringify({
         ...(resourceUuid ? { resource: resourceUuid } : {}),
@@ -214,6 +258,10 @@ export async function submitData(
         target_groups: data.targetGroups.map((tg) => tg.value),
         file_formats: data.fileFormats.map((ff) => ff.value),
         media_types: data.mediaTypes.map((mt) => mt.value),
+        keywords: data.keywords
+          .split(',')
+          .map((k) => k.trim())
+          .filter(Boolean),
       }),
     });
 
@@ -245,65 +293,75 @@ export async function submitData(
       | null
       | Record<Exclude<string, 'id'>, string[]>;
 
-    const relations: Promise<Response>[] = [];
+    const communityErrors: PartialSaveResult['communityErrors'] = [];
+    const relationErrors: PartialSaveResult['relationErrors'] = [];
 
     if (resultObject && 'id' in resultObject) {
       // handle related items
-      let index = 0;
+      let relIndex = 0;
       for (const rw of data.relations) {
-        if (!rw.type || !rw.link) {
-          continue;
+        if (!rw.type || !rw.link) { relIndex++; continue; }
+        const r = await apiFetch('/api/curation/related-items/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessKey}` },
+          body: JSON.stringify({
+            order: relIndex,
+            target_url: rw.link,
+            content: (resultObject as unknown as { id: number }).id,
+            relation_type: Number(rw.type.value),
+          }),
+        });
+        if (!r.ok) {
+          const errData = await r.json().catch(() => ({})) as Record<string, string[]> & { detail?: string };
+          relationErrors.push({ index: relIndex, url: rw.link, message: extractApiError(errData, 'Could not save related work') });
         }
-        relations.push(
-          apiFetch('/api/curation/related-items/', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${accessKey}`,
-            },
-            body: JSON.stringify({
-              order: index,
-              target_url: rw.link,
-              content: resultObject.id,
-              relation_type: Number(rw.type.value),
-            }),
-          })
-        );
-        index += 1;
+        relIndex++;
+      }
+
+      // Handle additional links
+      const nonEmptyLinks = (data.links ?? []).filter((l) => l && l.trim() !== '');
+      for (let linkIdx = 0; linkIdx < nonEmptyLinks.length; linkIdx++) {
+        await apiFetch('/api/curation/resource-links/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessKey}` },
+          body: JSON.stringify({
+            content: (resultObject as unknown as { id: number }).id,
+            url: nonEmptyLinks[linkIdx],
+            order: linkIdx,
+          }),
+        });
       }
 
       // handle communities
-      index = 0;
+      let commIndex = 0;
       for (const c of data.communities) {
-        if (!c.value) {
-          continue;
+        if (!c.value) { commIndex++; continue; }
+        const r = await apiFetch('/api/curation/community-relations/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessKey}` },
+          body: JSON.stringify({
+            order: commIndex,
+            content: (resultObject as unknown as { id: number }).id,
+            community: Number(c.value),
+            relation_type: SupportingCommunityRelationId,
+          }),
+        });
+        if (!r.ok) {
+          const errData = await r.json().catch(() => ({})) as Record<string, string[]> & { detail?: string };
+          communityErrors.push({ index: commIndex, label: c.label || `Community ${commIndex + 1}`, message: extractApiError(errData, 'Could not link community') });
         }
-        relations.push(
-          apiFetch('/api/curation/community-relations/', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${accessKey}`,
-            },
-            body: JSON.stringify({
-              order: index,
-              content: resultObject.id,
-              community: Number(c.value),
-              relation_type: SupportingCommunityRelationId,
-            }),
-          })
-        );
-        index += 1;
+        commIndex++;
       }
     }
 
-    const relationResponses = await Promise.all(relations);
-
-    // Check if any related items operations failed
-    const failedRelations = relationResponses.filter((r) => !r.ok);
-    if (failedRelations.length > 0) {
-      console.error('[submitData] Failed to save some related items:', failedRelations);
-      throw new Error('Failed to save some related items');
+    if (communityErrors.length > 0 || relationErrors.length > 0) {
+      return {
+        success: 'partial' as const,
+        id: (resultObject as unknown as { id: number }).id,
+        uuid: (resultObject as unknown as { uuid: string }).uuid,
+        communityErrors,
+        relationErrors,
+      };
     }
 
     return resultObject;
@@ -351,6 +409,9 @@ export async function submitEditData(
       target_groups: data.targetGroups?.map((tg) => tg.value),
       file_formats: data.fileFormats?.map((ff) => ff.value).filter((v) => v !== 'unknown'),
       media_types: data.mediaTypes?.map((mt) => mt.value),
+      keywords: data.keywords !== undefined
+        ? data.keywords.split(',').map((k) => k.trim()).filter(Boolean)
+        : undefined,
     };
 
     const editData = Object.fromEntries(
@@ -400,6 +461,9 @@ export async function submitEditData(
       | Record<Exclude<string, 'id'>, string[]>;
 
     if (resultObject && 'id' in resultObject) {
+      const communityErrors: PartialSaveResult['communityErrors'] = [];
+      const relationErrors: PartialSaveResult['relationErrors'] = [];
+
       // Handle related items with smart merge (UPDATE existing by target_url, POST new, DELETE removed)
       if (data.relations !== undefined) {
         // Fetch existing related items
@@ -501,9 +565,81 @@ export async function submitEditData(
         // Check if any related items operations failed
         const failedRelations = relationResponses.filter((r) => !r.ok);
         if (failedRelations.length > 0) {
-          console.error('[submitEditData] Failed to save some related items:', failedRelations);
-          throw new Error('Failed to save some related items');
+          failedRelations.forEach((_, i) => {
+            const newRel = newRelations[i];
+            if (newRel) {
+              relationErrors.push({ index: i, url: newRel.target_url, message: 'Could not save related work' });
+            }
+          });
         }
+      }
+
+      // Handle additional links with smart merge
+      if (data.links !== undefined) {
+        const existingLinksResponse = await fetch(
+          NEXT_PUBLIC_BACKEND_ROOT + `/api/curation/resource-links/?content=${itemUuid}`,
+          {
+            credentials: 'include',
+            headers: { Authorization: `Bearer ${accessKey}` },
+          }
+        );
+
+        let existingLinks: Array<{ uuid: string; url: string; order: number }> = [];
+        if (existingLinksResponse.ok) {
+          const existingData = (await existingLinksResponse.json()) as
+            | { results: Array<{ uuid: string; url: string; order: number }> }
+            | Array<{ uuid: string; url: string; order: number }>;
+          existingLinks = ('results' in existingData ? existingData.results : existingData) || [];
+        }
+
+        const newLinks = (data.links ?? [])
+          .filter((l) => l && l.trim() !== '')
+          .map((url, i) => ({ url, order: i }));
+
+        const existingByUrl = new Map(existingLinks.map((l) => [l.url, l]));
+        const newByUrl = new Map(newLinks.map((l) => [l.url, l]));
+
+        const linkPromises: Promise<Response>[] = [];
+
+        for (const newLink of newLinks) {
+          const existing = existingByUrl.get(newLink.url);
+          if (existing) {
+            if (existing.order !== newLink.order) {
+              linkPromises.push(
+                apiFetch(`/api/curation/resource-links/${existing.uuid}/`, {
+                  method: 'PATCH',
+                  headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessKey}` },
+                  body: JSON.stringify({ order: newLink.order }),
+                })
+              );
+            }
+          } else {
+            linkPromises.push(
+              apiFetch('/api/curation/resource-links/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessKey}` },
+                body: JSON.stringify({
+                  content: (resultObject as unknown as { id: number }).id,
+                  url: newLink.url,
+                  order: newLink.order,
+                }),
+              })
+            );
+          }
+        }
+
+        for (const existing of existingLinks) {
+          if (!newByUrl.has(existing.url)) {
+            linkPromises.push(
+              apiFetch(`/api/curation/resource-links/${existing.uuid}/`, {
+                method: 'DELETE',
+                headers: { Authorization: `Bearer ${accessKey}` },
+              })
+            );
+          }
+        }
+
+        await Promise.all(linkPromises);
       }
 
       // Handle communities with smart merge
@@ -605,7 +741,23 @@ export async function submitEditData(
           }
         }
 
-        await Promise.all(communityPromises);
+        const communityResponses = await Promise.all(communityPromises);
+        communityResponses.filter((r) => !r.ok).forEach((_, i) => {
+          const newComm = newCommunities[i];
+          if (newComm) {
+            communityErrors.push({ index: i, label: `Community ${i + 1}`, message: 'Could not link community' });
+          }
+        });
+      }
+
+      if (communityErrors.length > 0 || relationErrors.length > 0) {
+        return {
+          success: 'partial' as const,
+          id: (resultObject as unknown as { id: number }).id,
+          uuid: (resultObject as unknown as { uuid: string }).uuid,
+          communityErrors,
+          relationErrors,
+        };
       }
     }
 
