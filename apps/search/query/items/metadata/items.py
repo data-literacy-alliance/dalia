@@ -54,6 +54,11 @@ def get_metadata_for_learning_resources(resource_uri_refs: List[URIRef]) -> List
 
     # print(f"DEBUG (items.py): get_metadata_for_learning_resources - items_languages: {items_languages}") # ADD THIS LINE
 
+    # Related items are PG-only data; batch-fetch from PG by resource UUID.
+    items_related_works = _get_related_works_for_resources(resource_uri_refs)
+    resource_uuid_strs = [str(uri_ref).split("/")[-1] for uri_ref in resource_uri_refs]
+    view_counts = _get_view_counts_for_resources(resource_uuid_strs)
+
     results = []
     for resource_uri_ref in resource_uri_refs:
         item = items.get(resource_uri_ref)
@@ -72,6 +77,8 @@ def get_metadata_for_learning_resources(resource_uri_refs: List[URIRef]) -> List
             authors=items_authors.get(resource_uri_ref),
             communities=items_communities.get(resource_uri_ref),
             languages=items_languages.get(resource_uri_ref),
+            related_works=items_related_works.get(resource_uri_ref),
+            views=view_counts.get(str(resource_uri_ref).split("/")[-1], 0),
         )
         # print(f"DEBUG (items.py): get_metadata_for_learning_resources - item after _add_metadata_to_item, languages: {item.languages}")
         results.append(item)
@@ -90,7 +97,7 @@ def _add_metadata_to_item(item: Resource, **kwargs) -> None:
     item.authors = kwargs.get("authors") or []
     item.communities = kwargs.get("communities") or []
     item.likes = 0
-    item.views = 0
+    item.views = kwargs.get("views") or 0
     item.comments = 0
     item.image = None
     item.links = None
@@ -99,3 +106,55 @@ def _add_metadata_to_item(item: Resource, **kwargs) -> None:
     item.doi = None
     item.learning_time = 10
     item.versions = None
+    item.related_works = kwargs.get("related_works") or []
+
+
+def _get_related_works_for_resources(resource_uri_refs: List[URIRef]) -> dict:
+    """Batch-fetch related items from PG for a list of Fuseki resource URIRefs.
+
+    Related items are stored only in PostgreSQL; this bridges the Fuseki metadata
+    path to PG-side relation data.
+    """
+    from curation.models import ResourceContent
+    from search.api_models.api_models import LabelValueItem, RelatedWork
+
+    uuids = [str(uri_ref).split("/")[-1] for uri_ref in resource_uri_refs]
+    contents = (
+        ResourceContent.objects.filter(
+            resource__uuid__in=uuids,
+            is_active=True,
+            resource__is_published=True,
+            resource__is_removed=False,
+        )
+        .select_related("resource")
+        .prefetch_related("related_items__relation_type")
+    )
+    result: dict = {}
+    for content in contents:
+        uri_ref = lr_uri_ref(content.resource.uuid)
+        result[uri_ref] = [
+            RelatedWork(
+                type=LabelValueItem(
+                    label=ri.relation_type.label,
+                    value=ri.relation_type.code,
+                ),
+                link=ri.target_url,
+            )
+            for ri in content.related_items.order_by("order").all()
+        ]
+    return result
+
+
+def _get_view_counts_for_resources(uuids: List[str]) -> dict:
+    """Batch-fetch ViewEvent counts keyed by resource UUID string."""
+    from curation.models import ViewEvent
+    from django.db.models import Count as DjCount
+
+    if not uuids:
+        return {}
+    return {
+        str(row["resource_uuid"]): row["cnt"]
+        for row in ViewEvent.objects.filter(resource_uuid__in=uuids)
+        .values("resource_uuid")
+        .annotate(cnt=DjCount("id"))
+    }

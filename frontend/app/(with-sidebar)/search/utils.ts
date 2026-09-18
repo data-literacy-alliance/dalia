@@ -4,14 +4,24 @@ import { Facet, FacetItem, SelectedFacet } from '@/lib/types/Filters';
 import { ResultsPageSize } from '@/lib/settings.mjs';
 import { searchItems } from '@/lib/api/item';
 
+export type ParsedFilters = {
+  selectedFacets: SelectedFacet[];
+  crossFacetOperators: ('AND' | 'OR')[];
+};
+
+const OP_PREFIX = '_op_';
+const CROSS_OP_PREFIX = '_crossOp_';
+
 export async function getResultsAndFacets(
   filters: Record<string, string>,
   query?: string,
   strOffset?: string,
-  strLimit?: string
+  strLimit?: string,
+  ssrHeaders?: Record<string, string>
 ): Promise<{
   results: (Pageable<ResourceItem> & { facets: Facet[] }) | null;
   selectedFacets: SelectedFacet[];
+  crossFacetOperators: ('AND' | 'OR')[];
 }> {
   const offset = strOffset ? Number(strOffset) : 0;
   const limit = strLimit ? Number(strLimit) : ResultsPageSize;
@@ -34,56 +44,85 @@ export async function getResultsAndFacets(
     ...facetFilters
   } = filters;
 
-  const selectedFacets = parseFilters(facetFilters);
+  const { selectedFacets, crossFacetOperators } = parseFilters(facetFilters);
 
   const results = await searchItems(
     query || '',
     offset,
     limit,
     selectedFacets,
+    crossFacetOperators,
     'relevance',
     'dsc',
     datePublished_after,
-    datePublished_before
+    datePublished_before,
+    ssrHeaders
   );
 
   return {
-    results: results,
+    results,
     selectedFacets,
+    crossFacetOperators,
   };
 }
 
 export function parseFilters(
   filters: Record<string, string | string[]>
-): SelectedFacet[] {
-  const results: SelectedFacet[] = [];
+): ParsedFilters {
+  const selectedFacets: SelectedFacet[] = [];
+  const withinOpMap: Record<string, 'AND' | 'OR'> = {};
+  const crossOpMap: Record<number, 'AND' | 'OR'> = {};
 
-  for (const filter in filters) {
-    const value = filters[filter];
+  for (const key in filters) {
+    const value = filters[key];
+    const strValue = Array.isArray(value) ? value[0] : value;
 
-    // Skip empty values
-    if (!value || (Array.isArray(value) && value.length === 0)) {
+    if (key.startsWith(OP_PREFIX)) {
+      const facetKey = key.slice(OP_PREFIX.length);
+      if (strValue === 'AND' || strValue === 'OR') {
+        withinOpMap[facetKey] = strValue;
+      }
       continue;
     }
-    if (typeof value === 'string' && value.trim() === '') {
+
+    if (key.startsWith(CROSS_OP_PREFIX)) {
+      const idx = parseInt(key.slice(CROSS_OP_PREFIX.length), 10);
+      if (!isNaN(idx) && (strValue === 'AND' || strValue === 'OR')) {
+        crossOpMap[idx] = strValue;
+      }
       continue;
     }
 
-    // Filter out empty strings from arrays
+    // Skip empty values (existing logic)
+    if (!value || (Array.isArray(value) && value.length === 0)) continue;
+    if (typeof value === 'string' && value.trim() === '') continue;
+
     const selected = Array.isArray(value)
       ? value.filter((v) => v && v.trim() !== '')
       : [value];
 
-    // Only add if there are valid selections
     if (selected.length > 0) {
-      results.push({
-        key: filter,
-        selected,
-      });
+      selectedFacets.push({ key, selected });
     }
   }
 
-  return results;
+  // Apply within-group operators
+  selectedFacets.forEach((sf) => {
+    if (withinOpMap[sf.key]) {
+      sf.operator = withinOpMap[sf.key];
+    }
+  });
+
+  // Build ordered cross-facet operators array
+  const maxIdx = Object.keys(crossOpMap).length
+    ? Math.max(...Object.keys(crossOpMap).map(Number))
+    : -1;
+  const crossFacetOperators: ('AND' | 'OR')[] = [];
+  for (let i = 0; i <= maxIdx; i++) {
+    crossFacetOperators.push(crossOpMap[i] ?? 'AND');
+  }
+
+  return { selectedFacets, crossFacetOperators };
 }
 
 export function isFacetSelected(
