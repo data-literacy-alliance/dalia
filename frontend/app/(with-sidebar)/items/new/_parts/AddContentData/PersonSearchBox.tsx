@@ -88,7 +88,24 @@ const PersonSearchBox: FC<PersonSearchBoxProps> = ({ onSelected, hide }) => {
                       setOpen(false);
                     }}
                   >
-                    {person.first_name} {person.last_name}
+                    <span className="flex items-center gap-2">
+                      <span>{person.first_name} {person.last_name}</span>
+                      {person.user !== null ? (
+                        <span
+                          className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium uppercase tracking-wide bg-blue-100 text-blue-700"
+                          title="This person has a registered account on the platform"
+                        >
+                          Registered
+                        </span>
+                      ) : (
+                        <span
+                          className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium uppercase tracking-wide bg-gray-100 text-gray-500"
+                          title="Public author profile — this person has no account on the platform"
+                        >
+                          Author
+                        </span>
+                      )}
+                    </span>
                   </CommandItem>
                 ))}
             </CommandGroup>
