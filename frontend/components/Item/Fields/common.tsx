@@ -54,6 +54,12 @@ export const publicationField: FieldKey = {
   property: 'dcterms:issued',
 };
 
+export const versionField: FieldKey = {
+  label: 'Version',
+  value: (i) => i.version ?? '',
+  property: 'schema:version',
+};
+
 export const languagesField: FieldKey = {
   label: 'Languages',
   value: (i) =>

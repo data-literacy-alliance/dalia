@@ -18,6 +18,7 @@ import { SidebarFields } from '@/components/Item/Fields';
 import ResourceButton from '@/components/ResourceButton';
 import CiteDialog from '@/components/CiteDialog';
 import { useUserInfo } from '@/lib/auth/authApi';
+import { useItemInteractions } from '@/lib/useItemInteractions';
 import ShareDialog from '@/components/ShareDialog';
 
 const DetailsSide: FC<DetailsSideProps> = ({ item, preview }) => {
@@ -25,6 +26,18 @@ const DetailsSide: FC<DetailsSideProps> = ({ item, preview }) => {
   const router = useRouter();
   const { setSidebarOpen } = useMainContext();
   const { userInfo } = useUserInfo();
+  const {
+    isBookmarked,
+    isLiked,
+    isLoading,
+    isLoggedIn,
+    handleBookmarkToggle,
+    handleLikeToggle,
+  } = useItemInteractions(item.resource_uuid ?? item.id, {
+    is_bookmarked: item.is_bookmarked,
+    is_liked: item.is_liked,
+    likes: item.likes,
+  });
 
   return (
     <div
@@ -116,15 +129,17 @@ const DetailsSide: FC<DetailsSideProps> = ({ item, preview }) => {
                   Suggest Edit
                 </Button>
               )}
-              {/*<Button*/}
-              {/*  borderless*/}
-              {/*  leftAligned*/}
-              {/*  disabled*/}
-              {/*  small*/}
-              {/*  leadIcon={'bookmark-outline'}*/}
-              {/*>*/}
-              {/*  Bookmark*/}
-              {/*</Button>*/}
+              <Button
+                borderless
+                leftAligned
+                small
+                leadIcon={isBookmarked ? 'bookmark' : 'bookmark-outline'}
+                className={'w-full'}
+                disabled={!isLoggedIn || isLoading || preview}
+                onClick={() => { void handleBookmarkToggle(); }}
+              >
+                {isBookmarked ? 'Remove Bookmark' : 'Bookmark'}
+              </Button>
               <ShareDialog item={item}>
                 <Button
                   borderless
@@ -155,7 +170,7 @@ const DetailsSide: FC<DetailsSideProps> = ({ item, preview }) => {
                 borderless
                 leftAligned
                 small
-                leadIcon={'download'}
+                leadIcon={'arrow-down'}
                 className={'w-full'}
                 disabled={preview}
                 onClick={() => {
@@ -178,15 +193,17 @@ const DetailsSide: FC<DetailsSideProps> = ({ item, preview }) => {
               >
                 Download JSON
               </Button>
-              {/*<Button*/}
-              {/*  borderless*/}
-              {/*  leftAligned*/}
-              {/*  disabled*/}
-              {/*  small*/}
-              {/*  leadIcon={'heart-outline'}*/}
-              {/*>*/}
-              {/*  Like*/}
-              {/*</Button>*/}
+              <Button
+                borderless
+                leftAligned
+                small
+                leadIcon={isLiked ? 'heart' : 'heart-outline'}
+                className={'w-full'}
+                disabled={!isLoggedIn || isLoading || preview}
+                onClick={() => { void handleLikeToggle(); }}
+              >
+                {isLiked ? 'Unlike' : 'Like'}
+              </Button>
             </AccordionContent>
           </AccordionItem>
           <AccordionItem

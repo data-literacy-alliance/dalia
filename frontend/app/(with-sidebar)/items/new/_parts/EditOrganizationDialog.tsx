@@ -121,8 +121,9 @@ const EditOrganizationDialog: FC<EditOrganizationDialogProps> = ({
                 );
 
                 if (valid) {
+                  const latestOrg = form.getValues(`organizations.${organizationIndex}`);
                   if (step === 'new' && access) {
-                    const result = await saveOrganization(currentOrg, access);
+                    const result = await saveOrganization(latestOrg, access);
                     if (result) {
                       form.setValue(
                         `organizations.${organizationIndex}.id`,
@@ -141,7 +142,7 @@ const EditOrganizationDialog: FC<EditOrganizationDialogProps> = ({
                         organizationIndex
                       ];
                     if (dirtyFields?.name || dirtyFields?.ror) {
-                      const result = await saveOrganization(currentOrg, access);
+                      const result = await saveOrganization(latestOrg, access);
                       if (!result) {
                         form.setError(
                           `organizations.${organizationIndex}.name`,
