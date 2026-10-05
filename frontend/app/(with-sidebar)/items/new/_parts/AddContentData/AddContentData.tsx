@@ -9,10 +9,12 @@ import {
   calculateFairScore,
   createTempResourceItem,
   findDisciplinesFromString,
+  findDisciplinePathInTree,
   loadErrorsToForm,
   randomString,
   submitData,
   submitEditData,
+  PartialSaveResult,
 } from '@/app/(with-sidebar)/items/new/_parts/AddContentData/utils';
 import {
   Dialog,
@@ -28,7 +30,7 @@ import {
   NewItemData,
 } from '@/app/(with-sidebar)/items/new/_parts/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, useFormState, useWatch } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import {
   Form,
   FormControl,
@@ -59,6 +61,7 @@ import DetailsBody from '@/app/(with-sidebar)/items/[id]/[slug]/_parts/DetailsBo
 const AddContentData: FC<AddContentDataProps> = ({ item }) => {
   const isEdit = !!item;
   const [saved, setSaved] = useState(false);
+  const [idempotencyKey] = useState<string>(() => crypto.randomUUID());
   const router = useRouter();
   const form = useForm<NewItemData>({
     resolver: zodResolver(addNewItemSchema),
@@ -97,9 +100,7 @@ const AddContentData: FC<AddContentDataProps> = ({ item }) => {
             is_supporting: c.is_supporting,
           }))
         : [],
-      disciplines: item?.disciplines
-        ? item.disciplines.map((d) => [d.value])
-        : [],
+      disciplines: [],
       licenses: item?.license
         ? [
             {
@@ -143,9 +144,60 @@ const AddContentData: FC<AddContentDataProps> = ({ item }) => {
   const { userInfo } = useUserInfo();
   const { items: disciplines } = useNewDisciplines(false);
 
-  // Reset form when item prop changes (for edit mode)
+  // Tracks the item key for which the authoritative reset has already run,
+  // so a later catalog revalidation does not clobber the user's in-progress edits.
+  const loadedItemKeyRef = React.useRef<string | null>(null);
+
+  // Restore partial-save errors from sessionStorage when redirected to edit mode after a partial save.
   React.useEffect(() => {
+    const stored = sessionStorage.getItem('dalia_partial_save_errors');
+    if (stored && item) {
+      try {
+        const errors = JSON.parse(stored) as {
+          communityErrors: Array<{ index: number; label: string; message: string }>;
+          relationErrors: Array<{ index: number; url: string; message: string }>;
+        };
+        sessionStorage.removeItem('dalia_partial_save_errors');
+        const failedNames = [
+          ...errors.communityErrors.map((e) => `Community "${e.label}"`),
+          ...errors.relationErrors.map((e) => `Related work "${e.url}"`),
+        ];
+        if (failedNames.length > 0) {
+          form.setError('root', {
+            message: `Resource saved, but ${failedNames.length} item(s) could not be linked — please re-add them below: ${failedNames.join(', ')}`,
+          });
+        }
+      } catch {
+        sessionStorage.removeItem('dalia_partial_save_errors');
+      }
+    }
+  }, [item?.id]); // runs when item loads (after redirect to edit page)
+
+  // Reset form when item prop changes (for edit mode).
+  // Also re-runs when `disciplines` loads so resolved discipline paths can be
+  // included in the baseline (making Reset and reload restore them).
+  React.useEffect(() => {
+    const key = item ? item.id : 'new';
+    const itemHasDisciplines = !!(item?.disciplines && item.disciplines.length > 0);
+
+    // For an existing item WITH disciplines, wait until the catalog has loaded so
+    // we can resolve the discipline paths and put them in the reset baseline.
+    if (itemHasDisciplines && disciplines.length === 0) {
+      return;
+    }
+    // Run the authoritative reset once per item — a later catalog revalidation
+    // must not clobber the user's in-progress edits.
+    if (loadedItemKeyRef.current === key) {
+      return;
+    }
+    loadedItemKeyRef.current = key;
+
     if (item) {
+      const resolvedDisciplines = itemHasDisciplines
+        ? item.disciplines
+            .map((d) => findDisciplinePathInTree(d.value, disciplines))
+            .filter((path) => path.length > 0)
+        : [];
       const formValues = {
         title: item.title ?? '',
         url: item.url ?? '',
@@ -179,9 +231,7 @@ const AddContentData: FC<AddContentDataProps> = ({ item }) => {
               is_supporting: c.is_supporting,
             }))
           : [],
-        disciplines: item.disciplines
-          ? item.disciplines.map((d) => [d.value])
-          : [],
+        disciplines: resolvedDisciplines,
         licenses: item.license
           ? [
               {
@@ -217,8 +267,9 @@ const AddContentData: FC<AddContentDataProps> = ({ item }) => {
         keywords: item.tags ? item.tags.join(', ') : '',
         relations: item.related_works ?? [],
       };
-      // Reset with keepDefaultValues to update both values and baseline
-      form.reset(formValues, { keepDefaultValues: false });
+      // keepDirtyValues preserves user edits made before the discipline catalog loaded.
+      // Avoids a RHF v7 bug where resetField({defaultValue}) always sets isDirty=false.
+      form.reset(formValues, { keepDirtyValues: true });
     } else {
       form.reset({
         title: '',
@@ -245,9 +296,18 @@ const AddContentData: FC<AddContentDataProps> = ({ item }) => {
       setAcceptedRules(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [item?.id]);
+  }, [item?.id, disciplines]);
+
+  const unresolvedDisciplineCount = React.useMemo(() => {
+    if (!item?.disciplines || disciplines.length === 0) return 0;
+    return item.disciplines.filter(
+      (d) => findDisciplinePathInTree(d.value, disciplines).length === 0
+    ).length;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [item?.id, disciplines]);
 
   const isLoading = form.formState.isSubmitting;
+  const isDirty = form.formState.isDirty;
   const onSubmit = async (data: NewItemData, e?: BaseSyntheticEvent) => {
     if (!access || !userInfo) {
       return;
@@ -262,19 +322,42 @@ const AddContentData: FC<AddContentDataProps> = ({ item }) => {
           // RC already pending — PATCH in-place, do not create a new version
           const result = await submitEditData(data, item.id, access, userInfo.id, disciplines);
           if (!result) {
-            form.setError('title', { message: 'Failed to save data!' });
+            form.setError('root', { message: 'Failed to connect to server. Please try again.' });
+          } else if ('success' in result && result.success === 'partial') {
+            const partialResult = result as PartialSaveResult;
+            for (const err of partialResult.communityErrors) {
+              form.setError(`communities.${err.index}` as Parameters<typeof form.setError>[0], { type: 'server', message: err.message });
+            }
+            for (const err of partialResult.relationErrors) {
+              form.setError(`relations.${err.index}` as Parameters<typeof form.setError>[0], { type: 'server', message: err.message });
+            }
+            const failedNames = [
+              ...partialResult.communityErrors.map((e) => `Community "${e.label}"`),
+              ...partialResult.relationErrors.map((e) => `Related work "${e.url}"`),
+            ];
+            form.setError('root', { message: `Resource saved, but ${failedNames.length} item(s) could not be linked — see errors below: ${failedNames.join(', ')}` });
           } else if ('id' in result) {
+            form.clearErrors();
             setSaved(true);
-            router.push(`/items/new?id=${item.id}`);
+            router.refresh();
           } else {
-            loadErrorsToForm(form, result);
+            loadErrorsToForm(form, result as Record<string, string[]> & { detail?: string });
           }
         } else {
           // RC not pending — create a new version under the same Resource
           const result = await submitData(data, access, userInfo.id, disciplines, item.resource_uuid);
           if (!result) {
-            form.setError('title', { message: 'Failed to save data!' });
+            form.setError('root', { message: 'Failed to connect to server. Please try again.' });
+          } else if ('success' in result && result.success === 'partial') {
+            const partialResult = result as PartialSaveResult;
+            const errorSummary = {
+              communityErrors: partialResult.communityErrors,
+              relationErrors: partialResult.relationErrors,
+            };
+            sessionStorage.setItem('dalia_partial_save_errors', JSON.stringify(errorSummary));
+            router.push(`/items/new?id=${partialResult.uuid}`);
           } else if ('id' in result) {
+            form.clearErrors();
             setSaved(true);
             const newUuid = (result as { uuid?: string }).uuid;
             if (newUuid) {
@@ -283,7 +366,7 @@ const AddContentData: FC<AddContentDataProps> = ({ item }) => {
               router.refresh();
             }
           } else {
-            loadErrorsToForm(form, result);
+            loadErrorsToForm(form, result as Record<string, string[]> & { detail?: string });
           }
         }
       } else {
@@ -292,21 +375,33 @@ const AddContentData: FC<AddContentDataProps> = ({ item }) => {
             data,
             access,
             userInfo.id,
-            disciplines
+            disciplines,
+            undefined,
+            idempotencyKey
           );
           if (!result) {
-            form.setError('title', { message: 'Failed to save data!' });
+            form.setError('root', { message: 'Failed to connect to server. Please try again.' });
+          } else if ('success' in result && result.success === 'partial') {
+            // RC saved but some links failed — store errors, redirect to edit mode
+            const partialResult = result as PartialSaveResult;
+            const errorSummary = {
+              communityErrors: partialResult.communityErrors,
+              relationErrors: partialResult.relationErrors,
+            };
+            sessionStorage.setItem('dalia_partial_save_errors', JSON.stringify(errorSummary));
+            router.push(`/items/new?id=${partialResult.uuid}`);
           } else if ('id' in result) {
             // success - result is ResourceItem
+            form.clearErrors();
             setSaved(true);
             // Refresh router to invalidate cache and fetch updated data
             router.refresh();
           } else {
             // error - result is validation errors or detail message
-            loadErrorsToForm(form, result);
+            loadErrorsToForm(form, result as Record<string, string[]> & { detail?: string });
           }
         } catch (e) {
-          form.setError('title', { message: 'Failed to save data!' });
+          form.setError('root', { message: 'Failed to connect to server. Please try again.' });
         }
       }
     } else if (submitter?.name === 'preview') {
@@ -388,7 +483,6 @@ const AddContentData: FC<AddContentDataProps> = ({ item }) => {
       }),
   });
   const loading = form.formState.isSubmitting;
-  const state = useFormState({ control: form.control });
 
   return saved ? (
     <div className={'m-10 min-h-screen text-h4'}>
@@ -566,7 +660,7 @@ const AddContentData: FC<AddContentDataProps> = ({ item }) => {
             <ContentCommunities />
           </VFlex>
 
-          <ContentDisciplines />
+          <ContentDisciplines unresolvedCount={unresolvedDisciplineCount} />
 
           <VFlex className={'gap-5'}>
             <HFlex className={'gap-1'}>
@@ -838,6 +932,10 @@ const AddContentData: FC<AddContentDataProps> = ({ item }) => {
             />
           </div>
 
+          {!!form.formState.errors.root && (
+            <div className={'text-red-500 p-2 mx-auto border border-dalia4'}>{form.formState.errors.root.message}</div>
+          )}
+
           <HFlex className="justify-end gap-3 max-lg:flex-col lg:gap-5">
             {Object.keys(form.formState.errors).length > 0 && (
               <div className={'flex items-center justify-end'}>
@@ -867,7 +965,7 @@ const AddContentData: FC<AddContentDataProps> = ({ item }) => {
             <Button
               dark={true}
               className={'flex min-h-[3.4rem]'}
-              disabled={isLoading || !acceptedRules || (isEdit && !state.isDirty)}
+              disabled={isLoading || !acceptedRules || (isEdit && !isDirty)}
               name={'save'}
               type={'submit'}
             >
@@ -933,7 +1031,7 @@ const AddContentData: FC<AddContentDataProps> = ({ item }) => {
                       }
                     }, 100);
                   }}
-                  disabled={isLoading || !acceptedRules || (isEdit && !state.isDirty)}
+                  disabled={isLoading || !acceptedRules || (isEdit && !isDirty)}
                 >
                   {isLoading && <Loader2Icon className={'animate-spin'} />}
                   Send

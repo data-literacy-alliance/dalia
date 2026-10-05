@@ -54,9 +54,20 @@ class Person(UUIDMixin, TimeStampedModel, Activatable):
         help_text="Account visibility level",
     )
     email_notifications = models.BooleanField(default=True, help_text="Receive email notifications")
+    sync_name_from_provider = models.BooleanField(
+        default=True,
+        help_text="Automatically update given and family name from the login provider on each login",
+    )
 
     class Meta:
         ordering = ("first_name", "last_name")
+        constraints = [
+            models.UniqueConstraint(
+                fields=["first_name", "last_name"],
+                condition=models.Q(user__isnull=True),
+                name="unique_guest_person_name",
+            )
+        ]
 
     def __str__(self):
         return self.full_name

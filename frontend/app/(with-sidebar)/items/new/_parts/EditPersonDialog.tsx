@@ -1,5 +1,5 @@
 'use client';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -21,6 +21,7 @@ import TextBox from '@/components/Textbox/Textbox';
 import { useAuthLogin } from '@/lib/auth/clientAuth';
 import PersonSearchBox from '@/app/(with-sidebar)/items/new/_parts/AddContentData/PersonSearchBox';
 import { savePerson } from '@/app/(with-sidebar)/items/new/_parts/AddContentData/utils';
+import { lookupOrcid } from '@/lib/api/person';
 
 const EditPersonDialog: FC<EditPersonDialogProps> = ({
   personIndex,
@@ -34,6 +35,31 @@ const EditPersonDialog: FC<EditPersonDialogProps> = ({
     currentPerson?.id ? 'selected' : 'search'
   );
   const { access } = useAuthLogin();
+  const [orcidLookupState, setOrcidLookupState] = useState<'idle' | 'loading' | 'error'>('idle');
+  const orcidValue = form.watch(`people.${personIndex}.orcid` as const);
+  const isValidOrcid =
+    /^https:\/\/orcid\.org\/\d{4}-\d{4}-\d{4}-\d{3}[0-9X]$/.test(orcidValue ?? '') ||
+    /^\d{4}-\d{4}-\d{4}-\d{3}[0-9X]$/.test(orcidValue ?? '');
+
+  useEffect(() => {
+    setOrcidLookupState('idle');
+  }, [orcidValue]);
+
+  const handleOrcidLookup = async () => {
+    if (!orcidValue || !isValidOrcid) return;
+    setOrcidLookupState('loading');
+    const result = await lookupOrcid(orcidValue);
+    if (result) {
+      form.setValue(`people.${personIndex}.firstname`, result.firstname);
+      form.setValue(`people.${personIndex}.lastname`, result.lastname);
+      if (orcidValue && !orcidValue.startsWith('https://')) {
+        form.setValue(`people.${personIndex}.orcid`, `https://orcid.org/${orcidValue}`);
+      }
+      setOrcidLookupState('idle');
+    } else {
+      setOrcidLookupState('error');
+    }
+  };
 
   if (
     step === 'search' &&
@@ -118,7 +144,7 @@ const EditPersonDialog: FC<EditPersonDialogProps> = ({
                     <TextBox
                       label={'ORCID'}
                       priority={'Recommended'}
-                      placeholder={'https://'}
+                      placeholder={'https://orcid.org/XXXX-XXXX-XXXX-XXXX'}
                       {...field}
                     />
                   </FormControl>
@@ -126,6 +152,22 @@ const EditPersonDialog: FC<EditPersonDialogProps> = ({
                 </FormItem>
               )}
             />
+            {isValidOrcid && (
+              <div className={'flex items-center gap-2'}>
+                <Button
+                  type="button"
+                  onClick={handleOrcidLookup}
+                  disabled={orcidLookupState === 'loading'}
+                >
+                  {orcidLookupState === 'loading' ? 'Looking up…' : 'Lookup ORCID'}
+                </Button>
+                {orcidLookupState === 'error' && (
+                  <span className={'text-sm text-destructive'}>
+                    ORCID not found or unreachable.
+                  </span>
+                )}
+              </div>
+            )}
           </div>
         )}
 
@@ -140,8 +182,9 @@ const EditPersonDialog: FC<EditPersonDialogProps> = ({
                 });
 
                 if (valid) {
+                  const latestPerson = form.getValues(fieldKey);
                   if (step === 'new' && access) {
-                    const result = await savePerson(currentPerson, access);
+                    const result = await savePerson(latestPerson, access);
                     if (result) {
                       form.setValue(`${fieldKey}.id`, result.id);
                       form.setValue(`${fieldKey}.uuid`, result.uuid);
@@ -160,7 +203,7 @@ const EditPersonDialog: FC<EditPersonDialogProps> = ({
                       dirtyFields?.lastname ||
                       dirtyFields?.orcid
                     ) {
-                      const result = await savePerson(currentPerson, access);
+                      const result = await savePerson(latestPerson, access);
                       if (!result) {
                         form.setError(`${fieldKey}.firstname`, {
                           message: 'Failed to save person.',

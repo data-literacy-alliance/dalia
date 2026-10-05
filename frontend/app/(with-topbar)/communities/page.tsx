@@ -1,15 +1,24 @@
 import CommunityListBody from '@/app/(with-topbar)/communities/_parts/CommunityListBody';
-import { getSuggestionsWithPagination } from '@/lib/api/suggestions';
+import appFetch from '@/lib/api/fetch';
 
 export const dynamic = 'force-dynamic';
 
-export default async function CommunityListPage() {
-  const communities = await getSuggestionsWithPagination(
-    'communities',
-    '',
-    999,
-    0
-  );
+type SuggestResult = {
+  count: number;
+  results: Array<{ label: string; value: string }>;
+};
 
-  return <CommunityListBody communities={communities.results} />;
+export default async function CommunityListPage() {
+  // /v1/curation/suggest/communities/ merges Fuseki + PostgreSQL and returns UUIDs
+  const res = await appFetch('/curation/suggest/communities/?limit=2000');
+  const data: SuggestResult = res?.ok
+    ? (await res.json() as SuggestResult)
+    : { count: 0, results: [] };
+
+  const communities = data.results.map((item) => ({
+    uuid: item.value.split('/').pop() ?? item.value,
+    title: item.label,
+  }));
+
+  return <CommunityListBody communities={communities} />;
 }
