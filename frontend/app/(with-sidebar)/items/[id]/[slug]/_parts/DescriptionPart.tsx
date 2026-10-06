@@ -1,7 +1,21 @@
 'use client';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
-import Text, { TextProps } from '@/components/Text';
+import Text from '@/components/Text';
+import ReactMarkdown from 'react-markdown';
+
+function normalizeDescriptionText(text: string): string {
+  return text
+    .split('\n')
+    .map((line) => {
+      const m = line.match(
+        /^(\s*)[•‣▪▫●○■□▶◆◦⁃∙▸▹►▻․‧⋅·]\s*(.*)/
+      );
+      if (m) return '- ' + m[2];
+      return line;
+    })
+    .join('\n');
+}
 
 const DescriptionPart: FC<DescriptionPartProps> = (props) => {
   const [descriptionHeight, setDescriptionHeight] = useState<number | null>(
@@ -10,7 +24,7 @@ const DescriptionPart: FC<DescriptionPartProps> = (props) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [needsTruncation, setNeedsTruncation] = useState(false);
   const [maxHeight, setMaxHeight] = useState<string | undefined>(undefined);
-  const textRef = useRef<HTMLSpanElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const checkOverflow = () => {
@@ -75,19 +89,22 @@ const DescriptionPart: FC<DescriptionPartProps> = (props) => {
     >
       {descriptionHeight !== null && (
         <>
-          <Text
-            {...props}
+          <div
             className={cn(
-              'block overflow-hidden transition-all duration-500 ease-in-out',
-              {
-                'h-full': !needsTruncation,
-              },
+              'prose prose-sm max-w-none overflow-hidden transition-all duration-500 ease-in-out',
+              { 'h-full': !needsTruncation },
               props.className
             )}
             property={'dcterms:description'}
             style={{ maxHeight }}
             ref={textRef}
-          />
+          >
+            {typeof props.children === 'string' ? (
+              <ReactMarkdown>{normalizeDescriptionText(props.children)}</ReactMarkdown>
+            ) : (
+              props.children
+            )}
+          </div>
           {needsTruncation && (
             <Text onClick={toggleExpand} className={'cursor-pointer underline'}>
               {isExpanded ? 'Show less...' : 'Show more...'}
@@ -99,6 +116,9 @@ const DescriptionPart: FC<DescriptionPartProps> = (props) => {
   );
 };
 
-export type DescriptionPartProps = Omit<TextProps, 'ref'>;
+export type DescriptionPartProps = {
+  children?: React.ReactNode;
+  className?: string;
+};
 
 export default DescriptionPart;

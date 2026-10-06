@@ -18,16 +18,18 @@ MIGRATION NOTE (Phase 3):
 All SPARQL utilities, query builders, and RDF namespaces now imported from search.
 """
 
-from typing import Set
+from typing import List, Set
 from uuid import UUID
 
 from rdflib import URIRef, Variable
 
 # Phase 3: Updated to use apps.search structure
+from curation.models.resources import ResourceContent
 from search.query.items.metadata.items import get_metadata_for_learning_resources
+from search.query.items.search.producers.postgres_producer import postgres_hydrate
 from search.query.utils import query_dalia_dataset
 from search.query_builder.query_builder import QueryBuilder
-from search.rdf.dalia_kb import _LEARNING_RESOURCE_BASE_URI
+from search.rdf.dalia_kb import _LEARNING_RESOURCE_BASE_URI, lr_uri_ref
 from search.rdf.namespace import SCHEMA, MoDalia, fabio
 
 from ..api_models.api_models import SuggestedContents
@@ -172,6 +174,101 @@ def get_suggested_contents_id(uuid: UUID) -> Set:
     return results
 
 
+def get_pg_suggested_contents_id(uuid: UUID) -> Set[str]:
+    """Find similar resources in PostgreSQL using shared keywords, disciplines and authors."""
+    try:
+        rc = (
+            ResourceContent.objects.filter(resource__uuid=uuid, is_active=True)
+            .select_related("resource")
+            .prefetch_related("keywords", "disciplines", "people", "organizations")
+            .first()
+        )
+    except Exception:
+        return set()
+
+    if not rc:
+        return set()
+
+    results: Set[str] = set()
+    number_of_materials = 6
+
+    base_qs = (
+        ResourceContent.objects.filter(is_active=True, resource__is_published=True)
+        .exclude(resource__uuid=uuid)
+        .select_related("resource")
+    )
+
+    # 1. Same authors by ORCID
+    orcids = [p.orcid for p in rc.people.all() if p.orcid]
+    if orcids and len(results) < number_of_materials:
+        for similar in base_qs.filter(people__orcid__in=orcids).distinct():
+            results.add(str(similar.resource.uuid))
+            if len(results) >= number_of_materials:
+                return results
+
+    # 2. Shared keywords (2+ in common) — prefetch to avoid N+1
+    keyword_names = {k.name for k in rc.keywords.all()}
+    if keyword_names and len(results) < number_of_materials:
+        candidates = (
+            base_qs.filter(keywords__name__in=keyword_names).distinct().prefetch_related("keywords")
+        )
+        for similar in candidates:
+            shared = {k.name for k in similar.keywords.all()} & keyword_names
+            if len(shared) >= 2:
+                results.add(str(similar.resource.uuid))
+                if len(results) >= number_of_materials:
+                    return results
+
+    # 3. Same discipline URI
+    disc_uris = [d.uri for d in rc.disciplines.all() if d.uri]
+    if disc_uris and len(results) < number_of_materials:
+        for similar in base_qs.filter(disciplines__uri__in=disc_uris).distinct():
+            results.add(str(similar.resource.uuid))
+            if len(results) >= number_of_materials:
+                return results
+
+    return results
+
+
 def get_suggested_contents(uuid: UUID) -> SuggestedContents:
-    ids = get_suggested_contents_id(uuid)
-    return SuggestedContents(get_metadata_for_learning_resources(list(ids)))
+    """Merge Fuseki and PG recommendations, hydrate each from its native source."""
+    number_of_materials = 6
+
+    # Gather candidates from both sources
+    fuseki_uris: Set = get_suggested_contents_id(uuid)
+    pg_uuids: Set[str] = get_pg_suggested_contents_id(uuid)
+
+    # Extract UUID strings from Fuseki URIRefs
+    fuseki_uuid_strs: Set[str] = {
+        str(uri)[len(_LEARNING_RESOURCE_BASE_URI) :]
+        for uri in fuseki_uris
+        if str(uri).startswith(_LEARNING_RESOURCE_BASE_URI)
+    }
+
+    # Merge: PG first (authoritative), then Fuseki extras
+    merged: List[str] = list(pg_uuids)
+    for fu in fuseki_uuid_strs:
+        if fu not in pg_uuids:
+            merged.append(fu)
+        if len(merged) >= number_of_materials:
+            break
+    merged = merged[:number_of_materials]
+
+    if not merged:
+        return SuggestedContents([])
+
+    # Hydrate PG resources
+    pg_hydrated = postgres_hydrate(merged)
+    pg_hydrated_uuids = {str(r.id) for r in pg_hydrated}
+
+    # Hydrate remaining from Fuseki
+    fuseki_only = [u for u in merged if u not in pg_hydrated_uuids]
+    fuseki_resources = []
+    if fuseki_only:
+        try:
+            uri_refs = [lr_uri_ref(UUID(u)) for u in fuseki_only]
+            fuseki_resources = get_metadata_for_learning_resources(uri_refs)
+        except Exception:
+            pass
+
+    return SuggestedContents((pg_hydrated + fuseki_resources)[:number_of_materials])
