@@ -21,6 +21,7 @@ import { useRouter } from 'next/navigation';
 import { softDeleteResource } from '@/lib/api/item';
 import { useAuthLogin } from '@/lib/auth/clientAuth';
 import { getCsrfTokenClient } from '@/lib/auth/csrfToken';
+import InteractionButtons from '@/components/Item/InteractionButtons';
 
 const GridItem: FC<ItemProps> = ({
   item,
@@ -28,6 +29,8 @@ const GridItem: FC<ItemProps> = ({
   noBorder,
   editable,
   deletable = true,
+  onRemove,
+  isContribution,
   ...props
 }) => {
   const [rootRef, width] = useWidth<HTMLDivElement>();
@@ -64,12 +67,15 @@ const GridItem: FC<ItemProps> = ({
     }
   };
 
+  const inactive = isContribution && item.is_active === false && !item.submitted_for_review;
+
   return (
     <VFlex
       {...props}
       className={cn(
         'justify-between p-7 transition hover:bg-gray-50 lg:gap-7',
         !noBorder && 'border border-primary',
+        inactive && 'opacity-60 bg-gray-50',
         className
       )}
       ref={rootRef}
@@ -84,55 +90,92 @@ const GridItem: FC<ItemProps> = ({
             className={'h-[8.43rem] w-[6.53rem]'}
             priority
           />
-          <HFlex className={'gap-2.5'}>
-            {editable && (
-              <>
-                <Link
-                  href={`/items/new?id=${item.id}`}
-                  className={'flex items-center gap-1 text-sm'}
-                >
-                  <EditIcon size={18} /> Edit
-                </Link>
-                {deletable && (
-                  <AlertDialog
-                    open={deleteDialogOpen}
-                    onOpenChange={setDeleteDialogOpen}
-                    title={'Delete Resource'}
-                    content={
-                      'Are you sure you want to delete this resource? This action cannot be undone.'
-                    }
-                    onConfirm={() => {
-                      void handleDelete();
-                    }}
-                    confirmText={isDeleting ? 'Deleting...' : 'Delete'}
-                    confirmDisabled={isDeleting}
+          <VFlex className={'items-end gap-1'}>
+            <HFlex className={'gap-2.5'}>
+              {editable && (
+                <>
+                  <Link
+                    href={`/items/new?id=${item.id}`}
+                    className={'flex items-center gap-1 text-sm'}
                   >
-                    <button className={'flex items-center gap-1 text-sm hover:underline'}>
-                      <DeleteIcon size={18} /> Delete
-                    </button>
-                  </AlertDialog>
+                    <EditIcon size={18} /> Edit
+                  </Link>
+                  {deletable && (
+                    <AlertDialog
+                      open={deleteDialogOpen}
+                      onOpenChange={setDeleteDialogOpen}
+                      title={'Delete Resource'}
+                      content={
+                        'Are you sure you want to delete this resource? This action cannot be undone.'
+                      }
+                      onConfirm={() => {
+                        void handleDelete();
+                      }}
+                      confirmText={isDeleting ? 'Deleting...' : 'Delete'}
+                      confirmDisabled={isDeleting}
+                    >
+                      <button className={'flex items-center gap-1 text-sm hover:underline'}>
+                        <DeleteIcon size={18} /> Delete
+                      </button>
+                    </AlertDialog>
+                  )}
+                </>
+              )}
+              <HFlex className={'gap-1.5'} key={'views'}>
+                <Icon source={'eye'} size={24} />
+                {item.views}
+              </HFlex>
+              <HFlex className={'gap-1.5'} key={'likes'}>
+                <Icon source={'heart'} size={24} />
+                {item.likes}
+              </HFlex>
+              <HFlex className={'gap-1.5'} key={'comments'}>
+                <Icon source={'comment'} size={24} />
+                {item.comments}
+              </HFlex>
+            </HFlex>
+            {isContribution && (item.version ?? item.is_active !== undefined) && (
+              <HFlex className={'gap-2'}>
+                {item.version && (
+                  <span className={'group/tip relative cursor-default rounded bg-daliaGray-200 px-1.5 py-0.5 text-xs font-medium text-white'}>
+                    {item.version}
+                    <span className={'pointer-events-none absolute bottom-full left-1/2 z-10 mb-1 hidden -translate-x-1/2 whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-xs font-normal text-white shadow-md group-hover/tip:block'}>
+                      DALIA version of this resource
+                    </span>
+                  </span>
                 )}
-              </>
+                {item.is_active !== undefined && (
+                  <span className={cn(
+                    'group/tip relative cursor-default rounded px-1.5 py-0.5 text-xs font-medium',
+                    item.submitted_for_review
+                      ? 'bg-blue-100 text-blue-800'
+                      : item.is_active
+                      ? 'bg-green-100 text-green-800'
+                      : item.submitted_for_review === false
+                      ? 'bg-yellow-100 text-yellow-800'
+                      : 'bg-gray-200 text-gray-600'
+                  )}>
+                    {item.submitted_for_review ? 'Submitted for review' : item.is_active ? 'Active' : item.submitted_for_review === false ? 'Draft' : 'Inactive'}
+                    <span className={'pointer-events-none absolute bottom-full left-1/2 z-10 mb-1 hidden -translate-x-1/2 whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-xs font-normal text-white shadow-md group-hover/tip:block'}>
+                      {item.submitted_for_review
+                        ? 'Waiting for curator review'
+                        : item.is_active
+                        ? 'Published and visible to others'
+                        : item.submitted_for_review === false
+                        ? 'Saved but not yet submitted for review'
+                        : 'Not currently published'}
+                    </span>
+                  </span>
+                )}
+              </HFlex>
             )}
-            <HFlex className={'gap-1.5'} key={'views'}>
-              <Icon source={'eye'} size={24} />
-              {item.views}
-            </HFlex>
-            <HFlex className={'gap-1.5'} key={'likes'}>
-              <Icon source={'heart'} size={24} />
-              {item.likes}
-            </HFlex>
-            <HFlex className={'gap-1.5'} key={'comments'}>
-              <Icon source={'comment'} size={24} />
-              {item.comments}
-            </HFlex>
-          </HFlex>
+          </VFlex>
         </HFlex>
         <Text
           className={'line-clamp-3 text-[1.5rem] font-semibold'}
           title={item.title}
         >
-          <Link href={`/items/${item.id}/${item.slug}`}>{item.title}</Link>
+          <Link href={`/items/${item.resource_uuid ?? item.id}/${item.slug}`}>{item.title}</Link>
         </Text>
         <Text className={'line-clamp-4'}>
           {item.description || <i>No description.</i>}
@@ -209,6 +252,13 @@ const GridItem: FC<ItemProps> = ({
           )}
         >
           <HFlex>
+            <InteractionButtons
+              resourceId={item.resource_uuid ?? item.id}
+              initialIsBookmarked={item.is_bookmarked}
+              initialIsLiked={item.is_liked}
+              initialLikes={item.likes}
+              onRemove={onRemove}
+            />
             {ItemActions.map(({ Parent, disabled, ...action }, index) =>
               Parent ? (
                 <Parent key={index} item={item}>
@@ -284,7 +334,7 @@ const GridItem: FC<ItemProps> = ({
               })}
               dark
               link={{
-                href: `/items/${item.id}/${item.slug}/`,
+                href: `/items/${item.resource_uuid ?? item.id}/${item.slug}/`,
               }}
             >
               See Details
