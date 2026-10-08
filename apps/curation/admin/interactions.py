@@ -9,29 +9,44 @@ from django.contrib import admin
 
 @admin.register(Bookmark)
 class BookmarkAdmin(BaseModelAdmin):
-    list_display = ("user", "content_object_display", "created", "is_private", "uuid")
+    list_display = (
+        "user",
+        "content_object_display",
+        "resource_uuid",
+        "created",
+        "is_private",
+        "uuid",
+    )
     list_filter = ("is_private", "content_type", "created")
-    search_fields = ("user__username", "notes", "uuid")
-    readonly_fields = ("uuid", "content_type", "object_id", "created", "modified")
+    search_fields = ("user__username", "notes", "uuid", "resource_uuid")
+    readonly_fields = ("uuid", "resource_uuid", "content_type", "object_id", "created", "modified")
 
     def content_object_display(self, obj):
         if obj.content_object:
             return f"{obj.content_type.name}: {obj.content_object}"
-        return f"{obj.content_type.name} (ID: {obj.object_id})"
+        elif obj.resource_uuid:
+            return f"Fuseki resource UUID: {obj.resource_uuid}"
+        elif obj.content_type:
+            return f"{obj.content_type.name} (ID: {obj.object_id})"
+        return "—"
 
     content_object_display.short_description = "Content Object"
 
 
 @admin.register(Like)
 class LikeAdmin(BaseModelAdmin):
-    list_display = ("user", "content_object_display", "created", "uuid")
+    list_display = ("user", "content_object_display", "resource_uuid", "created", "uuid")
     list_filter = ("content_type", "created")
-    search_fields = ("user__username", "uuid")
-    readonly_fields = ("uuid", "content_type", "object_id", "created", "modified")
+    search_fields = ("user__username", "uuid", "resource_uuid")
+    readonly_fields = ("uuid", "resource_uuid", "content_type", "object_id", "created", "modified")
 
     def content_object_display(self, obj):
         if obj.content_object:
             return f"{obj.content_type.name}: {obj.content_object}"
-        return f"{obj.content_type.name} (ID: {obj.object_id})"
+        elif obj.resource_uuid:
+            return f"Fuseki resource UUID: {obj.resource_uuid}"
+        elif obj.content_type:
+            return f"{obj.content_type.name} (ID: {obj.object_id})"
+        return "—"
 
     content_object_display.short_description = "Content Object"

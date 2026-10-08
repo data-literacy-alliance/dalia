@@ -69,6 +69,7 @@ def process_result_for_one_to_one_metadata_for_resources(result) -> Resource:
 
     # TODO: could this be moved to the dataclass definition using the @property decorator?
     resource.slug = slugify(resource.title)
+    resource.source = "fuseki"
 
     return resource
 

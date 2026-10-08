@@ -9,12 +9,12 @@ type ScoreLevel = {
 };
 
 const levels: ScoreLevel[] = [
-  { min: 0, max: 15, label: 'Very Poor', color: 'bg-red-600' },
-  { min: 16, max: 30, label: 'Poor', color: 'bg-red-400' },
-  { min: 31, max: 50, label: 'Fair', color: 'bg-orange-400' },
-  { min: 51, max: 70, label: 'Good', color: 'bg-blue-500' },
-  { min: 71, max: 85, label: 'Very Good', color: 'bg-green-500' },
-  { min: 86, max: 100, label: 'Excellent', color: 'bg-emerald-600' },
+  { min: 0,  max: 15,  label: 'Very Poor',    color: 'bg-red-600' },
+  { min: 16, max: 30,  label: 'Poor',          color: 'bg-orange-500' },
+  { min: 31, max: 50,  label: 'Satisfactory',  color: 'bg-amber-400' },
+  { min: 51, max: 70,  label: 'Good',          color: 'bg-lime-500' },
+  { min: 71, max: 85,  label: 'Very Good',     color: 'bg-green-500' },
+  { min: 86, max: 100, label: 'Excellent',     color: 'bg-emerald-600' },
 ];
 
 export default function ScoreMeter({ score }: { score: number }) {

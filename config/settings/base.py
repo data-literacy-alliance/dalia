@@ -39,7 +39,7 @@ DEBUG = env("DEBUG")
 ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 
 # Reverse proxy: trust X-Forwarded-Proto from nginx / Traefik.
-# This fixes request.scheme so allauth builds https:// redirect_uris correctly.
+# Required so allauth builds https:// redirect_uris correctly when behind a proxy.
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Reverse proxy: use X-Forwarded-Host so request.get_host() returns the public hostname.
@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    "django.contrib.postgres",
     # Third-party apps
     "rest_framework",
     "rest_framework.authtoken",
@@ -174,12 +175,15 @@ LOGIN_REDIRECT_URL = "/profile/"  # Redirect to profile after login (same as old
 LOGOUT_REDIRECT_URL = "/"  # Redirect to home after logout
 
 # CSRF Settings
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:7080",
-    "http://localhost:7087",
-    "https://search.dalia.education",
-    # Add any additional allowed CORS origins here
-]
+# Add your public domain(s) to CSRF_TRUSTED_ORIGINS in .env, e.g.:
+#   CSRF_TRUSTED_ORIGINS=https://your-domain.example.com
+CSRF_TRUSTED_ORIGINS = env.list(
+    "CSRF_TRUSTED_ORIGINS",
+    default=[
+        "http://localhost:7080",
+        "http://localhost:7087",
+    ],
+)
 
 # Internationalization
 LANGUAGE_CODE = env("LANGUAGE_CODE", default="en-us")
@@ -344,6 +348,11 @@ ELASTICSEARCH_DSL = {
 
 # SPARQL / Triplestore Configuration
 DALIA_TRIPLESTORE_BASE_URL = env("DALIA_TRIPLESTORE_BASE_URL")
+
+# Search sources — which producers feed POST /api/dalia/v1/items/.
+# Transition path: ["fuseki"] -> ["fuseki","postgres"] -> ["postgres"].
+# Default ["fuseki"] keeps current behavior (no-op). Env override is comma-separated, e.g. DALIA_SEARCH_SOURCES=fuseki,postgres
+DALIA_SEARCH_SOURCES = env.list("DALIA_SEARCH_SOURCES", default=["fuseki", "postgres"])
 
 # Login URL — points to django-two-factor-auth login (accepts username, used by admin).
 # allauth login (email-based) stays at /accounts/login/ and is separate.

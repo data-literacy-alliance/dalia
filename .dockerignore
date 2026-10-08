@@ -16,6 +16,14 @@ media/
 logs/
 docs/
 *.md
+.claude/
+.cursor/
+.aider*
+.windsurf/
+.continue/
+.codeium/
+.tabnine/
+.copilot/
 .github/
 node_modules/
 frontend/node_modules/
