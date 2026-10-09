@@ -341,3 +341,6 @@ Thumbs.db
 # Local override compose files
 podman-compose.*.local.yml
 docker-compose.*.local.yml
+
+!frontend/lib/
+!frontend/components/Icon
