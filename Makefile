@@ -310,8 +310,12 @@ setup-private: ## Restore private config overlay into this directory (run once p
 		echo "  echo 'PRIVATE_REPO=https://github.com/data-literacy-alliance/dalia-private-config.git' > .syncrc"; \
 		exit 1; \
 	}
-	rm -rf $(PRIVATE_TMP)
-	git clone --depth 1 $(PRIVATE_REPO) $(PRIVATE_TMP)
+	@if [ -d $(PRIVATE_TMP)/overlay ]; then \
+		echo "  Using existing $(PRIVATE_TMP) (skipping clone)."; \
+	else \
+		rm -rf $(PRIVATE_TMP); \
+		git clone --depth 1 $(PRIVATE_REPO) $(PRIVATE_TMP); \
+	fi
 	rsync -a $(PRIVATE_TMP)/overlay/ $(CURDIR)/
 	rm -rf $(PRIVATE_TMP)
 	@echo "Private config restored."
@@ -324,7 +328,7 @@ push-private: ## Backup sensitive files to private config repo
 	}
 	rm -rf $(PRIVATE_TMP)
 	git clone --depth 1 $(PRIVATE_REPO) $(PRIVATE_TMP)
-	mkdir -p $(PRIVATE_TMP)/overlay/traefik
+	mkdir -p $(PRIVATE_TMP)/overlay/traefik $(PRIVATE_TMP)/backups
 	rsync -a $(CURDIR)/.env          $(PRIVATE_TMP)/overlay/
 	rsync -a $(CURDIR)/hosts         $(PRIVATE_TMP)/overlay/
 	rsync -a $(CURDIR)/traefik/      $(PRIVATE_TMP)/overlay/traefik/
@@ -336,6 +340,8 @@ push-private: ## Backup sensitive files to private config repo
 		rsync -a $(CURDIR)/docs/deployment.md $(PRIVATE_TMP)/DEPLOYMENT.md || true
 	@[ -f $(CURDIR)/docs/private-repo-readme.md ] && \
 		rsync -a $(CURDIR)/docs/private-repo-readme.md $(PRIVATE_TMP)/README.md || true
+	@[ -d $(CURDIR)/backups ] && \
+		rsync -a $(CURDIR)/backups/ $(PRIVATE_TMP)/backups/ || true
 	cd $(PRIVATE_TMP) && git add -A && \
 		( git diff --cached --quiet \
 			&& echo "  Private config unchanged." \
