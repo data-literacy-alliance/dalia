@@ -90,7 +90,7 @@ echo "  OK"
 # ── 5. Restore media files ────────────────────────────────────────
 echo ""
 echo "==> [5/11] Restoring media uploads ..."
-tar -xzf "$TRANSFER_DIR/media.tar.gz" -C "$INSTALL_DIR/"
+tar --overwrite --no-same-permissions --no-same-owner -xzf "$TRANSFER_DIR/media.tar.gz" -C "$INSTALL_DIR/"
 echo "  OK"
 
 # ── 6. Build all containers ───────────────────────────────────────
