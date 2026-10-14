@@ -145,7 +145,8 @@ echo "  OK"
 echo ""
 echo "==> [3/13] Cloning public repo → $INSTALL_DIR ..."
 if [ -d "$INSTALL_DIR/.git" ]; then
-    echo "  Directory already a git repo — skipping clone."
+    echo "  Directory already a git repo — pulling latest changes."
+    git -C "$INSTALL_DIR" pull --ff-only
 elif [ -d "$INSTALL_DIR" ] && [ "$(ls -A "$INSTALL_DIR")" ]; then
     echo "  Non-empty directory already exists — assuming repo already cloned."
 else
