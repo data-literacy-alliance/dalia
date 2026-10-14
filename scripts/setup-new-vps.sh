@@ -134,34 +134,6 @@ if [ "$MISSING" -eq 1 ]; then
 fi
 echo "  OK — fuseki-data.tar.gz, media.tar.gz, $(basename "$SQL_FILE")"
 
-# ── 1b. Verify private config files are present ──────────────────
-# These must be copied manually to INSTALL_DIR before running this script.
-# On the SOURCE host: make push-private (backs up to private git repo).
-# On this VPS: copy from source or extract from a known-good backup.
-echo ""
-echo "==> [1b/13] Checking private config files in $INSTALL_DIR ..."
-PRIV_MISSING=0
-for f in ".env" "traefik-compose.yml" "traefik-start.sh"; do
-    if [ ! -f "$INSTALL_DIR/$f" ]; then
-        echo "  MISSING: $INSTALL_DIR/$f"
-        PRIV_MISSING=1
-    fi
-done
-if [ ! -d "$INSTALL_DIR/traefik" ]; then
-    echo "  MISSING: $INSTALL_DIR/traefik/"
-    PRIV_MISSING=1
-fi
-if [ "$PRIV_MISSING" -eq 1 ]; then
-    echo ""
-    echo "ERROR: Private config files missing. Copy them to $INSTALL_DIR first:"
-    echo ""
-    echo "  scp .env traefik-compose.yml traefik-start.sh traefik-stop.sh hosts \\"
-    echo "      user@$(hostname):$INSTALL_DIR/"
-    echo "  scp -r traefik/ user@$(hostname):$INSTALL_DIR/"
-    exit 1
-fi
-echo "  OK — .env, traefik-compose.yml, traefik-start.sh, traefik/ present"
-
 # ── 2. Required system path for admin-server container ───────────
 echo ""
 echo "==> [2/13] Creating /opt/container-status (required by traefik admin-server) ..."
@@ -181,10 +153,28 @@ else
 fi
 cd "$INSTALL_DIR"
 
-# ── 4. Private config overlay ────────────────────────────────────
-# Files verified in step 1b — already present, nothing to download.
+# ── 4. Restore private config overlay ────────────────────────────
+# Source priority:
+#   1. /tmp/dalia-private-config/overlay already populated → rsync it in (no git)
+#   2. Files already present in INSTALL_DIR → nothing to do
+#   3. Neither → error (copy overlay to /tmp/dalia-private-config/overlay first)
 echo ""
-echo "==> [4/13] Private config overlay — already verified in step 1b."
+echo "==> [4/13] Restoring private config overlay ..."
+if [ -d "/tmp/dalia-private-config/overlay" ]; then
+    echo "  Found /tmp/dalia-private-config/overlay — applying without git clone ..."
+    rsync -a /tmp/dalia-private-config/overlay/ ./
+    rm -rf /tmp/dalia-private-config
+    echo "  OK — overlay applied from /tmp"
+elif [ -f ".env" ] && [ -d "traefik" ] && [ -f "traefik-compose.yml" ] && [ -f "traefik-start.sh" ]; then
+    echo "  Private config already present in $INSTALL_DIR — skipping."
+else
+    echo ""
+    echo "ERROR: Private config missing. Before running this script either:"
+    echo "  - Populate /tmp/dalia-private-config/overlay/ with the private repo overlay"
+    echo "  - Or ensure .env, traefik/, traefik-compose.yml, traefik-start.sh"
+    echo "    are already in $INSTALL_DIR/"
+    exit 1
+fi
 
 # ── 5. Fix HOSTUID for this VPS ──────────────────────────────────
 # Traefik mounts the Podman socket at /run/user/$HOSTUID/podman/podman.sock.
