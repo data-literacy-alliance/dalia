@@ -29,7 +29,7 @@ echo ""
 # ── 1. Verify install dir has required files ─────────────────────
 echo "==> [1/11] Checking local files ..."
 MISSING=0
-for f in "$INSTALL_DIR/.env" "$INSTALL_DIR/Makefile"; do
+for f in "$INSTALL_DIR/.env" "$INSTALL_DIR/Makefile" "$INSTALL_DIR/traefik-compose.yml" "$INSTALL_DIR/traefik-start.sh"; do
     if [ ! -f "$f" ]; then
         echo "  MISSING: $f"
         MISSING=1
@@ -53,6 +53,7 @@ fi
 if [ "$MISSING" -eq 1 ]; then
     echo ""
     echo "ERROR: Required files missing. Ensure INSTALL_DIR has code + .env + traefik/"
+    echo "       + traefik-compose.yml + traefik-start.sh"
     echo "       and TRANSFER_DIR has fuseki-data.tar.gz, media.tar.gz, backup_*.sql"
     exit 1
 fi

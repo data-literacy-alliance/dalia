@@ -101,7 +101,6 @@ set -euo pipefail
 INSTALL_DIR="${1:-$HOME/dalia20}"
 TRANSFER_DIR="$HOME/transfer"
 PUBLIC_REPO="https://github.com/data-literacy-alliance/dalia.git"
-PRIVATE_REPO="https://github.com/data-literacy-alliance/dalia-private-config.git"
 
 echo "============================================================"
 echo " DALIA 2.0 — New VPS Setup"
@@ -135,6 +134,34 @@ if [ "$MISSING" -eq 1 ]; then
 fi
 echo "  OK — fuseki-data.tar.gz, media.tar.gz, $(basename "$SQL_FILE")"
 
+# ── 1b. Verify private config files are present ──────────────────
+# These must be copied manually to INSTALL_DIR before running this script.
+# On the SOURCE host: make push-private (backs up to private git repo).
+# On this VPS: copy from source or extract from a known-good backup.
+echo ""
+echo "==> [1b/13] Checking private config files in $INSTALL_DIR ..."
+PRIV_MISSING=0
+for f in ".env" "traefik-compose.yml" "traefik-start.sh"; do
+    if [ ! -f "$INSTALL_DIR/$f" ]; then
+        echo "  MISSING: $INSTALL_DIR/$f"
+        PRIV_MISSING=1
+    fi
+done
+if [ ! -d "$INSTALL_DIR/traefik" ]; then
+    echo "  MISSING: $INSTALL_DIR/traefik/"
+    PRIV_MISSING=1
+fi
+if [ "$PRIV_MISSING" -eq 1 ]; then
+    echo ""
+    echo "ERROR: Private config files missing. Copy them to $INSTALL_DIR first:"
+    echo ""
+    echo "  scp .env traefik-compose.yml traefik-start.sh traefik-stop.sh hosts \\"
+    echo "      user@$(hostname):$INSTALL_DIR/"
+    echo "  scp -r traefik/ user@$(hostname):$INSTALL_DIR/"
+    exit 1
+fi
+echo "  OK — .env, traefik-compose.yml, traefik-start.sh, traefik/ present"
+
 # ── 2. Required system path for admin-server container ───────────
 echo ""
 echo "==> [2/13] Creating /opt/container-status (required by traefik admin-server) ..."
@@ -154,16 +181,10 @@ else
 fi
 cd "$INSTALL_DIR"
 
-# ── 4. Restore secrets + traefik config from private repo ────────
+# ── 4. Private config overlay ────────────────────────────────────
+# Files verified in step 1b — already present, nothing to download.
 echo ""
-echo "==> [4/13] Restoring private config overlay ..."
-echo "  (secrets in .env, traefik/ config, hosts, host-trigger.py)"
-if [ -f ".env" ] && [ -d "traefik" ]; then
-    echo "  .env and traefik/ already present — skipping private repo clone."
-else
-    echo "PRIVATE_REPO=$PRIVATE_REPO" > .syncrc
-    make setup-private
-fi
+echo "==> [4/13] Private config overlay — already verified in step 1b."
 
 # ── 5. Fix HOSTUID for this VPS ──────────────────────────────────
 # Traefik mounts the Podman socket at /run/user/$HOSTUID/podman/podman.sock.
