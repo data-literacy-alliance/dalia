@@ -6,6 +6,7 @@ import {
   mediaTypesField,
   publicationField,
   sizeField,
+  versionField,
 } from './common';
 
 /**
@@ -18,4 +19,5 @@ export const SidebarFields: FieldKey[] = [
   formatField,
   sizeField,
   publicationField,
+  versionField,
 ];

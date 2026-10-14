@@ -86,21 +86,28 @@ def sync_person_from_nfdi(sender, request, sociallogin, **kwargs):
         )
 
         if not created:
-            updated = False
-
-            if person.first_name != first_name:
-                person.first_name = first_name
-                updated = True
-
-            if person.last_name != last_name:
-                person.last_name = last_name
-                updated = True
-
-            if updated:
-                person.save(update_fields=["first_name", "last_name", "modified"])
-                logger.info(f"Updated Person for user {user.username}: {first_name} {last_name}")
+            if not person.sync_name_from_provider:
+                logger.debug(
+                    f"Skipping name update for {user.username} — sync_name_from_provider is disabled"
+                )
             else:
-                logger.debug(f"Person already up-to-date for user {user.username}")
+                updated = False
+
+                if person.first_name != first_name:
+                    person.first_name = first_name
+                    updated = True
+
+                if person.last_name != last_name:
+                    person.last_name = last_name
+                    updated = True
+
+                if updated:
+                    person.save(update_fields=["first_name", "last_name", "modified"])
+                    logger.info(
+                        f"Updated Person for user {user.username}: {first_name} {last_name}"
+                    )
+                else:
+                    logger.debug(f"Person already up-to-date for user {user.username}")
         else:
             logger.info(f"Created Person for user {user.username}: {first_name} {last_name}")
 
@@ -116,7 +123,9 @@ def store_provider_in_session(request, user, **kwargs):
         return
     try:
         provider = sociallogin.account.provider
+        uid = sociallogin.account.uid
         request.session["last_social_provider"] = provider
-        logger.debug(f"Stored last used social provider: {provider}")
+        request.session["last_social_uid"] = uid
+        logger.debug(f"Stored last used social provider: {provider}, uid: {uid}")
     except Exception as e:
         logger.warning(f"Could not store provider in session: {e}")

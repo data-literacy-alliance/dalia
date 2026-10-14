@@ -22,11 +22,15 @@ import { useRouter } from 'next/navigation';
 import { softDeleteResource } from '@/lib/api/item';
 import { useAuthLogin } from '@/lib/auth/clientAuth';
 import { getCsrfTokenClient } from '@/lib/auth/csrfToken';
+import InteractionButtons from '@/components/Item/InteractionButtons';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import DetailsBody from '@/app/(with-sidebar)/items/[id]/[slug]/_parts/DetailsBody';
 
-const Item: FC<ItemProps> = ({ className, item, editable, deletable = true, ...props }) => {
+const Item: FC<ItemProps> = ({ className, item, editable, deletable = true, onRemove, isContribution, ...props }) => {
   const router = useRouter();
   const { access } = useAuthLogin();
   const [isDeleting, setIsDeleting] = useState(false);
+  const [draftPreviewOpen, setDraftPreviewOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const handleDelete = async () => {
@@ -56,11 +60,15 @@ const Item: FC<ItemProps> = ({ className, item, editable, deletable = true, ...p
       setIsDeleting(false);
     }
   };
+  const inactive = isContribution && item.is_active === false && !item.submitted_for_review;
+  const isUnpublishedContribution = isContribution && (!item.is_active || !!item.submitted_for_review);
+
   return (
     <VFlex
       {...props}
       className={cn(
         'flex gap-7 overflow-hidden border-primary px-10 py-12 transition hover:bg-gray-50 focus:bg-gray-50',
+        inactive && 'opacity-60 bg-gray-50',
         className
       )}
     >
@@ -74,8 +82,79 @@ const Item: FC<ItemProps> = ({ className, item, editable, deletable = true, ...p
         />
         <VFlex className={'min-w-0 grow content-between gap-5'}>
           <Text variant={'h3'} className={'text-[1.5rem]'}>
-            <Link href={`/items/${item.id}/${item.slug}`}>{item.title}</Link>
-            {editable && (
+            {isUnpublishedContribution ? (
+              <button className={'hover:underline text-left'} onClick={() => setDraftPreviewOpen(true)}>
+                {item.title}
+              </button>
+            ) : (
+              <Link href={`/items/${item.resource_uuid ?? item.id}/${item.slug}`}>{item.title}</Link>
+            )}
+            {isContribution ? (
+              <HFlex className={'my-0.5 items-center gap-4'}>
+                <HFlex className={'gap-2'}>
+                  {item.version && (
+                    <span className={'group/tip relative cursor-default rounded bg-daliaGray-200 px-1.5 py-0.5 text-xs font-medium text-white'}>
+                      {item.version}
+                      <span className={'pointer-events-none absolute bottom-full left-1/2 z-10 mb-1 hidden -translate-x-1/2 whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-xs font-normal text-white shadow-md group-hover/tip:block'}>
+                        DALIA version of this resource
+                      </span>
+                    </span>
+                  )}
+                  {item.is_active !== undefined && (
+                    <span className={cn(
+                      'group/tip relative cursor-default rounded px-1.5 py-0.5 text-xs font-medium',
+                      item.submitted_for_review
+                        ? 'bg-blue-100 text-blue-800'
+                        : item.is_active
+                        ? 'bg-green-100 text-green-800'
+                        : item.submitted_for_review === false
+                        ? 'bg-yellow-100 text-yellow-800'
+                        : 'bg-gray-200 text-gray-600'
+                    )}>
+                      {item.submitted_for_review ? 'Submitted for review' : item.is_active ? 'Active' : item.submitted_for_review === false ? 'Draft' : 'Inactive'}
+                      <span className={'pointer-events-none absolute bottom-full left-1/2 z-10 mb-1 hidden -translate-x-1/2 whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-xs font-normal text-white shadow-md group-hover/tip:block'}>
+                        {item.submitted_for_review
+                          ? 'Waiting for curator review'
+                          : item.is_active
+                          ? 'Published and visible to others'
+                          : item.submitted_for_review === false
+                          ? 'Saved but not yet submitted for review'
+                          : 'Not currently published'}
+                      </span>
+                    </span>
+                  )}
+                </HFlex>
+                {editable && (
+                  <HFlex className={'gap-4'}>
+                    <Link
+                      href={`/items/new?id=${item.id}`}
+                      className={'flex items-center gap-1 text-sm'}
+                    >
+                      <EditIcon size={18} /> Edit
+                    </Link>
+                    {deletable && (
+                      <AlertDialog
+                        open={deleteDialogOpen}
+                        onOpenChange={setDeleteDialogOpen}
+                        title={'Delete Resource'}
+                        content={
+                          'Are you sure you want to delete this resource? This action cannot be undone.'
+                        }
+                        onConfirm={() => {
+                          void handleDelete();
+                        }}
+                        confirmText={isDeleting ? 'Deleting...' : 'Delete'}
+                        confirmDisabled={isDeleting}
+                      >
+                        <button className={'flex items-center gap-1 text-sm hover:underline'}>
+                          <DeleteIcon size={18} /> Delete
+                        </button>
+                      </AlertDialog>
+                    )}
+                  </HFlex>
+                )}
+              </HFlex>
+            ) : editable ? (
               <HFlex className={'gap-4'}>
                 <Link
                   href={`/items/new?id=${item.id}`}
@@ -103,7 +182,7 @@ const Item: FC<ItemProps> = ({ className, item, editable, deletable = true, ...p
                   </AlertDialog>
                 )}
               </HFlex>
-            )}
+            ) : null}
           </Text>
           <Text className={'line-clamp-3'}>{item.description}</Text>
         </VFlex>
@@ -138,7 +217,7 @@ const Item: FC<ItemProps> = ({ className, item, editable, deletable = true, ...p
                   <VFlex
                     key={field.label}
                     className={
-                      'min-w-0 flex-shrink-0 flex-grow border-r border-primary py-1 pr-3.5 last:border-0'
+                      'min-w-[9rem] max-w-[13rem] border-r border-primary py-1 pr-3.5 last:border-0'
                     }
                   >
                     <Text
@@ -147,12 +226,15 @@ const Item: FC<ItemProps> = ({ className, item, editable, deletable = true, ...p
                     >
                       {field.label}
                     </Text>
-                    <HFlex className={'items-center gap-1'}>
-                      {icon && <Icon source={icon} size={12} />}
-                      <Text className={'w-full items-center gap-1 truncate'}>
-                        {value}
-                      </Text>
-                    </HFlex>
+                    <ScrollArea className={'w-full whitespace-nowrap'}>
+                      <HFlex className={'items-center gap-1 text-nowrap'}>
+                        {icon && <Icon source={icon} size={12} />}
+                        <Text className={'text-nowrap'}>
+                          {value}
+                        </Text>
+                      </HFlex>
+                      <ScrollBar orientation={'horizontal'} className={'h-2 bg-daliaGray-200'} />
+                    </ScrollArea>
                   </VFlex>
                 );
               })}
@@ -165,42 +247,14 @@ const Item: FC<ItemProps> = ({ className, item, editable, deletable = true, ...p
           <HFlex
             className={'w-[12.5rem] items-center justify-center bg-primary'}
           >
-            {/*<AlertDialog*/}
-            {/*  title={'Not implemented'}*/}
-            {/*  content={*/}
-            {/*    'This feature is not implement yet in the prototype version.'*/}
-            {/*  }*/}
-            {/*>*/}
-            {/*  <IconButton*/}
-            {/*    dark={true}*/}
-            {/*    iconProps={{ size: 14 }}*/}
-            {/*    source={'bookmark'}*/}
-            {/*    disabled*/}
-            {/*    title={'This functionality is not implemented yet.'}*/}
-            {/*  />*/}
-            {/*</AlertDialog>*/}
-            {/*<ShareDialog item={item}>*/}
-            {/*  <IconButton*/}
-            {/*    dark={true}*/}
-            {/*    iconProps={{ size: 14 }}*/}
-            {/*    source={'share'}*/}
-            {/*    disabled*/}
-            {/*  />*/}
-            {/*</ShareDialog>*/}
-            {/*<CiteDialog item={item}>*/}
-            {/*  <IconButton*/}
-            {/*    dark={true}*/}
-            {/*    iconProps={{ size: 14 }}*/}
-            {/*    source={'cite'}*/}
-            {/*    disabled*/}
-            {/*  />*/}
-            {/*</CiteDialog>*/}
-            {/*<IconButton*/}
-            {/*  dark={true}*/}
-            {/*  iconProps={{ size: 14 }}*/}
-            {/*  source={'cite'}*/}
-            {/*  disabled*/}
-            {/*/>*/}
+            <InteractionButtons
+              resourceId={item.resource_uuid ?? item.id}
+              initialIsBookmarked={item.is_bookmarked}
+              initialIsLiked={item.is_liked}
+              initialLikes={item.likes}
+              small
+              onRemove={onRemove}
+            />
             {ItemActions.map(({ Parent, disabled, ...action }, index) =>
               Parent ? (
                 <Parent key={index} item={item}>
@@ -268,13 +322,44 @@ const Item: FC<ItemProps> = ({ className, item, editable, deletable = true, ...p
               'h-auto w-[12.5rem] shrink-0 grow-0 basis-[12.5rem] border-b-0'
             }
             link={{
-              href: `/items/${item.id}/${item.slug}/`,
+              href: `/items/${item.resource_uuid ?? item.id}/${item.slug}/`,
             }}
           >
             See Details
           </Button>
         </HFlex>
       </VFlex>
+      {isUnpublishedContribution && (
+        <Dialog open={draftPreviewOpen} onOpenChange={setDraftPreviewOpen}>
+          <DialogContent className={'max-w-full h-screen max-h-screen p-0 m-0 rounded-none border-0'}>
+            <div className={'relative h-full overflow-auto'}>
+              <div className={'sticky top-0 z-50 flex items-center justify-between border-b border-yellow-200 bg-yellow-50 px-6 py-2.5'}>
+                <span className={'text-sm font-medium text-yellow-800'}>
+                  {item.submitted_for_review
+                    ? 'Submitted for review — awaiting curator approval'
+                    : 'Draft — not visible to others'}
+                </span>
+                <div className={'flex items-center gap-4'}>
+                  <Link
+                    href={`/items/new?id=${item.id}`}
+                    className={'text-sm underline'}
+                    onClick={() => setDraftPreviewOpen(false)}
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    className={'text-sm text-yellow-700 hover:text-yellow-900 underline'}
+                    onClick={() => setDraftPreviewOpen(false)}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+              <DetailsBody item={item} recommendedContent={[]} />
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </VFlex>
   );
 };
@@ -287,6 +372,8 @@ export type ItemProps = Omit<
   noBorder?: boolean;
   editable?: boolean;
   deletable?: boolean;
+  onRemove?: () => void;
+  isContribution?: boolean;
 };
 
 export default Item;

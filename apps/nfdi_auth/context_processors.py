@@ -11,14 +11,14 @@ def nfdi_claims(request):
 
     try:
         last_provider = request.session.get("last_social_provider")
+        last_uid = request.session.get("last_social_uid")
         sa = None
 
         if last_provider:
-            sa = (
-                SocialAccount.objects.get(user=request.user, provider=last_provider)
-                if last_provider
-                else None
-            )
+            qs = SocialAccount.objects.filter(user=request.user, provider=last_provider)
+            if last_uid:
+                qs = qs.filter(uid=last_uid)
+            sa = qs.first()
 
         if not sa:
             return {}

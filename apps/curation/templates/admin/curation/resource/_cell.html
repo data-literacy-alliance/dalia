@@ -15,7 +15,7 @@ M2M cell: values is a list of strings (labels).
 Scalar cell: values is a single-element list.
   description field uses <pre> to preserve whitespace.
 {% endcomment %}
-{% if vfield.values|length > 1 %}
+{% if vfield.is_m2m %}
 {# ── M2M field ── #}
 <div class="flex flex-wrap gap-1">
   {% if vfield.differs and v.m2m_diffs %}

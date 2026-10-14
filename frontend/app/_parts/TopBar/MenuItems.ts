@@ -31,6 +31,11 @@ export const topMenuItems2: MenuItem[] = [
     className: 'lg:hidden xl:flex',
   },
   {
+    path: '/new-on-dalia',
+    label: 'New on DALIA',
+    className: 'lg:hidden xl:flex',
+  },
+  {
     path: 'https://dalia.education/en#contact-section',
     label: 'Contact',
   },

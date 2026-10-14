@@ -7,11 +7,12 @@ from search.api_models.api_models import (
     BasicSearchFilterKey,
     BasicSearchFilterValue,
 )
-from search.query.items.facets.facet_objects import FacetObject
+from curation.models.communities import Community as CommunityModel
+from search.query.items.facets.facet_objects import COMMUNITY_FACET, FacetObject
 from search.query.items.search.text_search import _ITEM_SEARCH_FACETS
 from search.query.utils import query_dalia_dataset
-from search.query_builder.query_builder import QueryBuilder
-from search.rdf.namespace import educor
+from search.query_builder.query_builder import GROUP, QueryBuilder, UNION
+from search.rdf.namespace import bibframe_lite_relation, educor, rec
 
 # Reuse the same facets as the search results page (avoids duplication)
 _BASIC_SEARCH_FILTER_FACETS = _ITEM_SEARCH_FACETS
@@ -32,6 +33,18 @@ def get_basic_search_filters_for_facet(facet: FacetObject) -> BasicSearchFilter:
 
 
 def get_all_existing_filter_items_for_facet(facet: FacetObject) -> List[BasicSearchFilterValue]:
+    if facet is COMMUNITY_FACET:
+        # Use PostgreSQL as the authoritative community source — covers all active communities
+        # (not just the 37 in the hardcoded COMMUNITY_FACET.items dict).
+        communities = CommunityModel.objects.filter(is_active=True).order_by("title")
+        return [
+            BasicSearchFilterValue(
+                label=c.title,
+                value=c.uri or f"https://id.dalia.education/community/{c.uuid}",
+            )
+            for c in communities
+        ]
+
     query = prepare_query_to_get_all_existing_filter_items_for_facet(facet)
 
     query_results = query_dalia_dataset(query)
@@ -52,6 +65,20 @@ _VARIABLES = {"item": Variable("item")}
 def prepare_query_to_get_all_existing_filter_items_for_facet(facet: FacetObject) -> str:
     var_item = _VARIABLES["item"]
     var_lr = Variable("lr")
+
+    if facet is COMMUNITY_FACET:
+        # hasCommunity predicate does not exist in Fuseki; community membership
+        # is expressed via rec:recommender (or bflr:supportinghost for future data).
+        return (
+            QueryBuilder()
+            .SELECT(var_item, distinct=True)
+            .WHERE(
+                (var_lr, RDF.type, educor.EducationalResource),
+                GROUP((var_lr, rec.recommender, var_item)),
+                UNION((var_lr, bibframe_lite_relation.supportinghost, var_item)),
+            )
+            .build()
+        )
 
     return (
         QueryBuilder()

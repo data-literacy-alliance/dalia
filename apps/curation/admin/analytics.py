@@ -29,6 +29,7 @@ class ViewEventAdmin(BaseModelAdmin):
         "user_agent",
         "referrer",
         "duration_seconds",
+        "resource_uuid",
     )
 
     def has_add_permission(self, request):
@@ -48,7 +49,11 @@ class ViewEventAdmin(BaseModelAdmin):
     def content_object_display(self, obj):
         if obj.content_object:
             return f"{obj.content_type.name}: {obj.content_object}"
-        return f"{obj.content_type.name} (ID: {obj.object_id})"
+        if obj.resource_uuid:
+            return f"Resource UUID: {obj.resource_uuid}"
+        if obj.content_type:
+            return f"{obj.content_type.name} (ID: {obj.object_id})"
+        return "Unknown"
 
     content_object_display.short_description = "Content Object"
 

@@ -1,16 +1,15 @@
 """
 Testing settings for ICZ.
-Uses SQLite for speed and DummyBackend for tasks.
+Uses PostgreSQL (same engine as production, isolated test database) and DummyBackend for tasks.
 """
 
 from .base import *  # noqa: F403, F405
 
-# Override database to use SQLite for fast tests
+# Use PostgreSQL for tests (same engine as production).
+# pytest-django (run with --reuse-db per the Makefile) creates and uses a
+# separate test database (test_<dbname>) and never touches production data.
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": ":memory:",
-    }
+    "default": env.db("DATABASE_URL"),  # noqa: F405
 }
 
 # Override cache backend for tests (use in-memory instead of Redis)

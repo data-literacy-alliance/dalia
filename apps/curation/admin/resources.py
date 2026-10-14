@@ -12,8 +12,9 @@ from curation.admin.inlines import (
 )
 from curation.models import Resource, ResourceContent
 from django import forms
-from unfold.widgets import UnfoldAdminSelectWidget
+from unfold.widgets import UnfoldAdminSelectWidget, UnfoldAdminTextInputWidget
 from django.contrib import admin
+from django.contrib.admin import SimpleListFilter
 from django.db.models import Count, Min
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -21,9 +22,34 @@ from django.utils import timezone
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
+from taggit.forms import TagField
+from taggit.utils import edit_string_for_tags
 import difflib
 from django.db import transaction
 from django.http import Http404
+
+
+class ContentStatusFilter(SimpleListFilter):
+    title = "Status"
+    parameter_name = "content_status"
+
+    def lookups(self, request, model_admin):
+        return [
+            ("draft", "Draft"),
+            ("submitted", "Submitted for review"),
+            ("active", "Active"),
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value() == "draft":
+            return queryset.filter(
+                is_active=False, submitted_for_review=False, resource__is_removed=False
+            )
+        if self.value() == "submitted":
+            return queryset.filter(submitted_for_review=True, resource__is_removed=False)
+        if self.value() == "active":
+            return queryset.filter(is_active=True)
+        return queryset
 
 
 @admin.register(Resource)
@@ -109,6 +135,14 @@ class ResourceAdmin(BaseModelAdmin):
 
     versions_link.short_description = "Versions panel"
 
+    def response_change(self, request, obj):
+        if "_continue" not in request.POST and "_addanother" not in request.POST:
+            from django.http import HttpResponseRedirect
+
+            url = reverse("admin:curation_resourcecontent_changelist")
+            return HttpResponseRedirect(url)
+        return super().response_change(request, obj)
+
     def save_model(self, request, obj, form, change):
         if "is_published" in form.changed_data:
             obj.published_at = timezone.now() if obj.is_published else None
@@ -154,6 +188,10 @@ class ResourceAdmin(BaseModelAdmin):
                 "file_formats",
                 "media_types",
                 "keywords",
+                "community_relations__community",
+                "community_relations__relation_type",
+                "links",
+                "related_items__relation_type",
             )
             .order_by("id")
         )
@@ -163,8 +201,10 @@ class ResourceAdmin(BaseModelAdmin):
             ("description", "Description"),
             ("publication_date", "Publication date"),
             ("size_mb", "Size (MB)"),
+            ("version_label", "Version"),
         ]
         M2M_FIELDS = [
+            ("community_relations", "Communities"),
             ("languages", "Languages"),
             ("people", "People"),
             ("organizations", "Organizations"),
@@ -176,6 +216,8 @@ class ResourceAdmin(BaseModelAdmin):
             ("file_formats", "File formats"),
             ("media_types", "Media types"),
             ("keywords", "Keywords"),
+            ("links", "Links"),
+            ("related_items", "Related works"),
         ]
 
         scalar_all = {
@@ -217,6 +259,7 @@ class ResourceAdmin(BaseModelAdmin):
                         "name": name,
                         "label": label,
                         "values": [curr_val],
+                        "is_m2m": False,
                         "differs": scalar_differs(scalar_all[name]),
                         "differs_from_prev": differs_from_prev,
                     }
@@ -243,6 +286,7 @@ class ResourceAdmin(BaseModelAdmin):
                         "name": name,
                         "label": label,
                         "values": cell_values,
+                        "is_m2m": True,
                         "differs": differs,
                         "differs_from_prev": differs_from_prev,
                     }
@@ -364,7 +408,26 @@ class SelectResourceForm(forms.Form):
     )
 
 
+class TaggitUnfoldWidget(UnfoldAdminTextInputWidget):
+    """UnfoldAdminTextInputWidget that renders a taggit Tag queryset as comma-separated names."""
+
+    def format_value(self, value):
+        if value is not None and not isinstance(value, str):
+            try:
+                value = edit_string_for_tags(value)
+            except (AttributeError, TypeError):
+                pass
+        return super().format_value(value)
+
+
 class ResourceContentAdminForm(forms.ModelForm):
+    keywords = TagField(
+        label="Keywords",
+        required=False,
+        help_text="Comma-separated keywords, e.g. chemistry, FAIR data",
+        widget=TaggitUnfoldWidget(attrs={"placeholder": "e.g. chemistry, FAIR data"}),
+    )
+
     class Meta:
         model = ResourceContent
         fields = [
@@ -409,6 +472,10 @@ class ResourceContentAdminForm(forms.ModelForm):
             if fname in self.fields:
                 self.fields[fname].help_text = deselect_hint
 
+    def clean_keywords(self):
+        tags = self.cleaned_data.get("keywords") or []
+        return [t.lower().strip() for t in tags if t.strip()]
+
     def clean_main_url(self):
         """Normalize values like //example.com to https://example.com."""
         url = self.cleaned_data.get("main_url")
@@ -425,6 +492,13 @@ class ResourceContentAdminForm(forms.ModelForm):
         if not languages or languages.count() == 0:
             raise forms.ValidationError({"languages": "At least one language is required."})
         return cleaned
+
+    def save(self, commit=True):
+        instance = super().save(commit=commit)
+        if commit and "keywords" in self.cleaned_data:
+            kw = self.cleaned_data["keywords"]
+            instance.keywords.set(*kw)
+        return instance
 
 
 @admin.register(ResourceContent)
@@ -444,7 +518,12 @@ class ResourceContentAdmin(BaseModelAdmin):
         "uuid",
     )
     list_display_links = ("resource_title",)
-    list_filter = ("is_active", "created_by", "submitted_for_review", "languages")
+    list_filter = (
+        ContentStatusFilter,
+        "resource__is_removed",
+        "created_by",
+        "languages",
+    )
     search_fields = (
         "id",
         "title",
@@ -484,6 +563,7 @@ class ResourceContentAdmin(BaseModelAdmin):
                     "publication_date",
                     "description",
                     "size_mb",
+                    "version_label",
                     "people",
                     "organizations",
                     "learning_resource_types",
@@ -528,11 +608,21 @@ class ResourceContentAdmin(BaseModelAdmin):
     resource_link.short_description = "Resource admin"
 
     def review_flag(self, obj):
+        if obj.resource.is_removed:
+            return mark_safe(
+                '<span style="background:#fee2e2;color:#991b1b;padding:2px 8px;'
+                'border-radius:3px;font-size:12px;font-weight:600;">Removed</span>'
+            )
+        if not obj.submitted_for_review and not obj.is_active:
+            return mark_safe(
+                '<span style="background:#fef3c7;color:#92400e;padding:2px 8px;'
+                'border-radius:3px;font-size:12px;font-weight:600;">Draft</span>'
+            )
         if obj.submitted_for_review:
             return mark_safe('<span style="color:#b45309;font-weight:500;">Needs review</span>')
         return mark_safe('<span style="color:#065f46;">\u2014</span>')
 
-    review_flag.short_description = "Review"
+    review_flag.short_description = "Status"
 
     def get_languages(self, obj):
         if not obj.pk:
@@ -572,20 +662,15 @@ class ResourceContentAdmin(BaseModelAdmin):
         with transaction.atomic():
             ResourceContent.objects.filter(
                 resource_id=target.resource_id,
-            ).exclude(pk=target.pk).update(is_active=False)
+            ).exclude(pk=target.pk).update(is_active=False, submitted_for_review=False)
             ResourceContent.objects.filter(pk=target.pk).update(
                 is_active=True,
                 submitted_for_review=False,
-                submitted_at=None,
-                submitted_by=None,
-            )
-            Resource.objects.filter(pk=target.resource_id).update(
-                is_published=True,
-                published_at=timezone.now(),
             )
         self.message_user(
             request,
-            f'Version {target.version} is now active for "{target.resource}".',
+            f'Version {target.version} is now the active draft for "{target.resource}". '
+            "Publish the resource via the Resource admin form to make it publicly visible.",
         )
 
     def get_actions(self, request):
@@ -593,6 +678,38 @@ class ResourceContentAdmin(BaseModelAdmin):
         if not request.user.is_superuser:
             actions.pop("delete_selected", None)
         return actions
+
+    def get_urls(self):
+        from django.urls import path
+
+        urls = super().get_urls()
+        custom = [
+            path(
+                "<int:pk>/activate/",
+                self.admin_site.admin_view(self.activate_rc_view),
+                name="curation_resourcecontent_activate",
+            ),
+        ]
+        return custom + urls
+
+    def activate_rc_view(self, request, pk):
+        from django.http import JsonResponse
+
+        if not self.has_change_permission(request):
+            return JsonResponse({"ok": False, "error": "Permission denied"}, status=403)
+
+        try:
+            target = ResourceContent.objects.get(pk=pk)
+        except ResourceContent.DoesNotExist:
+            return JsonResponse({"ok": False, "error": "Not found"}, status=404)
+
+        with transaction.atomic():
+            ResourceContent.objects.filter(resource_id=target.resource_id).exclude(pk=pk).update(
+                is_active=False, submitted_for_review=False
+            )
+            ResourceContent.objects.filter(pk=pk).update(is_active=True, submitted_for_review=False)
+
+        return JsonResponse({"ok": True})
 
     def add_view(self, request, form_url="", extra_context=None):
         """

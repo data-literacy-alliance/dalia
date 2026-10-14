@@ -12,12 +12,6 @@ export const ItemActions: ItemAction[] = [
   {
     dark: true,
     iconProps: { size: 14 },
-    source: 'bookmark',
-    disabled: true,
-  },
-  {
-    dark: true,
-    iconProps: { size: 14 },
     source: 'share',
     Parent: ShareDialog,
   },
@@ -26,14 +20,5 @@ export const ItemActions: ItemAction[] = [
     iconProps: { size: 14 },
     source: 'cite',
     Parent: CiteDialog,
-  },
-  {
-    dark: true,
-    iconProps: { size: 14 },
-    source: 'heart',
-    disabled: true,
-    onClick: () => {
-
-    }
   },
 ];

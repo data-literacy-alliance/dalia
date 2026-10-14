@@ -145,7 +145,11 @@ def profile_view(request):
     sa = None
 
     if last_provider:
-        sa = SocialAccount.objects.filter(user=request.user, provider=last_provider).first()
+        last_uid = request.session.get("last_social_uid")
+        qs = SocialAccount.objects.filter(user=request.user, provider=last_provider)
+        if last_uid:
+            qs = qs.filter(uid=last_uid)
+        sa = qs.first()
 
     claims = sa.extra_data if sa else {}
 

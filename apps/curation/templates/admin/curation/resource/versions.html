@@ -105,18 +105,14 @@
       {# Action buttons #}
       <div class="flex gap-2 mt-auto">
         {% if not obj.is_active %}
-        <form method="post" action="{{ activate_url }}">
-          {% csrf_token %}
-          <input type="hidden" name="action" value="set_active_version">
-          <input type="hidden" name="_selected_action" value="{{ obj.pk }}">
-          <button type="submit"
-                  class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md
-                         text-white bg-primary-600 hover:bg-primary-500
-                         focus:outline-none focus:ring-2 focus:ring-primary-500
-                         dark:bg-primary-700 dark:hover:bg-primary-600">
-            {% trans "Activate" %}
-          </button>
-        </form>
+        <button type="button"
+                data-activate-url="{% url 'admin:curation_resourcecontent_activate' obj.pk %}"
+                class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md
+                       cursor-pointer text-white bg-primary-600 hover:bg-primary-500
+                       focus:outline-none focus:ring-2 focus:ring-primary-500
+                       dark:bg-primary-700 dark:hover:bg-primary-600">
+          {% trans "Activate" %}
+        </button>
         {% endif %}
 
         <a href="{% url 'admin:curation_resourcecontent_change' obj.pk %}"
@@ -254,6 +250,7 @@
 
 </div>
 
+<input type="hidden" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
 <script>
 (function () {
   // "Show all fields" <-> "Hide all fields" label on details toggle
@@ -273,6 +270,34 @@
       document.querySelectorAll('[data-col="' + col + '"]').forEach(function (el) {
         el.style.display = show ? '' : 'none';
       });
+    });
+  });
+
+  // Activate button — fetch-based, reloads page on success so all cards update
+  document.querySelectorAll('[data-activate-url]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var url = btn.getAttribute('data-activate-url');
+      var csrfInput = document.getElementById('csrfmiddlewaretoken');
+      var csrf = csrfInput ? csrfInput.value : (document.cookie.match(/csrftoken=([^;]+)/) || ['', ''])[1];
+      btn.disabled = true;
+      fetch(url, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrf },
+        credentials: 'same-origin',
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data.ok) {
+            window.location.reload();
+          } else {
+            alert('Activation failed: ' + (data.error || 'Unknown error'));
+            btn.disabled = false;
+          }
+        })
+        .catch(function () {
+          alert('Network error — please try again.');
+          btn.disabled = false;
+        });
     });
   });
 })();

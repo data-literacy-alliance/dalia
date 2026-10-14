@@ -13,7 +13,7 @@ import { useSearchParams } from 'next/navigation';
 import useWindowDimensions, { ScreenSizes } from '@/lib/useWindowDimensions';
 import AppliedFilters from '@/app/(with-sidebar)/search/_parts/AppliedFilters';
 
-const ResultsBody: FC<ResultsBodyProps> = ({ query, results, selectedFacets }) => {
+const ResultsBody: FC<ResultsBodyProps> = ({ query, results, selectedFacets, crossFacetOperators, headingText, hideCountInfo }) => {
   const { width } = useWindowDimensions();
   const params = useSearchParams();
   const view =
@@ -36,9 +36,9 @@ const ResultsBody: FC<ResultsBodyProps> = ({ query, results, selectedFacets }) =
             {results.results.length > 0 ? (
               <>
                 <Text className={'hidden lg:inline'} variant={'h3'}>
-                  {query && query !== '*' ? 'Search results for:' : 'Showing all items'}
+                  {headingText ?? (query && query !== '*' ? 'Search results for:' : 'Showing all items')}
                 </Text>
-                <div className={styles.searchInfo}>
+                <div className={styles.searchInfo} style={hideCountInfo ? { display: 'none' } : undefined}>
                   {query && query !== '*' && <Text>{query}</Text>}
                   <Text>
                     Showing {results.results.length} out of {results.count}{' '}
@@ -54,6 +54,7 @@ const ResultsBody: FC<ResultsBodyProps> = ({ query, results, selectedFacets }) =
                   <AppliedFilters
                     facets={results.facets}
                     selectedFacets={selectedFacets}
+                    crossFacetOperators={crossFacetOperators ?? []}
                   />
                 )}
               </>
@@ -103,6 +104,9 @@ type ResultsBodyProps = {
   query?: string | undefined;
   results?: (Pageable<ItemObject> & { facets: Facet[] }) | null;
   selectedFacets?: SelectedFacet[];
+  crossFacetOperators?: ('AND' | 'OR')[];
+  headingText?: string;
+  hideCountInfo?: boolean;
 };
 
 export default ResultsBody;
