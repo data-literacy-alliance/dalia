@@ -29,4 +29,5 @@ paths = [
     '''^docs/.*''',
     '''apps/search/rdf/''',
     '''docker/fuseki/.*\.ttl''',
+    '''^scripts/.*''',
 ]

@@ -210,11 +210,13 @@ fi
 tar --no-same-permissions --no-same-owner -xzf "$TRANSFER_DIR/media.tar.gz" -C "$INSTALL_DIR/"
 echo "  OK"
 
-# ── 8. Build all containers ───────────────────────────────────────
-# Builds web (Django/gunicorn), frontend (Next.js), and fuseki images.
-# Does NOT rebuild postgres/redis/elasticsearch — those use stock images.
+# ── 8. Pre-create proxy network + build containers ───────────────
+# Network must be created BEFORE build: podman-compose build auto-creates
+# dalia20-network and if it grabs 10.89.0.0/24 first, traefik-start.sh
+# will fail with "subnet already in use".
 echo ""
-echo "==> [8/13] Building containers — this takes several minutes ..."
+echo "==> [8/13] Pre-creating proxy network then building containers ..."
+podman network create --subnet 10.89.0.0/24 daliaproject_proxy-net 2>/dev/null || true
 podman-compose build --no-cache
 
 # ── 9. Start Traefik first ────────────────────────────────────────

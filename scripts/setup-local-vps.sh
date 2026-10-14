@@ -98,9 +98,10 @@ fi
 tar --no-same-permissions --no-same-owner -xzf "$TRANSFER_DIR/media.tar.gz" -C "$INSTALL_DIR/"
 echo "  OK"
 
-# ── 6. Build all containers ───────────────────────────────────────
+# ── 6. Pre-create proxy network + build containers ───────────────
 echo ""
-echo "==> [6/11] Building containers — this takes several minutes ..."
+echo "==> [6/11] Pre-creating proxy network then building containers ..."
+podman network create --subnet 10.89.0.0/24 daliaproject_proxy-net 2>/dev/null || true
 podman-compose build --no-cache
 
 # ── 7. Start Traefik first ────────────────────────────────────────
