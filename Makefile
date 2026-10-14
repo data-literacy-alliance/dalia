@@ -336,6 +336,12 @@ push-private: ## Backup sensitive files to private config repo
 		rsync -a $(CURDIR)/host-trigger.py $(PRIVATE_TMP)/overlay/ || true
 	@[ -f $(CURDIR)/podman-compose.tunnel.yml ] && \
 		rsync -a $(CURDIR)/podman-compose.tunnel.yml $(PRIVATE_TMP)/overlay/ || true
+	@[ -f $(CURDIR)/traefik-compose.yml ] && \
+		rsync -a $(CURDIR)/traefik-compose.yml $(PRIVATE_TMP)/overlay/ || true
+	@[ -f $(CURDIR)/traefik-start.sh ] && \
+		rsync -a $(CURDIR)/traefik-start.sh $(PRIVATE_TMP)/overlay/ || true
+	@[ -f $(CURDIR)/traefik-stop.sh ] && \
+		rsync -a $(CURDIR)/traefik-stop.sh $(PRIVATE_TMP)/overlay/ || true
 	@[ -f $(CURDIR)/docs/deployment.md ] && \
 		rsync -a $(CURDIR)/docs/deployment.md $(PRIVATE_TMP)/DEPLOYMENT.md || true
 	@[ -f $(CURDIR)/docs/private-repo-readme.md ] && \
