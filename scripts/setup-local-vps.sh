@@ -96,7 +96,7 @@ echo "  OK"
 # ── 6. Build all containers ───────────────────────────────────────
 echo ""
 echo "==> [6/11] Building containers — this takes several minutes ..."
-make build
+podman-compose build --no-cache
 
 # ── 7. Start Traefik first ────────────────────────────────────────
 echo ""
