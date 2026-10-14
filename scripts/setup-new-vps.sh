@@ -200,7 +200,7 @@ echo "  OK"
 # Does NOT rebuild postgres/redis/elasticsearch — those use stock images.
 echo ""
 echo "==> [8/13] Building containers — this takes several minutes ..."
-make build
+podman-compose build --no-cache
 
 # ── 9. Start Traefik first ────────────────────────────────────────
 # Traefik MUST start before the app containers because it creates the
