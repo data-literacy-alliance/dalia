@@ -158,8 +158,12 @@ cd "$INSTALL_DIR"
 echo ""
 echo "==> [4/13] Restoring private config overlay ..."
 echo "  (secrets in .env, traefik/ config, hosts, host-trigger.py)"
-echo "PRIVATE_REPO=$PRIVATE_REPO" > .syncrc
-make setup-private
+if [ -f ".env" ] && [ -d "traefik" ]; then
+    echo "  .env and traefik/ already present — skipping private repo clone."
+else
+    echo "PRIVATE_REPO=$PRIVATE_REPO" > .syncrc
+    make setup-private
+fi
 
 # ── 5. Fix HOSTUID for this VPS ──────────────────────────────────
 # Traefik mounts the Podman socket at /run/user/$HOSTUID/podman/podman.sock.
