@@ -301,10 +301,16 @@ clean: ## Clean temporary files (runs on host)
 -include .syncrc
 PRIVATE_REPO ?=
 PRIVATE_TMP  := /tmp/dalia-private-config
+# Private repo layout: overlay/ is shared by all hosts; hosts/<hostname -s>/ holds
+# what differs per host (.env files, hosts, tunnel compose, DB backups).
+PRIVATE_HOST ?= $(shell hostname -s)
+PRIVATE_HOST_DIR := $(PRIVATE_TMP)/hosts/$(PRIVATE_HOST)
+PRIVATE_SYNC_FILE := $(CURDIR)/.private-sync-sha
+TRAEFIK_ENV_REL = $(shell cd $(CURDIR) && find traefik -name .env 2>/dev/null | head -1)
 
 .PHONY: setup-private push-private
 
-setup-private: ## Restore private config overlay into this directory (run once per new checkout)
+setup-private: ## Restore shared + this host's private config (hosts/$(hostname -s)) into this directory
 	@[ -n "$(PRIVATE_REPO)" ] || { \
 		echo "Set PRIVATE_REPO in .syncrc:"; \
 		echo "  echo 'PRIVATE_REPO=https://github.com/data-literacy-alliance/dalia-private-config.git' > .syncrc"; \
@@ -314,47 +320,60 @@ setup-private: ## Restore private config overlay into this directory (run once p
 		echo "  Using existing $(PRIVATE_TMP) (skipping clone)."; \
 	else \
 		rm -rf $(PRIVATE_TMP); \
-		git clone --depth 1 $(PRIVATE_REPO) $(PRIVATE_TMP); \
+		git clone --filter=blob:none $(PRIVATE_REPO) $(PRIVATE_TMP); \
 	fi
+	@[ -d $(PRIVATE_HOST_DIR)/overlay ] || { \
+		echo "ERROR: private repo has no hosts/$(PRIVATE_HOST)/overlay for this host."; \
+		echo "  Create it from another host's folder, or set PRIVATE_HOST=<name> in .syncrc."; \
+		exit 1; \
+	}
 	rsync -a $(PRIVATE_TMP)/overlay/ $(CURDIR)/
+	rsync -a $(PRIVATE_HOST_DIR)/overlay/ $(CURDIR)/
+	@[ ! -d $(PRIVATE_TMP)/.git ] || git -C $(PRIVATE_TMP) rev-parse HEAD > $(PRIVATE_SYNC_FILE)
 	rm -rf $(PRIVATE_TMP)
-	@echo "Private config restored."
+	@echo "Private config restored (shared overlay + hosts/$(PRIVATE_HOST))."
 
-push-private: ## Backup sensitive files to private config repo
+push-private: ## Backup private config: shared files to overlay/, this host's files to hosts/$(hostname -s)
 	@[ -n "$(PRIVATE_REPO)" ] || { \
 		echo "Set PRIVATE_REPO in .syncrc:"; \
 		echo "  echo 'PRIVATE_REPO=https://github.com/data-literacy-alliance/dalia-private-config.git' > .syncrc"; \
 		exit 1; \
 	}
 	rm -rf $(PRIVATE_TMP)
-	git clone --depth 1 $(PRIVATE_REPO) $(PRIVATE_TMP)
-	mkdir -p $(PRIVATE_TMP)/overlay/traefik $(PRIVATE_TMP)/backups
-	rsync -a $(CURDIR)/.env          $(PRIVATE_TMP)/overlay/
-	rsync -a $(CURDIR)/hosts         $(PRIVATE_TMP)/overlay/
-	rsync -a $(CURDIR)/traefik/      $(PRIVATE_TMP)/overlay/traefik/
-	@[ -f $(CURDIR)/host-trigger.py ] && \
-		rsync -a $(CURDIR)/host-trigger.py $(PRIVATE_TMP)/overlay/ || true
-	@[ -f $(CURDIR)/podman-compose.tunnel.yml ] && \
-		rsync -a $(CURDIR)/podman-compose.tunnel.yml $(PRIVATE_TMP)/overlay/ || true
-	@[ -f $(CURDIR)/traefik-compose.yml ] && \
-		rsync -a $(CURDIR)/traefik-compose.yml $(PRIVATE_TMP)/overlay/ || true
-	@[ -f $(CURDIR)/traefik-start.sh ] && \
-		rsync -a $(CURDIR)/traefik-start.sh $(PRIVATE_TMP)/overlay/ || true
-	@[ -f $(CURDIR)/traefik-stop.sh ] && \
-		rsync -a $(CURDIR)/traefik-stop.sh $(PRIVATE_TMP)/overlay/ || true
-	@[ -f $(CURDIR)/docs/deployment.md ] && \
-		rsync -a $(CURDIR)/docs/deployment.md $(PRIVATE_TMP)/DEPLOYMENT.md || true
-	@[ -f $(CURDIR)/docs/private-repo-readme.md ] && \
-		rsync -a $(CURDIR)/docs/private-repo-readme.md $(PRIVATE_TMP)/README.md || true
-	@[ -d $(CURDIR)/backups ] && \
-		rsync -a $(CURDIR)/backups/ $(PRIVATE_TMP)/backups/ || true
+	git clone --filter=blob:none $(PRIVATE_REPO) $(PRIVATE_TMP)
+	@if [ -f $(PRIVATE_SYNC_FILE) ] && [ "$(FORCE)" != "1" ]; then \
+		changed=$$(git -C $(PRIVATE_TMP) log --format='  %h %an: %s' "$$(cat $(PRIVATE_SYNC_FILE))..HEAD" -- overlay); \
+		if [ -n "$$changed" ]; then \
+			echo "ERROR: shared overlay/ was changed in the private repo since this host last synced:"; \
+			echo "$$changed"; \
+			echo "  Pull them first with 'make setup-private', or overwrite with 'make push-private FORCE=1'."; \
+			rm -rf $(PRIVATE_TMP); \
+			exit 1; \
+		fi; \
+	fi
+	mkdir -p $(PRIVATE_TMP)/overlay/traefik $(PRIVATE_HOST_DIR)/overlay $(PRIVATE_HOST_DIR)/backups
+	rsync -a --exclude=.env $(CURDIR)/traefik/ $(PRIVATE_TMP)/overlay/traefik/
+	@for f in host-trigger.py traefik-compose.yml traefik-start.sh traefik-stop.sh; do \
+		[ ! -f $(CURDIR)/$$f ] || rsync -a $(CURDIR)/$$f $(PRIVATE_TMP)/overlay/; \
+	done
+	rsync -a $(CURDIR)/.env  $(PRIVATE_HOST_DIR)/overlay/
+	rsync -a $(CURDIR)/hosts $(PRIVATE_HOST_DIR)/overlay/
+	@[ -z "$(TRAEFIK_ENV_REL)" ] || ( cd $(CURDIR) && rsync -aR $(TRAEFIK_ENV_REL) $(PRIVATE_HOST_DIR)/overlay/ )
+	@[ ! -f $(CURDIR)/podman-compose.tunnel.yml ] || \
+		rsync -a $(CURDIR)/podman-compose.tunnel.yml $(PRIVATE_HOST_DIR)/overlay/
+	@[ ! -d $(CURDIR)/backups ] || rsync -a $(CURDIR)/backups/ $(PRIVATE_HOST_DIR)/backups/
+	@[ ! -f $(CURDIR)/docs/deployment.md ] || \
+		rsync -a $(CURDIR)/docs/deployment.md $(PRIVATE_TMP)/DEPLOYMENT.md
+	@[ ! -f $(CURDIR)/docs/private-repo-readme.md ] || \
+		rsync -a $(CURDIR)/docs/private-repo-readme.md $(PRIVATE_TMP)/README.md
 	cd $(PRIVATE_TMP) && git add -A && \
 		( git diff --cached --quiet \
 			&& echo "  Private config unchanged." \
-			|| git commit -m "update: $$(date '+%Y-%m-%d %H:%M')" ) && \
+			|| git commit -m "update ($(PRIVATE_HOST)): $$(date '+%Y-%m-%d %H:%M')" ) && \
 		git push
+	git -C $(PRIVATE_TMP) rev-parse HEAD > $(PRIVATE_SYNC_FILE)
 	rm -rf $(PRIVATE_TMP)
-	@echo "Private config pushed."
+	@echo "Private config pushed (shared overlay + hosts/$(PRIVATE_HOST))."
 
 # ============================================================
 # Project Customization

@@ -107,6 +107,9 @@ podman-compose build --no-cache
 # ── 7. Start Traefik first ────────────────────────────────────────
 echo ""
 echo "==> [7/11] Starting Traefik (creates daliaproject_proxy-net network) ..."
+# Traefik reads routes through the podman socket; lingering keeps it alive after logout/reboot.
+sudo loginctl enable-linger "$(id -un)" || echo "  WARNING: could not enable lingering"
+systemctl --user enable --now podman.socket || echo "  WARNING: could not enable podman.socket"
 bash traefik-start.sh
 
 # ── 8. Start app containers ──────────────────────────────────────

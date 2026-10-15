@@ -109,11 +109,19 @@ else
 fi
 
 SOCKET_PATH="/run/user/$ACTUAL_UID/podman/podman.sock"
-if [ -S "$SOCKET_PATH" ]; then
-    ok "Podman socket exists: $SOCKET_PATH"
+if [ -d "$SOCKET_PATH" ]; then
+    fail "Socket path is a DIRECTORY (podman-compose created it when socket was missing)" \
+         "Run: rm -rf $SOCKET_PATH && systemctl --user start podman.socket && bash $INSTALL_DIR/traefik-start.sh"
+elif [ -S "$SOCKET_PATH" ]; then
+    if podman --remote info >/dev/null 2>&1; then
+        ok "Podman socket exists and is responding: $SOCKET_PATH"
+    else
+        fail "Podman socket file exists but is NOT responding (stale socket from crashed session)" \
+             "Run: rm $SOCKET_PATH && systemctl --user start podman.socket && bash $INSTALL_DIR/traefik-start.sh"
+    fi
 else
-    warn "Podman socket not found at $SOCKET_PATH (may still be bound by podman-compose)" \
-         "Run: systemctl --user start podman.socket  OR accept that podman-compose binds it directly"
+    warn "Podman socket not found at $SOCKET_PATH" \
+         "Run: systemctl --user start podman.socket"
 fi
 
 # =============================================================================

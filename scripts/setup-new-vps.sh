@@ -145,7 +145,10 @@ echo ""
 echo "==> [3/13] Cloning public repo → $INSTALL_DIR ..."
 if [ -d "$INSTALL_DIR/.git" ]; then
     echo "  Directory already a git repo — pulling latest changes."
-    git -C "$INSTALL_DIR" pull --ff-only
+    git -C "$INSTALL_DIR" pull --ff-only || {
+        echo "  WARNING: git pull failed (local changes?) — continuing with the existing code."
+        echo "           Check later with: git -C $INSTALL_DIR status"
+    }
 elif [ -d "$INSTALL_DIR" ] && [ "$(ls -A "$INSTALL_DIR")" ]; then
     echo "  Non-empty directory already exists — assuming repo already cloned."
 else
@@ -161,8 +164,15 @@ cd "$INSTALL_DIR"
 echo ""
 echo "==> [4/13] Restoring private config overlay ..."
 if [ -d "/tmp/dalia-private-config/overlay" ]; then
-    echo "  Found /tmp/dalia-private-config/overlay — applying without git clone ..."
+    HOST_OVERLAY="/tmp/dalia-private-config/hosts/$(hostname -s)/overlay"
+    echo "  Found /tmp/dalia-private-config — applying shared overlay + hosts/$(hostname -s) ..."
     rsync -a /tmp/dalia-private-config/overlay/ ./
+    if [ -d "$HOST_OVERLAY" ]; then
+        rsync -a "$HOST_OVERLAY/" ./
+    else
+        echo "  WARNING: no hosts/$(hostname -s)/ in the private repo — host-specific files"
+        echo "           (.env files, hosts) not applied; existing ones in $INSTALL_DIR are kept."
+    fi
     rm -rf /tmp/dalia-private-config
     echo "  OK — overlay applied from /tmp"
 elif [ -f ".env" ] && [ -d "traefik" ] && [ -f "traefik-compose.yml" ] && [ -f "traefik-start.sh" ]; then
@@ -170,7 +180,7 @@ elif [ -f ".env" ] && [ -d "traefik" ] && [ -f "traefik-compose.yml" ] && [ -f "
 else
     echo ""
     echo "ERROR: Private config missing. Before running this script either:"
-    echo "  - Populate /tmp/dalia-private-config/overlay/ with the private repo overlay"
+    echo "  - Clone the whole private repo (overlay/ + hosts/) to /tmp/dalia-private-config"
     echo "  - Or ensure .env, traefik/, traefik-compose.yml, traefik-start.sh"
     echo "    are already in $INSTALL_DIR/"
     exit 1
@@ -226,6 +236,9 @@ podman-compose build --no-cache
 # "network daliaproject_proxy-net not found".
 echo ""
 echo "==> [9/13] Starting Traefik (creates daliaproject_proxy-net network) ..."
+# Traefik reads routes through the podman socket; lingering keeps it alive after logout/reboot.
+sudo loginctl enable-linger "$(id -un)" || echo "  WARNING: could not enable lingering"
+systemctl --user enable --now podman.socket || echo "  WARNING: could not enable podman.socket"
 bash traefik-start.sh
 
 # ── 10. Start app containers ─────────────────────────────────────
