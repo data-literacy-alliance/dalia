@@ -38,7 +38,7 @@ services:
     labels:
       - "traefik.http.middlewares.maintenance-fallback.errors.status=500-599,404,400-403"
       - "traefik.http.middlewares.maintenance-fallback.errors.service=maintenance-service"
-      - "traefik.http.middlewares.maintenance-fallback.errors.query=HostRegexp(`^dalia-.*$`)"
+      - "traefik.http.middlewares.maintenance-fallback.errors.query=HostRegexp(`^dalia.*$`)"
 
   maintenance-server:
     image: docker.io/library/nginx:alpine
