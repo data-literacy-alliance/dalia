@@ -1,0 +1,22 @@
+{% load static %}<link href="{% static 'website/css/plugins/notices.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'website/css/plugins/breadcrumbs.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'website/css/plugins/external_links.css' %}" type="text/css" rel="stylesheet">
+{% if legal %}<link href="{% static 'website/css/plugins/form-styles.css' %}" type="text/css" rel="stylesheet">
+{% endif %}<link href="{% static 'website/css/plugins/image-captions.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'website/css/plugins/langswitcher.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'website/css/plugins/simplesearch.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'website/css/plugins/prism.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'website/css/plugins/prism-one-light.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'website/css/plugins/login.css' %}" type="text/css" rel="stylesheet">
+{% if legal %}<link href="{% static 'website/css-compiled/bootstrap.min.css' %}" type="text/css" rel="stylesheet">
+{% else %}<link href="{% static 'website/css/bootstrap-4.5.2.min.css' %}" type="text/css" rel="stylesheet">
+{% endif %}<link href="{% static 'website/css/worksans.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'website/vendor/fontawesome-5.15.4/css/all.min.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'website/css/custom.css' %}" type="text/css" rel="stylesheet">
+{% if not legal %}<link href="{% static 'website/css/plugins/form-styles.css' %}" type="text/css" rel="stylesheet">
+{% endif %}<script src="{% static 'website/js/anchor.min.js' %}"></script>
+<script src="{% static 'website/js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'website/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'website/js/header.js' %}"></script>
+{% if legal %}<script src="{% static 'website/js/main.js' %}"></script>
+{% endif %}<script src="{% static 'website/js/site.js' %}"></script>

@@ -1,0 +1,86 @@
+{% extends "website/base_site.html" %}
+{% load website_tags %}
+{% block content %}
+    <div class="container">
+        <div class="pt-10 pb-5 border-bottom">
+            <div class="col-md-12 px-0 pt-10-mobile">
+                <div class="row d-flex">
+                    <p class="mt-25">
+                        <i class="mr-1">{% icon_arrow width=13 height=12 rotate=180 %}</i><a class="light" href="{% if page.parent %}{{ page.parent.get_public_path|iriencode }}{% else %}/{{ lang }}{% endif %}">{{ S.back }}</a>
+                    </p>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-md-7 pr-5 px-0">
+                    <p class="m-0">{{ page.category|catname:lang }}</p>
+                    <h1 class="mt-0 sixty-width">{{ page.title }}</h1>
+                    {% if page.is_past %}<p class="m-0 white-bg-box">{{ S.past_event }}</p>{% endif %}
+                </div>
+                <div class="col-md-5 px-0">
+                    <h3 class="mt-4 mb-1">{{ page.location }}</h3>
+                    <h3 class="mb-1">{{ page.display_date }}</h3>
+                    <h3 class="mb-1">{{ page.time_text }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="py-5 border-bottom">
+            <div class="row">
+                <div class="col-md-7 px-0">
+{% if page.content_html %}
+                    <h6></h6>
+                    <p class="w-75 mt-2"></p>{{ page.content_html|safe }}<p></p>
+{% endif %}
+{% for block in blocks.section %}
+                    <h6>{{ block.label }}</h6>
+                    <p class="w-75 mt-2"></p>{{ block.body_html|safe }}<p></p>
+{% endfor %}
+                </div>
+
+                <div class="flex flex-column col-md-5 px-0">
+{% if page.cover_image %}
+                    <div class="width-50">
+                        <img class="width-100" src="{{ page.cover_image.image.url }}" alt="{{ page.cover_image|alt:lang }}">
+                    </div>
+{% endif %}
+{% if page.address %}
+                    <div class="width-50 mt-4">
+                        <h6>{{ S.address }}</h6>
+{% for line in page.address.splitlines %}{% if line.strip %}
+                        <p class="{% if forloop.first %}mt-2 mb-0{% else %}m-0{% endif %}">{{ line.strip }}</p>
+{% endif %}{% endfor %}
+                    </div>
+{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% if blocks.agenda %}
+    <div class="container">
+        <div class="py-5 border-bottom">
+            <div class="row">
+                <div class="col-md-7 px-0">
+                    <h3>{{ S.agenda }}</h3>
+                    <p class="w-75"></p>
+                    <ul class="pl-4">
+{% for item in blocks.agenda %}
+                        <li>
+                            <strong>{{ item.label }}:</strong> {{ item.title }}
+{% if item.body_md.strip %}
+                            <ul class="schedule-list">
+{% for line in item.body_md.splitlines %}{% if line.strip %}
+                                <li><p>{{ line.strip }}</p></li>
+{% endif %}{% endfor %}
+                            </ul>
+{% endif %}
+                        </li>
+{% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

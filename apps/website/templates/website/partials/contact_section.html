@@ -1,0 +1,80 @@
+<section id="contact-section" class="bordered-content no-top-border">
+    <div class="container">
+        <div class="row">
+            <!-- Left Column (6 col) -->
+            <div class="col-md-6 py-10 no-padding-bottom-mobile">
+                <div class="content">
+                    <h4>{{ S.contact_heading_small }}</h4>
+                    <h2>{{ S.contact_heading }}</h2>
+                    <p class="sixty-width">{{ S.contact_intro }}</p>
+                </div>
+            </div>
+            <div class="col-md-6 py-10 pleft-8 no-padding-mobile">
+                {% if contact_sent %}<div class="alert alert-success" role="status">{{ S.contact_success }}</div>{% endif %}
+                {% if contact_form.non_field_errors %}<div class="alert alert-danger" role="alert">{% for error in contact_form.non_field_errors %}<p class="mb-0">{{ error }}</p>{% endfor %}</div>{% endif %}
+                <form name="{{ contact_form_id }}" action="{{ page.get_public_path }}" method="POST" id="{{ contact_form_id }}">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <div class="form-label-wrapper"><label class="form-label" for="{{ contact_form_id }}-firstname">{{ S.contact_firstname }} <span class="required">*</span></label></div>
+                            <div class="form-data">
+                                <div class="form-input-wrapper">
+                                    <input id="{{ contact_form_id }}-firstname" name="firstname" value="{{ contact_form.firstname.value|default_if_none:'' }}" type="text" maxlength="100" class="form-input form-control" placeholder="{{ S.contact_firstname_placeholder }}" required="required"{% if contact_form.firstname.errors %} aria-invalid="true" aria-describedby="{{ contact_form_id }}-firstname-errors"{% endif %}>
+                                    {% if contact_form.firstname.errors %}<ul class="errorlist" id="{{ contact_form_id }}-firstname-errors">{% for error in contact_form.firstname.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="form-label-wrapper"><label class="form-label" for="{{ contact_form_id }}-lastname">{{ S.contact_lastname }} <span class="required">*</span></label></div>
+                            <div class="form-data">
+                                <div class="form-input-wrapper">
+                                    <input id="{{ contact_form_id }}-lastname" name="lastname" value="{{ contact_form.lastname.value|default_if_none:'' }}" type="text" maxlength="100" class="form-input form-control" placeholder="{{ S.contact_lastname_placeholder }}" required="required"{% if contact_form.lastname.errors %} aria-invalid="true" aria-describedby="{{ contact_form_id }}-lastname-errors"{% endif %}>
+                                    {% if contact_form.lastname.errors %}<ul class="errorlist" id="{{ contact_form_id }}-lastname-errors">{% for error in contact_form.lastname.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="form-label-wrapper"><label class="form-label" for="{{ contact_form_id }}-email">{{ S.contact_email }} <span class="required">*</span></label></div>
+                            <div class="form-data">
+                                <div class="form-input-wrapper">
+                                    <input id="{{ contact_form_id }}-email" name="email" value="{{ contact_form.email.value|default_if_none:'' }}" type="email" maxlength="254" class="form-input form-control" placeholder="{{ S.contact_email_placeholder }}" required="required"{% if contact_form.email.errors %} aria-invalid="true" aria-describedby="{{ contact_form_id }}-email-errors"{% endif %}>
+                                    {% if contact_form.email.errors %}<ul class="errorlist" id="{{ contact_form_id }}-email-errors">{% for error in contact_form.email.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="form-label-wrapper"><label class="form-label" for="{{ contact_form_id }}-title">{{ S.contact_title }} <span class="required">*</span></label></div>
+                            <div class="form-data">
+                                <div class="form-select-wrapper">
+                                    <select id="{{ contact_form_id }}-title" name="title" class="form-select form-control" required="required"{% if contact_form.title.errors %} aria-invalid="true" aria-describedby="{{ contact_form_id }}-title-errors"{% endif %}>
+                                        <option value="" disabled{% if not contact_form.title.value %} selected{% endif %}>{{ S.contact_title_select }}</option>
+                                        {% for value, label in contact_form.title_choices %}<option value="{{ value }}"{% if contact_form.title.value == value %} selected{% endif %}>{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {% if contact_form.title.errors %}<ul class="errorlist" id="{{ contact_form_id }}-title-errors">{% for error in contact_form.title.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-textfield form-group">
+                            <div class="form-label-wrapper"><label class="form-label" for="{{ contact_form_id }}-message">{{ S.contact_message }} <span class="required">*</span></label></div>
+                            <div class="form-data">
+                                <div class="form-textarea-wrapper">
+                                    <textarea id="{{ contact_form_id }}-message" name="message" maxlength="5000" class="form-input form-control" placeholder="{{ S.contact_message_placeholder }}" required="required"{% if contact_form.message.errors %} aria-invalid="true" aria-describedby="{{ contact_form_id }}-message-errors"{% endif %}>{{ contact_form.message.value|default_if_none:'' }}</textarea>
+                                    {% if contact_form.message.errors %}<ul class="errorlist" id="{{ contact_form_id }}-message-errors">{% for error in contact_form.message.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sr-only" aria-hidden="true">
+                            <label for="{{ contact_form_id }}-website-url">Website</label>
+                            <input id="{{ contact_form_id }}-website-url" name="website_url" type="text" value="" tabindex="-1" autocomplete="off">
+                        </div>
+                        <input type="hidden" name="ts" value="{{ contact_form.ts_value }}">
+                    </div>
+                    <div class="button-wrapper">
+                        <button type="submit" class="btn btn btn-primary full-width-mobile{% if not contact_enabled %} disabled{% endif %}"{% if not contact_enabled %} disabled aria-disabled="true" title="{{ S.contact_unavailable }}"{% endif %}>{{ S.contact_submit }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

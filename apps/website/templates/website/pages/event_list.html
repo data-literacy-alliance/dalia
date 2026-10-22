@@ -1,0 +1,50 @@
+{% extends "website/base_site.html" %}
+{% load website_tags %}
+{% block content %}
+<section id="events-section">
+    <div class="container bordered-content no-padding-mobile">
+        <div class="py-10">
+            <div class="heading border-bottom-mobile pb-10-mobile pt-10-mobile padding-mobile">
+                <h1 class="feature-heading full-width">{{ page.title }}</h1>
+            </div>
+            <div class="single-event-heading border-bottom mt-4 mobile-hide">
+                <div class="row">
+                    <div class="col-md-3 pl-0">
+                        <p>{{ S.event }}</p>
+                    </div>
+                    <div class="col-md-2">
+                        <p>{{ S.time_location }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p>{{ S.details }}</p>
+                    </div>
+                    <div class="col-md-3 d-flex justify-content-end">
+                    </div>
+                </div>
+            </div>
+{% for child in children %}
+            <div class="single-event border-bottom padding-mobile-2">
+                <div class="row">
+                    <div class="col-md-3 pl-0 mt-n1">
+                        <p class="m-0">{{ child.category|catname:lang }}</p>
+                        <h3 class="mt-1-mobile mb-1-mobile">{{ child.title|truncatechars:80 }}</h3>
+                        {% if child.is_past %}<p class="m-0 white-bg-box">{{ S.past_event }}</p>{% endif %}
+                    </div>
+                    <div class="col-md-2 no-padding-mobile mt-2-mobile">
+                        <p class="m-0">{{ child.display_date }}</p>
+                        <p class="m-0">{{ child.time_text }}</p>
+                        <p class="m-0">{{ child.location }}</p>
+                    </div>
+                    <div class="col-md-4 no-padding-mobile mt-2-mobile">
+                        <p class="m-0">{% if child.summary %}{{ child.summary }}{% else %}{{ child.content_html|plain_text|truncatechars:80 }}{% endif %}</p>
+                    </div>
+                    <div class="col-md-3 d-flex justify-content-md-end align-items-center pr-0 pl-0 justify-content-sm-start mt-2-mobile">
+                        <button class="btn btn-primary height-50 mobile-button" type="button"{% if child.category %} style="background-color: {{ child.category.color }}"{% endif %}><a class="buttonlink" href="{{ child.get_public_path|iriencode }}">{{ S.event_page }} {% icon_arrow width=16 height=14 fill="white" %}</a></button>
+                    </div>
+                </div>
+            </div>
+{% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

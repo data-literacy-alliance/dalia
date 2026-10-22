@@ -3,7 +3,8 @@
         check-migrations git-add git-commit list-migrations init-env \
         dbrestore deploy rollback up-tunnel down-tunnel redis-cli flush-cache rename-project setup-private push-private \
         reset-db up-all autostart-status autostart-enable autostart-disable autostart-update \
-        convert-privacy-policy regenerate-lockfile
+        regenerate-lockfile secrets-check secrets-setup secrets-list secrets-add secrets-edit \
+        secrets-remove secrets-show secrets-export secrets-import
 
 # Default target
 .DEFAULT_GOAL := help
@@ -72,10 +73,50 @@ autostart-update: ## Update autostart path (run after moving or renaming the pro
 	@$(MAKE) autostart-enable
 
 # ============================================================
+# Podman secrets
+# ============================================================
+
+SECRET_NAMES := dalia20_secret_key dalia20_email_fernet_key
+
+secrets-check: ## Verify required podman secrets exist
+	@for n in $(SECRET_NAMES); do \
+		podman secret inspect $$n >/dev/null 2>&1 || { echo "ERROR: podman secret $$n missing — run 'make secrets-setup'"; exit 1; }; \
+	done
+
+secrets-setup: ## Create all podman secrets interactively
+	@bash scripts/secrets.sh setup
+
+secrets-list: ## List podman secrets and their status
+	@bash scripts/secrets.sh list
+
+secrets-add: ## Add one podman secret (NAME=dalia20_secret_key)
+	@test -n "$(NAME)" || { echo "Usage: make secrets-add NAME=<secret_name>"; exit 1; }
+	@bash scripts/secrets.sh add $(NAME)
+
+secrets-edit: ## Replace one podman secret (NAME=dalia20_secret_key)
+	@test -n "$(NAME)" || { echo "Usage: make secrets-edit NAME=<secret_name>"; exit 1; }
+	@bash scripts/secrets.sh edit $(NAME)
+
+secrets-remove: ## Remove one podman secret (NAME=dalia20_secret_key)
+	@test -n "$(NAME)" || { echo "Usage: make secrets-remove NAME=<secret_name>"; exit 1; }
+	@bash scripts/secrets.sh remove $(NAME)
+
+secrets-show: ## Print one podman secret value (NAME=dalia20_secret_key)
+	@test -n "$(NAME)" || { echo "Usage: make secrets-show NAME=<secret_name>"; exit 1; }
+	@bash scripts/secrets.sh show $(NAME)
+
+secrets-export: ## Dump all podman secrets as KEY=VALUE (plaintext)
+	@bash scripts/secrets.sh export
+
+secrets-import: ## Import podman secrets from a KEY=VALUE file (FILE=path)
+	@test -n "$(FILE)" || { echo "Usage: make secrets-import FILE=<path>"; exit 1; }
+	@bash scripts/secrets.sh import $(FILE)
+
+# ============================================================
 # Container Management
 # ============================================================
 
-up-all: ## Start Traefik + all dalia20 containers (use for manual full startup)
+up-all: secrets-check ## Start Traefik + all dalia20 containers (use for manual full startup)
 	@echo "Starting Traefik..."
 	@bash $(CURDIR)/traefik-start.sh
 	@echo "Starting dalia20 containers..."
@@ -102,14 +143,14 @@ regenerate-lockfile: ## Regenerate frontend pnpm-lock.yaml (run after adding/rem
 		docker.io/library/node:22-alpine \
 		sh -c "npm install -g pnpm@latest --silent 2>/dev/null && pnpm install --ignore-scripts 2>&1 | tail -5"
 
-up: init-env ## Start all containers (detached)
+up: secrets-check init-env ## Start all containers (detached)
 	podman-compose up -d
 	@echo "Containers started. Access at http://localhost:8000"
 
 down: ## Stop and remove all containers
 	podman-compose down
 
-up-tunnel: init-env ## Start all containers including Cloudflare tunnel (requires CF_TUNNEL_TOKEN in .env)
+up-tunnel: secrets-check init-env ## Start all containers including Cloudflare tunnel (requires CF_TUNNEL_TOKEN in .env)
 	@test -f .env || (echo "ERROR: .env not found. Run 'make up' first or copy .env.example"; exit 1)
 	@CF_TOKEN=$$(grep -s '^CF_TUNNEL_TOKEN=' .env | cut -d= -f2 | tr -d '[:space:]'); \
 	if [ -z "$$CF_TOKEN" ]; then \
@@ -183,10 +224,10 @@ list-migrations: ## List migration files (rootless Podman)
 # ============================================================
 
 test: check-migrations ## Run tests (checks migrations first)
-	podman exec $(TTY) $(WEB_CONTAINER) pytest
+	podman exec $(TTY) -e DJANGO_SETTINGS_MODULE=config.settings.testing $(WEB_CONTAINER) pytest
 
 test-cov: ## Run tests with coverage report
-	podman exec $(TTY) $(WEB_CONTAINER) pytest --cov=apps --cov-report=term-missing --cov-report=html
+	podman exec $(TTY) -e DJANGO_SETTINGS_MODULE=config.settings.testing $(WEB_CONTAINER) pytest --cov=apps --cov-report=term-missing --cov-report=html
 
 lint: ## Run code quality checks (ruff)
 	podman exec $(TTY) $(WEB_CONTAINER) ruff check --no-cache apps/ config/
@@ -274,13 +315,6 @@ rollback: ## Rollback last deployment
 	@echo "Steps: 1) git checkout <previous-commit> 2) make dbrestore BACKUP=<backup-file> 3) make deploy"
 
 # ============================================================
-# Content Management
-# ============================================================
-
-convert-privacy-policy: ## Convert privacy policy DOCX → Markdown (uses pandoc/core container)
-	@bash $(CURDIR)/scripts/convert-privacy-policy.sh
-
-# ============================================================
 # Cleanup
 # ============================================================
 
@@ -357,6 +391,7 @@ push-private: ## Backup private config: shared files to overlay/, this host's fi
 		[ ! -f $(CURDIR)/$$f ] || rsync -a $(CURDIR)/$$f $(PRIVATE_TMP)/overlay/; \
 	done
 	rsync -a $(CURDIR)/.env  $(PRIVATE_HOST_DIR)/overlay/
+	@[ ! -f $(CURDIR)/.env.example ] || rsync -a $(CURDIR)/.env.example $(PRIVATE_HOST_DIR)/overlay/
 	rsync -a $(CURDIR)/hosts $(PRIVATE_HOST_DIR)/overlay/
 	@[ -z "$(TRAEFIK_ENV_REL)" ] || ( cd $(CURDIR) && rsync -aR $(TRAEFIK_ENV_REL) $(PRIVATE_HOST_DIR)/overlay/ )
 	@[ ! -f $(CURDIR)/podman-compose.tunnel.yml ] || \

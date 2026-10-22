@@ -3,7 +3,14 @@ Production settings for ICZ.
 This is the primary and default settings file.
 """
 
+from django.core.exceptions import ImproperlyConfigured
+
 from .base import *  # noqa: F403, F405
+
+if not SECRET_KEY or SECRET_KEY.startswith("change-me") or len(SECRET_KEY) < 50:  # noqa: F405
+    raise ImproperlyConfigured(
+        "SECRET_KEY is missing, a placeholder or shorter than 50 characters. Run 'make secrets-setup'."
+    )
 
 # Database
 DATABASES = {

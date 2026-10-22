@@ -1,0 +1,10 @@
+{% extends "website/base_legal.html" %}
+{% block content %}
+    <div class="border-bottom border-bottom-mobile p-md-5 padding-mobile-2 border-left imprint-margin">
+        <h1 class="mt-0">{{ page.title }}</h1>
+    </div>
+
+    <div id="privacy_text" class="p-md-5 padding-mobile-2 border-bottom border-left">
+        <p class="mt-2"></p>{{ page.content_html|safe }}<p></p>
+    </div>
+{% endblock %}

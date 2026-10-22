@@ -110,7 +110,7 @@ echo "============================================================"
 echo ""
 
 # ── 1. Verify transfer files are present ─────────────────────────
-echo "==> [1/13] Checking transfer files ..."
+echo "==> [1/14] Checking transfer files ..."
 MISSING=0
 for f in "$TRANSFER_DIR/fuseki-data.tar.gz" "$TRANSFER_DIR/media.tar.gz"; do
     if [ ! -f "$f" ]; then
@@ -136,13 +136,13 @@ echo "  OK — fuseki-data.tar.gz, media.tar.gz, $(basename "$SQL_FILE")"
 
 # ── 2. Required system path for admin-server container ───────────
 echo ""
-echo "==> [2/13] Creating /opt/container-status (required by traefik admin-server) ..."
+echo "==> [2/14] Creating /opt/container-status (required by traefik admin-server) ..."
 sudo mkdir -p /opt/container-status
 echo "  OK"
 
 # ── 3. Clone public repo ──────────────────────────────────────────
 echo ""
-echo "==> [3/13] Cloning public repo → $INSTALL_DIR ..."
+echo "==> [3/14] Cloning public repo → $INSTALL_DIR ..."
 if [ -d "$INSTALL_DIR/.git" ]; then
     echo "  Directory already a git repo — pulling latest changes."
     git -C "$INSTALL_DIR" pull --ff-only || {
@@ -162,7 +162,7 @@ cd "$INSTALL_DIR"
 #   2. Files already present in INSTALL_DIR → nothing to do
 #   3. Neither → error (copy overlay to /tmp/dalia-private-config/overlay first)
 echo ""
-echo "==> [4/13] Restoring private config overlay ..."
+echo "==> [4/14] Restoring private config overlay ..."
 if [ -d "/tmp/dalia-private-config/overlay" ]; then
     HOST_OVERLAY="/tmp/dalia-private-config/hosts/$(hostname -s)/overlay"
     echo "  Found /tmp/dalia-private-config — applying shared overlay + hosts/$(hostname -s) ..."
@@ -191,7 +191,7 @@ fi
 # This must match the UID of the user running podman on this VPS.
 TRAEFIK_ENV=$(find traefik/ -name ".env" 2>/dev/null | head -1)
 echo ""
-echo "==> [5/13] Setting HOSTUID=$(id -u) in traefik .env ..."
+echo "==> [5/14] Setting HOSTUID=$(id -u) in traefik .env ..."
 if grep -q "^HOSTUID=" "$TRAEFIK_ENV" 2>/dev/null; then
     sed -i "s/^HOSTUID=.*/HOSTUID=$(id -u)/" "$TRAEFIK_ENV"
 else
@@ -205,14 +205,14 @@ echo "  OK — HOSTUID=$(id -u)"
 # ownership inside the Podman user namespace. Without podman unshare the Fuseki
 # container cannot read its own data and will start with an empty database.
 echo ""
-echo "==> [6/13] Restoring Fuseki RDF data (container-owned files — using podman unshare) ..."
+echo "==> [6/14] Restoring Fuseki RDF data (container-owned files — using podman unshare) ..."
 mkdir -p data
 podman unshare tar -xzf "$TRANSFER_DIR/fuseki-data.tar.gz" -C data/
 echo "  OK"
 
 # ── 7. Restore media files ────────────────────────────────────────
 echo ""
-echo "==> [7/13] Restoring media uploads ..."
+echo "==> [7/14] Restoring media uploads ..."
 if [ -d "$INSTALL_DIR/media" ]; then
     echo "  Removing existing media/ (may be container-owned) ..."
     rm -rf "$INSTALL_DIR/media" 2>/dev/null || podman unshare rm -rf "$INSTALL_DIR/media"
@@ -225,9 +225,14 @@ echo "  OK"
 # dalia20-network and if it grabs 10.89.0.0/24 first, traefik-start.sh
 # will fail with "subnet already in use".
 echo ""
-echo "==> [8/13] Pre-creating proxy network then building containers ..."
+echo "==> [8/14] Pre-creating proxy network then building containers ..."
 podman network create --subnet 10.89.0.0/24 daliaproject_proxy-net 2>/dev/null || true
 podman-compose build --no-cache
+
+# ── 9. Podman secrets ───────────────────────────────────────
+echo ""
+echo "==> [9/14] Creating podman secrets (SECRET_KEY, email Fernet key) ..."
+make secrets-setup || echo "  WARNING: secrets setup did not complete — the web container will not start until 'make secrets-setup' is run"
 
 # ── 9. Start Traefik first ────────────────────────────────────────
 # Traefik MUST start before the app containers because it creates the
@@ -235,7 +240,7 @@ podman-compose build --no-cache
 # as external. If app containers start first they will fail with
 # "network daliaproject_proxy-net not found".
 echo ""
-echo "==> [9/13] Starting Traefik (creates daliaproject_proxy-net network) ..."
+echo "==> [10/14] Starting Traefik (creates daliaproject_proxy-net network) ..."
 # Traefik reads routes through the podman socket; lingering keeps it alive after logout/reboot.
 sudo loginctl enable-linger "$(id -un)" || echo "  WARNING: could not enable lingering"
 systemctl --user enable --now podman.socket || echo "  WARNING: could not enable podman.socket"
@@ -243,12 +248,12 @@ bash traefik-start.sh
 
 # ── 10. Start app containers ─────────────────────────────────────
 echo ""
-echo "==> [10/13] Starting app containers ..."
+echo "==> [11/14] Starting app containers ..."
 make up
 
 # ── 11. Wait for web container to be ready ───────────────────────
 echo ""
-echo "==> [11/13] Waiting for dalia20-web to become healthy ..."
+echo "==> [12/14] Waiting for dalia20-web to become healthy ..."
 READY=0
 for i in $(seq 1 30); do
     if podman exec dalia20-web python manage.py check 2>/dev/null | grep -q "System check identified no issues"; then
@@ -267,13 +272,13 @@ fi
 # pg_dump --clean was used, so the restore DROPs existing tables before
 # recreating them. Safe to run even on a freshly migrated database.
 echo ""
-echo "==> [12/13] Restoring PostgreSQL from $(basename "$SQL_FILE") ..."
+echo "==> [13/14] Restoring PostgreSQL from $(basename "$SQL_FILE") ..."
 make dbrestore BACKUP="$SQL_FILE"
 
 # ── 13. Collect static files ─────────────────────────────────────
 # staticfiles/ is not in git (container-owned, rebuilt on each deployment).
 echo ""
-echo "==> [13/13] Collecting static files ..."
+echo "==> [14/14] Collecting static files ..."
 podman exec dalia20-web python manage.py collectstatic --noinput
 
 # ── Summary ───────────────────────────────────────────────────────

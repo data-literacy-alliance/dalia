@@ -1,0 +1,115 @@
+{% load static %}<div id="footer">
+<!-- Footer Section 1 -->
+<footer id="footer-section-1" class="bordered-content no-top-border">
+    <div class="container">
+        <div class="row">
+
+            <!-- Left Column (4 col) -->
+            <div class="col-md-4 px-0 py-4 mt-4 mobile-center footer-spacing-mobile">
+                <img src="{% static 'website/images/assets/Logo_Footer.png' %}" alt="{{ S.footer_logo_alt }}" class="img-fluid footer-logo">
+            </div>
+
+            <!-- Right Column (8 col) -->
+            <div class="col-md-8 border-left">
+
+            </div>
+
+        </div>
+    </div>
+</footer>
+<!-- End of Footer Section 1 -->
+
+<!-- Footer Section 2 -->
+<footer id="footer-section-2" class="bordered-content no-top-border">
+    <div class="container no-padding-mobile">
+        <div class="row">
+
+            <!-- Left Column (4 col) -->
+            <div class="col-md-4 px-0">
+                <!-- Section 1 -->
+                <div class="pright-5 py-5 my-3 padding-mobile">
+                    <h3>{{ S.footer_newsletter_heading }}</h3>
+                    <p>{{ S.footer_newsletter_text }}</p>
+                    <button class="btn btn-primary btn-block mt-4" data-href="https://www.listserv.dfn.de/sympa/info/dalia_newsletter">{{ S.footer_subscribe }}</button>
+                    {% if nav.newsletter_url %}<button class="btn btn-primary btn-block mt-4" data-href="{{ nav.newsletter_url }}">{{ S.footer_view_newsletter }}</button>{% endif %}
+                </div>
+
+                <!-- Section 2 -->
+                <div class="pright-5 py-5 my-3 mobile-hide position-relative">
+                    <div class="absolute-divider"></div>
+                    <h6>{{ S.follow_us }}</h6>
+                    <div class="social-media-icons">
+                        <a href="https://nfdi.social/@dalia">
+                            <i class="fab fa-mastodon mr-2"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@DALIA-edu/playlists">
+                            <i class="fab fa-youtube-square mr-2"></i>
+                        </a>
+                        <a href="https://zenodo.org/communities/dalia/">
+                            <i class="fas fa-users fa-2x mr-2"></i>
+                        </a>
+                        <a href="https://bsky.app/profile/daliaeducation.bsky.social">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="bluesky-icon" viewBox="0 0 576 512"><path fill="currentColor" d="M407.8 294.7c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3zM288 227.1C261.9 176.4 190.9 81.9 124.9 35.3C61.6-9.4 37.5-1.7 21.6 5.5C3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7c3.3-.5 6.6-.9 10-1.4c-3.3 .5-6.6 1-10 1.4C74.3 308.6-9.1 342.8 100.3 464.5C220.6 589.1 265.1 437.8 288 361.1c22.9 76.7 49.2 222.5 185.6 103.4c102.4-103.4 28.1-156-65.8-169.9c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3c64.1 7.1 133.6-15.1 153.2-80.7C566.9 194 576 75 576 58.4s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8C385.1 81.9 314.1 176.4 288 227.1z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column (8 col) -->
+            <div class="col-md-8 d-flex border-left py-5 pleft-5 border-top-mobile padding-mobile">
+                <!-- Column 1 -->
+                <div class="col-md-4 px-0 pr-4">
+                    <h6>{{ S.about_dalia }}</h6>
+                    <p class="footerp"><a href="/{{ lang }}#mission-vision" class="light">{{ S.mission_vision }}</a></p>
+                    {% for wf in nav.work_fields %}<p class="footerp"><a href="{{ wf.nav_url }}" class="light">{{ wf.title }}</a></p>
+                    {% endfor %}
+                    <h6 class="mt-5">{{ S.search_portal }}</h6>
+                    <p class="footerp"><a href="{{ search_portal_url }}basic" class="light">{{ S.basic_search }}</a></p>
+                    <p class="footerp"><a href="{{ search_portal_url }}advanced" class="light">{{ S.advanced_search }}</a></p>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="col-md-5 px-4 mobile-hide">
+                    <h6>{{ S.partners }}</h6>
+                    {% for partner in S.partner_links %}<p class="footerp"><a href="{{ partner.url }}" class="light">{{ partner.name }}</a></p>
+                    {% endfor %}
+                    <h6 class="mt-5">{{ S.funders }}</h6>
+                    <div class="d-flex flex-column">
+                        <a href="https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/home" class="light"><img width="140px;" class="mt-2 img-fluid" src="{% static 'website/images/assets/EN_Funded.png' %}" alt="{{ S.funder_eu_alt }}"></a>
+                        <a href="https://www.bmbf.de/" class="light"><img width="120px;" class="mt-4 img-fluid" src="{% static S.funder_bmftr_image %}" alt="{{ S.funder_bmftr_alt }}"></a>
+                    </div>
+
+                </div>
+
+                <!-- Column 3 -->
+                <div class="col-md-3 px-0 pl-4">
+                    <h6>{{ S.legal }}</h6>
+                    {% for legal_page in nav.legal_pages %}<p class="footerp"><a href="{{ legal_page.nav_url }}" class="light">{{ legal_page.title }}</a></p>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+            <div class="border-top full-width padding-mobile pright-5 py-5 my-3 desktop-hide social-media-icons-flexbox">
+                <h6>{{ S.follow_us }}</h6>
+                <div class="social-media-icons">
+                    <a href="https://nfdi.social/@dalia">
+                            <i class="fab fa-mastodon mr-2"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@DALIA-edu/featured">
+                            <i class="fab fa-youtube-square mr-2"></i>
+                        </a>
+                        <a href="https://zenodo.org/communities/dalia/">
+                            <i class="fas fa-users fa-2x mr-2"></i>
+                        </a>
+                        <a href="https://bsky.app/profile/daliaeducation.bsky.social">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="bluesky-icon" viewBox="0 0 576 512"><path fill="currentColor" d="M407.8 294.7c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3zM288 227.1C261.9 176.4 190.9 81.9 124.9 35.3C61.6-9.4 37.5-1.7 21.6 5.5C3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7c3.3-.5 6.6-.9 10-1.4c-3.3 .5-6.6 1-10 1.4C74.3 308.6-9.1 342.8 100.3 464.5C220.6 589.1 265.1 437.8 288 361.1c22.9 76.7 49.2 222.5 185.6 103.4c102.4-103.4 28.1-156-65.8-169.9c-3.3-.4-6.7-.8-10-1.3c3.4 .4 6.7 .9 10 1.3c64.1 7.1 133.6-15.1 153.2-80.7C566.9 194 576 75 576 58.4s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8C385.1 81.9 314.1 176.4 288 227.1z"/></svg>
+                        </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</footer>
+<!-- End of Footer Section 2 -->
+</div>

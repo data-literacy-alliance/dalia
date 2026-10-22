@@ -1,0 +1,143 @@
+{% extends "website/base_site.html" %}
+{% load static website_tags %}
+{% block content %}
+{% with hero=blocks.hero.0 mission=blocks.mission.0 nfdi=blocks.nfdi_intro.0 intro=blocks.partners_intro.0 cards=blocks.link_card partners=blocks.partner_logo funders=blocks.funder_logo %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container">
+        <div class="hero-inner">
+            <div>
+                <h5 class="custom-h5">{{ hero.title }}</h5>
+                <h5 class="quote">{{ hero.body_md }}</h5>
+            </div>
+            <div class="align-self-center width-65 mt-4">
+                <video id="video" controls="controls" muted="muted" class="width-100">
+                    <source src="{{ MEDIA_URL }}website/videos/{% if lang == 'de' %}251008_explainity_dalia_de_4k_v03.mp4{% else %}251014_explainity_dalia_en_4k_v02.mp4{% endif %}">
+                    <track label="English" kind="subtitles" srclang="en" src="{{ MEDIA_URL }}website/videos/251009_Explainity_DALIA_EN_4k_Untertitel_v02.vtt" default />
+                    <track label="Deutsch" kind="subtitles" srclang="de" src="{{ MEDIA_URL }}website/videos/251009_Explainity_DALIA_DE_4k_Untertitel_v01.vtt" />
+                </video>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Hero Section -->
+
+<!-- Feature Section -->
+<section id="features-section" class="py-5 my-5">
+    <div class="container container-features">
+        <div class="feature-heading" id="mission-vision">
+            <h4>{{ mission.label }}</h4>
+            <h1 class="feature-heading full-width">{{ mission.title }}</h1>
+            {% if mission.body_html %}<p class="mt-4 fourty-width text-block"></p>{{ mission.body_html|safe }}<p></p>{% endif %}
+        </div>
+
+        <!-- Feature Boxes -->
+        <div class="m-50"><h4>{{ S.working_fields }}</h4></div>
+        <div class="feature-boxes mt-4 h-100">
+            {% for wf in nav.work_fields %}
+            <!-- Feature Box {{ forloop.counter }} -->
+            <div class="feature-box border">
+                <div class="text-left p-4">
+                    <a href="{{ wf.nav_url }}">
+                        <div>{% work_field_icon wf %}</div>
+
+                        <h3>{{ wf.title }}</h3>
+                        <p class="mobile-hide">{{ wf.summary }}</p>
+                    </a>
+                    <a href="{{ wf.nav_url }}" class="read-more-link desktop-hide">{{ S.keep_reading }} <i class="ml-1">{% icon_arrow 14 12 0 "#000050" %}</i></a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- NFDI Section -->
+<section id="nfdi-section" class="bordered-content">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-8 py-10">
+                <div class="content sixty-width">
+                    <h4>{{ nfdi.label }}</h4>
+                    <h2>{{ nfdi.title }}</h2>
+                    {% if nfdi.body_html %}<p class="text-block"></p>{{ nfdi.body_html|safe }}<p></p>{% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-4 border-left d-flex flex-column justify-content-center pl-5 py-10">
+                <h4>{{ S.nfdi_resources }}</h4>
+                {% for card in cards %}
+                <div class="feature-box border{% if not forloop.last %} mb-2{% endif %} full-width">
+                    <div class="text-left p-4">
+                        {% if card.image %}<img src="{{ card.image.image.url }}" alt="{{ card.image|alt:lang }}" class="icon-spacing-2">{% elif forloop.counter == 1 %}<img src="{% static 'website/images/icons/nfdi-1.svg' %}" alt="" class="icon-spacing-2">{% elif forloop.counter == 2 %}<img src="{% static 'website/images/icons/nfdi-2.svg' %}" alt="" class="icon-spacing-2">{% elif forloop.counter == 3 %}<img src="{% static 'website/images/icons/nfdi-3.svg' %}" alt="" class="icon-spacing-2">{% endif %}
+
+                        <h3>{{ card.title }}</h3>
+                        {% if card.url %}<a href="{{ card.url }}" class="read-more-link">{{ S.more_information }} <i class="ml-1">{% icon_arrow 14 12 0 "#000050" %}</i></a>{% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- NFDI Section -->
+
+<!-- Partner Section -->
+<section id="partner-section" class="bordered-content no-top-border">
+    <div class="container">
+        <div class="row">
+
+            <!-- Left Column (4 col) -->
+            <div class="col-md-4 flex-column pright-5 py-10">
+                <h4>{{ intro.label }}</h4>
+                <h2>{{ intro.title }}</h2>
+                {% if intro.body_html %}<p class="text-block"></p>{{ intro.body_html|safe }}<p></p>{% endif %}
+            </div>
+
+            <!-- Right Column (8 col) -->
+            <div class="col-md-8 py-10 border-left pleft-5 mobile-hide">
+                <h4 class="black">{{ S.our_partners }}</h4>
+                {% for logo in partners %}{% if forloop.counter0|divisibleby:3 %}
+                <div class="{% if forloop.first %}row mb-3{% elif forloop.counter0|add:3 >= partners|length %}row mt-1 d-none d-md-flex{% else %}row mb-3 d-none d-md-flex{% endif %}">{% endif %}
+                    <div class="col-md-4 px-0">
+                        {% if logo.url %}<a href="{{ logo.url }}">{% endif %}{% if logo.image %}<img src="{{ logo.image.image.url }}" alt="{{ logo.image|alt:lang }}" class="{% if logo.label == 'large' %}img-fluid-lg{% else %}img-fluid{% endif %}">{% endif %}{% if logo.url %}</a>{% endif %}
+                    </div>{% if forloop.last %}{% if forloop.counter0|divisibleby:3 %}
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4"></div>{% elif not forloop.counter|divisibleby:3 %}
+                    <div class="col-md-4"></div>{% endif %}{% endif %}{% if forloop.counter|divisibleby:3 or forloop.last %}
+                </div>{% endif %}{% endfor %}
+
+                <h4 class="m-50 black">{{ S.our_funders }}</h4>
+                {% for logo in funders %}{% if forloop.counter0|divisibleby:2 %}
+                <div class="row mb-3">{% endif %}
+                    <div class="col-md-6 px-0">
+                        {% if logo.url %}<a href="{{ logo.url }}">{% endif %}{% if logo.image %}<img src="{{ logo.image.image.url }}" alt="{{ logo.image|alt:lang }}" class="{% if logo.label == 'large' %}img-fluid-lg{% else %}img-fluid{% endif %}">{% endif %}{% if logo.url %}</a>{% endif %}
+                    </div>{% if forloop.counter|divisibleby:2 or forloop.last %}
+                </div>{% endif %}{% endfor %}
+            </div>
+
+            <div class="full-width desktop-hide block">
+                <!-- Mobile adjusted section content here -->
+                <div class="full-width">
+                    <h4 class="black">{{ S.our_partners }}</h4>
+                </div>
+                {% for logo in partners %}{% if forloop.counter0|divisibleby:2 %}
+                <div class="d-flex full-width mt-4">{% endif %}
+                    <div class="half-width px-0 d-flex justify-content-center">
+                        {% if logo.url %}<a href="{{ logo.url }}">{% endif %}{% if logo.image %}<img src="{{ logo.image.image.url }}" alt="{{ logo.image|alt:lang }}" class="img-fluid">{% endif %}{% if logo.url %}</a>{% endif %}
+                    </div>{% if forloop.last and not forloop.counter|divisibleby:2 %}
+                    <div class="half-width px-0 d-flex justify-content-center"></div>{% endif %}{% if forloop.counter|divisibleby:2 or forloop.last %}
+                </div>{% endif %}{% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End of Partner Section -->
+
+<div class="modular-row form">
+{% include "website/partials/contact_section.html" %}
+</div>
+{% endwith %}
+{% endblock %}

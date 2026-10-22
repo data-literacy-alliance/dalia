@@ -39,11 +39,11 @@ def test_resolve_discipline_known_uri():
     assert result == "https://w3id.org/kim/hochschulfaechersystematik/n4"
 
 
-def test_resolve_discipline_unknown_uri_returns_none():
-    """An unrecognised URI returns None."""
-    obj = _Obj(uri="https://example.com/unknown")
+def test_resolve_discipline_sub_discipline_uri_returned():
+    """A URI outside the canonical top-level list (e.g. a sub-discipline) is returned as-is."""
+    obj = _Obj(uri="https://w3id.org/kim/hochschulfaechersystematik/n148")
     result = resolve_facet_value(DISCIPLINE_FACET, obj)
-    assert result is None
+    assert result == "https://w3id.org/kim/hochschulfaechersystematik/n148"
 
 
 def test_resolve_discipline_blank_uri_returns_none():
