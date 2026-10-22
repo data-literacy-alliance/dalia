@@ -1,0 +1,19 @@
+{% load website_tags %}<!-- Mobile Menu -->
+<div class="navbar-nav mobile-version desktop-hide collapse" id="mobileMenu">
+    <div class="d-flex full-width-max">
+        <div class="mobile-version-wrapper full-width">
+            {% for item in nav.items %}{% if item.children %}
+            <a id="mobile-nav-{{ forloop.counter }}" class="border-bottom mobile-link" data-submenu-show="{{ item.submenu_index }}"><h3 class="mobile-menu-heading">{{ item.title }}</h3> {% icon_arrow width=23 height=21 %}</a>
+            <div id="mobileMenu{{ item.submenu_index }}" class="mobile-version-wrapper second full-width bg-white hide">
+                <i class="mr-1">{% icon_arrow width=13 height=12 rotate=180 %}</i><a class="light" href="#" data-submenu-hide="{{ item.submenu_index }}">{{ S.go_back }}</a>
+                {% for child in item.children %}<a class="border-bottom mobile-link" href="{{ child.url }}"><h3 class="mobile-menu-heading">{{ child.title }}</h3></a>
+                {% endfor %}
+            </div>
+            {% else %}
+            <a id="mobile-nav-{{ forloop.counter }}" class="border-bottom mobile-link" href="{{ item.url }}"><h3 class="mobile-menu-heading">{{ item.title }}</h3></a>
+            {% endif %}{% endfor %}
+            {% include "website/partials/langswitcher.html" %}
+        </div>
+    </div>
+</div>
+<!-- Mobile Menu END -->

@@ -1,0 +1,62 @@
+{% load static website_tags %}<nav class="navbar navbar-expand-lg navbar-light bg-light" id="header-container">
+    <div class="container-header">
+
+        <!-- Logo -->
+        <a class="navbar-brand mobile-hide" href="/{{ lang }}">
+            <img class="logo" src="{% static 'website/images/assets/Logo.png' %}" alt="{{ S.logo_alt }}" width="100%">
+        </a>
+
+        <!-- Menu Items -->
+        <div class="navbar-nav mobile-hide">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                {% for item in nav.items %}{% if item.children %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link light dropdown-toggle" href="{{ item.url }}" data-bs-toggle="dropdown" role="button" aria-expanded="false">{{ item.title }}</a>
+                    <ul class="dropdown-menu">
+                        {% for child in item.children %}<li><a class="dropdown-item" href="{{ child.url }}">{{ child.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link light" href="{{ item.url }}">{{ item.title }}</a>
+                </li>
+                {% endif %}{% endfor %}
+            </ul>
+        </div>
+        <div class="divider mobile-hide">
+            {% include "website/partials/langswitcher.html" %}
+            <div class="line"></div>
+            <button class="btn btn-primary"><a class="buttonlink" href="{{ search_portal_url }}">{{ S.searchportal }}</a></button>
+        </div>
+
+        <div class="container-header desktop-hide">
+            <div class="mobile-left-section border-right">
+                <a class="navbar-brand brand-mobile full-width" href="/{{ lang }}">
+                    <img class="logo mt-0" src="{% static 'website/images/assets/Logo_Icon.png' %}" alt="{{ S.logo_alt }}" width="20">
+                </a>
+            </div>
+
+            <div class="mobile-mid-section">
+                <p class="my-0 marginl-4"><button class="btn btn-primary"><a class="buttonlink" href="{{ search_portal_url }}">{{ S.search_portal_mobile }}</a></button></p>
+            </div>
+
+            <div class="mobile-right-section border-left-mobile text-center">
+                <i id="menu-button" data-toggle-x class="hamburger" data-toggle="collapse" data-target="#mobileMenu" aria-expanded="false" aria-controls="mobileMenu">
+                    <svg id="hamburger" width="25" height="18" viewBox="0 0 25 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect y="0.75" width="26" height="1.5" rx="0.75" fill="#000050"/>
+                        <rect y="8.25" width="26" height="1.5" rx="0.75" fill="#000050"/>
+                        <rect y="15.75" width="26" height="1.5" rx="0.75" fill="#000050"/>
+                    </svg>
+
+                    <svg id="cross" class="hide" width="19.448" height="19.473" viewBox="0 0 19.448 19.473">
+                        <g id="Icon" transform="translate(-3.277 8.25)">
+                            <rect id="Rechteck_1" data-name="Rechteck 1" width="26" height="1.5" rx="0.75" transform="translate(4.338 -8.223) rotate(45)" fill="#000050"/>
+                            <rect id="Rechteck_2" data-name="Rechteck 2" width="26" height="1.5" rx="0.75" transform="translate(22.725 -7.189) rotate(135)" fill="#000050"/>
+                        </g>
+                    </svg>
+                </i>
+            </div>
+        </div>
+    </div>
+</nav>

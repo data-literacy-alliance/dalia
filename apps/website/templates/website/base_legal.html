@@ -1,0 +1,94 @@
+{% load static website_tags %}<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="utf-8" />
+    <title>{{ page_title }} | DALIA</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="DALIA" />
+
+    <link rel="icon" type="image/png" href="{% static 'website/images/favicon.png' %}" />
+    {% if canonical_url %}<link rel="canonical" href="{{ canonical_url }}" />{% endif %}
+
+    {% include "website/partials/head_assets.html" with legal=True %}
+    {% block head_extra %}{% endblock %}
+</head>
+<body>
+
+<div class="row">
+
+<div class="col-md-2 p-0 mobile-hide">
+    <div class="full-width imprint-padding h-100 position-relative">
+        <div class="bordered-content no-right-border h-100">
+            <div class="d-flex align-items-center py-3 px-3 border-bottom">
+                <a class="d-flex" href="/{{ lang }}">
+                    <i>
+                        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M0.000666407 11.3186C0.000760595 12.5316 0.000854781 13.7446 0.000854781 14.9575C0.000854781 16.1741 0.000641089 17.3906 0.000427395 18.6072C-0.000152766 21.91 -0.000732938 25.213 0.00296306 28.5161C0.00380596 29.5675 0.418509 29.9855 1.46538 29.9864C3.14286 29.9875 4.82037 29.9902 6.49789 29.9929C11.299 30.0008 16.1003 30.0086 20.9013 29.9779C25.6506 29.9471 29.6665 26.1929 29.8591 21.4425C30.0273 17.2968 30.0488 13.1355 29.9025 8.98899C29.7146 3.65804 25.726 0.000487576 20.3884 0.000487576C14.1299 6.53228e-05 7.87096 -0.00035693 1.61247 0.000487576C0.37173 0.000487576 0.00253954 0.369537 0.00169664 1.61941C0.000164313 4.85235 0.000415364 8.08553 0.000666407 11.3186ZM13.8302 14.593C14.0513 14.5918 14.2716 14.5905 14.4907 14.5905C14.8047 16.9332 14.2471 17.7355 12.0585 18.2337C11.503 18.36 11.1617 18.7109 11.1625 19.3202C11.1629 19.5963 11.1626 19.8722 11.1622 20.1482C11.1618 20.4585 11.1614 20.7689 11.1621 21.0793C11.1646 22.1725 11.4921 22.4892 12.5617 22.4377C15.6733 22.2874 18.4346 19.8535 18.6727 16.7474C18.8281 14.7245 18.8112 12.6878 18.7944 10.6523C18.7891 9.99872 18.7837 9.34531 18.784 8.69252C18.7844 7.97173 18.3448 7.60859 17.5887 7.6031C15.8524 7.59043 14.116 7.59043 12.3801 7.60226C11.5249 7.60775 11.1697 7.96202 11.1646 8.79723C11.1549 10.3363 11.1553 11.8759 11.1646 13.415C11.1697 14.2354 11.498 14.569 12.3168 14.5872C12.8224 14.5986 13.3284 14.5958 13.8302 14.593Z" fill="#000050"/>
+                        </svg>
+                    </i>
+                </a>
+                <a href="/{{ lang }}" class="d-flex">
+                    <p class="my-0 ml-2 bold">DALIA</p>
+                </a>
+            </div>
+
+            <div class="align-items-center py-3 px-3 border-bottom">
+                <p class="my-0 small">{{ S.navigation }}</p>
+                <div class="d-flex mt-3">
+                    <div class="square"></div>
+                    <p class="my-0 ml-2"><a class="light" href="{{ search_portal_url }}">{{ S.back_to_search }}</a></p>
+                </div>
+                <div class="d-flex mt-3">
+                    <div class="square"></div>
+                    <p class="my-0 ml-2"><a class="light" href="/{{ lang }}">{{ S.back_to_project }}</a></p>
+                </div>
+            </div>
+            {% if nav.news_url %}<div class="align-items-center py-3 px-3 border-bottom">
+                <p class="my-0 small">{{ S.about_us }}</p>
+                <div class="d-flex mt-3">
+                    <div class="square"></div>
+                    <p class="my-0 ml-2"><a class="light" href="{{ nav.news_url }}">{{ S.news }}</a></p>
+                </div>
+            </div>
+            {% endif %}
+            <div class="align-items-center py-3 px-3 border-bottom">
+                <p class="my-0 small">{{ S.contact }}</p>
+                <div class="d-flex mt-3">
+                    <div class="square"></div>
+                    <p class="my-0 ml-2"><a class="light" href="/{{ lang }}#contact-section">{{ S.contact_form }}</a></p>
+                </div>
+            </div>
+
+            <div class="align-items-center py-3 px-3 border-bottom">
+                <p class="my-0 small">{{ S.legal }}</p>
+                {% for legal_page in nav.legal_pages %}
+                <div class="d-flex mt-3">
+                    <div class="square"></div>
+                    <p class="my-0 ml-2"><a class="light" href="{{ legal_page.nav_url }}">{{ legal_page.title }}</a></p>
+                </div>
+                {% endfor %}
+            </div>
+            {% include "website/partials/langswitcher.html" %}
+        </div>
+    </div>
+</div>
+<div class="col-md-10 py-15 p-md-0">
+    <div id="header" class="desktop-hide-2">
+        <i class="mr-1">{% icon_arrow width=13 height=12 rotate=180 %}</i><a class="light" href="/{{ lang }}">{{ S.home }}</a>
+        {% include "website/partials/langswitcher.html" %}
+    </div>
+
+    {% block content %}{% endblock %}
+
+    {% include "website/partials/footer.html" %}
+</div>
+
+</div>
+
+<script src="{% static 'website/js/jquery-3.6.0.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'website/js/glossary.js' %}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

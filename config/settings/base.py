@@ -31,7 +31,16 @@ env = environ.Env(
 environ.Env.read_env(BASE_DIR / ".env")
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY", default="change-me-to-a-random-50-char-string")
+# The podman secret file (SECRET_KEY_FILE) takes precedence over any SECRET_KEY from .env
+_secret_key_file = env("SECRET_KEY_FILE", default="")
+SECRET_KEY = (
+    Path(_secret_key_file).read_text().strip()
+    if _secret_key_file
+    else env("SECRET_KEY", default="")
+)
+EMAIL_FERNET_KEY_FILE = env(
+    "EMAIL_FERNET_KEY_FILE", default="/run/secrets/dalia20_email_fernet_key"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
@@ -90,6 +99,8 @@ INSTALLED_APPS = [
     # DALIA apps
     "core",
     "pages",
+    "website",
+    "mailing",
     "users",
     "curation",
     "account_deletion",
@@ -184,6 +195,32 @@ CSRF_TRUSTED_ORIGINS = env.list(
         "http://localhost:7087",
     ],
 )
+
+
+# Public website (dalia.education) and mailing.
+# Empty strings in .env mean "use the default" (.env.example ships empty keys).
+def _env_or_default(name, default, cast=str):
+    raw = env.str(name, default="").strip()
+    return cast(raw) if raw else default
+
+
+WEBSITE_CONTACT_RATE_LIMIT_PER_HOUR = _env_or_default("WEBSITE_CONTACT_RATE_LIMIT_PER_HOUR", 5, int)
+WEBSITE_CONTACT_SUBNET_LIMIT_PER_HOUR = _env_or_default(
+    "WEBSITE_CONTACT_SUBNET_LIMIT_PER_HOUR", 20, int
+)
+WEBSITE_CONTACT_GLOBAL_LIMIT_PER_HOUR = _env_or_default(
+    "WEBSITE_CONTACT_GLOBAL_LIMIT_PER_HOUR", 50, int
+)
+WEBSITE_CONTACT_REJECTED_LIMIT_PER_HOUR = _env_or_default(
+    "WEBSITE_CONTACT_REJECTED_LIMIT_PER_HOUR", 500, int
+)
+WEBSITE_TRUSTED_PROXY_HOPS = _env_or_default("WEBSITE_TRUSTED_PROXY_HOPS", 1, int)
+WEBSITE_CONTACT_SIGNER_SALT = _env_or_default("WEBSITE_CONTACT_SIGNER_SALT", "website.contact.ts")
+WEBSITE_PUBLIC_URL = _env_or_default("WEBSITE_PUBLIC_URL", "https://dalia.education")
+WEBSITE_SEARCH_PORTAL_URL = _env_or_default(
+    "WEBSITE_SEARCH_PORTAL_URL", "https://search.dalia.education/"
+)
+MAILING_TEST_EMAIL_LIMIT_PER_HOUR = _env_or_default("MAILING_TEST_EMAIL_LIMIT_PER_HOUR", 10, int)
 
 # Internationalization
 LANGUAGE_CODE = env("LANGUAGE_CODE", default="en-us")

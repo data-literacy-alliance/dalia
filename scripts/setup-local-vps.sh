@@ -27,7 +27,7 @@ echo "============================================================"
 echo ""
 
 # ── 1. Verify install dir has required files ─────────────────────
-echo "==> [1/11] Checking local files ..."
+echo "==> [1/12] Checking local files ..."
 MISSING=0
 for f in "$INSTALL_DIR/.env" "$INSTALL_DIR/Makefile" "$INSTALL_DIR/traefik-compose.yml" "$INSTALL_DIR/traefik-start.sh"; do
     if [ ! -f "$f" ]; then
@@ -61,7 +61,7 @@ echo "  OK — all required files present"
 
 # ── 2. Required system path for admin-server container ───────────
 echo ""
-echo "==> [2/11] Creating /opt/container-status (required by traefik admin-server) ..."
+echo "==> [2/12] Creating /opt/container-status (required by traefik admin-server) ..."
 sudo mkdir -p /opt/container-status
 echo "  OK"
 
@@ -70,7 +70,7 @@ cd "$INSTALL_DIR"
 # ── 3. Fix HOSTUID for this VPS ──────────────────────────────────
 TRAEFIK_ENV=$(find traefik/ -name ".env" 2>/dev/null | head -1)
 echo ""
-echo "==> [3/11] Setting HOSTUID=$(id -u) in traefik .env ..."
+echo "==> [3/12] Setting HOSTUID=$(id -u) in traefik .env ..."
 if [ -z "$TRAEFIK_ENV" ]; then
     echo "  WARNING: No traefik .env found — skipping HOSTUID update."
 elif grep -q "^HOSTUID=" "$TRAEFIK_ENV" 2>/dev/null; then
@@ -83,14 +83,14 @@ fi
 
 # ── 4. Restore Fuseki data ────────────────────────────────────────
 echo ""
-echo "==> [4/11] Restoring Fuseki RDF data (using podman unshare) ..."
+echo "==> [4/12] Restoring Fuseki RDF data (using podman unshare) ..."
 mkdir -p data
 podman unshare tar -xzf "$TRANSFER_DIR/fuseki-data.tar.gz" -C data/
 echo "  OK"
 
 # ── 5. Restore media files ────────────────────────────────────────
 echo ""
-echo "==> [5/11] Restoring media uploads ..."
+echo "==> [5/12] Restoring media uploads ..."
 if [ -d "$INSTALL_DIR/media" ]; then
     echo "  Removing existing media/ (may be container-owned) ..."
     rm -rf "$INSTALL_DIR/media" 2>/dev/null || podman unshare rm -rf "$INSTALL_DIR/media"
@@ -100,13 +100,18 @@ echo "  OK"
 
 # ── 6. Pre-create proxy network + build containers ───────────────
 echo ""
-echo "==> [6/11] Pre-creating proxy network then building containers ..."
+echo "==> [6/12] Pre-creating proxy network then building containers ..."
 podman network create --subnet 10.89.0.0/24 daliaproject_proxy-net 2>/dev/null || true
 podman-compose build --no-cache
 
+# ── 7. Podman secrets ───────────────────────────────────────
+echo ""
+echo "==> [7/12] Creating podman secrets (SECRET_KEY, email Fernet key) ..."
+make secrets-setup || echo "  WARNING: secrets setup did not complete — the web container will not start until 'make secrets-setup' is run"
+
 # ── 7. Start Traefik first ────────────────────────────────────────
 echo ""
-echo "==> [7/11] Starting Traefik (creates daliaproject_proxy-net network) ..."
+echo "==> [8/12] Starting Traefik (creates daliaproject_proxy-net network) ..."
 # Traefik reads routes through the podman socket; lingering keeps it alive after logout/reboot.
 sudo loginctl enable-linger "$(id -un)" || echo "  WARNING: could not enable lingering"
 systemctl --user enable --now podman.socket || echo "  WARNING: could not enable podman.socket"
@@ -114,12 +119,12 @@ bash traefik-start.sh
 
 # ── 8. Start app containers ──────────────────────────────────────
 echo ""
-echo "==> [8/11] Starting app containers ..."
+echo "==> [9/12] Starting app containers ..."
 make up
 
 # ── 9. Wait for web container to be ready ────────────────────────
 echo ""
-echo "==> [9/11] Waiting for dalia20-web to become healthy ..."
+echo "==> [10/12] Waiting for dalia20-web to become healthy ..."
 READY=0
 for i in $(seq 1 30); do
     if podman exec dalia20-web python manage.py check 2>/dev/null | grep -q "System check identified no issues"; then
@@ -136,12 +141,12 @@ fi
 
 # ── 10. Restore PostgreSQL database ──────────────────────────────
 echo ""
-echo "==> [10/11] Restoring PostgreSQL from $(basename "$SQL_FILE") ..."
+echo "==> [11/12] Restoring PostgreSQL from $(basename "$SQL_FILE") ..."
 make dbrestore BACKUP="$SQL_FILE"
 
 # ── 11. Collect static files ─────────────────────────────────────
 echo ""
-echo "==> [11/11] Collecting static files ..."
+echo "==> [12/12] Collecting static files ..."
 podman exec dalia20-web python manage.py collectstatic --noinput
 
 # ── Summary ───────────────────────────────────────────────────────

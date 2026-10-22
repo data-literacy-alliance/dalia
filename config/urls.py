@@ -29,6 +29,8 @@ urlpatterns = [
     # two_factor login at /account/login/ — Unfold-styled, accepts username (used by admin redirect)
     path("account/login/", AdminStyledTwoFactorLoginView.as_view(), name="two_factor_login"),
     # remaining two_factor URLs (OTP device management, QR setup, etc.)
+    # Public website (dalia.education), reached via the site/ prefix
+    path("site/", include("website.urls")),
     path("", include(_tf_urls.urlpatterns)),
     # Override OIDC login with custom adapter (localhost callback URL fix + DB-derived URL)
     path("accounts/oidc/<str:provider_id>/login/", nfdi_oidc_login, name="openid_connect_login"),

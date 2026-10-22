@@ -1,0 +1,58 @@
+{% extends "website/base_site.html" %}
+{% load website_tags %}
+{% block content %}
+<section id="news-section">
+    <div class="container bordered-content no-padding-mobile">
+        <div class="py-10">
+            <div class="heading border-bottom-mobile pb-10-mobile pt-10-mobile padding-mobile">
+                <h1 class="feature-heading full-width">{{ page.title }}</h1>
+            </div>
+{% if page.content_html %}
+            <div class="center-box border-bottom">
+                <p class="text-center"></p>{{ page.content_html|safe }}<p></p>
+            </div>
+{% endif %}
+            <div class="center-box mobile-hide">
+{% for child in children %}
+                <div class="article mb-4">
+                    <article class="border-bottom">
+                        <div class="flex flex-row padding-tb">
+                            <div class="pr-2 width-35">
+                                <a href="{{ child.get_public_path|iriencode }}">
+                                    {% if child.cover_image %}<img class="width-100" src="{{ child.cover_image.image.url }}" alt="{{ child.cover_image|alt:lang }}">{% endif %}
+                                </a>
+                            </div>
+                            <div class="width-65 pl-2">
+                                <h2 class="mt-0"><a class="a-title" href="{{ child.get_public_path|iriencode }}">{{ child.title|truncatechars:80 }}</a></h2>
+                                <p>{% if child.summary %}{{ child.summary }}{% else %}{{ child.content_html|plain_text|truncatechars:80 }}{% endif %}</p>
+                                <button class="btn btn-primary full-width-mobile" type="button"><a class="buttonlink" href="{{ child.get_public_path|iriencode }}">{{ S.more }}</a> </button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+{% endfor %}
+            </div>
+            <div class="center-box desktop-hide news-mobile">
+{% for child in children %}
+                <div class="article mb-4">
+                    <article class="border-bottom">
+                        <div class="flex flex-column padding-tb">
+                            <div class="width-100">
+                                <a href="{{ child.get_public_path|iriencode }}">
+                                    {% if child.cover_image %}<img class="width-100" src="{{ child.cover_image.image.url }}" alt="{{ child.cover_image|alt:lang }}">{% endif %}
+                                </a>
+                            </div>
+                            <div class="width-100 mt-4">
+                                <h2 class="mt-0 title-center"><a class="a-title" href="{{ child.get_public_path|iriencode }}">{{ child.title|truncatechars:80 }}</a></h2>
+                                <p class="text-justify">{% if child.summary %}{{ child.summary }}{% else %}{{ child.content_html|plain_text|truncatechars:80 }}{% endif %}</p>
+                                <button class="btn btn-primary full-width-mobile" type="button"><a class="buttonlink" href="{{ child.get_public_path|iriencode }}">{{ S.more }}</a> </button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+{% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

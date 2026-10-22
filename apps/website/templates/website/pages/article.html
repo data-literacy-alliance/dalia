@@ -1,0 +1,43 @@
+{% extends "website/base_site.html" %}
+{% block content %}
+<section id="news-section">
+    <div class="container bordered-content no-padding-mobile">
+        <div class="py-10">
+            <article class="center-box mobile-hide">
+                <div class="title-center">
+                    <h1 class="mt-0">{{ page.title }}</h1>
+                </div>
+                <div class="flex flex-row">
+                    <div class="flex flex-column width-35">
+                        <h4 class="text-decoration-ul">{{ S.authors }}</h4>
+                        <p class="text-left mt-0">{{ page.authors }}</p>
+                    </div>
+                    <div class="width-65">
+                        <p class="text-right">{{ page.display_date }}<br></p>
+                    </div>
+                </div>
+                <div class="post-content">
+{{ page.content_html|safe }}
+                </div>
+            </article>
+            <article class="center-box desktop-hide flex-column">
+                <div class="title-center mt-4-5">
+                    <h1 class="mt-0">{{ page.title }}</h1>
+                </div>
+                <div class="flex flex-row border-bottom mt-2-mobile">
+                    <div class="flex flex-column width-35">
+                        <h4 class="text-decoration-ul">{{ S.authors }}</h4>
+                        <p class="text-left mt-0">{{ page.authors }}</p>
+                    </div>
+                    <div class="width-65">
+                        <p class="text-right">{{ page.display_date }}<br></p>
+                    </div>
+                </div>
+                <div class="post-content">
+{{ page.content_html|safe }}
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+{% endblock %}

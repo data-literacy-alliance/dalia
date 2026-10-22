@@ -128,7 +128,7 @@ def _apply_text_query(qs, query: Optional[str]):  # noqa: ANN001
     all_pks = fts_pks | kw_pks | author_pks
 
     if not all_pks:
-        return qs.none(), True
+        return qs.none(), False
 
     if fts_pks:
         result_qs = qs.filter(pk__in=all_pks).annotate(

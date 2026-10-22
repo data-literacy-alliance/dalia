@@ -1,0 +1,111 @@
+# Vendored assets for the dalia.education website (apps/website/static/website/)
+# Columns: path | sha256 | bytes | source | licence
+# Vendored on 2026-10-21. Nothing here is loaded from a third-party host at runtime.
+# Excluded by decision: the two hero mp4 files and the .vtt subtitles live in dalia20/media/website/videos/ (git-ignored, served at /media/website/videos/).
+# Not vendored: Popper 2.0.8 (does not exist), friendly-captcha scripts, Google Fonts, simplesearch.js, prism.js.
+# Plugin CSS: the old-site plugin copies are not in the local Grav source; upstream repository files were used (see rows), version equality with the old site is unverified.
+
+css/bootstrap-4.5.2.min.css | 5b0fbe5b7ad705f6a937c4998ad02f73d8f0d976fe231b74aef0ec996990c93a | 160302 | https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css (official CDN) | MIT
+css/custom.css | c90d69e99741c425b2cac395bc0b1cfc5a5fc73caba98f4f8088a8ac99288b8b | 13354 | old Grav site repository (GitLab) user/themes/dalia/css/custom.css (identical to live copy rendered snapshot of https://dalia.education/ custom.css) | project-owned (DALIA)
+css/plugins/breadcrumbs.css | 3c044079da0839d15a3f004013049c7443d9d7733ad857513c04ee58b00ad84a | 311 | https://raw.githubusercontent.com/getgrav/grav-plugin-breadcrumbs/develop/css/breadcrumbs.css (upstream develop; version unverified) | MIT
+css/plugins/external_links.css | 2c595b744afde1be785a78efc65306f684a549dc6506833140b47b2deb024b52 | 913 | https://raw.githubusercontent.com/Sommerregen/grav-plugin-external-links/master/assets/css/external_links.css (upstream master; version unverified). PATCH: url(../images/{link,mail}.png) -> url(../../images/plugins/external_links/{link,mail}.png) | MIT
+css/plugins/form-styles.css | c454bace78a8aa040558ff08a05d49354e49a31f22ddb10f0255be616f8dd3dc | 5344 | https://raw.githubusercontent.com/getgrav/grav-plugin-form/develop/assets/form-styles.css (upstream develop; version unverified) | MIT
+css/plugins/image-captions.css | 68bbc7f22d89f4f31b29ad62dfba8f4c2d3546ffdb1c41ca5f43066497292cbf | 384 | https://raw.githubusercontent.com/trilbymedia/grav-plugin-image-captions/develop/css/image-captions.css (upstream develop; version unverified) | MIT
+css/plugins/langswitcher.css | 337115897d7c3656cd938c25923a800bff092b9af21b881a17f503a22bde7603 | 481 | https://raw.githubusercontent.com/getgrav/grav-plugin-langswitcher/develop/css/langswitcher.css (upstream develop; version unverified) | MIT
+css/plugins/login.css | 4f67fd439933bea98c9d4190c6cd1621ee9993d8aa413c0f201e54dc05dd32f0 | 1625 | https://raw.githubusercontent.com/getgrav/grav-plugin-login/develop/css/login.css (upstream develop; version unverified) | MIT
+css/plugins/notices.css | 5636048aaa9e7094137a3024888c2fb40afe819a3bfecc1402d3d680106ff735 | 486 | https://raw.githubusercontent.com/getgrav/grav-plugin-markdown-notices/develop/assets/notices.css (upstream develop; old-site plugin copy unavailable, version unverified) | MIT
+css/plugins/prism-one-light.css | 198a9224f539f3f3c7534a5dfee608245ca62126b23a28498fa17f40e8bfca07 | 11915 | https://raw.githubusercontent.com/trilbymedia/grav-plugin-prism-highlight/develop/css/themes/prism-one-light.css (upstream develop; version unverified) | MIT (Prism theme)
+css/plugins/prism.css | 81b5e02cab694f7c64a6e818e685eaa6e6723f6006ae8b78bbc59846ba61057f | 5810 | https://raw.githubusercontent.com/trilbymedia/grav-plugin-prism-highlight/develop/css/prism.css (upstream develop; Prism build, version unverified) | MIT (Prism)
+css/plugins/simplesearch.css | 8beab223a09ca5c384bb050a8ce2ed3bc3db65c6bf81e42196abbf0de019b6a2 | 510 | https://raw.githubusercontent.com/getgrav/grav-plugin-simplesearch/develop/css/simplesearch.css (upstream develop; version unverified) | MIT
+css/worksans.css | 5511362a2e78b90d7e21def68ca1c7c829ef76ff00cd37452f10a2572e01822d | 1661 | generated: @font-face for Work Sans 400/600 latin + latin-ext, derived from https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600 (v24), urls rewritten to local files | SIL OFL 1.1 (font), project-owned (rules)
+css-compiled/bootstrap.min.css | f77c0d1739b618edc4a01ca3f6b2990b01a3009030af49ee8cf68e83052df194 | 160392 | old Grav site repository (GitLab) user/themes/dalia/css-compiled/bootstrap.min.css (Bootstrap v4.5.3 build, as loaded by legal pages) | MIT
+fonts/worksans/OFL.txt | 749aca05078664ce682dce1b1b10096ac397cb088c1a6df4e1bb56f0092a9272 | 4396 | https://raw.githubusercontent.com/google/fonts/main/ofl/worksans/OFL.txt | SIL OFL 1.1
+fonts/worksans/worksans-latin-ext.woff2 | 2aa17fc7b072e46652e84bbe3dbba9ec57cdea320d89e8c951ed7cf3218c300b | 35716 | https://fonts.gstatic.com/s/worksans/v24/QGYsz_wNahGAdqQ43Rh_cqDpp_k.woff2 | SIL OFL 1.1
+fonts/worksans/worksans-latin.woff2 | 1dd49afc07fb2231b2ff686cbf007725fb2742271bb1f28ebd98f22a0d817343 | 50316 | https://fonts.gstatic.com/s/worksans/v24/QGYsz_wNahGAdqQ43Rh_fKDp.woff2 | SIL OFL 1.1
+images/assets/Communication.png | cf858110a7d4bc1cd8fccc2882c9328f1ba5bdca62880a2574754bcce7a42daf | 12300 | old Grav site repository (GitLab) user/themes/dalia/images/assets/<same name> | project-owned (DALIA)
+images/assets/EN_Funded.png | 0cf65abe21772316ca10a4fc99b0595ddc7093fefbc3dbf16df692ec152473be | 12593 | old Grav site repository (GitLab) user/themes/dalia/images/assets/<same name> | project-owned (DALIA)
+images/assets/Information_Modell.svg | 531ee4decea5b318a3cb3babc1d60cbd43e0ca7bdccf004cac9d6b0ba1a076da | 6295 | old Grav site repository (GitLab) user/themes/dalia/images/assets/<same name> | project-owned (DALIA)
+images/assets/Infrastructure.svg | 4db304b6155badc3f9f325677a58198ba6b855c2eb1e1affecf9a12013b455de | 4134 | old Grav site repository (GitLab) user/themes/dalia/images/assets/<same name> | project-owned (DALIA)
+images/assets/Logo.png | 4b0c5199d8984912f5bb19fff21714201a2b21e7e97f8f5c0aca15e4874389e5 | 3320 | old Grav site repository (GitLab) user/themes/dalia/images/assets/<same name> | project-owned (DALIA)
+images/assets/Logo_Footer.png | b79acb6ef0124b9c85fea6fd61d79d1d73692d38b9e9a783f4c88743d03be397 | 10366 | old Grav site repository (GitLab) user/themes/dalia/images/assets/Logo Footer.png (renamed: no space) | project-owned (DALIA)
+images/assets/Logo_Icon.png | 04ac163f3f598b58111b11ebf808a9be13528e2df3b1f677513fe9da8451f82a | 672 | old Grav site repository (GitLab) user/themes/dalia/images/assets/<same name> | project-owned (DALIA)
+images/assets/Recommendation_Service.svg | 7f0579ac2d1c92c1dd80ad5aa4d9214165a0d49c8223d224f85a447e429fe468 | 4238 | old Grav site repository (GitLab) user/themes/dalia/images/assets/<same name> | project-owned (DALIA)
+images/assets/Union.png | cb25bdda9887a3b4ddb0fbeba5a32936ddc180207a5016c1e1149bb6c5263a7a | 76847 | old Grav site repository (GitLab) user/themes/dalia/images/assets/<same name> | project-owned (DALIA)
+images/assets/hero.png | 3c5b398f5a09e446a2c73457ebe166f0cfa157ecab4ab63569191632568d53d6 | 213308 | old Grav site repository (GitLab) user/themes/dalia/images/assets/<same name> | project-owned (DALIA)
+images/favicon.png | 35c95b131f16641e416bb1f255583b9169befe5aa028234c863fa22ddcb1d9be | 3144 | old Grav site repository (GitLab) user/themes/dalia/images/favicon.png | project-owned (DALIA)
+images/funding/BMFTR_de.jpg | f8064c070d9a10fc2c4cb7938ca066e5775dc5cbc855948b8f6a25f1a263fd48 | 72550 | old Grav site repository (GitLab) user/themes/dalia/images/funding/<same name> | logo of Federal Ministry (BMFTR); use as funder attribution
+images/funding/BMFTR_en.jpg | 1eb1e7419b26c1a660edb10c8dfc0075aca2b6d84c40002156e6496cb570c867 | 71259 | old Grav site repository (GitLab) user/themes/dalia/images/funding/<same name> | logo of Federal Ministry (BMFTR); use as funder attribution
+images/funding/logo_eu_vertical.jpg | 87125a22b253eafbbbcc2b0014553deb6ea2106eb12a8d5b9ae8ec4a00d28ef6 | 309753 | old Grav site repository (GitLab) user/themes/dalia/images/funding/<same name> | logo of the European Union; use as funder attribution
+images/icons/nfdi-1.svg | 55796919242a967d69e579bc2772bc09e7537b710abb05f540f1a71d0943214f | 3393 | extracted inline SVG from rendered snapshot of https://dalia.education/ en.html lines 408-441 (class attribute removed) | project-owned (DALIA)
+images/icons/nfdi-2.svg | cbf9d13b72287d9a29f9c13428906a8cfa4e154d0fbe17126301b46a0fde04d4 | 2774 | extracted inline SVG from rendered snapshot of https://dalia.education/ en.html lines 408-441 (class attribute removed) | project-owned (DALIA)
+images/icons/nfdi-3.svg | 8a7f315df72fb99ad4b7526cd54ed593e1869fd36bc56cdad56cb76dbdb91504 | 2521 | extracted inline SVG from rendered snapshot of https://dalia.education/ en.html lines 408-441 (class attribute removed) | project-owned (DALIA)
+images/icons/work-package.svg | e0db5b57ba48f2c326185deb2b8eff38c0ea8b60a1fd917936759f2cc1767393 | 4190 | extracted inline SVG from rendered snapshot of https://dalia.education/ en_arbeitsfelder_kommunikation.html lines 294-296 (class attribute removed) | project-owned (DALIA)
+images/partner/TIB_logo.png | 0fc73e81ed85a919a925de0d7e3794f60a8b3eceeb5f379f3730e864bc66baad | 14312 | old Grav site repository (GitLab) user/themes/dalia/images/partner/<same name> | logos of partner institutions; used with permission as on the old site
+images/partner/adw_logo.jpg | a658723ef1fbcb8f4422d51c139273e19cd5a1f85f0f8b55fe2b0c3a7a84e3e3 | 1166280 | old Grav site repository (GitLab) user/themes/dalia/images/partner/<same name> | logos of partner institutions; used with permission as on the old site
+images/partner/rwth_biochemie_logo.jpg | 2973091a1d060f6a4d7a0015841186df01cdc9cfea5e2883c338c73fdafb7ef0 | 643843 | old Grav site repository (GitLab) user/themes/dalia/images/partner/<same name> | logos of partner institutions; used with permission as on the old site
+images/partner/rwth_iac_bioanorganische_chemie_bild_rgb.jpg | 1d99e63ddc433d22541c9f157437622e75b0df54515558a4b557a86dda0ea58c | 120968 | old Grav site repository (GitLab) user/themes/dalia/images/partner/<same name> | logos of partner institutions; used with permission as on the old site
+images/partner/rwth_itcenter_logo.png | 5e5394dbb4515059cae84a8f13fe17839716be74c5a3222c546d89ba6958d4af | 17115 | old Grav site repository (GitLab) user/themes/dalia/images/partner/<same name> | logos of partner institutions; used with permission as on the old site
+images/partner/tud_logo.png | 6812128978f5900cef16fb93156a0b8867a6ca7ea53e2fb181456f82fb84749e | 20118 | old Grav site repository (GitLab) user/themes/dalia/images/partner/<same name> | logos of partner institutions; used with permission as on the old site
+images/partner/ulb_logo.png | 0ca61da646a6f1befae052cd5abe4192ce40e10d86ddb9f3d1b1164dee9dfd19 | 106784 | old Grav site repository (GitLab) user/themes/dalia/images/partner/<same name> | logos of partner institutions; used with permission as on the old site
+images/partner/unimedizin_goettingen_logo.jpg | 9c4d278a3bd613f7e8ff0722823350669f6a73c1cbda49a49981de228a8491e0 | 898992 | old Grav site repository (GitLab) user/themes/dalia/images/partner/<same name> | logos of partner institutions; used with permission as on the old site
+images/plugins/external_links/link.png | 1bc1e9d0a165a99dbd0233bc19f263b10a9879816a1747905396ffcf7933e98f | 196 | https://raw.githubusercontent.com/Sommerregen/grav-plugin-external-links/master/assets/images/ (link.png, mail.png) | MIT
+images/plugins/external_links/mail.png | 524d53996fd8735b7745164fee2a3c112472b56952ca145024ffa75542907ac9 | 187 | https://raw.githubusercontent.com/Sommerregen/grav-plugin-external-links/master/assets/images/ (link.png, mail.png) | MIT
+js/anchor.min.js | d16319f4f1786f685317ae84825bfff47e55c24ea59ce1b801b982271a3de964 | 6008 | official CDN copy fetched asanchor.js (AnchorJS v4.3.1 per file header; exact CDN URL not recorded) | MIT
+js/bootstrap-4.5.2.bundle.min.js | f67b782ec5a62c8fcedb89535bcf48cc02ae06a119e3b97fe2b875fad1ff358f | 80927 | https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js (official CDN); optional coherent v4 replacement for the two bootstrap scripts, NOT loaded by the old site | MIT
+js/bootstrap.bundle.min.js | 82f64f62bb03c1bc1824b0f9c9e05f70dba33e146818e63cdf5c306c8cf3dedd | 80663 | old Grav site repository (GitLab) user/themes/dalia/js/bootstrap.bundle.min.js (NOTE: Bootstrap v5.3.2 bundle, as loaded by the old pages after bootstrap.min.js v4.5.3) | MIT
+js/bootstrap.min.js | d8968086f7509df34c3278563dab87399da4f9dcdfb419818e3a309eedc70b88 | 63240 | old Grav site repository (GitLab) user/themes/dalia/js/bootstrap.min.js (Bootstrap v4.5.3 JS, no Popper) | MIT
+js/glossary.js | 23553fb28a21439b1b6efa41b82e2110da4d0dcc7c865b3ec3f46682e13e3b78 | 707 | old Grav site repository (GitLab) user/themes/dalia/js/glossary.js (unchanged; contains the dead header/footer .load calls, harmless when #header/#footer are absent) | project-owned (DALIA)
+js/header.js | 48fd72349669f0157c6246cdd547d6294f900019dc4bafefd84119b078e39cc9 | 914 | old Grav site repository (GitLab) user/themes/dalia/js/header.js | project-owned (DALIA)
+js/jquery-3.6.0.min.js | ff1523fb7389539c84c65aba19260648793bb4f5e29329d2ee8804bc37a3fe6e | 89501 | https://code.jquery.com/jquery-3.6.0.min.js (official CDN) | MIT
+js/main.js | b9dc32deecb777e1d9e87405384e2abd4161c096edf0e1f526ec0574b1ed470c | 1618 | old Grav site repository (GitLab) user/themes/dalia/js/main.js. PATCHED (Bug fix 6): removed $(function(){ $('#header').load('header.html'); $('#footer').load('footer.html'); }); and wrapped the textTracks loop in `if (video) { ... }` | project-owned (DALIA)
+vendor/fontawesome-5.15.4/LICENSE.txt | e779748dfe75e84f974df3c7bc07f842011a100159158b0f1f49b2f2a5a515cb | 1548 | https://raw.githubusercontent.com/FortAwesome/Font-Awesome/5.15.4/LICENSE.txt | FA Free License
+vendor/fontawesome-5.15.4/css/all.min.css | 99464ceb71bc9bbdcc72275faefe44f98eb5cbb6b5d8ee665b87b35376f1a96e | 59305 | https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css (official CDN) | CC BY 4.0 icons, SIL OFL 1.1 fonts, MIT code
+vendor/fontawesome-5.15.4/webfonts/fa-brands-400.eot | e4299464e7b012968eed63ac2db1c9509f56bca409ef9f71f2926a8c3c80b2a9 | 134294 | https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/ (official CDN) | SIL OFL 1.1
+vendor/fontawesome-5.15.4/webfonts/fa-brands-400.svg | a3b9817780214caf01e8aec20bcdc2305a1ff34a15fae81ecd0923df9cd5cd0a | 747927 | https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/ (official CDN) | SIL OFL 1.1
+vendor/fontawesome-5.15.4/webfonts/fa-brands-400.ttf | cda59d6efffa685830fd95b55f64ae9cb51279cd34b2410b69f84c7ec30157d9 | 133988 | https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/ (official CDN) | SIL OFL 1.1
+vendor/fontawesome-5.15.4/webfonts/fa-brands-400.woff | f9217f66874b0c01cd8c10b6a295dbc4f609acb6f5adc41c37da46641b57eb02 | 89988 | https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/ (official CDN) | SIL OFL 1.1
+vendor/fontawesome-5.15.4/webfonts/fa-brands-400.woff2 | 8ea8791754915a898a3100e63e32978a6d1763be6df8e73a39d3a90d691cdeef | 76736 | https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/ (official CDN) | SIL OFL 1.1
+vendor/fontawesome-5.15.4/webfonts/fa-regular-400.eot | 79d088064beb3826054fb88165416235897a856ca952fca1498b1c59b16aaa48 | 34034 | https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/ (official CDN) | SIL OFL 1.1
+vendor/fontawesome-5.15.4/webfonts/fa-regular-400.svg | be0a084962d8066884f7fe9bd27ec16e51f5a93b72a502c92c5a24dc87eb2ebc | 144714 | https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/ (official CDN) | SIL OFL 1.1
+vendor/fontawesome-5.15.4/webfonts/fa-regular-400.ttf | e8711bbb871afd8e9dea60e16d30f00c7e4837bbc9807065017475b849fa2313 | 33736 | https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/ (official CDN) | SIL OFL 1.1
+vendor/fontawesome-5.15.4/webfonts/fa-regular-400.woff | cb9e9e693192413cde2b1f21c1dc1d44b6fe7b27cc2b458e8b359d18f9ff8f4e | 16276 | https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/ (official CDN) | SIL OFL 1.1
+vendor/fontawesome-5.15.4/webfonts/fa-regular-400.woff2 | e42a88444448ac3d60549cc7c1ff2c8a9cac721034c073d80a14a44e79730cca | 13224 | https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/ (official CDN) | SIL OFL 1.1
+vendor/fontawesome-5.15.4/webfonts/fa-solid-900.eot | 373c04fd2418f5c77eea49d514731058f1907a94ff3b4e5d7c3e5767e8b53d8b | 203030 | https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/ (official CDN) | SIL OFL 1.1
+vendor/fontawesome-5.15.4/webfonts/fa-solid-900.svg | 9674eb1bd5504717903837093a67668ea88f2ed006d91367d0d4b7aa1f9211fc | 918991 | https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/ (official CDN) | SIL OFL 1.1
+vendor/fontawesome-5.15.4/webfonts/fa-solid-900.ttf | af6397503fcefbd613976c21ad5c1e37298c18bbe07d096db03ccd3af6e05ba8 | 202744 | https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/ (official CDN) | SIL OFL 1.1
+vendor/fontawesome-5.15.4/webfonts/fa-solid-900.woff | 3f6d3488cf65374f6f676c315340b0ac2be832bd55240c809448e36ef9b96326 | 101648 | https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/ (official CDN) | SIL OFL 1.1
+vendor/fontawesome-5.15.4/webfonts/fa-solid-900.woff2 | 9834b82ad26e2a37583d22676a12dd2eb0fe7c80356a2114d0db1aa8b3899537 | 78268 | https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/ (official CDN) | SIL OFL 1.1
+
+# main.js patch (diff -u original patched):
+# --- a/user/themes/dalia/js/main.js	2026-03-16 12:50:42.866811279 +0000
+# +++ b/js/main.js	2026-10-21 22:00:32.758054383 +0000
+# @@ -1,7 +1,3 @@
+# -$(function(){
+# -    $("#header").load("header.html");
+# -    $("#footer").load("footer.html");
+# -});
+#  
+#  
+#  
+# @@ -55,7 +51,9 @@
+#  
+#  const video = document.getElementById("video")
+#  
+# -for (const track of video.textTracks) {
+# -    track.mode = "hidden";
+# +if (video) {
+# +    for (const track of video.textTracks) {
+# +        track.mode = "hidden";
+# +    }
+#  }
+#  
+
+# Videos (NOT in git; stored in dalia20/media/website/videos/, URL /media/website/videos/<file>)
+# 4c0a6b486ddfc608b673289c7b92ab9834bec6e23bbf04a251c2c2a6bafba0ed | 357971945 | 251008_explainity_dalia_de_4k_v03.mp4 | local Grav source themes/dalia/videos/ | rights holder: DALIA project (Explainity production)
+# 65eb16b1e7aa241128e71a69d7801e223321d57b3485196aa2f6cc848e7f0e9f | 369685310 | 251014_explainity_dalia_en_4k_v02.mp4 | local Grav source themes/dalia/videos/ | rights holder: DALIA project (Explainity production)
+# 251009_Explainity_DALIA_DE_4k_Untertitel_v01.vtt and 251009_Explainity_DALIA_EN_4k_Untertitel_v02.vtt (same directory, flat)
+images/icons/work-field-1.svg | 4f05d2ab72c7a6451efa9935ac5e057fe0fef9ea9e42bb5e662174c35a8a14cf | 4902 | extracted inline SVG icon 1 (card order) from old Grav site repository (GitLab) user/pages/01.home/02._workingfields/home_working_fields.md (class attribute removed, indentation trimmed) | project-owned (DALIA)
+images/icons/work-field-2.svg | 3eb5cf34e4795b9616fc9bd1bf9df34dfafd30aeed968e7716e4cb6b02eff183 | 5034 | extracted inline SVG icon 2 (card order) from old Grav site repository (GitLab) user/pages/01.home/02._workingfields/home_working_fields.md (class attribute removed, indentation trimmed) | project-owned (DALIA)
+images/icons/work-field-3.svg | 9c1bafc8bd4b7c23be9821794b41a86f4ae298d44ad566aa1c9b3d60691993c6 | 6295 | extracted inline SVG icon 3 (card order) from old Grav site repository (GitLab) user/pages/01.home/02._workingfields/home_working_fields.md (class attribute removed, indentation trimmed) | project-owned (DALIA)
+images/icons/work-field-4.svg | 5a73839b9bfe811e1279302ad91cf811b42fa42cc1120a2281e0c86adc2aa0b4 | 1884 | extracted inline SVG icon 4 (card order) from old Grav site repository (GitLab) user/pages/01.home/02._workingfields/home_working_fields.md (class attribute removed, indentation trimmed) | project-owned (DALIA)
+images/icons/work-field-5.svg | 2565b94292eee066fda102e478af5855ac2f616ae5238c583d94e2d819cfea72 | 4238 | extracted inline SVG icon 5 (card order) from old Grav site repository (GitLab) user/pages/01.home/02._workingfields/home_working_fields.md (class attribute removed, indentation trimmed) | project-owned (DALIA)

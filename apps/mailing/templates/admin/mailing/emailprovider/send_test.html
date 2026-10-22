@@ -1,0 +1,26 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+<div class="max-w-xl">
+  <p class="mb-4">
+    Sends one test message using only the provider <strong>{{ provider.name }}</strong>
+    ({{ provider.get_connection_type_display }}), whether or not it is active.
+  </p>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="mb-4">
+      <label for="{{ form.email.id_for_label }}" class="block mb-2 font-medium">{{ form.email.label }}</label>
+      {{ form.email }}
+      {{ form.email.errors }}
+    </div>
+    <div class="flex gap-4">
+      <button type="submit" class="bg-primary-600 border border-transparent font-medium px-3 py-2 rounded-default text-white">Send test email</button>
+      <a href="{{ change_url }}" class="border border-base-200 px-3 py-2 rounded-default">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

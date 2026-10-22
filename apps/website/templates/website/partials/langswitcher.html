@@ -1,0 +1,5 @@
+<ul class="langswitcher mt-3 mr-2">
+    {% if lang == "de" %}<li><a href="{{ current_path }}" class="external active">{{ S.lang_de }}</a></li>
+    <li><a href="{{ alt_lang_url }}" class="external ">{{ S.lang_en }}</a></li>{% else %}<li><a href="{{ alt_lang_url }}" class="external ">{{ S.lang_de }}</a></li>
+    <li><a href="{{ current_path }}" class="external active">{{ S.lang_en }}</a></li>{% endif %}
+</ul>

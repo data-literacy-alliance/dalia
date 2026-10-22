@@ -30,4 +30,6 @@ paths = [
     '''apps/search/rdf/''',
     '''docker/fuseki/.*\.ttl''',
     '''^scripts/.*''',
+    '''^apps/website/tests/test_hosts\.py''',
+    '''^apps/website/tests/utils\.py''',
 ]

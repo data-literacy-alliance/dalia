@@ -6,6 +6,14 @@ import pytest
 from rest_framework.test import APIClient
 
 
+@pytest.fixture(autouse=True)
+def _clear_cache():
+    """Keep cached values (e.g. mailing sending status) from leaking between tests."""
+    from django.core.cache import cache
+
+    cache.clear()
+
+
 @pytest.fixture
 def api_client():
     """Return an unauthenticated API client."""

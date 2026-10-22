@@ -6,6 +6,12 @@ networks:
   daliaproject_proxy-net:
     external: true
 
+secrets:
+  dalia20_secret_key:
+    external: true
+  dalia20_email_fernet_key:
+    external: true
+
 services:
   db:
     image: docker.io/library/postgres:16-alpine
@@ -87,9 +93,14 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.production
       - DATABASE_URL=postgresql://${POSTGRES_USER:-dalia20}:${POSTGRES_PASSWORD:-changeme}@db:5432/${POSTGRES_DB:-dalia20}
-      - SECRET_KEY=${SECRET_KEY:-change-me-to-a-random-50-char-string}
+      # read from podman secret files, never from env
+      - SECRET_KEY_FILE=/run/secrets/dalia20_secret_key
+      - EMAIL_FERNET_KEY_FILE=/run/secrets/dalia20_email_fernet_key
       - DEBUG=${DEBUG:-False}
       - ALLOWED_HOSTS=${ALLOWED_HOSTS:-localhost,127.0.0.1,0.0.0.0}
+    secrets:
+      - dalia20_secret_key
+      - dalia20_email_fernet_key
     volumes:
       # Source code: SHARED (:z) -- bind-mounted for live editing and makemigrations
       # ./ = dalia20/ directory

@@ -1,0 +1,10 @@
+{% extends "website/base_site.html" %}
+{% block content %}
+<section id="not-found-section">
+    <div class="container bordered-content py-10">
+        <h1 class="feature-heading full-width">{{ S.not_found_title }}</h1>
+        <p class="mt-4">{{ S.not_found_text }}</p>
+        <p><a class="light" href="/{{ lang }}">{{ S.not_found_home }}</a></p>
+    </div>
+</section>
+{% endblock %}

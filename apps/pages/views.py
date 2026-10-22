@@ -27,6 +27,7 @@ class PageDetailView(RetrieveAPIView):
     def get_object(self):
         return get_object_or_404(
             Page,
+            site=Page.SITE_SEARCH,
             slug=self.kwargs["slug"],
             language=self.kwargs["lang"],
         )

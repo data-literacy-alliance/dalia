@@ -1,0 +1,35 @@
+{% load static website_tags %}<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="utf-8" />
+    <title>{{ page_title }} | DALIA</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="DALIA" />
+
+    <link rel="icon" type="image/png" href="{% static 'website/images/favicon.png' %}" />
+    {% if canonical_url %}<link rel="canonical" href="{{ canonical_url }}" />{% endif %}
+
+    {% include "website/partials/head_assets.html" %}
+    {% block head_extra %}{% endblock %}
+</head>
+<body>
+    <div id="page-wrapper">
+        <div class="nav-spacer">
+
+            {% include "website/partials/mobile_menu.html" %}
+
+            {% include "website/partials/header_nav.html" %}
+        </div>
+
+        {% block content %}{% endblock %}
+    </div>
+
+    {% include "website/partials/footer.html" %}
+
+    <script src="{% static 'website/js/jquery-3.6.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
